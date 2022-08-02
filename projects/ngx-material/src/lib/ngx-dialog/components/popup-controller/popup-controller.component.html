@@ -1,0 +1,9 @@
+
+<ngx-dialog *ngIf="service.popup$ | async as popup" [header]="popup.title">
+    <p class="popup-content">{{popup.text}}</p>
+    <footer dialogFooter>
+        <button mat-button *ngFor="let button of popup.buttons" [color]="button.color" (click)="service.clickButton(popup, button)">
+            {{button.text}}
+        </button>
+    </footer>
+</ngx-dialog>

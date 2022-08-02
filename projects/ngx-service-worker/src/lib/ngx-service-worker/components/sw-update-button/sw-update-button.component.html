@@ -1,0 +1,16 @@
+
+<button mat-button *ngIf="swService.working$ | falsy" (click)="checkForUpdate()" [disabled]="swService.canCheckForUpdate$ | falsy">
+    <i class="far fa-rotate"></i>
+    <span>Check for Updates</span>
+</button>
+
+<button mat-button *ngIf="(swService.checking$ | truthy) || (swService.downloading$ | truthy)" [disabled]="true">
+    <i class="far fa-rotate fa-spin"></i>
+    <span *ngIf="swService.checking$ | truthy">Checking for Update</span>
+    <span *ngIf="swService.downloading$ | truthy">Downloading...</span>
+</button>
+
+<button mat-button *ngIf="swService.updateReady$ | truthy" (click)="updateApp()">
+    <i class="far fa-rotate"></i>
+    <span>Update App</span>
+</button>

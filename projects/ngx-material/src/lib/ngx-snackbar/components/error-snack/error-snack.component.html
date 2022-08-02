@@ -1,0 +1,10 @@
+<p *ngIf="data.title"><b>{{ data.title }}</b></p>
+
+<p class="message-text">
+	{{ data.message }}
+	<span class="action-placeholder">Copy to clipboard</span>
+</p>
+
+<button class="dismiss" mat-icon-button (click)="dismiss()"><i class="far fa-times"></i></button>
+
+<button class="action" mat-button (click)="toClipboard()">Copy to clipboard</button>

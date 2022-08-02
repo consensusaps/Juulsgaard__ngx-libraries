@@ -1,0 +1,15 @@
+<div class="background" (click)="close.emit()"></div>
+
+<div class="popup" [class.scrollable]="withScroll">
+
+    <div class="header" *ngIf="header">{{header}}</div>
+
+    <div class="modal">
+        <ng-content></ng-content>
+    </div>
+
+    <div class="footer" *ngIf="footerItem">
+        <ng-content select="[dialogFooter]"></ng-content>
+    </div>
+</div>
+

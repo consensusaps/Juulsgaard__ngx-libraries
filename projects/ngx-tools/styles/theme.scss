@@ -1,0 +1,16 @@
+
+@mixin ngx-theme(
+	$background: #f0f0f0,
+	$overlay: #FCFCFC,
+	$text-color: #000000DD,
+	$text-color-light: null
+) {
+	@if($text-color-light == null) {
+		$text-color-light: opacify($text-color, -0.25)
+	}
+	
+	--ngx-background: #{$background};
+	--ngx-overlay: #{$overlay};
+	--ngx-text-color: #{$text-color};
+	--ngx-text-color-light: #{$text-color-light};
+}
