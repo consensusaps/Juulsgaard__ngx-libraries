@@ -8,3 +8,4 @@ export * from './lib/future-builder/directives';
 export * from './services';
 export * from './directives';
 export * from './pipes';
+export * from './animations';
