@@ -3,12 +3,12 @@
 
 ## Setup
 
-When using the library make sure to import the styles from `/styles/all.scss`, or import specific style files
+When using the library make sure to import the styles from `/styles`, or import specific style files in the directory
 
-If you want to customise the theming, then make sure to register custom theming values using `/styles/theme.scss` like so:
+If you want to customise the theming, then make sure to register custom theming values using `/theme` like so:
 
 ```scss
-@use 'node_modules/@consensus-labs/ngx-tools/styles/theme' as theme;
+@use '@consensus-labs/ngx-tools/theme' as theme;
 
 :root {
 	@include theme.ngx-theme(

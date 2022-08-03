@@ -8,7 +8,7 @@
     "@angular/common": "^14.1.0",
     "@angular/core": "^14.1.0",
     "@angular/service-worker": "^14.1.0",
-    "@consensus-labs/ngx-material": "^1.0.4"
+    "@consensus-labs/ngx-material": "^1.0.5"
   },
   "dependencies": {
     "tslib": "^2.3.0"
