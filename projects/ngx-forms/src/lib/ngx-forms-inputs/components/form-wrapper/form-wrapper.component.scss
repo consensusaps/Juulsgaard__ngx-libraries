@@ -1,0 +1,15 @@
+
+:host {
+	padding: 20px;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+}
+
+fieldset, form {
+	width: 100%;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	min-width: 0;
+}

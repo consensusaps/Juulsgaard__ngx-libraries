@@ -1209,6 +1209,11 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
+"@consensus-labs/ngx-forms-core@^1.0.0":
+  version "1.0.0"
+  resolved "https://gitlab.com/api/v4/projects/37055767/packages/npm/@consensus-labs/ngx-forms-core/-/@consensus-labs/ngx-forms-core-1.0.0.tgz#8243be11b4e89bde1e7cb591fe41f04b66809839"
+  integrity sha1-gkO+EbTom94efLWR/kHwS2aAmDk=
+
 "@consensus-labs/rxjs-tools@^1.0.2":
   version "1.0.2"
   resolved "https://gitlab.com/api/v4/projects/38260126/packages/npm/@consensus-labs/rxjs-tools/-/@consensus-labs/rxjs-tools-1.0.2.tgz#19bca5d1b72550e421c35089333bcb6df7351826"

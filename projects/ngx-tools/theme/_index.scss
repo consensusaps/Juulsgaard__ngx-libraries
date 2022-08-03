@@ -1,0 +1,23 @@
+
+@mixin ngx-theme(
+	$background: #f0f0f0,
+	$foreground: #FCFCFC,
+	$foreground-light: #FFFFFF,
+	$primary: #455a64,
+	$accent: #8d6e63,
+	$text-color: #000000DD,
+	$text-color-light: null
+) {
+	
+	@if($text-color-light == null) {
+		$text-color-light: opacify($text-color, -0.25)
+	}
+	
+	--ngx-background: $background;
+	--ngx-foreground: $foreground;
+	--ngx-foreground-light: $foreground-light;
+	--ngx-primary: $primary;
+	--ngx-accent: $accent;
+	--ngx-text-color: $text-color;
+	--ngx-text-color-light: $text-color-light;
+}

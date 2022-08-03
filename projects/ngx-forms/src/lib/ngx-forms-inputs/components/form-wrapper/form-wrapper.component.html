@@ -1,0 +1,6 @@
+<form (submit)="submit.emit()">
+    <fieldset [disabled]="fieldset && (scopeService.readonly$ | async)">
+        <ng-content></ng-content>
+    </fieldset>
+</form>
+

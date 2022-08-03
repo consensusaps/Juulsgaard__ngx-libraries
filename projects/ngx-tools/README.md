@@ -12,10 +12,13 @@ If you want to customise the theming, then make sure to register custom theming 
 
 :root {
 	@include theme.ngx-theme(
-			$background: #f0f0f0,
-			$overlay: #FCFCFC,
+			$background: #F0F0F0,
+			$foreground: #FCFCFC,
+			$foreground-light: #FFFFFF,
 			$text-color: #000000DD,
-			$text-color-light: #00000099
+			$text-color-light: #00000099,
+			$primary: mat.get-color-from-palette($my-primary, 700),
+			$accent: mat.get-color-from-palette($my-accent, A400),
 	);
 }
 ```

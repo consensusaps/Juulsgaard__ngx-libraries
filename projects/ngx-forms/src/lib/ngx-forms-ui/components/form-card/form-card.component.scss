@@ -1,0 +1,97 @@
+@import "../../../../../styles/variables";
+
+form-card {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  max-width: 1000px;
+  width: 100%;
+  padding: 40px;
+  background: $foreground;
+  color: $text-color;
+  border-radius: 16px;
+  margin: 40px 0;
+  
+  transition: background-color 100ms linear, color 100ms linear;
+  
+  .bubble {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px;
+    border-radius: 28px;
+    background-color: $foreground-light;
+    transition: background-color 100ms linear;
+    
+    .inner-bubble {
+      height: 40px;
+      min-width: 40px;
+      line-height: 40px;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: $primary;
+      border: thin solid $primary;
+    }
+  }
+  
+  .card-content {
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    max-width: 800px;
+    width: 100%;
+  }
+  
+  .ngx-form-card-title {
+    font-size: 20px;
+    line-height: 1.5;
+    color: $primary;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  
+  .ngx-form-card-description {
+    align-self: center;
+    font-size: 16px;
+    color: $primary;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 40px;
+    max-width: 600px;
+  }
+  
+  .ngx-form-card-text {
+    font-size: 14px;
+    color: $text-color;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  > .ngx-form-card-warning {
+    font-size: 16px;
+    text-align: center;
+    color: $text-color;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.5;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  @for $i from 1 through 10 {
+    &:nth-of-type(#{$i}) {
+      .bubble .inner-bubble:empty::after {
+        content: '#{$i}';
+      }
+    }
+  }
+}
+
+

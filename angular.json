@@ -95,6 +95,37 @@
           }
         }
       }
+    },
+    "ngx-forms": {
+      "projectType": "library",
+      "root": "projects/ngx-forms",
+      "sourceRoot": "projects/ngx-forms/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-forms/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-forms/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-forms/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-forms/src/test.ts",
+            "tsConfig": "projects/ngx-forms/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-forms/karma.conf.js"
+          }
+        }
+      }
     }
   }
 }
