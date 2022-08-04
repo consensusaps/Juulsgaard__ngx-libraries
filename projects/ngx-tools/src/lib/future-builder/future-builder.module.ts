@@ -1,15 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {WhenLoadingDirective} from "./directives/when-loading.directive";
-import {WhenEmptyDirective} from "./directives/when-empty.directive";
-import {FutureDirective} from "./directives/future.directive";
-import {WhenDataDirective} from "./directives/when-data.directive";
-import {WhenErrorDirective} from "./directives/when-error.directive";
-import {WhenEmptyLoadingDirective} from "./directives/when-empty-loading.directive";
-import {WhenLoadingOverlayDirective} from "./directives/when-loading-overlay.directive";
-import {WhenEmptyErrorDirective} from "./directives/when-empty-error.directive";
-import {WhenErrorOverlayDirective} from "./directives/when-error-overlay.directive";
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {
+  FutureDirective, WhenDataDirective, WhenEmptyDirective, WhenEmptyErrorDirective, WhenEmptyLoadingDirective, WhenErrorDirective,
+  WhenErrorOverlayDirective, WhenLoadingDirective, WhenLoadingOverlayDirective
+} from "./directives";
 
 
 @NgModule({

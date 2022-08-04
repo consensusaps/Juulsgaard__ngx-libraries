@@ -1,6 +1,4 @@
-
-$text-color-light: var(--ngx-text-color-light, #00000099);
-$primary: var(--ngx-primary, #455a64);
+@import "@consensus-labs/ngx-tools/styles/variables";
 
 :host {
 	display: flex;

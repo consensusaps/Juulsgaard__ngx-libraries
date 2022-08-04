@@ -1711,15 +1711,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@consensus-labs/ngx-forms-core@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@consensus-labs/ngx-forms-core@npm:1.0.2::__archiveUrl=https%3A%2F%2Fgitlab.com%2Fapi%2Fv4%2Fprojects%2F37055767%2Fpackages%2Fnpm%2F%40consensus-labs%2Fngx-forms-core%2F-%2F%40consensus-labs%2Fngx-forms-core-1.0.2.tgz"
+"@consensus-labs/ngx-forms-core@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@consensus-labs/ngx-forms-core@npm:1.0.4::__archiveUrl=https%3A%2F%2Fgitlab.com%2Fapi%2Fv4%2Fprojects%2F37055767%2Fpackages%2Fnpm%2F%40consensus-labs%2Fngx-forms-core%2F-%2F%40consensus-labs%2Fngx-forms-core-1.0.4.tgz"
   peerDependencies:
-    "@angular/forms": ^14.0.3
-    "@consensus-labs/ts-tools": ^1.1.0
-    fuse.js: ^6.6.0
+    "@angular/forms": ^14.1.0
+    "@consensus-labs/rxjs-tools": ^1.0.2
     rxjs: ^7.4.0
-  checksum: b4dee7e3fbb604c33fdfc5e583033718d1bd4f0e13ff2888362c2577e141ac895a0beb411a719048d97fc5d9b56bd5ce5bedd2e9d45d907e235757c646f2cd5e
+  checksum: 380a5a6cf3f791c845ae9d5cbc188523edf52d3bc746f45333742f4950246415021702a039a61e75e642716e9b8824026bffcd0f6830a2c298c3214ea349bcfa
   languageName: node
   linkType: hard
 
@@ -1727,6 +1726,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@consensus-labs/ngx-forms-inputs@workspace:projects/ngx-forms-inputs"
   dependencies:
+    "@angular/animations": 14.1.0
+    "@angular/cdk": 14.1.0
+    "@angular/compiler": 14.1.0
+    "@angular/platform-browser": 14.1.0
+    "@consensus-labs/ngx-forms": "workspace:^"
+    "@consensus-labs/ngx-forms-core": 1.0.4
+    "@consensus-labs/ngx-tools": "workspace:^"
+    "@consensus-labs/rxjs-tools": 1.0.2
+    "@consensus-labs/ts-tools": 1.1.0
+    dayjs: 1.11.4
+    ngx-color-picker: 12.0.1
+    ngx-mat-timepicker: 14.0.2
+    rxjs: 7.5.6
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^14.1.0
@@ -1740,24 +1752,35 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@consensus-labs/ngx-forms@workspace:projects/ngx-forms":
+"@consensus-labs/ngx-forms@workspace:^, @consensus-labs/ngx-forms@workspace:projects/ngx-forms":
   version: 0.0.0-use.local
   resolution: "@consensus-labs/ngx-forms@workspace:projects/ngx-forms"
   dependencies:
+    "@angular/forms": 14.1.0
+    "@angular/platform-browser": 14.1.0
+    "@consensus-labs/ngx-forms-core": 1.0.4
+    "@consensus-labs/ngx-tools": "workspace:^"
+    "@consensus-labs/rxjs-tools": 1.0.2
+    "@consensus-labs/ts-tools": 1.1.0
+    rxjs: 7.5.6
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^14.1.0
     "@angular/core": ^14.1.0
-    "@consensus-labs/ngx-forms-core": ^1.0.2
+    "@consensus-labs/ngx-forms-core": ^1.0.4
     "@consensus-labs/ngx-tools": "workspace:^"
     "@consensus-labs/ts-tools": ^1.1.0
   languageName: unknown
   linkType: soft
 
-"@consensus-labs/ngx-material@workspace:projects/ngx-material":
+"@consensus-labs/ngx-material@workspace:^, @consensus-labs/ngx-material@workspace:projects/ngx-material":
   version: 0.0.0-use.local
   resolution: "@consensus-labs/ngx-material@workspace:projects/ngx-material"
   dependencies:
+    "@consensus-labs/ngx-tools": "workspace:^"
+    "@consensus-labs/rxjs-tools": 1.0.2
+    "@consensus-labs/ts-tools": 1.1.0
+    rxjs: 7.5.6
     tslib: ^2.3.0
   peerDependencies:
     "@angular/cdk": ^14.1.0
@@ -1765,6 +1788,8 @@ __metadata:
     "@angular/core": ^14.1.0
     "@angular/material": ^14.1.0
     "@consensus-labs/ngx-tools": "workspace:^"
+    "@consensus-labs/rxjs-tools": ^1.0.2
+    "@consensus-labs/ts-tools": ^1.1.0
   languageName: unknown
   linkType: soft
 
@@ -1772,6 +1797,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@consensus-labs/ngx-service-worker@workspace:projects/ngx-service-worker"
   dependencies:
+    "@angular/animations": 14.1.0
+    "@angular/cdk": 14.1.0
+    "@angular/forms": 14.1.0
+    "@angular/material": 14.1.0
+    "@angular/platform-browser": 14.1.0
+    "@consensus-labs/ngx-material": "workspace:^"
+    rxjs: 7.5.6
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^14.1.0
@@ -1781,10 +1813,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@consensus-labs/ngx-tools@workspace:projects/ngx-tools":
+"@consensus-labs/ngx-tools@workspace:^, @consensus-labs/ngx-tools@workspace:projects/ngx-tools":
   version: 0.0.0-use.local
   resolution: "@consensus-labs/ngx-tools@workspace:projects/ngx-tools"
   dependencies:
+    "@consensus-labs/rxjs-tools": 1.0.2
+    "@consensus-labs/ts-tools": 1.1.0
+    rxjs: 7.5.6
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^14.1.0
@@ -4914,13 +4949,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fuse.js@npm:6.6.2":
-  version: 6.6.2
-  resolution: "fuse.js@npm:6.6.2"
-  checksum: 17ae758ce205276ebd88bd9c9f088a100be0b4896abac9f6b09847151269d1690f41d7f98ff5813d4a58973162dbd99d0072ce807020fee6f9de60170f6b08eb
-  languageName: node
-  linkType: hard
-
 "gauge@npm:^4.0.3":
   version: 4.0.4
   resolution: "gauge@npm:4.0.4"
@@ -6506,12 +6534,7 @@ __metadata:
     "@angular/platform-browser-dynamic": 14.1.0
     "@angular/router": 14.1.0
     "@angular/service-worker": 14.1.0
-    "@consensus-labs/ngx-forms-core": 1.0.2
-    "@consensus-labs/rxjs-tools": 1.0.2
-    "@consensus-labs/ts-tools": 1.1.0
     "@types/jasmine": ~4.0.0
-    dayjs: 1.11.4
-    fuse.js: 6.6.2
     jasmine-core: ~4.2.0
     karma: ~6.4.0
     karma-chrome-launcher: ~3.1.0
@@ -6519,12 +6542,10 @@ __metadata:
     karma-jasmine: ~5.1.0
     karma-jasmine-html-reporter: ~2.0.0
     ng-packagr: ^14.1.0
-    ngx-color-picker: 12.0.1
-    ngx-mat-timepicker: 14.0.2
-    rxjs: 7.5.0
-    tslib: 2.3.0
+    rxjs: 7.5.6
+    tslib: 2.4.0
     typescript: ~4.7.2
-    zone.js: 0.11.4
+    zone.js: 0.11.7
   languageName: unknown
   linkType: soft
 
@@ -8026,16 +8047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:7.5.0":
-  version: 7.5.0
-  resolution: "rxjs@npm:7.5.0"
-  dependencies:
-    tslib: ^2.1.0
-  checksum: 61d607b1559a4ca0a49cc7f8d601f2bc941291c9aaa11cf6ed27147704370fde27b659a1075d117ba25de6f655364b72c9697b210123fc6d080e92c0c1a9bc53
-  languageName: node
-  linkType: hard
-
-"rxjs@npm:^7.5.5":
+"rxjs@npm:7.5.6, rxjs@npm:^7.5.5":
   version: 7.5.6
   resolution: "rxjs@npm:7.5.6"
   dependencies:
@@ -8834,13 +8846,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.3.0":
-  version: 2.3.0
-  resolution: "tslib@npm:2.3.0"
-  checksum: 8869694c26e4a7b56d449662fd54a4f9ba872c889d991202c74462bd99f10e61d5bd63199566c4284c0f742277736292a969642cc7b590f98727a7cae9529122
-  languageName: node
-  linkType: hard
-
 "tslib@npm:2.4.0, tslib@npm:^2.0.0, tslib@npm:^2.1.0, tslib@npm:^2.3.0":
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
@@ -9382,11 +9387,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zone.js@npm:0.11.4":
-  version: 0.11.4
-  resolution: "zone.js@npm:0.11.4"
+"zone.js@npm:0.11.7":
+  version: 0.11.7
+  resolution: "zone.js@npm:0.11.7"
   dependencies:
-    tslib: ^2.0.0
-  checksum: 20c3e39898019de4747a434a29ed528e5d730a674570c3e72775a57f9d57dba812e70d67c3932ff54e95db9b778f06a9b18119c5184dfd9552d3622544a6729f
+    tslib: ^2.3.0
+  checksum: 5479df220306637a7faddd4c2a63906a06753d699f559fdad500d4b8b797389cf17c703322d8087f60bc957b8beca8d90b2c33ed1da56abf86a240c22d52da85
   languageName: node
   linkType: hard
