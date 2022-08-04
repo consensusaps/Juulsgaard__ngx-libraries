@@ -13,29 +13,31 @@
     "publish:ngx-forms": "npm run build:ngx-forms && cd dist/ngx-forms && npm publish",
     "publish:ngx-forms-inputs": "npm run build:ngx-forms-inputs && cd dist/ngx-forms-inputs && npm publish"
   },
-  "workspaces": ["projects/*"],
+  "workspaces": [
+    "projects/*"
+  ],
   "private": true,
   "dependencies": {
     "@angular/animations": "14.1.0",
+    "@angular/cdk": "14.1.0",
     "@angular/common": "14.1.0",
     "@angular/compiler": "14.1.0",
     "@angular/core": "14.1.0",
     "@angular/forms": "14.1.0",
     "@angular/material": "14.1.0",
-    "@angular/cdk": "14.1.0",
     "@angular/platform-browser": "14.1.0",
     "@angular/platform-browser-dynamic": "14.1.0",
     "@angular/router": "14.1.0",
     "@angular/service-worker": "14.1.0",
+    "@consensus-labs/ngx-forms-core": "1.0.2",
     "@consensus-labs/rxjs-tools": "1.0.2",
     "@consensus-labs/ts-tools": "1.1.0",
-    "@consensus-labs/ngx-forms-core": "1.0.2",
-    "rxjs": "~7.5.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
     "dayjs": "1.11.4",
     "ngx-color-picker": "^12.0.1",
-    "ngx-mat-timepicker": "^14.0.2"
+    "ngx-mat-timepicker": "^14.0.2",
+    "rxjs": "~7.5.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.1.0",
@@ -50,5 +52,6 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "ng-packagr": "^14.1.0",
     "typescript": "~4.7.2"
-  }
+  },
+  "packageManager": "yarn@3.2.2"
 }
