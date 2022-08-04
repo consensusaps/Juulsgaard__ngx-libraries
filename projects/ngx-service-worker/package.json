@@ -1,14 +1,11 @@
 {
   "name": "@consensus-labs/ngx-service-worker",
   "version": "1.0.2",
-  "publishConfig": {
-    "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/"
-  },
   "peerDependencies": {
     "@angular/common": "^14.1.0",
     "@angular/core": "^14.1.0",
     "@angular/service-worker": "^14.1.0",
-    "@consensus-labs/ngx-material": "^1.0.5"
+    "@consensus-labs/ngx-material": "workspace:^"
   },
   "dependencies": {
     "tslib": "^2.3.0"

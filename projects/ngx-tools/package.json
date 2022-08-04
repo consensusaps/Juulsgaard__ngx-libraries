@@ -1,9 +1,6 @@
 {
   "name": "@consensus-labs/ngx-tools",
   "version": "1.0.7",
-  "publishConfig": {
-    "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/"
-  },
   "exports": {
     "./theme": {
       "sass": "./theme/_index.scss"
@@ -14,6 +11,9 @@
     ".": {
       "sass": "./styles/_index.scss"
     }
+  },
+  "scripts": {
+    "build": "ng build ngx-tools"
   },
   "peerDependencies": {
     "@angular/common": "^14.1.0",
