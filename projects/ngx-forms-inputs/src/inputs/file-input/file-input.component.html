@@ -1,0 +1,14 @@
+
+<div class="drop" (fileDrop)="dropFile($event)" [fileDropDisable]="readonly" [class.empty]="!inputValue">
+    <p class="name" *ngIf="label">{{label}}</p>
+    <i class="fal" [ngClass]="readonly ? 'fa-download' : 'fa-upload'"></i>
+    <button mat-button (click)="fileInput.click()" *ngIf="!readonly">Browse Files</button>
+    <p class="file-name" *ngIf="inputValue">{{inputValue.name}}</p>
+    <p class="file-size" *ngIf="inputValue">{{inputValue.size | fileSize}}</p>
+</div>
+
+<div class="actions">
+    <button mat-stroked-button color="warn" (click)="inputValue = null" *ngIf="!readonly" [disabled]="!inputValue">Clear</button>
+</div>
+
+<input type="file" (change)="selectFile($event)" #fileInput [accept]="accept">

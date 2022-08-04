@@ -1,0 +1,6 @@
+
+<mat-form-field appearance="standard" [color]="color" floatLabel="never">
+	<i class="far fa-search" matPrefix></i>
+	<input type="search" matInput [autofocus]="autofocus" [placeholder]="placeholder ?? label!" [readonly]="readonly" [(ngModel)]="inputValue" #input>
+	<i class="far fa-times" matSuffix (click)="inputValue = ''" noClickBubble matRipple></i>
+</mat-form-field>

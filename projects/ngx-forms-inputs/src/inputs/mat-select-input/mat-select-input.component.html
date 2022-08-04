@@ -1,0 +1,17 @@
+<div class="wrapper" [@harmonica]="show && notEmpty">
+
+    <mat-form-field appearance="fill" [hideRequiredMarker]="hideRequired" [color]="color" [matTooltip]="tooltip!" matTooltipPosition="above" matTooltipTouchGestures="off">
+
+        <mat-label *ngIf="label">
+            {{label}}
+            <i class="fad fa-question-circle" *ngIf="tooltip"></i>
+        </mat-label>
+
+        <mat-select [errorStateMatcher]="(errorMatcher$ | async)!" [(ngModel)]="inputValue" [multiple]="multiple" [placeholder]="placeholder ?? label!" [required]="required" [disabled]="readonly" >
+            <mat-option *ngIf="canClear">--</mat-option>
+            <mat-option *ngFor="let item of items; trackBy: trackBy" [value]="getValue(item)">
+                {{getLabel(item)}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

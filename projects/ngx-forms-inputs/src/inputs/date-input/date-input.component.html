@@ -1,0 +1,20 @@
+<div class="wrapper" [@harmonica]="show">
+
+    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" [matTooltip]="tooltip!"
+                    matTooltipPosition="above" matTooltipTouchGestures="off">
+
+        <mat-label *ngIf="label">
+            {{label}}
+            <i class="fad fa-question-circle" *ngIf="tooltip"></i>
+        </mat-label>
+
+        <input type="text" matInput [matDatepicker]="picker" [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
+               [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled">
+
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+
+        <mat-error>{{errorText$ | async}}</mat-error>
+
+    </mat-form-field>
+</div>

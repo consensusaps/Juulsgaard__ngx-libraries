@@ -21,8 +21,11 @@
       "@consensus-labs/ngx-service-worker": [
         "dist/ngx-service-worker"
       ],
-      "ngx-forms": [
+      "@consensus-labs/ngx-forms": [
         "dist/ngx-forms"
+      ],
+      "@consensus-labs/ngx-forms-inputs": [
+        "dist/ngx-forms-inputs"
       ]
     },
     "declaration": false,

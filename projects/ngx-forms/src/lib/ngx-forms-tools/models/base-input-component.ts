@@ -7,13 +7,14 @@ import {ControlContainer, NgModel} from "@angular/forms";
 import {ErrorStateMatcher, ThemePalette} from '@angular/material/core';
 import {MatFormFieldAppearance, MatPrefix, MatSuffix} from '@angular/material/form-field';
 import {distinctUntilChanged, map} from "rxjs/operators";
-import {FormNode, FormNodeEvent, InputTypes} from "@consensus-labs/ngx-forms-core";
-import {hasRequiredField} from "../../../utils/validator-parsing";
+import {FormNode, FormNodeEvent, hasRequiredField, InputTypes} from "@consensus-labs/ngx-forms-core";
 import {alwaysErrorStateMatcher, neverErrorStateMatcher} from "./error-state-matchers";
 import {FormScopeService} from "../services/form-scope.service";
 
 @Directive()
 export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnDestroy {
+
+    @HostBinding('class.ngx-form-input') private baseClass = true;
 
     subscriptions = new Subscription();
 

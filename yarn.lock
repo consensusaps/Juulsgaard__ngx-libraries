@@ -1209,10 +1209,10 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@consensus-labs/ngx-forms-core@1.0.1":
-  version "1.0.1"
-  resolved "https://gitlab.com/api/v4/projects/37055767/packages/npm/@consensus-labs/ngx-forms-core/-/@consensus-labs/ngx-forms-core-1.0.1.tgz#59593b3f12e80ea4eab30b6c5dfd859546fe9bc3"
-  integrity sha1-WVk7PxLoDqTqswtsXf2FlUb+m8M=
+"@consensus-labs/ngx-forms-core@1.0.2":
+  version "1.0.2"
+  resolved "https://gitlab.com/api/v4/projects/37055767/packages/npm/@consensus-labs/ngx-forms-core/-/@consensus-labs/ngx-forms-core-1.0.2.tgz#3e2b4da7e64b3b295a0805d987a009977cfacce3"
+  integrity sha1-PitNp+ZLOylaCAXZh6AJl3z6zOM=
 
 "@consensus-labs/rxjs-tools@1.0.2":
   version "1.0.2"
@@ -2646,6 +2646,11 @@ date-format@^4.0.13:
   version "4.0.13"
   resolved "https://registry.yarnpkg.com/date-format/-/date-format-4.0.13.tgz#87c3aab3a4f6f37582c5f5f63692d2956fa67890"
   integrity sha512-bnYCwf8Emc3pTD8pXnre+wfnjGtfi5ncMDKy7+cWZXbmRAsdWkOQHrfC1yz/KiwP5thDp2kCHWYWKBX4HP1hoQ==
+
+dayjs@1.11.4:
+  version "1.11.4"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.4.tgz#3b3c10ca378140d8917e06ebc13a4922af4f433e"
+  integrity sha512-Zj/lPM5hOvQ1Bf7uAvewDaUcsJoI6JmNqmHhHl3nyumwe0XHwt8sWdOVAPACJzCebL8gQCi+K49w7iKWnGwX9g==
 
 debug@2.6.9:
   version "2.6.9"
@@ -4597,6 +4602,21 @@ ng-packagr@^14.1.0:
   optionalDependencies:
     esbuild "^0.14.29"
 
+ngx-color-picker@12.0.1:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-color-picker/-/ngx-color-picker-12.0.1.tgz#bb3159fd685dfd23505e5a27300fa32bb42ebce8"
+  integrity sha512-ODLePeqN7dnhTmjHGJrxFHaEXb3o2vH4n8qUzkUAIFmz5vOOxCCEYY4/bg+5VK62PonaK7j0fFf8AjnwrqhFHQ==
+  dependencies:
+    tslib "^2.3.0"
+
+ngx-mat-timepicker@14.0.2:
+  version "14.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-mat-timepicker/-/ngx-mat-timepicker-14.0.2.tgz#22d78147999b7ef62e44f6d05637d7c434e253d9"
+  integrity sha512-Nn65f7HYkGrVp3scar6jMxjF53G1Fk2LTSNe3JtsOksIFmYVFTGvkCeX/EpjfQgfZsIYT0Y0rC/CrhtCm4S5vw==
+  dependencies:
+    ts-luxon "^3.0.1"
+    tslib "^2.3.0"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
@@ -6246,6 +6266,11 @@ tree-kill@1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
+
+ts-luxon@^3.0.1:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/ts-luxon/-/ts-luxon-3.3.2.tgz#115428a1e6a8bd520544804b40d197b6b7741ebd"
+  integrity sha512-1mEJUPCW61PtXrKOI4poQ8o1H/1AVuGz9yQ8ccqkw8Pw1rH7sV6cyDXPpS8M+JLGvfqsbK6lMJbWT3PlJ3kbAA==
 
 tslib@2.4.0, tslib@^2.0.0, tslib@^2.1.0, tslib@^2.3.0:
   version "2.4.0"

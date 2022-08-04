@@ -1,0 +1,12 @@
+
+ngx-form-input {
+	.wrapper {
+		display: flex;
+		flex-flow: column;
+		align-items: stretch;
+	}
+	
+	.required {
+		color: #CC0000FF;
+	}
+}
