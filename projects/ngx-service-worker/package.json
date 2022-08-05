@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-service-worker",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/"
   },
@@ -11,15 +11,12 @@
     "@consensus-labs/ngx-material": "workspace:^"
   },
   "devDependencies": {
-    "@angular/animations": "14.1.0",
-    "@angular/cdk": "14.1.0",
-    "@angular/forms": "14.1.0",
-    "@angular/material": "14.1.0",
-    "@angular/platform-browser": "14.1.0",
-    "@consensus-labs/ngx-material": "workspace:^",
-    "rxjs": "7.5.6"
+    "@angular/common": "14.1.0",
+    "@angular/core": "14.1.0",
+    "@angular/service-worker": "14.1.0",
+    "@consensus-labs/ngx-material": "workspace:*"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.4.0"
   }
 }

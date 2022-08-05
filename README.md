@@ -15,7 +15,7 @@ Where `$AUTH_TOKEN$` is your GitLab API token
 You will also need to add the following for package download:
 
 ```cmd
-yarn config set -H "npmRegistries[\"//gitlab.com/api/v4/packages/npm/\"].npmAuthToken" $AUTH_TOKEN$
+npm config set -- //gitlab.com/api/v4/packages/npm/:_authToken $AUTH_TOKEN$
 ```
 
 ## Development server
