@@ -2,21 +2,23 @@
   "name": "ngx-libraries",
   "version": "0.0.0",
   "scripts": {
-    "preinstall": "syncpack-fix-mismatches",
+    "preinstall": "npx syncpack fix-mismatches",
     "build:ngx-tools": "ng build ngx-tools",
     "build:ngx-material": "ng build ngx-material",
     "build:ngx-service-worker": "ng build ngx-service-worker",
     "build:ngx-forms": "ng build ngx-forms",
     "build:ngx-forms-inputs": "ng build ngx-forms-inputs",
-    "publish:ngx-tools": "npm run build:ngx-tools && cd dist/ngx-tools && npm publish",
-    "publish:ngx-material": "npm run build:ngx-material && cd dist/ngx-material && npm publish",
-    "publish:ngx-service-worker": "npm run build:ngx-service-worker && cd dist/ngx-service-worker && npm publish",
-    "publish:ngx-forms": "npm run build:ngx-forms && cd dist/ngx-forms && npm publish",
-    "publish:ngx-forms-inputs": "npm run build:ngx-forms-inputs && cd dist/ngx-forms-inputs && npm publish"
+    "publish:ngx-tools": "yarn run build:ngx-tools && cd dist/ngx-tools && npm publish",
+    "publish:ngx-material": "yarn run build:ngx-material && cd dist/ngx-material && npm publish",
+    "publish:ngx-service-worker": "yarn run build:ngx-service-worker && cd dist/ngx-service-worker && npm publish",
+    "publish:ngx-forms": "yarn run build:ngx-forms && cd dist/ngx-forms && npm publish",
+    "publish:ngx-forms-inputs": "yarn run build:ngx-forms-inputs && cd dist/ngx-forms-inputs && npm publish"
   },
+  "workspaces": [
+    "projects/*"
+  ],
   "syncpack": {
     "peer": false,
-    "workspace": false,
     "versionGroups": [
       {
         "dependencies": [
@@ -50,6 +52,5 @@
     "syncpack": "^8.2.4",
     "tslib": "^2.4.0",
     "typescript": "~4.7.2"
-  },
-  "packageManager": "pnpm@7.8.0"
+  }
 }

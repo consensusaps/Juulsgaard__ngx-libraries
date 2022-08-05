@@ -30,7 +30,8 @@
     "@angular/core": "14.1.0",
     "@angular/forms": "14.1.0",
     "@angular/material": "14.1.0",
-    "@consensus-labs/ngx-forms": "workspace:*",
+    "@angular/platform-browser": "14.1.0",
+    "@consensus-labs/ngx-forms": "1.0.2",
     "dayjs": "1.11.4",
     "ngx-color-picker": "12.0.1",
     "ngx-mat-timepicker": "14.0.2"

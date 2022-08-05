@@ -15,7 +15,7 @@
     "@angular/common": "14.1.0",
     "@angular/core": "14.1.0",
     "@consensus-labs/ngx-forms-core": "1.0.4",
-    "@consensus-labs/ngx-tools": "workspace:*",
+    "@consensus-labs/ngx-tools": "1.0.9",
     "@consensus-labs/ts-tools": "1.1.0"
   },
   "dependencies": {

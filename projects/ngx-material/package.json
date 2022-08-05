@@ -18,7 +18,7 @@
     "@angular/common": "14.1.0",
     "@angular/core": "14.1.0",
     "@angular/material": "14.1.0",
-    "@consensus-labs/ngx-tools": "workspace:*",
+    "@consensus-labs/ngx-tools": "1.0.9",
     "@consensus-labs/rxjs-tools": "1.0.2",
     "@consensus-labs/ts-tools": "1.1.0",
     "rxjs": "7.5.6"
