@@ -1,7 +1,7 @@
 import {Directive, forwardRef, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from "@angular/core";
 import {ControlContainer} from "@angular/forms";
 import {BehaviorSubject, combineLatest, ReplaySubject, Subscription} from "rxjs";
-import {ControlFormLayer, ControlFormList, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
+import {AnyControlFormList, ControlFormLayer, ControlFormList, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
   selector: '[formList][formListIn]',
@@ -15,7 +15,7 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
   list?: ControlFormList<TControls>;
   context$ = new ReplaySubject<FormListDirectiveContext<TControls>[]>(1);
   controlSub?: Subscription;
-  @Input() set formListIn(list: ControlFormList<TControls>) {
+  @Input() set formListIn(list: AnyControlFormList<TControls>) {
     this.list = list;
     this.controlSub?.unsubscribe();
     this.controlSub = list.controls$.subscribe(
