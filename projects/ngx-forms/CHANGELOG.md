@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms
 
+## 1.0.3
+
+### Patch Changes
+
+- Switch to NPM
+- Updated dependencies
+  - @consensus-labs/ngx-tools@1.0.10
+
 ## 1.0.2
 
 ### Patch Changes

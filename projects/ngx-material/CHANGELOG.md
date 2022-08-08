@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-material
 
+## 1.0.8
+
+### Patch Changes
+
+- Switch to NPM
+- Updated dependencies
+  - @consensus-labs/ngx-tools@1.0.10
+
 ## 1.0.7
 
 ### Patch Changes

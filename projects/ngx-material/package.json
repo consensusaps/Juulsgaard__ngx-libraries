@@ -1,20 +1,21 @@
 {
   "name": "@consensus-labs/ngx-material",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-material"
   },
   "scripts": {
     "build": "ng build ngx-material",
-    "postversion": "ng build ngx-material"
+    "prepublish": "ng build ngx-material",
+    "publish": "cd ../../dist/ngx-material && npm publish"
   },
   "peerDependencies": {
     "@angular/cdk": "^14.1.0",
     "@angular/common": "^14.1.0",
     "@angular/core": "^14.1.0",
     "@angular/material": "^14.1.0",
-    "@consensus-labs/ngx-tools": "^1.0.9",
+    "@consensus-labs/ngx-tools": "^1.0.10",
     "@consensus-labs/rxjs-tools": "^1.0.2",
     "@consensus-labs/ts-tools": "^1.1.0"
   },
@@ -23,7 +24,7 @@
     "@angular/common": "14.1.0",
     "@angular/core": "14.1.0",
     "@angular/material": "14.1.0",
-    "@consensus-labs/ngx-tools": "1.0.9",
+    "@consensus-labs/ngx-tools": "1.0.10",
     "@consensus-labs/rxjs-tools": "1.0.2",
     "@consensus-labs/ts-tools": "1.1.0"
   },

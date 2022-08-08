@@ -3,19 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "postinstall": "npx syncpack fix-mismatches && npx syncpack set-semver-ranges",
-    "build:ngx-tools": "ng build ngx-tools",
-    "build:ngx-material": "ng build ngx-material",
-    "build:ngx-service-worker": "ng build ngx-service-worker",
-    "build:ngx-forms": "ng build ngx-forms",
-    "build:ngx-forms-inputs": "ng build ngx-forms-inputs",
-    "publish:ngx-tools": "yarn run build:ngx-tools && cd dist/ngx-tools && npm publish",
-    "publish:ngx-material": "yarn run build:ngx-material && cd dist/ngx-material && npm publish",
-    "publish:ngx-service-worker": "yarn run build:ngx-service-worker && cd dist/ngx-service-worker && npm publish",
-    "publish:ngx-forms": "yarn run build:ngx-forms && cd dist/ngx-forms && npm publish",
-    "publish:ngx-forms-inputs": "yarn run build:ngx-forms-inputs && cd dist/ngx-forms-inputs && npm publish",
     "version:start": "npx changeset",
     "version:apply": "npx changeset version",
-    "version:publish": "npx changeset publish"
+    "version:publish": "npm run build:all && npx changeset publish",
+    "build:all": "ng build ngx-tools && ng build ngx-material && ng build ngx-service-worker && ng build ngx-forms && ng build ngx-forms-inputs"
   },
   "workspaces": [
     "./projects/*"
@@ -39,5 +30,15 @@
     "syncpack": "^8.2.4",
     "tslib": "^2.4.0",
     "typescript": "~4.7.2"
+  },
+  "dependencies": {
+    "@angular/core": "14.1.0",
+    "@angular/common": "14.1.0",
+    "@angular/material": "14.1.0",
+    "@angular/animations": "14.1.0",
+    "@angular/forms": "14.1.0",
+    "@consensus-labs/ngx-forms-core": "1.0.4",
+    "@consensus-labs/rxjs-tools": "1.0.2",
+    "@consensus-labs/ts-tools": "1.1.0"
   }
 }

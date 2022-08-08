@@ -1,6 +1,12 @@
 {
   "semverGroups": [
     {
+      "range": "",
+      "dependencyTypes": ["dependencies"],
+      "dependencies": ["**"],
+      "packages": ["ngx-libraries"]
+    },
+    {
       "range": "*",
       "dependencies": ["**"],
       "packages": ["ngx-libraries"]
