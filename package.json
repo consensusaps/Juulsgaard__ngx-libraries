@@ -2,7 +2,7 @@
   "name": "ngx-libraries",
   "version": "0.0.0",
   "scripts": {
-    "preinstall": "npx syncpack fix-mismatches",
+    "postinstall": "npx syncpack fix-mismatches && npx syncpack set-semver-ranges",
     "build:ngx-tools": "ng build ngx-tools",
     "build:ngx-material": "ng build ngx-material",
     "build:ngx-service-worker": "ng build ngx-service-worker",
@@ -15,24 +15,8 @@
     "publish:ngx-forms-inputs": "yarn run build:ngx-forms-inputs && cd dist/ngx-forms-inputs && npm publish"
   },
   "workspaces": [
-    "projects/*"
+    "./projects/*"
   ],
-  "syncpack": {
-    "peer": false,
-    "versionGroups": [
-      {
-        "dependencies": [
-          "**"
-        ],
-        "dependencyTypes": [
-          "peer"
-        ],
-        "packages": [
-          "**"
-        ]
-      }
-    ]
-  },
   "private": true,
   "devDependencies": {
     "@angular-devkit/build-angular": "14.1.0",

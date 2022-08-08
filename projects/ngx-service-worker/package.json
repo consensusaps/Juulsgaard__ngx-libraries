@@ -2,13 +2,18 @@
   "name": "@consensus-labs/ngx-service-worker",
   "version": "1.0.4",
   "publishConfig": {
-    "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/"
+    "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
+    "directory": "../../dist/ngx-service-worker"
+  },
+  "scripts": {
+    "build": "ng build ngx-service-worker",
+    "prepack": "ng build ngx-service-worker"
   },
   "peerDependencies": {
     "@angular/common": "^14.1.0",
     "@angular/core": "^14.1.0",
     "@angular/service-worker": "^14.1.0",
-    "@consensus-labs/ngx-material": "workspace:^"
+    "@consensus-labs/ngx-material": "^1.0.7"
   },
   "devDependencies": {
     "@angular/common": "14.1.0",
@@ -17,6 +22,6 @@
     "@consensus-labs/ngx-material": "1.0.7"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "2.4.0"
   }
 }
