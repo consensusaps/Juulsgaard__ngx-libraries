@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "ng build ngx-material",
-    "prepack": "ng build ngx-material"
+    "postversion": "ng build ngx-material"
   },
   "peerDependencies": {
     "@angular/cdk": "^14.1.0",

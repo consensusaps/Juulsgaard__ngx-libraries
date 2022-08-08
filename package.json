@@ -12,7 +12,10 @@
     "publish:ngx-material": "yarn run build:ngx-material && cd dist/ngx-material && npm publish",
     "publish:ngx-service-worker": "yarn run build:ngx-service-worker && cd dist/ngx-service-worker && npm publish",
     "publish:ngx-forms": "yarn run build:ngx-forms && cd dist/ngx-forms && npm publish",
-    "publish:ngx-forms-inputs": "yarn run build:ngx-forms-inputs && cd dist/ngx-forms-inputs && npm publish"
+    "publish:ngx-forms-inputs": "yarn run build:ngx-forms-inputs && cd dist/ngx-forms-inputs && npm publish",
+    "version:start": "npx changeset",
+    "version:apply": "npx changeset version",
+    "version:publish": "npx changeset publish"
   },
   "workspaces": [
     "./projects/*"

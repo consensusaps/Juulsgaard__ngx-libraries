@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "ng build ngx-service-worker",
-    "prepack": "ng build ngx-service-worker"
+    "postversion": "ng build ngx-service-worker"
   },
   "peerDependencies": {
     "@angular/common": "^14.1.0",

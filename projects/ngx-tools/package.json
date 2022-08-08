@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "ng build ngx-tools",
-    "prepack": "ng build ngx-tools"
+    "postversion": "ng build ngx-tools"
   },
   "peerDependencies": {
     "@angular/common": "^14.1.0",

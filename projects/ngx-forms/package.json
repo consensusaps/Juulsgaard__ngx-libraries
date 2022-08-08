@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "ng build ngx-forms",
-    "prepack": "ng build ngx-forms"
+    "postversion": "ng build ngx-forms"
   },
   "peerDependencies": {
     "@angular/common": "^14.1.0",
