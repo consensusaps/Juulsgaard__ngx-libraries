@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 1.0.7
+
+### Patch Changes
+
+- Fix style export
+
 ## 1.0.6
 
 ### Patch Changes
