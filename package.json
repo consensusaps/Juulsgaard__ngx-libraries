@@ -7,7 +7,8 @@
     "version:apply": "npx changeset version",
     "version:publish": "npm run build:all && npx changeset publish",
     "build:all": "ng build ngx-tools && ng build ngx-material && ng build ngx-service-worker && ng build ngx-forms && ng build ngx-forms-inputs",
-    "link:ngx-forms": "npm run build -w @consensus-labs/ngx-forms && cd dist/ngx-forms && yalc push"
+    "link:ngx-forms": "npm run build -w @consensus-labs/ngx-forms && cd dist/ngx-forms && yalc push",
+    "link:ngx-forms-inputs": "npm run build -w @consensus-labs/ngx-forms-inputs && cd dist/ngx-forms-inputs && yalc push"
   },
   "workspaces": [
     "./projects/*"

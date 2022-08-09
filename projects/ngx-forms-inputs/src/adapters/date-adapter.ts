@@ -1,11 +1,11 @@
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import {Dayjs} from "dayjs";
 import {DateAdapter, MAT_DATE_LOCALE, MatDateFormats} from "@angular/material/core";
 import {Inject, Optional} from "@angular/core";
-import * as utc from "dayjs/plugin/utc";
-import * as customParseFormat from "dayjs/plugin/customParseFormat";
-import * as localeData from "dayjs/plugin/localeData";
-import * as localizedFormat from "dayjs/plugin/localizedFormat";
+import utc from "dayjs/plugin/utc";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import localeData from "dayjs/plugin/localeData";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
