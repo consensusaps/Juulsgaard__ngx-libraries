@@ -13,11 +13,11 @@
 		$text-color-light: opacify($text-color, -0.25)
 	}
 	
-	--ngx-background: $background;
-	--ngx-foreground: $foreground;
-	--ngx-foreground-light: $foreground-light;
-	--ngx-primary: $primary;
-	--ngx-accent: $accent;
-	--ngx-text-color: $text-color;
-	--ngx-text-color-light: $text-color-light;
+	--ngx-background: #{$background};
+	--ngx-foreground: #{$foreground};
+	--ngx-foreground-light: #{$foreground-light};
+	--ngx-primary: #{$primary};
+	--ngx-accent: #{$accent};
+	--ngx-text-color: #{$text-color};
+	--ngx-text-color-light: #{$text-color-light};
 }
