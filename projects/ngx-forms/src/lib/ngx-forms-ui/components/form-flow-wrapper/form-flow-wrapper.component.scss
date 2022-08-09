@@ -1,0 +1,11 @@
+form-wrapper {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-auto-flow: row;
+	column-gap: 20px;
+	
+	> button, > .center {
+		align-self: center;
+		justify-self: center;
+	}
+}

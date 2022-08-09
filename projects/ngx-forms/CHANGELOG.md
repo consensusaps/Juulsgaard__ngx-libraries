@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 1.0.5
+
+### Patch Changes
+
+- Added form flow wrapper
+
 ## 1.0.4
 
 ### Patch Changes

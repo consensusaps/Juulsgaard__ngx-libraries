@@ -1,7 +1,7 @@
 import {Directive, forwardRef, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {BehaviorSubject, combineLatest, ReplaySubject, Subscription} from "rxjs";
-import {AnyControlFormRoot, ControlFormRoot, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
+import {AnyControlFormRoot, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
   selector: '[form][formFrom]',

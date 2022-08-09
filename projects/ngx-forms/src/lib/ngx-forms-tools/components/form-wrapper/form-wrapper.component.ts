@@ -3,7 +3,7 @@ import {FormScopeService} from "../../services/form-scope.service";
 import {AsyncPipe} from "@angular/common";
 
 @Component({
-  selector: 'ngx-form-wrapper',
+  selector: 'form-wrapper',
   templateUrl: './form-wrapper.component.html',
   styleUrls: ['./form-wrapper.component.scss'],
   providers: [FormScopeService],
