@@ -1,6 +1,6 @@
 
-ngx-form-input {
-	.wrapper {
+.ngx-form-input {
+	> .wrapper {
 		display: flex;
 		flex-flow: column;
 		align-items: stretch;
