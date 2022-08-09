@@ -23,7 +23,8 @@ import { FormFlowWrapperComponent } from './components/form-flow-wrapper/form-fl
     NgxFormCardDescriptionDirective,
     NgxFormCardTextDirective,
     NgxFormCardWarningDirective,
-    FormCardComponent
+    FormCardComponent,
+    FormFlowWrapperComponent
   ],
   imports: [
     CommonModule

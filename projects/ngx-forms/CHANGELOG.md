@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 1.0.6
+
+### Patch Changes
+
+- Export flow wrapper
+
 ## 1.0.5
 
 ### Patch Changes
