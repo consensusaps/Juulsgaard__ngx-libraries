@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 1.0.9
+
+### Patch Changes
+
+- Fix dialog styling
+
 ## 1.0.8
 
 ### Patch Changes
