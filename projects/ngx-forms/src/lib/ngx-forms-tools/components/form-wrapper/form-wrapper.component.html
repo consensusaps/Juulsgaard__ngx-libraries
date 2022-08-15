@@ -1,6 +1,14 @@
-<form (submit)="submit.emit()">
-    <fieldset [disabled]="fieldset && (scopeService.readonly$ | async)">
-        <ng-content></ng-content>
+<ng-template #content>
+    <ng-content></ng-content>
+</ng-template>
+
+<form (ngSubmit)="submit.emit()">
+    <fieldset *ngIf="fieldset" [disabled]="scopeService.readonly$ | async">
+        <ng-container *ngTemplateOutlet="content"></ng-container>
     </fieldset>
+
+    <ng-container *ngIf="!fieldset">
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-container>
 </form>
 

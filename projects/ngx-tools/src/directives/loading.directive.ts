@@ -5,7 +5,7 @@ import {Subscribable, Unsubscribable} from "rxjs";
 @Directive({
   selector: '[isLoading]',
   host: {
-    class: 'npx-is-loading'
+    class: 'ngx-is-loading'
   },
   standalone: true
 })

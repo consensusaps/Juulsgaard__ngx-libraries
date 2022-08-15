@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 1.0.12
+
+### Patch Changes
+
+- Fixed loading directive styling
+
 ## 1.0.11
 
 ### Patch Changes

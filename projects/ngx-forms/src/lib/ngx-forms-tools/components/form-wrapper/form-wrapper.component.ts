@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Input, Output, Self} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Self} from '@angular/core';
 import {FormScopeService} from "../../services/form-scope.service";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgIf, NgTemplateOutlet} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'form-wrapper',
@@ -8,9 +9,13 @@ import {AsyncPipe} from "@angular/common";
   styleUrls: ['./form-wrapper.component.scss'],
   providers: [FormScopeService],
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    NgIf,
+    NgTemplateOutlet,
+    FormsModule
   ],
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormWrapperComponent {
 

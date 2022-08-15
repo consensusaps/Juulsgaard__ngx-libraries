@@ -23,7 +23,7 @@
     "@angular/core": "^14.1.0",
     "@angular/forms": "^14.1.0",
     "@angular/material": "^14.1.0",
-    "@consensus-labs/ngx-forms": "^1.0.7",
+    "@consensus-labs/ngx-forms": "^1.0.8",
     "dayjs": "^1.11.4",
     "ngx-color-picker": "^12.0.1",
     "ngx-mat-timepicker": "^14.0.2"
@@ -34,7 +34,7 @@
     "@angular/forms": "14.1.0",
     "@angular/material": "14.1.0",
     "@angular/platform-browser": "14.1.0",
-    "@consensus-labs/ngx-forms": "1.0.7",
+    "@consensus-labs/ngx-forms": "1.0.8",
     "dayjs": "1.11.4",
     "ngx-color-picker": "12.0.1",
     "ngx-mat-timepicker": "14.0.2"

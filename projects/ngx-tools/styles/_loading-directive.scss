@@ -1,4 +1,4 @@
-.npx-is-loading {
+.ngx-is-loading {
 	&.loading {
 		pointer-events: none;
 		opacity: 0.8;
@@ -11,7 +11,7 @@
 			to {transform: rotate(360deg);}
 		}
 		
-		&::before {
+		&::after {
 			content: '';
 			box-sizing: border-box;
 			position: absolute;
@@ -28,7 +28,7 @@
 		}
 		
 		&.mat-icon-button, &.mat-button {
-			&::before {
+			&::after {
 				border-color: transparent currentColor currentColor currentColor;
 			}
 		}
