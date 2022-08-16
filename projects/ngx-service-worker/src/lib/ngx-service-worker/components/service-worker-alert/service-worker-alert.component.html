@@ -6,6 +6,6 @@
 
 <ngx-dialog *ngIf="(swService.brokenState$ | falsy) && showUpdateDialog" [zIndex]="1000" header="Update App">
     <p>There is a new version of the app. Do you want to update now? <br> Any unsaved changed will be lost.</p>
-    <button mat-button dialogFooter (click)="showUpdateDialog = false">Later</button>
+    <button mat-button dialogFooter (click)="closeDialog()">Later</button>
     <button mat-button dialogFooter color="primary" (click)="updateApp()">Update</button>
 </ngx-dialog>

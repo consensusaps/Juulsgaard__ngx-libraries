@@ -1,10 +1,10 @@
-import {Component, Inject, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, ViewEncapsulation} from '@angular/core';
 import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from '@angular/material/snack-bar';
 import {mapObj} from "@consensus-labs/ts-tools";
 import {SnackBarData} from "../../models/snack-bar.model";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {MatButtonModule} from "@angular/material/button";
-import {CommonModule, NgIf} from "@angular/common";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'ngx-error-snack',
@@ -15,7 +15,8 @@ import {CommonModule, NgIf} from "@angular/common";
     NgIf,
     MatButtonModule
   ],
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorSnackComponent {
 

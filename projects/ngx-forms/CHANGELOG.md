@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms
 
+## 1.0.9
+
+### Patch Changes
+
+- Update change detection to OnPush
+- Updated dependencies
+  - @consensus-labs/ngx-tools@1.0.13
+
 ## 1.0.8
 
 ### Patch Changes

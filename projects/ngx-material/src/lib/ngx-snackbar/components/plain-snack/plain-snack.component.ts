@@ -1,4 +1,4 @@
-import {Component, Inject, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, ViewEncapsulation} from '@angular/core';
 import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarData} from "../../models/snack-bar.model";
 import {MatButtonModule} from "@angular/material/button";
@@ -14,7 +14,8 @@ import {NgIf} from "@angular/common";
     MatButtonModule,
     NgIf
   ],
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlainSnackComponent {
 

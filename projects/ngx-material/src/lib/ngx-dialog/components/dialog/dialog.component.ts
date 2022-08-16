@@ -1,4 +1,6 @@
-import {Component, ContentChild, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output
+} from '@angular/core';
 import {DialogFooterDirective} from "../../directives/dialog-footer.directive";
 import {OverlayService, OverlayToken} from "@consensus-labs/ngx-tools";
 
@@ -6,7 +8,8 @@ import {OverlayService, OverlayToken} from "@consensus-labs/ngx-tools";
 @Component({
   selector: 'ngx-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss']
+  styleUrls: ['./dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogComponent implements OnInit, OnDestroy {
 

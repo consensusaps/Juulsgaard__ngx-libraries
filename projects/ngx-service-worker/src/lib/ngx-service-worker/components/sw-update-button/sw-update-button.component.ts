@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ServiceWorkerService} from "../../services/service-worker.service";
 
 @Component({
   selector: 'ngx-sw-update-button',
   templateUrl: './sw-update-button.component.html',
-  styleUrls: ['./sw-update-button.component.scss']
+  styleUrls: ['./sw-update-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SwUpdateButtonComponent {
 

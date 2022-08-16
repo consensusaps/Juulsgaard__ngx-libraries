@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-forms",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-forms"
@@ -14,7 +14,7 @@
     "@angular/common": "^14.1.0",
     "@angular/core": "^14.1.0",
     "@consensus-labs/ngx-forms-core": "^1.0.6",
-    "@consensus-labs/ngx-tools": "^1.0.12",
+    "@consensus-labs/ngx-tools": "^1.0.13",
     "@consensus-labs/ts-tools": "^1.1.0"
   },
   "devDependencies": {
@@ -22,7 +22,7 @@
     "@angular/core": "14.1.0",
     "@angular/forms": "14.1.0",
     "@consensus-labs/ngx-forms-core": "1.0.6",
-    "@consensus-labs/ngx-tools": "1.0.12",
+    "@consensus-labs/ngx-tools": "1.0.13",
     "@consensus-labs/ts-tools": "1.1.0"
   },
   "dependencies": {
