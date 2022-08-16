@@ -6,6 +6,7 @@
 
 - Update change detection to OnPush
 - Add TimeAgo pipe
+- Add TimeAgo directive
 
 ## 1.0.12
 
