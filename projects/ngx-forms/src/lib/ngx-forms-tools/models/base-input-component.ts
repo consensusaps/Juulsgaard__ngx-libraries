@@ -139,7 +139,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
         this.externalValue = val;
     }
 
-    @Output() valueChange = new EventEmitter<TVal>();
+    @Output() valueChange = new EventEmitter<TVal|undefined>();
 
     valueSub?: Unsubscribable;
     _value$?: Subject<TVal|undefined>|Subscribable<TVal|undefined>;

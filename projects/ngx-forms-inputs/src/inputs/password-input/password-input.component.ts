@@ -40,7 +40,7 @@ export class PasswordInputComponent extends BaseInputComponent<string, string> {
   }
 
   postprocessValue(value?: string) {
-    return value;
+    return value ? value : undefined;
   }
 
   preprocessValue(value?: string): string {

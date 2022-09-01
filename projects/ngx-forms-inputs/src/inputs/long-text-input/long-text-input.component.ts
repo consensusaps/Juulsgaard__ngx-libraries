@@ -28,7 +28,7 @@ export class LongTextInputComponent extends BaseInputComponent<string, string> {
   }
 
   postprocessValue(value: string | undefined) {
-    return value;
+    return value ? value : undefined;
   }
 
   preprocessValue(value: string | undefined): string {

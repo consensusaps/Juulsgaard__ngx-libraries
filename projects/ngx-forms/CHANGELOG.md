@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 1.0.10
+
+### Patch Changes
+
+- Fix form input nullability
+
 ## 1.0.9
 
 ### Patch Changes
