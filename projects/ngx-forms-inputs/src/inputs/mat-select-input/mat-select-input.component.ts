@@ -27,7 +27,12 @@ type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
 })
 export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends BaseInputComponent<ArrOrNullable<TVal>, ArrOrNullable<TVal>>{
 
-  @Input() items: TItem[] = [];
+  hasExternalItems = false;
+  @Input('items') itemsData(items: TItem[]) {
+    this.hasExternalItems = true;
+    this.items = items;
+  }
+  items: TItem[] = [];
 
   get notEmpty() {return !this.hideEmpty || this.items.length > 0;}
 
@@ -71,7 +76,7 @@ export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends Base
     this.hideEmpty = node.hideWhenEmpty ?? this.hideEmpty;
 
     if (node.items$) {
-      this.subscriptions.add(node.items$.pipe(skip(this.items ? 1 : 0)).subscribe(i => this.items = i));
+      this.subscriptions.add(node.items$.pipe(skip(this.hasExternalItems ? 1 : 0)).subscribe(i => this.items = i));
     }
   }
 

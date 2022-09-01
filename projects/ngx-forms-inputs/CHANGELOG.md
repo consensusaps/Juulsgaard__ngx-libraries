@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 1.0.11
+
+### Patch Changes
+
+- Fix select input item loading
+
 ## 1.0.10
 
 ### Patch Changes
