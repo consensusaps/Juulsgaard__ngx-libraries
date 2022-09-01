@@ -23,7 +23,6 @@ export function harmonicaAnimation(duration = 400) {
       'overflow': 'hidden'
     })),
     transition('true => false', [
-      style({overflow: 'hidden'}),
       animate(`${duration}ms ${cubicInOut}`, style({
         height: 0,
         'padding-top': 0,
@@ -32,11 +31,9 @@ export function harmonicaAnimation(duration = 400) {
         'margin-bottom': 0,
         'box-shadow': 'none',
         'min-height': 0,
-      })),
-      style({overflow: 'hidden'}),
+      }))
     ]),
     transition('false => true', [
-      style({overflow: 'hidden'}),
       animate(`${duration}ms ${cubicInOut}`, style({
         height: '*',
         'padding-top': '*',
@@ -45,8 +42,7 @@ export function harmonicaAnimation(duration = 400) {
         'margin-bottom': '*',
         'box-shadow': '*',
         'min-height': '*'
-      })),
-      style({overflow: '*'})
+      }))
     ])
   ]);
 }

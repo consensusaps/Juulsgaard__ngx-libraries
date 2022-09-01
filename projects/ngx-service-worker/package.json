@@ -15,14 +15,14 @@
     "@angular/core": "^14.1.0",
     "@angular/service-worker": "^14.1.0",
     "@consensus-labs/ngx-material": "^1.0.10",
-    "@consensus-labs/ngx-tools": "^1.0.13"
+    "@consensus-labs/ngx-tools": "^1.0.14"
   },
   "devDependencies": {
     "@angular/common": "14.1.0",
     "@angular/core": "14.1.0",
     "@angular/service-worker": "14.1.0",
     "@consensus-labs/ngx-material": "1.0.10",
-    "@consensus-labs/ngx-tools": "1.0.13"
+    "@consensus-labs/ngx-tools": "1.0.14"
   },
   "dependencies": {
     "tslib": "2.4.0"

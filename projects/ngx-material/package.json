@@ -15,7 +15,7 @@
     "@angular/common": "^14.1.0",
     "@angular/core": "^14.1.0",
     "@angular/material": "^14.1.0",
-    "@consensus-labs/ngx-tools": "^1.0.13",
+    "@consensus-labs/ngx-tools": "^1.0.14",
     "@consensus-labs/rxjs-tools": "^1.0.2",
     "@consensus-labs/ts-tools": "^1.1.0"
   },
@@ -24,7 +24,7 @@
     "@angular/common": "14.1.0",
     "@angular/core": "14.1.0",
     "@angular/material": "14.1.0",
-    "@consensus-labs/ngx-tools": "1.0.13",
+    "@consensus-labs/ngx-tools": "1.0.14",
     "@consensus-labs/rxjs-tools": "1.0.2",
     "@consensus-labs/ts-tools": "1.1.0"
   },
