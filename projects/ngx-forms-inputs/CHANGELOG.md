@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 1.0.12
+
+### Patch Changes
+
+- Fix incorrect input
+
 ## 1.0.11
 
 ### Patch Changes

@@ -28,7 +28,7 @@ type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
 export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends BaseInputComponent<ArrOrNullable<TVal>, ArrOrNullable<TVal>>{
 
   hasExternalItems = false;
-  @Input('items') itemsData(items: TItem[]) {
+  @Input('items') set itemsData(items: TItem[]) {
     this.hasExternalItems = true;
     this.items = items;
   }
