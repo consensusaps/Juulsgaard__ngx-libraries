@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 1.0.11
+
+### Patch Changes
+
+- Add explicit external value types to inputs
+
 ## 1.0.10
 
 ### Patch Changes

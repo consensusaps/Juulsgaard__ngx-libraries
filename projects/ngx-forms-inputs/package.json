@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-forms-inputs",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-forms-inputs"
@@ -23,7 +23,7 @@
     "@angular/core": "^14.1.0",
     "@angular/forms": "^14.1.0",
     "@angular/material": "^14.1.0",
-    "@consensus-labs/ngx-forms": "^1.0.10",
+    "@consensus-labs/ngx-forms": "^1.0.11",
     "dayjs": "^1.11.4",
     "ngx-color-picker": "^12.0.1",
     "ngx-mat-timepicker": "^14.0.2"
@@ -34,7 +34,7 @@
     "@angular/forms": "14.1.0",
     "@angular/material": "14.1.0",
     "@angular/platform-browser": "14.1.0",
-    "@consensus-labs/ngx-forms": "1.0.10",
+    "@consensus-labs/ngx-forms": "1.0.11",
     "dayjs": "1.11.4",
     "ngx-color-picker": "12.0.1",
     "ngx-mat-timepicker": "14.0.2"

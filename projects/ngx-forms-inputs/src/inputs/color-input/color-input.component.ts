@@ -24,7 +24,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
   ],
   standalone: true
 })
-export class ColorInputComponent extends BaseInputComponent<string, string> {
+export class ColorInputComponent extends BaseInputComponent<string|undefined, string> {
 
   @Input() noAlpha = false;
 

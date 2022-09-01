@@ -8,6 +8,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {MatTooltipModule} from "@angular/material/tooltip";
 
+type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
+
 @Component({
   selector: 'form-mat-select',
   templateUrl: './mat-select-input.component.html',
@@ -23,7 +25,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   ],
   standalone: true
 })
-export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends BaseInputComponent<TVal, TVal|undefined>{
+export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends BaseInputComponent<ArrOrNullable<TVal>, ArrOrNullable<TVal>>{
 
   @Input() items: TItem[] = [];
 
@@ -57,7 +59,7 @@ export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends Base
     return (item as any)[this.bindValue];
   }
 
-  override loadFormNode(node: FormNode<TVal>) {
+  override loadFormNode(node: FormNode<ArrOrNullable<TVal>>) {
     super.loadFormNode(node);
 
     if (!isFormSelectNode(node)) return;
@@ -75,15 +77,15 @@ export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends Base
 
   trackBy = (index: number, item: TItem) => this.getValue(item);
 
-  postprocessValue(value?: TVal): TVal {
-    if (!value) return this.multiple ? [] as TVal : null!;
+  postprocessValue(value: ArrOrNullable<TVal>) {
+    if (!value) return this.multiple ? [] as TVal : undefined;
     if (this.multiple) {
       return Array.isArray(value) ? value : [value] as TVal;
     }
     return Array.isArray(value) ? value[0] : value;
   }
 
-  preprocessValue(value?: TVal): TVal|undefined {
+  preprocessValue(value: ArrOrNullable<TVal>|undefined) {
     if (!value) return this.multiple ? [] as TVal : undefined;
     if (this.multiple) {
       return Array.isArray(value) ? value : [value] as TVal;

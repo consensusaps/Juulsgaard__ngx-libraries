@@ -26,7 +26,7 @@ import {MatRippleModule} from "@angular/material/core";
   ],
   standalone: true
 })
-export class PasswordInputComponent extends BaseInputComponent<string, string> {
+export class PasswordInputComponent extends BaseInputComponent<string|undefined, string> {
 
   showPassword = false;
 
@@ -39,11 +39,11 @@ export class PasswordInputComponent extends BaseInputComponent<string, string> {
     this.inputElement?.nativeElement?.focus();
   }
 
-  postprocessValue(value?: string) {
-    return value ? value : undefined;
+  preprocessValue(value: string|undefined): string {
+    return value ?? '';
   }
 
-  preprocessValue(value?: string): string {
-    return value ?? '';
+  postprocessValue(value: string|undefined) {
+    return value ? value : undefined;
   }
 }

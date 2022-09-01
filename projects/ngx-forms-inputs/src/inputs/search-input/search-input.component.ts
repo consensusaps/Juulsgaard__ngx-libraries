@@ -20,7 +20,7 @@ import {MatRippleModule} from "@angular/material/core";
   ],
   standalone: true
 })
-export class SearchInputComponent extends BaseInputComponent<string, string> {
+export class SearchInputComponent extends BaseInputComponent<string|undefined, string> {
 
   @HostListener('keydown.enter', ['$event'])
   onEnter() {
@@ -59,11 +59,11 @@ export class SearchInputComponent extends BaseInputComponent<string, string> {
     })
   }
 
-  postprocessValue(value?: string) {
+  postprocessValue(value: string|undefined) {
     return value ? value : undefined;
   }
 
-  preprocessValue(value?: string): string {
+  preprocessValue(value: string|undefined): string {
     return value ?? '';
   }
 }

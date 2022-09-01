@@ -19,7 +19,7 @@ import {MatButtonModule} from "@angular/material/button";
   ],
   providers: []
 })
-export class FileInputComponent extends BaseInputComponent<File | null, File | null> {
+export class FileInputComponent extends BaseInputComponent<File | undefined, File | undefined> {
 
   @Input() accept = '*';
 
@@ -27,12 +27,12 @@ export class FileInputComponent extends BaseInputComponent<File | null, File | n
     super(controlContainer, formScope);
   }
 
-  postprocessValue(value: File|null) {
-    return value ?? undefined;
+  preprocessValue(value: File | undefined) {
+    return value;
   }
 
-  preprocessValue(value: File | undefined) {
-    return value ?? null;
+  postprocessValue(value: File|undefined) {
+    return value ?? undefined;
   }
 
   dropFile(event: DragEvent) {

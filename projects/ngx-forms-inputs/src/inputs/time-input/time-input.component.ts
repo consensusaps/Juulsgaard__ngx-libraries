@@ -25,7 +25,7 @@ import {MatRippleModule} from "@angular/material/core";
   ],
   standalone: true
 })
-export class TimeInputComponent extends BaseInputComponent<Date, string | undefined> {
+export class TimeInputComponent extends BaseInputComponent<Date|undefined, string | undefined> {
 
   timeFormat: number;
 
@@ -37,7 +37,14 @@ export class TimeInputComponent extends BaseInputComponent<Date, string | undefi
       .match(/AM|PM/) ? 12 : 24;
   }
 
-  postprocessValue(value?: string): Date | undefined {
+  preprocessValue(value: Date | undefined): string | undefined {
+    if (!value) return undefined;
+    const date = new Date(value);
+    date.setHours(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+    return date.toLocaleTimeString(this.locale, {hour: "2-digit", minute: "2-digit"})
+  }
+
+  postprocessValue(value: string | undefined): Date | undefined {
     if (!value) return undefined;
     const date = new Date(`1970-1-1 ${value}`);
     const invalid = isNaN(date.getTime());
@@ -47,13 +54,6 @@ export class TimeInputComponent extends BaseInputComponent<Date, string | undefi
 
     date.setUTCHours(date.getHours(), date.getMinutes(), date.getSeconds());
     return date;
-  }
-
-  preprocessValue(value?: Date): string | undefined {
-    if (!value) return undefined;
-    const date = new Date(value);
-    date.setHours(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-    return date.toLocaleTimeString(this.locale, {hour: "2-digit", minute: "2-digit"})
   }
 
   pickTime(time: string) {

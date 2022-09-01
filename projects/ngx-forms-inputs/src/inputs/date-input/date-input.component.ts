@@ -34,7 +34,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
     {provide: MAT_DATE_FORMATS, useValue: MAT_DAYJS_DATE_FORMATS}
   ]
 })
-export class DateInputComponent extends BaseInputComponent<Date, Dayjs|undefined> {
+export class DateInputComponent extends BaseInputComponent<Date|undefined, Dayjs|undefined> {
 
   constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
     super(controlContainer, formScope);

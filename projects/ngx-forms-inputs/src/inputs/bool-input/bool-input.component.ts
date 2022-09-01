@@ -27,11 +27,11 @@ export class BoolInputComponent extends BaseInputComponent<boolean, boolean> {
     super(controlContainer, formScope);
   }
 
-  postprocessValue(value?: boolean) {
+  postprocessValue(value: boolean) {
     return value;
   }
 
-  preprocessValue(value?: boolean) {
+  preprocessValue(value: boolean|undefined) {
     return value ?? false;
   }
 

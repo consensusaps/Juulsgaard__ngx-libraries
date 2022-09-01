@@ -21,7 +21,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   ],
   providers: []
 })
-export class NumberInputComponent extends BaseInputComponent<number, number> {
+export class NumberInputComponent extends BaseInputComponent<number|undefined, number> {
 
   constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
     super(controlContainer, formScope);

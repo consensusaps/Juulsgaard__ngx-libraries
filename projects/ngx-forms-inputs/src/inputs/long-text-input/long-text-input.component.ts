@@ -21,7 +21,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   ],
   providers: []
 })
-export class LongTextInputComponent extends BaseInputComponent<string, string> {
+export class LongTextInputComponent extends BaseInputComponent<string|undefined, string> {
 
   constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
     super(controlContainer, formScope);

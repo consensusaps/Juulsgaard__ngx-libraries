@@ -20,7 +20,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   ],
   standalone: true
 })
-export class TextInputComponent extends BaseInputComponent<string, string> {
+export class TextInputComponent extends BaseInputComponent<string|undefined, string> {
 
   constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
     super(controlContainer, formScope);
