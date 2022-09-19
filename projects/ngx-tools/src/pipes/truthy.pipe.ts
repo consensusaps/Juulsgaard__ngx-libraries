@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, OnDestroy, Pipe, PipeTransform, ɵisSubscribable} from '@angular/core';
+import {ChangeDetectorRef, Inject, OnDestroy, Pipe, PipeTransform, ɵisSubscribable} from '@angular/core';
 import {Subscribable, Unsubscribable} from "rxjs";
 
 @Pipe({
@@ -9,18 +9,19 @@ import {Subscribable, Unsubscribable} from "rxjs";
 
 export class TruthyPipe implements PipeTransform, OnDestroy {
 
-  private asyncValue = false;
-  private obj?: Promise<any>|Subscribable<any>;
+  private asyncValue;
+  private obj?: Promise<any> | Subscribable<any>;
   private subscription?: Unsubscribable;
 
   constructor(private ref: ChangeDetectorRef) {
+    this.asyncValue = this.parseValue(false);
   }
 
   transform(value: Promise<any>): boolean
   transform(value: Subscribable<any>): boolean
   transform(value: any): boolean
-  transform(value: null|undefined): boolean
-  transform(value: Promise<any>|Subscribable<any>|any|null|undefined): boolean {
+  transform(value: null | undefined): boolean
+  transform(value: Promise<any> | Subscribable<any> | any | null | undefined): boolean {
 
     if (value == null) {
       this.reset();
@@ -56,7 +57,7 @@ export class TruthyPipe implements PipeTransform, OnDestroy {
     this.subscription?.unsubscribe();
   }
 
-  private setValue(value: any, obj: Promise<any>|Subscribable<any>) {
+  private setValue(value: any, obj: Promise<any> | Subscribable<any>) {
     if (obj !== this.obj) return;
     this.asyncValue = this.parseValue(value);
     this.ref.markForCheck();

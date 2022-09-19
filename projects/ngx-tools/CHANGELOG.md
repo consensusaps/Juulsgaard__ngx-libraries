@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 1.0.15
+
+### Patch Changes
+
+- Fix falsy pipe default value
+
 ## 1.0.14
 
 ### Patch Changes
