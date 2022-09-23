@@ -12,6 +12,11 @@
       "packages": ["ngx-libraries"]
     },
     {
+      "range": "~",
+      "dependencies": ["typescript"],
+      "packages": ["**"]
+    },
+    {
       "range": "",
       "dependencyTypes": ["devDependencies"],
       "dependencies": ["**"],

@@ -1,5 +1,16 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 1.1.0
+
+### Minor Changes
+
+- Updated Typescript to 4.8
+
+### Patch Changes
+
+- Updated dependencies
+  - @consensus-labs/ngx-forms@1.1.0
+
 ## 1.0.12
 
 ### Patch Changes

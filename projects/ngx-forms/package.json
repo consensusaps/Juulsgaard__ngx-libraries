@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-forms",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-forms"
@@ -11,19 +11,20 @@
     "publish": "cd ../../dist/ngx-forms && npm publish"
   },
   "peerDependencies": {
-    "@angular/common": "^14.1.0",
-    "@angular/core": "^14.1.0",
-    "@consensus-labs/ngx-forms-core": "^1.0.6",
-    "@consensus-labs/ngx-tools": "^1.0.15",
-    "@consensus-labs/ts-tools": "^1.1.0"
+    "@angular/common": "^14.2.3",
+    "@angular/core": "^14.2.3",
+    "@consensus-labs/ngx-forms-core": "^1.1.0",
+    "@consensus-labs/ngx-tools": "^1.1.0",
+    "@consensus-labs/ts-tools": "^1.1.1",
+    "typescript": "~4.8.3"
   },
   "devDependencies": {
-    "@angular/common": "14.1.0",
-    "@angular/core": "14.1.0",
-    "@angular/forms": "14.1.0",
-    "@consensus-labs/ngx-forms-core": "1.0.6",
-    "@consensus-labs/ngx-tools": "1.0.15",
-    "@consensus-labs/ts-tools": "1.1.0"
+    "@angular/common": "14.2.3",
+    "@angular/core": "14.2.3",
+    "@angular/forms": "14.2.3",
+    "@consensus-labs/ngx-forms-core": "1.1.0",
+    "@consensus-labs/ngx-tools": "1.1.0",
+    "@consensus-labs/ts-tools": "1.1.1"
   },
   "dependencies": {
     "tslib": "2.4.0"

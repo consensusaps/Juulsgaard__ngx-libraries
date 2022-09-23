@@ -1,5 +1,17 @@
 # @consensus-labs/ngx-service-worker
 
+## 1.1.0
+
+### Minor Changes
+
+- Updated Typescript to 4.8
+
+### Patch Changes
+
+- Updated dependencies
+  - @consensus-labs/ngx-material@1.1.0
+  - @consensus-labs/ngx-tools@1.1.0
+
 ## 1.0.6
 
 ### Patch Changes

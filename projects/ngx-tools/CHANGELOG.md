@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 1.1.0
+
+### Minor Changes
+
+- Updated Typescript to 4.8
+
 ## 1.0.15
 
 ### Patch Changes
