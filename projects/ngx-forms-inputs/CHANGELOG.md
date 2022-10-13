@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 1.1.1
+
+### Patch Changes
+
+- Fix dayjs import
+
 ## 1.1.0
 
 ### Minor Changes

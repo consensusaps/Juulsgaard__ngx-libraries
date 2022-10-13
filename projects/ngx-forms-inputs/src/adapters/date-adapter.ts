@@ -1,5 +1,4 @@
-import dayjs from "dayjs";
-import {Dayjs} from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import {DateAdapter, MAT_DATE_LOCALE, MatDateFormats} from "@angular/material/core";
 import {Inject, Optional} from "@angular/core";
 import utc from "dayjs/plugin/utc";
