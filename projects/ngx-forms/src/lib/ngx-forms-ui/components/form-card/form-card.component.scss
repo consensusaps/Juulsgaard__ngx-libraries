@@ -17,9 +17,8 @@ form-card {
   
   .bubble {
     position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
+    align-self: center;
+    top: -28px;
     padding: 8px;
     border-radius: 28px;
     background-color: $foreground-light;
