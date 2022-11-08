@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 1.1.2
+
+### Patch Changes
+
+- Add variable size to flow wrapper
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import {Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
 import {Subject, Subscription, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 import {FutureLoading} from "@consensus-labs/rxjs-tools";
@@ -16,7 +16,8 @@ export class WhenEmptyLoadingDirective<T> implements OnDestroy {
 
   constructor(
     private templateRef: TemplateRef<TemplateContext<T>>,
-    private viewContainer: ViewContainerRef
+    private viewContainer: ViewContainerRef,
+    private changes: ChangeDetectorRef
   ) {
     this.sub = this.states$.pipe(
       switchMap(x => x.emptyLoading$),
@@ -24,6 +25,7 @@ export class WhenEmptyLoadingDirective<T> implements OnDestroy {
     ).subscribe(c => {
       if (c) this.viewContainer.createEmbeddedView(this.templateRef, c);
       else this.viewContainer.clear();
+      this.changes.detectChanges();
     });
   }
 

@@ -1,4 +1,4 @@
-import {Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
 import {Subject, Subscription, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 import {FutureSwitch} from "../models/future-switch.model";
@@ -22,7 +22,8 @@ export class WhenErrorOverlayDirective<T> implements OnDestroy {
 
   constructor(
     private templateRef: TemplateRef<TemplateContext<T>>,
-    private viewContainer: ViewContainerRef
+    private viewContainer: ViewContainerRef,
+    private changes: ChangeDetectorRef
   ) {
     this.sub = this.states$.pipe(
       switchMap(x => x.errorOverlay$),
@@ -30,6 +31,7 @@ export class WhenErrorOverlayDirective<T> implements OnDestroy {
     ).subscribe(c => {
       if (c) this.viewContainer.createEmbeddedView(this.templateRef, c);
       else this.viewContainer.clear();
+      this.changes.detectChanges();
     });
   }
 

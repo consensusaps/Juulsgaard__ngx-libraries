@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 1.1.1
+
+### Patch Changes
+
+- Update the change detection strategy of future builders and async pipes
+
 ## 1.1.0
 
 ### Minor Changes

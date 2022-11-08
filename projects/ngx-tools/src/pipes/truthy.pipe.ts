@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Inject, OnDestroy, Pipe, PipeTransform, ɵisSubscribable} from '@angular/core';
+import {ChangeDetectorRef, OnDestroy, Pipe, PipeTransform, ɵisSubscribable} from '@angular/core';
 import {Subscribable, Unsubscribable} from "rxjs";
 
 @Pipe({
@@ -60,7 +60,7 @@ export class TruthyPipe implements PipeTransform, OnDestroy {
   private setValue(value: any, obj: Promise<any> | Subscribable<any>) {
     if (obj !== this.obj) return;
     this.asyncValue = this.parseValue(value);
-    this.ref.markForCheck();
+    this.ref.detectChanges();
   }
 
   ngOnDestroy() {
