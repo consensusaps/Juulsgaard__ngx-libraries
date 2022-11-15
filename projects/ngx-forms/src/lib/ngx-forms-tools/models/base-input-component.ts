@@ -232,13 +232,13 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     @Input() public hideRequired = false;
 
     /** Set the input as read-only */
-    @Input('readonly') set readonlyState(readonly: boolean) {this._readonly = readonly};
+    @Input('readonly') set readonlyState(readonly: boolean|undefined) {this._readonly = readonly};
     _scopeReadonly = false;
-    _readonly = false;
+    _readonly?: boolean = false;
 
     /** Indicates that the user shouldn't be able to edit the input */
     @HostBinding('class.read-only')
-    get readonly() {return this._readonly || this._scopeReadonly}
+    get readonly(): boolean {return this._readonly === undefined ? this._scopeReadonly : this._readonly}
     //</editor-fold>
 
     protected constructor(@Optional() @Host() @SkipSelf() private controlContainer?: ControlContainer, @Optional() private formScope?: FormScopeService) {

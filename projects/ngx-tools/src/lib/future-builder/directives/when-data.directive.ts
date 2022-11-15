@@ -2,15 +2,16 @@ import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContain
 import {Subject, Subscription, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 import {FutureSwitch} from "../models/future-switch.model";
+import {BaseFutureRender} from "../models/base-future.render";
 
 @Directive({selector: '[whenData], [whenData][whenDataFrom]'})
-export class WhenDataDirective<T> implements OnDestroy {
+export class WhenDataDirective<T> extends BaseFutureRender<TemplateContext<T>> implements OnDestroy {
 
   sub: Subscription;
   states$ = new Subject<FutureSwitch<T>>();
 
   @Input('whenData')
-  set state(state: FutureSwitch<T>|string) {
+  set state(state: FutureSwitch<T> | string) {
     if (!(state instanceof FutureSwitch<T>)) return;
     this.states$.next(state);
   }
@@ -21,18 +22,16 @@ export class WhenDataDirective<T> implements OnDestroy {
   }
 
   constructor(
-    private templateRef: TemplateRef<TemplateContext<T>>,
-    private viewContainer: ViewContainerRef,
-    private changes: ChangeDetectorRef
+    templateRef: TemplateRef<TemplateContext<T>>,
+    viewContainer: ViewContainerRef,
+    changes: ChangeDetectorRef
   ) {
+    super(templateRef, viewContainer, changes);
+
     this.sub = this.states$.pipe(
       switchMap(x => x.data$),
       map(x => x ? {$implicit: x.value} as TemplateContext<T> : undefined)
-    ).subscribe(c => {
-      if (c) this.viewContainer.createEmbeddedView(this.templateRef, c);
-      else this.viewContainer.clear();
-      this.changes.detectChanges();
-    });
+    ).subscribe(c => this.updateView(c));
   }
 
   ngOnDestroy() {

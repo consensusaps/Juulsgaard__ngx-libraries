@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 1.1.2
+
+### Patch Changes
+
+- Allow for readonly overrides in form inputs
+- Updated dependencies
+  - @consensus-labs/ngx-forms@1.1.3
+
 ## 1.1.1
 
 ### Patch Changes

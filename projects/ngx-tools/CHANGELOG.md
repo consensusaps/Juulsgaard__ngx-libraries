@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 1.1.3
+
+### Patch Changes
+
+- Update future builder rendering of subsequent values
+
 ## 1.1.2
 
 ### Patch Changes

@@ -8,3 +8,4 @@ export * from './when-error.directive'
 export * from './when-error-overlay.directive'
 export * from './when-loading.directive'
 export * from './when-loading-overlay.directive'
+export {BaseFutureRender} from "../models/base-future.render";
