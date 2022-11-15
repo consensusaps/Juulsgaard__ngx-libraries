@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 1.1.2
+
+### Patch Changes
+
+- Add change detection to future directive
+
 ## 1.1.1
 
 ### Patch Changes

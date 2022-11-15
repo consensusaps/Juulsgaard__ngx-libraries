@@ -1,4 +1,4 @@
-import {Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
 import {BehaviorSubject, Subscribable, Unsubscribable} from "rxjs";
 import {Future} from "@consensus-labs/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
@@ -16,21 +16,22 @@ export class FutureDirective<T> implements OnDestroy {
     this.futureSub?.unsubscribe();
 
     if (future === undefined) {
-      this._future$.next(undefined);
+      this.emitFuture(undefined);
       return;
     }
 
     if (future instanceof Future) {
-      this._future$.next(future);
+      this.emitFuture(future);
       return;
     }
 
-    this.futureSub = future.subscribe({next: f => this._future$.next(f)});
+    this.futureSub = future.subscribe({next: f => this.emitFuture(f)});
   };
 
   constructor(
     private templateRef: TemplateRef<TemplateContext<T>>,
-    private viewContainer: ViewContainerRef
+    private viewContainer: ViewContainerRef,
+    private changes: ChangeDetectorRef
   ) {
     this.viewContainer.createEmbeddedView(
       this.templateRef,
@@ -42,6 +43,13 @@ export class FutureDirective<T> implements OnDestroy {
     this.futureSub?.unsubscribe();
     this._future$.complete();
   }
+
+  emitFuture(future: Future<T>|undefined) {
+    if (this._future$.value === future) return;
+    this._future$.next(future);
+    this.changes.detectChanges();
+  }
+
 }
 
 interface TemplateContext<T> {
