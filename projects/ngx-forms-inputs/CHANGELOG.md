@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.0.2
+
+### Patch Changes
+
+- Revert search input styles
+
 ## 15.0.1
 
 ### Patch Changes
