@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-material",
-  "version": "15.0.0",
+  "version": "15.0.1",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-material"
@@ -11,7 +11,7 @@
     "publish": "cd ../../dist/ngx-material && npm publish"
   },
   "peerDependencies": {
-    "@angular/cdk": "^14.2.2",
+    "@angular/cdk": "^15.0.1",
     "@angular/common": "^15.0.2",
     "@angular/core": "^15.0.2",
     "@angular/material": "^15.0.1",
@@ -21,7 +21,7 @@
     "typescript": "~4.8.4"
   },
   "devDependencies": {
-    "@angular/cdk": "14.2.2",
+    "@angular/cdk": "15.0.1",
     "@angular/common": "15.0.2",
     "@angular/core": "15.0.2",
     "@angular/material": "15.0.1",

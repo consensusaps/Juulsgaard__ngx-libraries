@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 15.0.1
+
+### Patch Changes
+
+- Fix peer dependencies
+
 ## 15.0.0
 
 ### Major Changes

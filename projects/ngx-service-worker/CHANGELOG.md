@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-service-worker
 
+## 15.0.1
+
+### Patch Changes
+
+- Fix peer dependencies
+- Updated dependencies
+  - @consensus-labs/ngx-material@15.0.1
+
 ## 15.0.0
 
 ### Major Changes
