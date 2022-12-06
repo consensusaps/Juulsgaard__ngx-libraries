@@ -1,10 +1,10 @@
 import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, ReactiveFormsModule} from '@angular/forms';
-import { BaseInputComponent, FormScopeService } from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {NgIf} from "@angular/common";
+import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
+import {MatLegacySlideToggleModule} from "@angular/material/legacy-slide-toggle";
 
 @Component({
   selector: 'form-bool-input',
@@ -12,8 +12,8 @@ import {NgIf} from "@angular/common";
   styleUrls: ['./bool-input.component.scss'],
   animations: [harmonicaAnimation()],
   imports: [
-    MatTooltipModule,
-    MatSlideToggleModule,
+    MatLegacyTooltipModule,
+    MatLegacySlideToggleModule,
     ReactiveFormsModule,
     NgIf
   ],

@@ -1,9 +1,9 @@
 import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer} from "@angular/forms";
-import { BaseInputComponent, FormScopeService } from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {FileDropDirective, FileSizePipe} from "@consensus-labs/ngx-tools";
 import {NgClass, NgIf} from "@angular/common";
-import {MatButtonModule} from "@angular/material/button";
+import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 
 @Component({
   selector: 'form-file-input',
@@ -13,7 +13,7 @@ import {MatButtonModule} from "@angular/material/button";
   imports: [
     FileDropDirective,
     NgIf,
-    MatButtonModule,
+    MatLegacyButtonModule,
     FileSizePipe,
     NgClass
   ],

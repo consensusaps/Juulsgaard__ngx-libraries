@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Host, HostListener, Input, NgZone, Optional, Output, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from '@angular/forms';
-import { BaseInputComponent, FormScopeService } from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {fromEvent} from "rxjs";
 import {filter} from "rxjs/operators";
-import {MatInputModule} from "@angular/material/input";
 import {NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
 import {MatRippleModule} from "@angular/material/core";
+import {MatLegacyInputModule} from "@angular/material/legacy-input";
 
 
 @Component({
@@ -13,7 +13,7 @@ import {MatRippleModule} from "@angular/material/core";
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss'],
   imports: [
-    MatInputModule,
+    MatLegacyInputModule,
     NoClickBubbleDirective,
     FormsModule,
     MatRippleModule

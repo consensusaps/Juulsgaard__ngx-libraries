@@ -3,10 +3,10 @@ import {ControlContainer, FormsModule} from "@angular/forms";
 import {NgxMatTimepickerComponent, NgxMatTimepickerModule} from "ngx-mat-timepicker";
 import {harmonicaAnimation, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
-import {MatInputModule} from "@angular/material/input";
 import {AsyncPipe, NgIf} from "@angular/common";
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatRippleModule} from "@angular/material/core";
+import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
+import {MatLegacyInputModule} from "@angular/material/legacy-input";
+import {MatLegacyRippleModule} from "@angular/material/legacy-core";
 
 @Component({
   selector: 'form-time-input',
@@ -14,12 +14,12 @@ import {MatRippleModule} from "@angular/material/core";
   styleUrls: ['./time-input.component.scss'],
   animations: [harmonicaAnimation()],
   imports: [
-    MatInputModule,
+    MatLegacyInputModule,
     NoClickBubbleDirective,
     NgxMatTimepickerModule,
     FormsModule,
-    MatTooltipModule,
-    MatRippleModule,
+    MatLegacyTooltipModule,
+    MatLegacyRippleModule,
     NgIf,
     AsyncPipe
   ],

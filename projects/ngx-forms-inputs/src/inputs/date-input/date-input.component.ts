@@ -5,10 +5,10 @@ import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {DayjsDateAdapter, MAT_DAYJS_DATE_FORMATS} from "../../adapters/date-adapter";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AsyncPipe, NgIf} from "@angular/common";
+import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
+import {MatLegacyInputModule} from "@angular/material/legacy-input";
 
 @Component({
   selector: 'form-date-input',
@@ -18,8 +18,8 @@ import {AsyncPipe, NgIf} from "@angular/common";
   standalone: true,
   imports: [
     FormsModule,
-    MatTooltipModule,
-    MatInputModule,
+    MatLegacyTooltipModule,
+    MatLegacyInputModule,
     MatDatepickerModule,
     NgIf,
     AsyncPipe

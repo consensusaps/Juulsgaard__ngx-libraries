@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Inject, ViewEncapsulation} from '@angular/core';
 import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarData} from "../../models/snack-bar.model";
-import {MatButtonModule} from "@angular/material/button";
 import {NgIf} from "@angular/common";
+import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 
 
 @Component({
@@ -11,7 +11,7 @@ import {NgIf} from "@angular/common";
   styleUrls: ['../../styles/snackbar.scss'],
   encapsulation: ViewEncapsulation.None,
   imports: [
-    MatButtonModule,
+    MatLegacyButtonModule,
     NgIf
   ],
   standalone: true,

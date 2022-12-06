@@ -3,8 +3,8 @@ import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from '@angular/material/snack-bar';
 import {mapObj} from "@consensus-labs/ts-tools";
 import {SnackBarData} from "../../models/snack-bar.model";
 import {Clipboard} from "@angular/cdk/clipboard";
-import {MatButtonModule} from "@angular/material/button";
 import {NgIf} from "@angular/common";
+import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 
 @Component({
   selector: 'ngx-error-snack',
@@ -13,7 +13,7 @@ import {NgIf} from "@angular/common";
   encapsulation: ViewEncapsulation.None,
   imports: [
     NgIf,
-    MatButtonModule
+    MatLegacyButtonModule
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -2,10 +2,10 @@ import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, NoClickBubbleDirective} from '@consensus-labs/ngx-tools';
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatInputModule} from "@angular/material/input";
 import {ColorPickerModule} from "ngx-color-picker";
 import {AsyncPipe, NgIf} from "@angular/common";
+import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
+import {MatLegacyInputModule} from "@angular/material/legacy-input";
 
 @Component({
   selector: 'form-color-input',
@@ -13,8 +13,8 @@ import {AsyncPipe, NgIf} from "@angular/common";
   styleUrls: ['./color-input.component.scss'],
   animations: [harmonicaAnimation()],
   imports: [
-    MatTooltipModule,
-    MatInputModule,
+    MatLegacyTooltipModule,
+    MatLegacyInputModule,
     ColorPickerModule,
     NoClickBubbleDirective,
     FormsModule,

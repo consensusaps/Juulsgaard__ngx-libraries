@@ -1,12 +1,12 @@
 import {Component, Host, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
-import { BaseInputComponent, FormScopeService } from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
-import {MatInputModule} from "@angular/material/input";
-import {MatTooltipModule} from "@angular/material/tooltip";
 import {AsyncPipe, NgClass, NgIf} from "@angular/common";
-import {MatButtonModule} from "@angular/material/button";
-import {MatRippleModule} from "@angular/material/core";
+import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
+import {MatLegacyInputModule} from "@angular/material/legacy-input";
+import {MatLegacyButtonModule} from "@angular/material/legacy-button";
+import {MatLegacyRippleModule} from "@angular/material/legacy-core";
 
 
 @Component({
@@ -15,12 +15,12 @@ import {MatRippleModule} from "@angular/material/core";
   styleUrls: ['./password-input.component.scss'],
   animations: [harmonicaAnimation()],
   imports: [
-    MatInputModule,
-    MatTooltipModule,
+    MatLegacyInputModule,
+    MatLegacyTooltipModule,
     FormsModule,
     AsyncPipe,
-    MatButtonModule,
-    MatRippleModule,
+    MatLegacyButtonModule,
+    MatLegacyRippleModule,
     NgClass,
     NgIf
   ],

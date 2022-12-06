@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.1
+
+### Patch Changes
+
+- Downgrade to Material Legacy
+
 ## 15.0.0
 
 ### Major Changes

@@ -1,10 +1,10 @@
 import {Component, Host, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
-import { BaseInputComponent, FormScopeService } from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
-import {MatInputModule} from "@angular/material/input";
 import {AsyncPipe, NgIf} from "@angular/common";
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
+import {MatLegacyInputModule} from "@angular/material/legacy-input";
 
 @Component({
   selector: 'form-number-input',
@@ -13,10 +13,10 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   animations: [harmonicaAnimation()],
   standalone: true,
   imports: [
-    MatInputModule,
+    MatLegacyInputModule,
     FormsModule,
     NgIf,
-    MatTooltipModule,
+    MatLegacyTooltipModule,
     AsyncPipe
   ],
   providers: []

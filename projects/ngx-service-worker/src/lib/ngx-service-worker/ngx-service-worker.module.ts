@@ -1,12 +1,12 @@
 import {ApplicationRef, ModuleWithProviders, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SwUpdateButtonComponent} from "./components/sw-update-button/sw-update-button.component";
-import {MatButtonModule} from "@angular/material/button";
 import {FalsyPipe, TruthyPipe} from '@consensus-labs/ngx-tools';
 import {NgxDialogModule} from '@consensus-labs/ngx-material';
 import {ServiceWorkerAlertComponent} from "./components/service-worker-alert/service-worker-alert.component";
 import {ServiceWorkerService} from "./services/service-worker.service";
 import {SwUpdate} from "@angular/service-worker";
+import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import {SwUpdate} from "@angular/service-worker";
     CommonModule,
     TruthyPipe,
     FalsyPipe,
-    MatButtonModule,
+    MatLegacyButtonModule,
     NgxDialogModule
   ]
 })

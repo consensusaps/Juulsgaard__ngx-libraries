@@ -4,9 +4,9 @@ import {FormNode, isFormSelectNode} from "@consensus-labs/ngx-forms-core";
 import {skip} from "rxjs";
 import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
 import {BaseInputComponent, FormScopeService} from "@consensus-labs/ngx-forms";
-import {MatSelectModule} from "@angular/material/select";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
+import {MatLegacySelectModule} from "@angular/material/legacy-select";
 
 type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
 
@@ -17,10 +17,10 @@ type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
   animations: [harmonicaAnimation()],
   imports: [
     FormsModule,
-    MatSelectModule,
+    MatLegacySelectModule,
     AsyncPipe,
     NgIf,
-    MatTooltipModule,
+    MatLegacyTooltipModule,
     NgForOf
   ],
   standalone: true

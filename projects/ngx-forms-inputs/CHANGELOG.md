@@ -1,5 +1,12 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.0.1
+
+### Patch Changes
+
+- Downgrade to Material Legacy
+  - @consensus-labs/ngx-forms@15.0.1
+
 ## 15.0.0
 
 ### Major Changes

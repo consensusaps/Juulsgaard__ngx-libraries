@@ -1,5 +1,14 @@
 # @consensus-labs/ngx-service-worker
 
+## 15.0.2
+
+### Patch Changes
+
+- Downgrade to Material Legacy
+- Updated dependencies
+  - @consensus-labs/ngx-material@15.0.2
+  - @consensus-labs/ngx-tools@15.0.1
+
 ## 15.0.1
 
 ### Patch Changes
