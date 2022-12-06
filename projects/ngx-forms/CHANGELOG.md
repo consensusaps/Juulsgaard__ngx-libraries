@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.0.1
+
+### Patch Changes
+
+- Make all input setup run before first render
+
 ## 15.0.0
 
 ### Major Changes

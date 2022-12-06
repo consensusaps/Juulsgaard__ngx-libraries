@@ -1,5 +1,18 @@
 import {
-    ContentChild, Directive, ElementRef, EventEmitter, Host, HostBinding, Input, OnDestroy, OnInit, Optional, Output, QueryList, SkipSelf, ViewChild,
+    ContentChild,
+    Directive,
+    ElementRef,
+    EventEmitter,
+    Host,
+    HostBinding,
+    Input,
+    OnDestroy,
+    OnInit,
+    Optional,
+    Output,
+    QueryList,
+    SkipSelf,
+    ViewChild,
     ViewChildren
 } from "@angular/core";
 import {BehaviorSubject, combineLatest, Observable, Subject, Subscribable, Subscription, Unsubscribable} from "rxjs";
@@ -17,6 +30,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     @HostBinding('class.ngx-form-input') private baseClass = true;
 
     subscriptions = new Subscription();
+    initialised = false;
 
     /** The main input element */
     @ViewChild('input') inputElement?: ElementRef<HTMLElement>;
@@ -63,6 +77,9 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
         this.controlSub?.unsubscribe();
 
         this._externalControl = control;
+
+        if (!this.initialised) return;
+
         if (!control) {
             this.externalControlTeardown();
             return;
@@ -79,7 +96,6 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     private externalControlSetup(control: FormNode<TVal|undefined>) {
 
         this._fieldRequired = hasRequiredField(control);
-        setTimeout(() => this.loadFormNode(control));
 
         this.controlSub = new Subscription();
 
@@ -120,6 +136,8 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
 
         // Force input to show errors when one is present
         this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
+
+        this.loadFormNode(control);
     }
 
     /** Reset control related values to default */
@@ -254,6 +272,11 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     }
 
     ngOnInit(): void {
+        if (this._externalControl) {
+            this.externalControlSetup(this._externalControl);
+        }
+        this.initialised = true;
+
         // Use the control name to bind the control from a parent control container
         if (this.controlName) {
             const control = this.controlContainer?.control?.get(this.controlName);

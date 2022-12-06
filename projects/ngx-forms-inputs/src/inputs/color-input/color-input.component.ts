@@ -1,8 +1,7 @@
 import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
-import { BaseInputComponent, FormScopeService } from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, NoClickBubbleDirective} from '@consensus-labs/ngx-tools';
-import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatInputModule} from "@angular/material/input";
 import {ColorPickerModule} from "ngx-color-picker";
