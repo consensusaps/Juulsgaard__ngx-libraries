@@ -7,7 +7,7 @@
       "packages": ["ngx-libraries"]
     },
     {
-      "range": "*",
+      "range": "",
       "dependencies": ["**"],
       "packages": ["ngx-libraries"]
     },

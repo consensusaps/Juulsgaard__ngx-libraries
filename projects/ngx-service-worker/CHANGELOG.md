@@ -1,5 +1,17 @@
 # @consensus-labs/ngx-service-worker
 
+## 15.0.0
+
+### Major Changes
+
+- Updated to Angular 15
+
+### Patch Changes
+
+- Updated dependencies
+  - @consensus-labs/ngx-material@2.0.0
+  - @consensus-labs/ngx-tools@2.0.0
+
 ## 1.1.0
 
 ### Minor Changes
