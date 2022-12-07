@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {DialogComponent} from "./components/dialog/dialog.component";
 import {DialogFooterDirective} from "./directives/dialog-footer.directive";
 import {PopupControllerComponent} from "./components/popup-controller/popup-controller.component";
-import {MatButtonModule} from "@angular/material/button";
-
+import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 
 
 @NgModule({
@@ -20,7 +19,7 @@ import {MatButtonModule} from "@angular/material/button";
   ],
   imports: [
     CommonModule,
-    MatButtonModule
+    MatLegacyButtonModule
   ]
 })
 export class NgxDialogModule { }

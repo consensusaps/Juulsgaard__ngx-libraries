@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 15.0.3
+
+### Patch Changes
+
+- Fix missing Legacy references
+
 ## 15.0.2
 
 ### Patch Changes
