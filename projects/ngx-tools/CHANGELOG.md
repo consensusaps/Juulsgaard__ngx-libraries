@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.2
+
+### Patch Changes
+
+- Add Long Tap directive
+
 ## 15.0.1
 
 ### Patch Changes
