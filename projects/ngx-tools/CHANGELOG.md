@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.3
+
+### Patch Changes
+
+- Export Long Tap
+
 ## 15.0.2
 
 ### Patch Changes
