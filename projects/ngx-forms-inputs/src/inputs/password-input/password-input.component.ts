@@ -7,6 +7,7 @@ import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {MatLegacyRippleModule} from "@angular/material/legacy-core";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @Component({
@@ -22,7 +23,8 @@ import {MatLegacyRippleModule} from "@angular/material/legacy-core";
     MatLegacyButtonModule,
     MatLegacyRippleModule,
     NgClass,
-    NgIf
+    NgIf,
+    MatIconModule
   ],
   standalone: true
 })

@@ -7,6 +7,7 @@ import {ServiceWorkerAlertComponent} from "./components/service-worker-alert/ser
 import {ServiceWorkerService} from "./services/service-worker.service";
 import {SwUpdate} from "@angular/service-worker";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {MatLegacyButtonModule} from "@angular/material/legacy-button";
     TruthyPipe,
     FalsyPipe,
     MatLegacyButtonModule,
-    NgxDialogModule
+    NgxDialogModule,
+    MatIconModule
   ]
 })
 export class NgxServiceWorkerModule {

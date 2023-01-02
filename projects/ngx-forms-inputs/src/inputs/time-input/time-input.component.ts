@@ -7,6 +7,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
 import {MatLegacyRippleModule} from "@angular/material/legacy-core";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'form-time-input',
@@ -21,7 +22,8 @@ import {MatLegacyRippleModule} from "@angular/material/legacy-core";
     MatLegacyTooltipModule,
     MatLegacyRippleModule,
     NgIf,
-    AsyncPipe
+    AsyncPipe,
+    MatIconModule
   ],
   standalone: true
 })

@@ -11,7 +11,7 @@
         <input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
                [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled">
 
-        <i class="far fa-clock" matSuffix matRipple noClickBubble (click)="openPicker(picker)"></i>
+        <mat-icon matSuffix matRipple noClickBubble (click)="openPicker(picker)">schedule_outline</mat-icon>
 
         <mat-error>{{errorText$ | async}}</mat-error>
 

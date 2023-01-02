@@ -5,6 +5,7 @@ import {SnackBarData} from "../../models/snack-bar.model";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {NgIf} from "@angular/common";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'ngx-error-snack',
@@ -13,7 +14,8 @@ import {MatLegacyButtonModule} from "@angular/material/legacy-button";
   encapsulation: ViewEncapsulation.None,
   imports: [
     NgIf,
-    MatLegacyButtonModule
+    MatLegacyButtonModule,
+    MatIconModule
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush

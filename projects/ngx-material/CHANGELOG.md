@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 15.0.5
+
+### Patch Changes
+
+- Switch to MatIcons
+
 ## 15.0.4
 
 ### Patch Changes

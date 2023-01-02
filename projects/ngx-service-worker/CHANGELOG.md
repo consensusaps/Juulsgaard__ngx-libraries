@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-service-worker
 
+## 15.0.3
+
+### Patch Changes
+
+- Switch to MatIcons
+- Updated dependencies
+  - @consensus-labs/ngx-material@15.0.5
+
 ## 15.0.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.0.3
+
+### Patch Changes
+
+- Switch to MatIcons
+
 ## 15.0.2
 
 ### Patch Changes

@@ -6,6 +6,7 @@ import {filter} from "rxjs/operators";
 import {NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
 import {MatRippleModule} from "@angular/material/core";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @Component({
@@ -16,7 +17,8 @@ import {MatLegacyInputModule} from "@angular/material/legacy-input";
     MatLegacyInputModule,
     NoClickBubbleDirective,
     FormsModule,
-    MatRippleModule
+    MatRippleModule,
+    MatIconModule
   ],
   standalone: true
 })

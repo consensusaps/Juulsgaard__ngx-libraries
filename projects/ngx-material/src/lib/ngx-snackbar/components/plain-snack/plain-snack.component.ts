@@ -3,6 +3,7 @@ import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarData} from "../../models/snack-bar.model";
 import {NgIf} from "@angular/common";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @Component({
@@ -12,7 +13,8 @@ import {MatLegacyButtonModule} from "@angular/material/legacy-button";
   encapsulation: ViewEncapsulation.None,
   imports: [
     MatLegacyButtonModule,
-    NgIf
+    NgIf,
+    MatIconModule
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
