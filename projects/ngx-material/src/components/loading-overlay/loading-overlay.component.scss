@@ -1,0 +1,29 @@
+:host {
+	
+	&.content {
+		display: flex;
+		flex-flow: column;
+		justify-content: center;
+		align-items: center;
+		min-height: 100%;
+		
+		mat-progress-spinner {
+			margin: 80px 0;
+		}
+	}
+	
+	&.fixed {
+		position: fixed;
+	}
+	
+	&.absolute {
+		position: absolute;
+	}
+	
+	&.fixed, &.absolute {
+		display: block;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}

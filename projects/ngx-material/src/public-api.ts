@@ -11,3 +11,4 @@ export * from './lib/ngx-dialog/components/dialog/dialog.component'
 export * from './lib/ngx-dialog/components/popup-controller/popup-controller.component'
 
 export * from './directives';
+export * from './components';

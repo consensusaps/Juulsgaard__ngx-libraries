@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 15.0.4
+
+### Patch Changes
+
+- Add loading overlay
+
 ## 15.0.3
 
 ### Patch Changes
