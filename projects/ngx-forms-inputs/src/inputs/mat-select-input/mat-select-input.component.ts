@@ -64,7 +64,7 @@ export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends Base
     return (item as any)[this.bindValue];
   }
 
-  override loadFormNode(node: FormNode<ArrOrNullable<TVal>>) {
+  override loadFormNode(node: FormNode<ArrOrNullable<TVal>|undefined>) {
     super.loadFormNode(node);
 
     if (!isFormSelectNode(node)) return;

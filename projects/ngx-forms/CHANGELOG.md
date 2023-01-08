@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.1.0
+
+### Minor Changes
+
+- Upgrade core form dependency
+
 ## 15.0.1
 
 ### Patch Changes

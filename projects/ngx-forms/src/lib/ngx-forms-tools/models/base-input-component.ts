@@ -1,19 +1,6 @@
 import {
-    ContentChild,
-    Directive,
-    ElementRef,
-    EventEmitter,
-    Host,
-    HostBinding,
-    Input,
-    OnDestroy,
-    OnInit,
-    Optional,
-    Output,
-    QueryList,
-    SkipSelf,
-    ViewChild,
-    ViewChildren
+    ContentChild, Directive, ElementRef, EventEmitter, Host, HostBinding, Input, OnDestroy, OnInit, Optional, Output,
+    QueryList, SkipSelf, ViewChild, ViewChildren
 } from "@angular/core";
 import {BehaviorSubject, combineLatest, Observable, Subject, Subscribable, Subscription, Unsubscribable} from "rxjs";
 import {ControlContainer, NgModel} from "@angular/forms";
