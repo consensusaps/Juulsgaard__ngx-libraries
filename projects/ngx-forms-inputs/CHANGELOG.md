@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.1.1
+
+### Patch Changes
+
+- Fix the MatSelect Input
+
 ## 15.1.0
 
 ### Minor Changes

@@ -58,8 +58,8 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     /** The name of a control for automatic resolution. Cannot be changed after init */
     @Input() public controlName?: string;
 
-    _externalControl?: FormNode<TVal|undefined>;
-    @Input('control') set externalControl(control: FormNode<TVal|undefined> | undefined) {
+    _externalControl?: FormNode<TVal>;
+    @Input('control') set externalControl(control: FormNode<TVal> | undefined) {
         if (control === this._externalControl) return;
         this.controlSub?.unsubscribe();
 
@@ -80,7 +80,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     }
 
     /** Setup external controls and setup bindings */
-    private externalControlSetup(control: FormNode<TVal|undefined>) {
+    private externalControlSetup(control: FormNode<TVal>) {
 
         this._fieldRequired = hasRequiredField(control);
 
@@ -295,7 +295,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     abstract postprocessValue(value: TInputVal): TVal;
 
     /** Apply config from FormNode */
-    protected loadFormNode(node: FormNode<TVal|undefined>) {
+    protected loadFormNode(node: FormNode<TVal>) {
         this.label = this.label ?? node.label;
         this.autocomplete = node.autocomplete ?? this.autocomplete;
         this.tooltip = node.tooltip ?? this.tooltip;

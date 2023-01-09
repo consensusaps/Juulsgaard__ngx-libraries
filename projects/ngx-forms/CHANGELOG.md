@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.1.1
+
+### Patch Changes
+
+- Make the base input more strict
+
 ## 15.1.0
 
 ### Minor Changes
