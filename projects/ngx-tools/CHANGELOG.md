@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.5
+
+### Patch Changes
+
+- Add style to icons
+
 ## 15.0.4
 
 ### Patch Changes
