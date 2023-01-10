@@ -5,13 +5,13 @@
 
         <mat-label *ngIf="label">
             {{label}}
-            <mat-icon svgIcon="help" *ngIf="tooltip"></mat-icon>
+            <ngx-icon alias="help" *ngIf="tooltip"></ngx-icon>
         </mat-label>
 
         <input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
                [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled">
 
-        <mat-icon matSuffix matRipple noClickBubble (click)="openPicker(picker)">schedule_outline</mat-icon>
+        <ngx-icon alias="time" matSuffix matRipple noClickBubble (click)="openPicker(picker)"></ngx-icon>
 
         <mat-error>{{errorText$ | async}}</mat-error>
 

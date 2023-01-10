@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.4
+
+### Patch Changes
+
+- Switch to anonymous icons
+
 ## 15.0.3
 
 ### Patch Changes

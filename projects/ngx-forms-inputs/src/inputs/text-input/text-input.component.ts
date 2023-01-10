@@ -1,6 +1,6 @@
 import {ControlContainer, FormsModule} from "@angular/forms";
 import {Component, Host, Optional, SkipSelf} from "@angular/core";
-import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
+import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {BaseInputComponent, FormScopeService} from "@consensus-labs/ngx-forms";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
@@ -18,7 +18,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatLegacyTooltipModule,
     AsyncPipe,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    IconDirective
   ],
   standalone: true
 })

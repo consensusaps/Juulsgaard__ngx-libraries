@@ -6,6 +6,7 @@ import {Clipboard} from "@angular/cdk/clipboard";
 import {NgIf} from "@angular/common";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {MatIconModule} from "@angular/material/icon";
+import {IconDirective} from "@consensus-labs/ngx-tools";
 
 @Component({
   selector: 'ngx-error-snack',
@@ -15,7 +16,8 @@ import {MatIconModule} from "@angular/material/icon";
   imports: [
     NgIf,
     MatLegacyButtonModule,
-    MatIconModule
+    MatIconModule,
+    IconDirective
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush

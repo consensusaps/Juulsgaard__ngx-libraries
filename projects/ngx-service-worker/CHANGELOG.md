@@ -1,5 +1,14 @@
 # @consensus-labs/ngx-service-worker
 
+## 15.0.4
+
+### Patch Changes
+
+- Switch to anonymous icons
+- Updated dependencies
+  - @consensus-labs/ngx-material@15.0.6
+  - @consensus-labs/ngx-tools@15.0.4
+
 ## 15.0.3
 
 ### Patch Changes

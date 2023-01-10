@@ -1,5 +1,14 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.1.3
+
+### Patch Changes
+
+- Switch to anonymous icons
+- Updated dependencies
+  - @consensus-labs/ngx-tools@15.0.4
+  - @consensus-labs/ngx-forms@15.1.1
+
 ## 15.1.2
 
 ### Patch Changes

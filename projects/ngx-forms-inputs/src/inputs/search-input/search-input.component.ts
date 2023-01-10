@@ -3,7 +3,7 @@ import {ControlContainer, FormsModule} from '@angular/forms';
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {fromEvent} from "rxjs";
 import {filter} from "rxjs/operators";
-import {NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
+import {IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
 import {MatRippleModule} from "@angular/material/core";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
 import {MatIconModule} from "@angular/material/icon";
@@ -18,7 +18,8 @@ import {MatIconModule} from "@angular/material/icon";
     NoClickBubbleDirective,
     FormsModule,
     MatRippleModule,
-    MatIconModule
+    MatIconModule,
+    IconDirective
   ],
   standalone: true
 })

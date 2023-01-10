@@ -4,6 +4,7 @@ import {SnackBarData} from "../../models/snack-bar.model";
 import {NgIf} from "@angular/common";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {MatIconModule} from "@angular/material/icon";
+import {IconDirective} from "@consensus-labs/ngx-tools";
 
 
 @Component({
@@ -14,7 +15,8 @@ import {MatIconModule} from "@angular/material/icon";
   imports: [
     MatLegacyButtonModule,
     NgIf,
-    MatIconModule
+    MatIconModule,
+    IconDirective
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush

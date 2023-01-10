@@ -1,7 +1,7 @@
 import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, ReactiveFormsModule} from '@angular/forms';
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
-import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
+import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacySlideToggleModule} from "@angular/material/legacy-slide-toggle";
@@ -17,7 +17,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatLegacySlideToggleModule,
     ReactiveFormsModule,
     NgIf,
-    MatIconModule
+    MatIconModule,
+    IconDirective
   ],
   standalone: true
 })

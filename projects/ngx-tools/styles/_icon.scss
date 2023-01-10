@@ -1,0 +1,18 @@
+
+ngx-icon {
+  --padding: 0;
+  --size: 24px;
+  --scale: 1;
+
+  display: inline-block;
+  height: calc(var(--size) + 2 * var(--padding));
+  width: calc(var(--size) + 2 * var(--padding));
+  line-height: var(--size);
+  text-align: center;
+  font-size: calc(var(--size) * var(--scale));
+  padding: var(--padding);
+
+  &.empty {
+    display: none;
+  }
+}

@@ -1,7 +1,7 @@
 import {Component, Host, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
 import dayjs, {Dayjs} from "dayjs";
-import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
+import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {DayjsDateAdapter, MAT_DAYJS_DATE_FORMATS} from "../../adapters/date-adapter";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
@@ -24,7 +24,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatDatepickerModule,
     NgIf,
     AsyncPipe,
-    MatIconModule
+    MatIconModule,
+    IconDirective
   ],
   providers: [
     {

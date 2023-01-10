@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-material
 
+## 15.0.6
+
+### Patch Changes
+
+- Switch to anonymous icons
+- Updated dependencies
+  - @consensus-labs/ngx-tools@15.0.4
+
 ## 15.0.5
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 import {Component, Host, Inject, LOCALE_ID, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
 import {NgxMatTimepickerComponent, NgxMatTimepickerModule} from "ngx-mat-timepicker";
-import {harmonicaAnimation, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
+import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
@@ -23,7 +23,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatLegacyRippleModule,
     NgIf,
     AsyncPipe,
-    MatIconModule
+    MatIconModule,
+    IconDirective,
   ],
   standalone: true
 })

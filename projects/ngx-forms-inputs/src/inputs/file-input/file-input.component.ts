@@ -1,7 +1,7 @@
 import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
-import {FileDropDirective, FileSizePipe} from "@consensus-labs/ngx-tools";
+import {FileDropDirective, FileSizePipe, IconDirective} from "@consensus-labs/ngx-tools";
 import {NgClass, NgIf} from "@angular/common";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {MatIconModule} from "@angular/material/icon";
@@ -17,7 +17,10 @@ import {MatIconModule} from "@angular/material/icon";
     MatLegacyButtonModule,
     FileSizePipe,
     NgClass,
-    MatIconModule
+    MatIconModule,
+    FileDropDirective,
+    FileSizePipe,
+    IconDirective
   ],
   providers: []
 })

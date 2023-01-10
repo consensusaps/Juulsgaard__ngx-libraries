@@ -2,7 +2,7 @@ import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
 import {FormNode, isFormSelectNode} from "@consensus-labs/ngx-forms-core";
 import {skip} from "rxjs";
-import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
+import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {BaseInputComponent, FormScopeService} from "@consensus-labs/ngx-forms";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
@@ -23,7 +23,8 @@ type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
     NgIf,
     MatLegacyTooltipModule,
     NgForOf,
-    MatIconModule
+    MatIconModule,
+    IconDirective
   ],
   standalone: true
 })
