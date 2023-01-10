@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.1.2
+
+### Patch Changes
+
+- Switch to material svg icons
+
 ## 15.1.1
 
 ### Patch Changes

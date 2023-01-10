@@ -5,6 +5,7 @@ import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'form-long-text-input',
@@ -17,7 +18,8 @@ import {MatLegacyInputModule} from "@angular/material/legacy-input";
     MatLegacyInputModule,
     NgIf,
     MatLegacyTooltipModule,
-    AsyncPipe
+    AsyncPipe,
+    MatIconModule
   ],
   providers: []
 })

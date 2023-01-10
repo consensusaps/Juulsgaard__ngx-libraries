@@ -4,6 +4,7 @@ import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {FileDropDirective, FileSizePipe} from "@consensus-labs/ngx-tools";
 import {NgClass, NgIf} from "@angular/common";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'form-file-input',
@@ -15,7 +16,8 @@ import {MatLegacyButtonModule} from "@angular/material/legacy-button";
     NgIf,
     MatLegacyButtonModule,
     FileSizePipe,
-    NgClass
+    NgClass,
+    MatIconModule
   ],
   providers: []
 })

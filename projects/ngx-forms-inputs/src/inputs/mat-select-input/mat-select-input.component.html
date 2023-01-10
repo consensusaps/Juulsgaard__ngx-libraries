@@ -4,7 +4,7 @@
 
         <mat-label *ngIf="label">
             {{label}}
-            <i class="fad fa-question-circle" *ngIf="tooltip"></i>
+            <mat-icon svgIcon="help" *ngIf="tooltip"></mat-icon>
         </mat-label>
 
         <mat-select [errorStateMatcher]="(errorMatcher$ | async)!" [(ngModel)]="inputValue" [multiple]="multiple" [placeholder]="placeholder ?? label!" [required]="required" [disabled]="readonly" >

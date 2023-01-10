@@ -1,6 +1,6 @@
 <div class="wrapper" [@harmonica]="show">
 	<mat-slide-toggle [color]="color" [formControl]="control" [matTooltip]="tooltip!" matTooltipPosition="above" matTooltipTouchGestures="off" [labelPosition]="labelPosition" [class.read-only]="readonly || isDisabled">
 		{{label}}
-		<i class="fad fa-question-circle" *ngIf="tooltip"></i>
+		<mat-icon svgIcon="help" *ngIf="tooltip"></mat-icon>
 	</mat-slide-toggle>
 </div>

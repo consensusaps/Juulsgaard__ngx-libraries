@@ -29,7 +29,7 @@ import {MatIconModule} from "@angular/material/icon";
 })
 export class TimeInputComponent extends BaseInputComponent<Date|undefined, string | undefined> {
 
-  timeFormat: number;
+  timeFormat: 12|24;
 
   constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService, @Inject(LOCALE_ID) public locale: string) {
     super(controlContainer, formScope);

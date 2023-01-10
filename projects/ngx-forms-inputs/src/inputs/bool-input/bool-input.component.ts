@@ -5,6 +5,7 @@ import {harmonicaAnimation} from "@consensus-labs/ngx-tools";
 import {NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacySlideToggleModule} from "@angular/material/legacy-slide-toggle";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'form-bool-input',
@@ -15,7 +16,8 @@ import {MatLegacySlideToggleModule} from "@angular/material/legacy-slide-toggle"
     MatLegacyTooltipModule,
     MatLegacySlideToggleModule,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    MatIconModule
   ],
   standalone: true
 })

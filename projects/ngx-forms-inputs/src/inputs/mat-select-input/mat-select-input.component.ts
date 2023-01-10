@@ -7,6 +7,7 @@ import {BaseInputComponent, FormScopeService} from "@consensus-labs/ngx-forms";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacySelectModule} from "@angular/material/legacy-select";
+import {MatIconModule} from "@angular/material/icon";
 
 type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
 
@@ -21,7 +22,8 @@ type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
     AsyncPipe,
     NgIf,
     MatLegacyTooltipModule,
-    NgForOf
+    NgForOf,
+    MatIconModule
   ],
   standalone: true
 })

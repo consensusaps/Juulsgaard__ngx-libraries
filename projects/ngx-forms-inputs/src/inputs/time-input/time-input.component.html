@@ -5,7 +5,7 @@
 
         <mat-label *ngIf="label">
             {{label}}
-            <i class="fad fa-question-circle" *ngIf="tooltip"></i>
+            <mat-icon svgIcon="help" *ngIf="tooltip"></mat-icon>
         </mat-label>
 
         <input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
@@ -19,3 +19,4 @@
 </div>
 
 <ngx-mat-timepicker #picker [format]="timeFormat" (timeSet)="pickTime($event)"></ngx-mat-timepicker>
+

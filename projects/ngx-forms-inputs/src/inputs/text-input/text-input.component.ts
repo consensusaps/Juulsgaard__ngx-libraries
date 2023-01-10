@@ -5,6 +5,7 @@ import {BaseInputComponent, FormScopeService} from "@consensus-labs/ngx-forms";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'form-text-input',
@@ -16,7 +17,8 @@ import {MatLegacyInputModule} from "@angular/material/legacy-input";
     NgIf,
     MatLegacyTooltipModule,
     AsyncPipe,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ],
   standalone: true
 })

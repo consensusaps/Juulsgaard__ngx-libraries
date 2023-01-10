@@ -4,7 +4,7 @@
                     matTooltipPosition="above" matTooltipTouchGestures="off">
         <mat-label *ngIf="label">
             {{label}}
-            <i class="fad fa-question-circle" *ngIf="tooltip"></i>
+            <mat-icon svgIcon="help" *ngIf="tooltip"></mat-icon>
         </mat-label>
 
         <div class="color" matPrefix [colorPicker]="inputValue!" (colorPickerChange)="inputValue = $event" cpOutputFormat="hex" [cpAlphaChannel]="noAlpha ? 'disabled' : 'always'" noClickBubble [cpDisabled]="readonly">

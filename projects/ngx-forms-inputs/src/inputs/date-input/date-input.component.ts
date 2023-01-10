@@ -9,6 +9,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'form-date-input',
@@ -22,7 +23,8 @@ import {MatLegacyInputModule} from "@angular/material/legacy-input";
     MatLegacyInputModule,
     MatDatepickerModule,
     NgIf,
-    AsyncPipe
+    AsyncPipe,
+    MatIconModule
   ],
   providers: [
     {
