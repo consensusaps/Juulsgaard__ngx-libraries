@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.6
+
+### Patch Changes
+
+- Fix upload alias
+
 ## 15.0.5
 
 ### Patch Changes

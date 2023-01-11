@@ -15,4 +15,9 @@ ngx-icon {
   &.empty {
     display: none;
   }
+
+  &.inline {
+    --size: 1em;
+    line-height: inherit;
+  }
 }

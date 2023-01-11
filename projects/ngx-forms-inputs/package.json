@@ -24,7 +24,7 @@
     "@angular/forms": "^15.0.2",
     "@angular/material": "^15.0.1",
     "@consensus-labs/ngx-forms": "^15.1.1",
-    "@consensus-labs/ngx-tools": "^15.0.5",
+    "@consensus-labs/ngx-tools": "^15.0.6",
     "dayjs": "^1.11.5",
     "ngx-color-picker": "^13.0.0",
     "ngx-mat-timepicker": "^15.1.1",
@@ -37,7 +37,7 @@
     "@angular/material": "15.0.1",
     "@angular/platform-browser": "15.0.2",
     "@consensus-labs/ngx-forms": "15.1.1",
-    "@consensus-labs/ngx-tools": "15.0.5",
+    "@consensus-labs/ngx-tools": "15.0.6",
     "dayjs": "1.11.5",
     "ngx-color-picker": "13.0.0",
     "ngx-mat-timepicker": "15.1.1"

@@ -5,7 +5,7 @@ export const baseIconAliases = {
   search: {mat: 'search', fa: {icon: 'far fa-search', scale: 0.7}},
   visible: {mat: 'visibility_outline', fa: 'far fa-eye'},
   hidden: {mat: 'visibility_off_outline', fa: 'far fa-eye-slash'},
-  upload: {mat: 'cloud_upload_outline', fa: 'far cloud-arrow-up'},
+  upload: {mat: 'cloud_upload_outline', fa: 'far fa-cloud-arrow-up'},
   download: {mat: 'cloud_download_outline', fa: 'far fa-cloud-arrow-down'},
   help: {mat: 'help', fa: 'fas fa-question-circle'},
   date: {mat: 'calendar_month_outline', fa: 'far fa-calendar'},
