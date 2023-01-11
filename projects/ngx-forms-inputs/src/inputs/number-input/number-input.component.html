@@ -5,7 +5,7 @@
 
         <mat-label *ngIf="label">
             {{label}}
-            <ngx-icon alias="help" *ngIf="tooltip"></ngx-icon>
+            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip"></ngx-icon>
         </mat-label>
 
         <input type="number" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"

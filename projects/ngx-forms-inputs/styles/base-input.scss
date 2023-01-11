@@ -9,4 +9,9 @@
 	.required {
 		color: #CC0000FF;
 	}
+
+	ngx-icon.tooltip {
+		--size: 1em;
+		margin-left: 3px;
+	}
 }

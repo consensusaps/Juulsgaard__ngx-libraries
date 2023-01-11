@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.1.4
+
+### Patch Changes
+
+- Add styling to tooltip icons
+
 ## 15.1.3
 
 ### Patch Changes
