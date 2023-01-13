@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.7
+
+### Patch Changes
+
+- Improve loading directive
+
 ## 15.0.6
 
 ### Patch Changes

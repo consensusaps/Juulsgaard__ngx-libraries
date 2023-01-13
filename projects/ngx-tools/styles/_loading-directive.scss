@@ -22,19 +22,9 @@
 			margin-top: -10px;
 			margin-left: -10px;
 			border-radius: 50%;
-			border: 2px solid #ffffff;
-			border-top-color: transparent;
+			border: 2px solid;
+			border-color: transparent currentColor currentColor currentColor;
 			animation: spinner .8s linear infinite;
-		}
-		
-		&.mat-icon-button, &.mat-button {
-			&::after {
-				border-color: transparent currentColor currentColor currentColor;
-			}
-		}
-		
-		&:not(.mat-icon-button):not(.mat-button) {
-			color: transparent !important;
 		}
 	}
 }
