@@ -1,4 +1,4 @@
-import {Directive, HostBinding, Input, OnDestroy} from '@angular/core';
+import {Directive, ElementRef, Input, OnDestroy} from '@angular/core';
 import {Subscribable, Unsubscribable} from "rxjs";
 
 
@@ -13,7 +13,12 @@ export class LoadingDirective implements OnDestroy {
 
   sub?: Unsubscribable;
 
-  @HostBinding('class.loading') loading = false;
+  set loading(loading: boolean) {
+    this.element.nativeElement.classList.toggle('loading', loading);
+  }
+
+  constructor(private element: ElementRef<HTMLElement>) {
+  }
 
   @Input() set isLoading(state: boolean|Promise<any>|Subscribable<boolean>|undefined|null) {
 
