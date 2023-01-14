@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.1.3
+
+### Patch Changes
+
+- Improve input change detection
+
 ## 15.1.2
 
 ### Patch Changes

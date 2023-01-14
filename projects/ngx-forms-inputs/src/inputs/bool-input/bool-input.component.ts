@@ -25,13 +25,13 @@ import {MatIconModule} from "@angular/material/icon";
 })
 export class BoolInputComponent extends BaseInputComponent<boolean, boolean> {
 
-  @Input() labelPosition: 'before'|'after' = 'after';
+  @Input() labelPosition: 'before' | 'after' = 'after';
 
   constructor(
-changes: ChangeDetectorRef,
-@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, 
-@Optional() formScope: FormScopeService
-) {
+    changes: ChangeDetectorRef,
+    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
+    @Optional() formScope: FormScopeService
+  ) {
     super(changes, controlContainer, formScope);
   }
 
@@ -39,7 +39,7 @@ changes: ChangeDetectorRef,
     return value;
   }
 
-  preprocessValue(value: boolean|undefined) {
+  preprocessValue(value: boolean | undefined) {
     return value ?? false;
   }
 

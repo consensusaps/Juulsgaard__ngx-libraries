@@ -127,6 +127,8 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
         this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
 
         this.loadFormNode(control);
+
+        this.changes.detectChanges();
     }
 
     /** Reset control related values to default */
@@ -268,6 +270,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
         if (this._externalControl) {
             this.externalControlSetup(this._externalControl);
         }
+
         this.initialised = true;
 
         // Use the control name to bind the control from a parent control container

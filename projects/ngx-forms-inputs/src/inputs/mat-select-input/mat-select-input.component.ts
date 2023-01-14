@@ -94,7 +94,14 @@ export class MatSelectInputComponent<TItem, TVal extends any | any[]> extends Ba
     this.hideEmpty = node.hideWhenEmpty ?? this.hideEmpty;
 
     if (node.items$) {
-      this.subscriptions.add(node.items$.pipe(skip(this.hasExternalItems ? 1 : 0)).subscribe(i => this.items = i));
+      this.subscriptions.add(
+        node.items$.pipe(
+          skip(this.hasExternalItems ? 1 : 0)
+        ).subscribe(items => {
+          this.items = items;
+          this.changes.detectChanges();
+        })
+      );
     }
   }
 

@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.1.6
+
+### Patch Changes
+
+- Improve input change detection
+- Updated dependencies
+  - @consensus-labs/ngx-forms@15.1.3
+
 ## 15.1.5
 
 ### Patch Changes
