@@ -1,4 +1,4 @@
-import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {FileDropDirective, FileSizePipe, IconDirective} from "@consensus-labs/ngx-tools";
@@ -10,6 +10,7 @@ import {MatIconModule} from "@angular/material/icon";
   selector: 'form-file-input',
   templateUrl: './file-input.component.html',
   styleUrls: ['./file-input.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     FileDropDirective,
@@ -28,15 +29,19 @@ export class FileInputComponent extends BaseInputComponent<File | undefined, Fil
 
   @Input() accept = '*';
 
-  constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
-    super(controlContainer, formScope);
+  constructor(
+    changes: ChangeDetectorRef,
+    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
+    @Optional() formScope: FormScopeService
+  ) {
+    super(changes, controlContainer, formScope);
   }
 
   preprocessValue(value: File | undefined) {
     return value;
   }
 
-  postprocessValue(value: File|undefined) {
+  postprocessValue(value: File | undefined) {
     return value ?? undefined;
   }
 

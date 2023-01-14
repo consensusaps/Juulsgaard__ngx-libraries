@@ -1,6 +1,6 @@
 import {
-    ContentChild, Directive, ElementRef, EventEmitter, Host, HostBinding, Input, OnDestroy, OnInit, Optional, Output,
-    QueryList, SkipSelf, ViewChild, ViewChildren
+    ChangeDetectorRef, ContentChild, Directive, ElementRef, EventEmitter, Host, HostBinding, Input, OnDestroy, OnInit,
+    Optional, Output, QueryList, SkipSelf, ViewChild, ViewChildren
 } from "@angular/core";
 import {BehaviorSubject, combineLatest, Observable, Subject, Subscribable, Subscription, Unsubscribable} from "rxjs";
 import {ControlContainer, NgModel} from "@angular/forms";
@@ -94,6 +94,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
             }
 
             this.externalValue = x;
+            this.changes.detectChanges();
         }));
 
         // Listen for reset events from control and reset the internal control state
@@ -104,6 +105,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
             });
             this.control.markAsPristine();
             this.control.markAsUntouched();
+            this.changes.detectChanges();
         }));
 
         // Listen to control events
@@ -246,7 +248,11 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     get readonly(): boolean {return this._readonly === undefined ? this._scopeReadonly : this._readonly}
     //</editor-fold>
 
-    protected constructor(@Optional() @Host() @SkipSelf() private controlContainer?: ControlContainer, @Optional() private formScope?: FormScopeService) {
+    protected constructor(
+      protected changes: ChangeDetectorRef,
+      @Optional() @Host() @SkipSelf() private controlContainer?: ControlContainer,
+      @Optional() private formScope?: FormScopeService
+    ) {
         this.control = new FormNode(InputTypes.Generic, this.preprocessValue(undefined));
         this.subscriptions.add(this.control.value$.subscribe(x => this.inputValue = x));
 

@@ -1,4 +1,4 @@
-import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@consensus-labs/ngx-tools';
@@ -13,6 +13,7 @@ import {MatIconModule} from "@angular/material/icon";
   templateUrl: './color-input.component.html',
   styleUrls: ['./color-input.component.scss'],
   animations: [harmonicaAnimation()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatLegacyTooltipModule,
     MatLegacyInputModule,
@@ -26,12 +27,16 @@ import {MatIconModule} from "@angular/material/icon";
   ],
   standalone: true
 })
-export class ColorInputComponent extends BaseInputComponent<string|undefined, string> {
+export class ColorInputComponent extends BaseInputComponent<string | undefined, string> {
 
   @Input() noAlpha = false;
 
-  constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
-    super(controlContainer, formScope);
+  constructor(
+    changes: ChangeDetectorRef,
+    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
+    @Optional() formScope: FormScopeService
+  ) {
+    super(changes, controlContainer, formScope);
   }
 
   postprocessValue(value?: string) {

@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.1.5
+
+### Patch Changes
+
+- Make inputs use OnPush change detection
+- Updated dependencies
+  - @consensus-labs/ngx-forms@15.1.2
+
 ## 15.1.4
 
 ### Patch Changes

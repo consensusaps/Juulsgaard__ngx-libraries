@@ -1,5 +1,5 @@
 import {ControlContainer, FormsModule} from "@angular/forms";
-import {Component, Host, Optional, SkipSelf} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Optional, SkipSelf} from "@angular/core";
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {BaseInputComponent, FormScopeService} from "@consensus-labs/ngx-forms";
 import {AsyncPipe, NgIf} from "@angular/common";
@@ -12,6 +12,7 @@ import {MatIconModule} from "@angular/material/icon";
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss'],
   animations: [harmonicaAnimation()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatLegacyInputModule,
     NgIf,
@@ -23,10 +24,14 @@ import {MatIconModule} from "@angular/material/icon";
   ],
   standalone: true
 })
-export class TextInputComponent extends BaseInputComponent<string|undefined, string> {
+export class TextInputComponent extends BaseInputComponent<string | undefined, string> {
 
-  constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
-    super(controlContainer, formScope);
+  constructor(
+    changes: ChangeDetectorRef,
+    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
+    @Optional() formScope: FormScopeService
+  ) {
+    super(changes, controlContainer, formScope);
   }
 
   postprocessValue(value: string | undefined) {

@@ -1,4 +1,4 @@
-import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, ReactiveFormsModule} from '@angular/forms';
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
@@ -12,6 +12,7 @@ import {MatIconModule} from "@angular/material/icon";
   templateUrl: './bool-input.component.html',
   styleUrls: ['./bool-input.component.scss'],
   animations: [harmonicaAnimation()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatLegacyTooltipModule,
     MatLegacySlideToggleModule,
@@ -26,8 +27,12 @@ export class BoolInputComponent extends BaseInputComponent<boolean, boolean> {
 
   @Input() labelPosition: 'before'|'after' = 'after';
 
-  constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
-    super(controlContainer, formScope);
+  constructor(
+changes: ChangeDetectorRef,
+@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, 
+@Optional() formScope: FormScopeService
+) {
+    super(changes, controlContainer, formScope);
   }
 
   postprocessValue(value: boolean) {

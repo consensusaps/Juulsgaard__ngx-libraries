@@ -1,4 +1,7 @@
-import {Component, EventEmitter, Host, HostListener, Input, NgZone, Optional, Output, SkipSelf} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Host, HostListener, Input, NgZone, Optional,
+  Output, SkipSelf
+} from '@angular/core';
 import {ControlContainer, FormsModule} from '@angular/forms';
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {fromEvent} from "rxjs";
@@ -13,6 +16,7 @@ import {MatIconModule} from "@angular/material/icon";
   selector: 'form-search-input',
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatLegacyInputModule,
     NoClickBubbleDirective,
@@ -42,8 +46,13 @@ export class SearchInputComponent extends BaseInputComponent<string|undefined, s
 
   @Output() submit = new EventEmitter<string>();
 
-  constructor(zone: NgZone, @Optional() @Host() @SkipSelf() controlContainer?: ControlContainer, @Optional() formScope?: FormScopeService) {
-    super(controlContainer, formScope);
+  constructor(
+    zone: NgZone,
+    changes: ChangeDetectorRef,
+    @Optional() @Host() @SkipSelf() controlContainer?: ControlContainer,
+    @Optional() formScope?: FormScopeService
+  ) {
+    super(changes, controlContainer, formScope);
 
     // Listen to key input that isn't in an input
     zone.runOutsideAngular(() => {

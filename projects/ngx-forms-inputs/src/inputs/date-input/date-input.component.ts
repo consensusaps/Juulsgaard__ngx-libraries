@@ -1,4 +1,4 @@
-import {Component, Host, Optional, SkipSelf} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
 import dayjs, {Dayjs} from "dayjs";
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
@@ -16,6 +16,7 @@ import {MatIconModule} from "@angular/material/icon";
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss'],
   animations: [harmonicaAnimation()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     FormsModule,
@@ -36,17 +37,21 @@ import {MatIconModule} from "@angular/material/icon";
     {provide: MAT_DATE_FORMATS, useValue: MAT_DAYJS_DATE_FORMATS}
   ]
 })
-export class DateInputComponent extends BaseInputComponent<Date|undefined, Dayjs|undefined> {
+export class DateInputComponent extends BaseInputComponent<Date | undefined, Dayjs | undefined> {
 
-  constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
-    super(controlContainer, formScope);
+  constructor(
+    changes: ChangeDetectorRef,
+    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
+    @Optional() formScope: FormScopeService
+  ) {
+    super(changes, controlContainer, formScope);
   }
 
-  postprocessValue(value?: Dayjs): Date|undefined {
+  postprocessValue(value?: Dayjs): Date | undefined {
     return value === undefined ? undefined : value.toDate();
   }
 
-  preprocessValue(value?: Date): Dayjs|undefined {
+  preprocessValue(value?: Date): Dayjs | undefined {
     return value === undefined ? undefined : dayjs(value);
   }
 

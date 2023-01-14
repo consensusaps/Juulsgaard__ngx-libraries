@@ -1,4 +1,4 @@
-import {Component, Host, Input, Optional, SkipSelf} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
 import {FormNode, isFormSelectNode} from "@consensus-labs/ngx-forms-core";
 import {skip} from "rxjs";
@@ -9,13 +9,14 @@ import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacySelectModule} from "@angular/material/legacy-select";
 import {MatIconModule} from "@angular/material/icon";
 
-type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
+type ArrOrNullable<T> = T extends any[] ? T : T | undefined;
 
 @Component({
   selector: 'form-mat-select',
   templateUrl: './mat-select-input.component.html',
   styleUrls: ['./mat-select-input.component.scss'],
   animations: [harmonicaAnimation()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     MatLegacySelectModule,
@@ -28,19 +29,23 @@ type ArrOrNullable<T> = T extends any[] ? T : T|undefined;
   ],
   standalone: true
 })
-export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends BaseInputComponent<ArrOrNullable<TVal>, ArrOrNullable<TVal>>{
+export class MatSelectInputComponent<TItem, TVal extends any | any[]> extends BaseInputComponent<ArrOrNullable<TVal>, ArrOrNullable<TVal>> {
 
   hasExternalItems = false;
+
   @Input('items') set itemsData(items: TItem[]) {
     this.hasExternalItems = true;
     this.items = items;
   }
+
   items: TItem[] = [];
 
-  get notEmpty() {return !this.hideEmpty || this.items.length > 0;}
+  get notEmpty() {
+    return !this.hideEmpty || this.items.length > 0;
+  }
 
-  @Input() bindLabel?: string|((item: TItem) => string);
-  @Input() bindValue?: string|((item: TItem) => TVal);
+  @Input() bindLabel?: string | ((item: TItem) => string);
+  @Input() bindValue?: string | ((item: TItem) => TVal);
 
   @Input() multiple = false;
 
@@ -48,23 +53,33 @@ export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends Base
   @Input() hideEmpty = false;
 
   get canClear() {
-    return (this.multiple || !this.required) && this.clearable;
+    return (
+      this.multiple || !this.required
+    ) && this.clearable;
   }
 
-  constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
-    super(controlContainer, formScope);
+  constructor(
+    changes: ChangeDetectorRef,
+    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
+    @Optional() formScope: FormScopeService
+  ) {
+    super(changes, controlContainer, formScope);
   }
 
   getLabel(item: TItem) {
     if (!this.bindLabel) return item;
     if (this.bindLabel instanceof Function) return this.bindLabel(item);
-    return (item as any)[this.bindLabel];
+    return (
+      item as any
+    )[this.bindLabel];
   }
 
   getValue(item: TItem) {
     if (!this.bindValue) return item;
     if (this.bindValue instanceof Function) return this.bindValue(item);
-    return (item as any)[this.bindValue];
+    return (
+      item as any
+    )[this.bindValue];
   }
 
   override loadFormNode(node: FormNode<ArrOrNullable<TVal>>) {
@@ -93,7 +108,7 @@ export class MatSelectInputComponent<TItem, TVal extends any|any[]> extends Base
     return Array.isArray(value) ? value[0] : value;
   }
 
-  preprocessValue(value: ArrOrNullable<TVal>|undefined) {
+  preprocessValue(value: ArrOrNullable<TVal> | undefined) {
     if (!value) return this.multiple ? [] as TVal : undefined;
     if (this.multiple) {
       return Array.isArray(value) ? value : [value] as TVal;

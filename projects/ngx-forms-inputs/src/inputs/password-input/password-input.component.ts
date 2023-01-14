@@ -1,4 +1,4 @@
-import {Component, Host, Optional, SkipSelf} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
@@ -15,6 +15,7 @@ import {MatIconModule} from "@angular/material/icon";
   templateUrl: './password-input.component.html',
   styleUrls: ['./password-input.component.scss'],
   animations: [harmonicaAnimation()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatLegacyInputModule,
     MatLegacyTooltipModule,
@@ -29,12 +30,16 @@ import {MatIconModule} from "@angular/material/icon";
   ],
   standalone: true
 })
-export class PasswordInputComponent extends BaseInputComponent<string|undefined, string> {
+export class PasswordInputComponent extends BaseInputComponent<string | undefined, string> {
 
   showPassword = false;
 
-  constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
-    super(controlContainer, formScope);
+  constructor(
+    changes: ChangeDetectorRef,
+    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
+    @Optional() formScope: FormScopeService
+  ) {
+    super(changes, controlContainer, formScope);
   }
 
   toggleShow(event: MouseEvent) {
@@ -42,11 +47,11 @@ export class PasswordInputComponent extends BaseInputComponent<string|undefined,
     this.inputElement?.nativeElement?.focus();
   }
 
-  preprocessValue(value: string|undefined): string {
+  preprocessValue(value: string | undefined): string {
     return value ?? '';
   }
 
-  postprocessValue(value: string|undefined) {
+  postprocessValue(value: string | undefined) {
     return value ? value : undefined;
   }
 }

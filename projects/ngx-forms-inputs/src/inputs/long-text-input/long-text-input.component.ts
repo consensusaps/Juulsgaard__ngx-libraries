@@ -1,4 +1,4 @@
-import {Component, Host, Optional, SkipSelf} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
 import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
@@ -12,6 +12,7 @@ import {MatIconModule} from "@angular/material/icon";
   templateUrl: './long-text-input.component.html',
   styleUrls: ['./long-text-input.component.scss'],
   animations: [harmonicaAnimation()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     FormsModule,
@@ -24,10 +25,14 @@ import {MatIconModule} from "@angular/material/icon";
   ],
   providers: []
 })
-export class LongTextInputComponent extends BaseInputComponent<string|undefined, string> {
+export class LongTextInputComponent extends BaseInputComponent<string | undefined, string> {
 
-  constructor(@Optional() @Host() @SkipSelf() controlContainer: ControlContainer, @Optional() formScope: FormScopeService) {
-    super(controlContainer, formScope);
+  constructor(
+    changes: ChangeDetectorRef,
+    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
+    @Optional() formScope: FormScopeService
+  ) {
+    super(changes, controlContainer, formScope);
   }
 
   postprocessValue(value: string | undefined) {
