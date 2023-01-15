@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, ReactiveFormsModule} from '@angular/forms';
-import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
@@ -30,7 +30,7 @@ export class BoolInputComponent extends BaseInputComponent<boolean, boolean> {
   constructor(
     changes: ChangeDetectorRef,
     @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormScopeService
+    @Optional() formScope: FormContext
   ) {
     super(changes, controlContainer, formScope);
   }

@@ -9,7 +9,7 @@ import {MatFormFieldAppearance, MatPrefix, MatSuffix} from '@angular/material/fo
 import {distinctUntilChanged, map} from "rxjs/operators";
 import {FormNode, FormNodeEvent, hasRequiredField, InputTypes} from "@consensus-labs/ngx-forms-core";
 import {alwaysErrorStateMatcher, neverErrorStateMatcher} from "./error-state-matchers";
-import {FormScopeService} from "../services/form-scope.service";
+import {FormContext} from "../services/form-context.service";
 
 @Directive()
 export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnDestroy {
@@ -253,7 +253,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     protected constructor(
       protected changes: ChangeDetectorRef,
       @Optional() @Host() @SkipSelf() private controlContainer?: ControlContainer,
-      @Optional() private formScope?: FormScopeService
+      @Optional() private formScope?: FormContext
     ) {
         this.control = new FormNode(InputTypes.Generic, this.preprocessValue(undefined));
         this.subscriptions.add(this.control.value$.subscribe(x => this.inputValue = x));

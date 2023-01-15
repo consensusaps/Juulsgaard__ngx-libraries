@@ -4,7 +4,7 @@ import {
 import {ControlContainer, FormsModule} from "@angular/forms";
 import {NgxMatTimepickerComponent, NgxMatTimepickerModule} from "ngx-mat-timepicker";
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
-import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
@@ -38,7 +38,7 @@ export class TimeInputComponent extends BaseInputComponent<Date|undefined, strin
   constructor(
     changes: ChangeDetectorRef,
     @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormScopeService,
+    @Optional() formScope: FormContext,
     @Inject(LOCALE_ID) public locale: string
   ) {
     super(changes, controlContainer, formScope);

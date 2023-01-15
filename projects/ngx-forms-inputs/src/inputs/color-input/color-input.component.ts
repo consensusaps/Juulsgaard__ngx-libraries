@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
-import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@consensus-labs/ngx-tools';
 import {ColorPickerModule} from "ngx-color-picker";
 import {AsyncPipe, NgIf} from "@angular/common";
@@ -34,7 +34,7 @@ export class ColorInputComponent extends BaseInputComponent<string | undefined, 
   constructor(
     changes: ChangeDetectorRef,
     @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormScopeService
+    @Optional() formScope: FormContext
   ) {
     super(changes, controlContainer, formScope);
   }

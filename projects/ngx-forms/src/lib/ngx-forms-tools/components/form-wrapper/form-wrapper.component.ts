@@ -1,30 +1,32 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Self} from '@angular/core';
-import {FormScopeService} from "../../services/form-scope.service";
-import {AsyncPipe, NgIf, NgTemplateOutlet} from "@angular/common";
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormContext} from "../../services/form-context.service";
+import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {TruthyPipe} from "@consensus-labs/ngx-tools";
 
 @Component({
   selector: 'form-wrapper',
   templateUrl: './form-wrapper.component.html',
   styleUrls: ['./form-wrapper.component.scss'],
-  providers: [FormScopeService],
+  providers: [{provide: FormContext, useExisting: FormWrapperComponent}],
   imports: [
-    AsyncPipe,
-    NgIf,
-    NgTemplateOutlet,
-    FormsModule
+    CommonModule,
+    FormsModule,
+    TruthyPipe
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormWrapperComponent {
+export class FormWrapperComponent extends FormContext {
 
   @Output() submit = new EventEmitter<void>();
   @Input() fieldset = false;
 
   @Input('readonly') set readonlyState(readonly: boolean) {
-    this.scopeService.readonly$.next(readonly);
+    this._readonly$.next(readonly);
   }
 
-  constructor(@Self() public scopeService: FormScopeService) { }
+  constructor() {
+    super();
+  }
 }

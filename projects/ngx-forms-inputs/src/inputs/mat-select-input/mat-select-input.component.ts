@@ -3,7 +3,7 @@ import {ControlContainer, FormsModule} from "@angular/forms";
 import {FormNode, isFormSelectNode} from "@consensus-labs/ngx-forms-core";
 import {skip} from "rxjs";
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
-import {BaseInputComponent, FormScopeService} from "@consensus-labs/ngx-forms";
+import {BaseInputComponent, FormContext} from "@consensus-labs/ngx-forms";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacySelectModule} from "@angular/material/legacy-select";
@@ -61,7 +61,7 @@ export class MatSelectInputComponent<TItem, TVal extends any | any[]> extends Ba
   constructor(
     changes: ChangeDetectorRef,
     @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormScopeService
+    @Optional() formScope: FormContext
   ) {
     super(changes, controlContainer, formScope);
   }

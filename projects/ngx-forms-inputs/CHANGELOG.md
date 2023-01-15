@@ -1,5 +1,16 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.2.0
+
+### Minor Changes
+
+- Change implementation of Form Context
+
+### Patch Changes
+
+- Updated dependencies
+  - @consensus-labs/ngx-forms@15.2.0
+
 ## 15.1.6
 
 ### Patch Changes

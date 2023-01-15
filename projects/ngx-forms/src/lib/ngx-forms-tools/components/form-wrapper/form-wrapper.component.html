@@ -3,7 +3,7 @@
 </ng-template>
 
 <form (ngSubmit)="submit.emit()">
-    <fieldset *ngIf="fieldset" [disabled]="scopeService.readonly$ | async">
+    <fieldset *ngIf="fieldset" [disabled]="readonly$ | truthy">
         <ng-container *ngTemplateOutlet="content"></ng-container>
     </fieldset>
 

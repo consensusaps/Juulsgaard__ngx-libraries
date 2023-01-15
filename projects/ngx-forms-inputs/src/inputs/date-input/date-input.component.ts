@@ -4,7 +4,7 @@ import dayjs, {Dayjs} from "dayjs";
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {DayjsDateAdapter, MAT_DAYJS_DATE_FORMATS} from "../../adapters/date-adapter";
-import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
@@ -42,7 +42,7 @@ export class DateInputComponent extends BaseInputComponent<Date | undefined, Day
   constructor(
     changes: ChangeDetectorRef,
     @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormScopeService
+    @Optional() formScope: FormContext
   ) {
     super(changes, controlContainer, formScope);
   }

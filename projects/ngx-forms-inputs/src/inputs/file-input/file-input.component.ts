@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer} from "@angular/forms";
-import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
 import {FileDropDirective, FileSizePipe, IconDirective} from "@consensus-labs/ngx-tools";
 import {NgClass, NgIf} from "@angular/common";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
@@ -32,7 +32,7 @@ export class FileInputComponent extends BaseInputComponent<File | undefined, Fil
   constructor(
     changes: ChangeDetectorRef,
     @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormScopeService
+    @Optional() formScope: FormContext
   ) {
     super(changes, controlContainer, formScope);
   }

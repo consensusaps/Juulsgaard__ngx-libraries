@@ -3,7 +3,7 @@ import {
   Output, SkipSelf
 } from '@angular/core';
 import {ControlContainer, FormsModule} from '@angular/forms';
-import {BaseInputComponent, FormScopeService} from '@consensus-labs/ngx-forms';
+import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
 import {fromEvent} from "rxjs";
 import {filter} from "rxjs/operators";
 import {IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
@@ -50,7 +50,7 @@ export class SearchInputComponent extends BaseInputComponent<string|undefined, s
     zone: NgZone,
     changes: ChangeDetectorRef,
     @Optional() @Host() @SkipSelf() controlContainer?: ControlContainer,
-    @Optional() formScope?: FormScopeService
+    @Optional() formScope?: FormContext
   ) {
     super(changes, controlContainer, formScope);
 
