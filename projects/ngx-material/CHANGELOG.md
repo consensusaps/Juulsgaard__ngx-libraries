@@ -1,5 +1,16 @@
 # @consensus-labs/ngx-material
 
+## 15.1.0
+
+### Minor Changes
+
+- Revamped overlays and dialogs
+
+### Patch Changes
+
+- Updated dependencies
+  - @consensus-labs/ngx-tools@15.0.8
+
 ## 15.0.6
 
 ### Patch Changes

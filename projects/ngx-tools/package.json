@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-tools",
-  "version": "15.0.7",
+  "version": "15.0.8",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-tools"
@@ -28,14 +28,14 @@
     "@angular/common": "^15.0.2",
     "@angular/core": "^15.0.2",
     "@angular/animations": "^15.0.2",
-    "@consensus-labs/rxjs-tools": "^1.0.5",
+    "@consensus-labs/rxjs-tools": "^1.1.15",
     "typescript": "~4.8.4"
   },
   "devDependencies": {
     "@angular/common": "15.0.2",
     "@angular/core": "15.0.2",
     "@angular/animations": "15.0.2",
-    "@consensus-labs/rxjs-tools": "1.0.5"
+    "@consensus-labs/rxjs-tools": "1.1.15"
   },
   "dependencies": {
     "tslib": "2.4.1"

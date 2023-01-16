@@ -1,0 +1,26 @@
+<div class="background ngx-fade" (click)="onClose?.()"></div>
+
+<div class="popup ngx-move-up" [class.scrollable]="scrollable$ | truthy">
+
+    <div class="header">{{header$ | async}}</div>
+
+    <div class="popup-content" *ngIf="plainDescription">
+        <p>{{plainDescription}}</p>
+    </div>
+
+    <div class="popup-content" *ngIf="htmlDescription" [innerHTML]="htmlDescription"></div>
+
+    <div class="popup-content" *ngIf="contentTemplate$ | async as template">
+        <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletInjector]="injector"></ng-template>
+    </div>
+
+    <div class="footer" *ngIf="buttons">
+        <button mat-button *ngFor="let btn of buttons" (click)="btn.callback()" [color]="btn.color">
+            {{btn.text}}
+        </button>
+    </div>
+
+    <div class="footer" *ngIf="footerTemplate$ | async as template">
+        <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletInjector]="injector"></ng-template>
+    </div>
+</div>

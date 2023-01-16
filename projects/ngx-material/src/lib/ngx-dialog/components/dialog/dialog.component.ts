@@ -1,8 +1,11 @@
 import {
-  ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output
+  ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Injector, Input, OnDestroy, OnInit, Output,
+  TemplateRef, ViewChild
 } from '@angular/core';
 import {DialogFooterDirective} from "../../directives/dialog-footer.directive";
-import {OverlayService, OverlayToken} from "@consensus-labs/ngx-tools";
+import {BehaviorSubject, distinctUntilChanged, ReplaySubject} from "rxjs";
+import {DialogManagerService} from "../../services/dialog-manager.service";
+import {TemplateDialogContext} from "../../models/dialog-context.models";
 
 
 @Component({
@@ -13,26 +16,52 @@ import {OverlayService, OverlayToken} from "@consensus-labs/ngx-tools";
 })
 export class DialogComponent implements OnInit, OnDestroy {
 
-  @ContentChild(DialogFooterDirective) footerItem?: DialogFooterDirective;
+  @ContentChild(DialogFooterDirective) set footerItem(item: DialogFooterDirective|undefined) {
+    this.footer$.next(item ? this.footer : undefined);
+  };
 
-  @HostBinding('style.z-index') get zIndexStyle() {return this.zIndex ?? this.overlayToken?.zIndex ?? 600};
+  @ViewChild('content', {static: true})
+  content!: TemplateRef<void>;
+  @ViewChild('footer', {static: true})
+  footer!: TemplateRef<void>;
 
-  @Input() header?: string;
-  @Input() withScroll = false;
-  @Input() zIndex?: number;
+  footer$ = new ReplaySubject<TemplateRef<void>|undefined>(1);
+  content$ = new ReplaySubject<TemplateRef<void>>(1);
+  header$ = new ReplaySubject<string>(1);
+  withScroll$ = new BehaviorSubject(false);
+
+  @Input() set header(header: string) {
+    this.header$.next(header);
+  }
+
+  @Input() set withScroll(withScroll: boolean) {
+    this.withScroll$.next(withScroll);
+  }
 
   @Output() close = new EventEmitter<void>();
 
-  overlayToken?: OverlayToken;
+  private readonly context: TemplateDialogContext;
 
-  constructor(private element: ElementRef<HTMLElement>, private overlayService: OverlayService) { }
+  constructor(
+    private manager: DialogManagerService,
+    private injector: Injector
+  ) {
+    this.context = {
+      header$: this.header$,
+      withScroll$: this.withScroll$,
+      onClose: () => this.close.emit(),
+      content$: this.content$,
+      footer$: this.footer$.pipe(distinctUntilChanged()),
+      injector: this.injector
+    };
+  }
 
   ngOnInit() {
-    this.overlayToken = this.overlayService.pushOverlay();
-    this.overlayToken.handleEscape(() => this.close.emit());
+    this.content$.next(this.content);
+    this.manager.createDialog(this.context);
   }
 
   ngOnDestroy() {
-    this.overlayToken?.dispose();
+    this.manager.closeDialog(this.context);
   }
 }

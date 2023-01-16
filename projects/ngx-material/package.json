@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-material",
-  "version": "15.0.6",
+  "version": "15.1.0",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-material"
@@ -15,8 +15,8 @@
     "@angular/common": "^15.0.2",
     "@angular/core": "^15.0.2",
     "@angular/material": "^15.0.1",
-    "@consensus-labs/ngx-tools": "^15.0.7",
-    "@consensus-labs/rxjs-tools": "^1.0.5",
+    "@consensus-labs/ngx-tools": "^15.0.8",
+    "@consensus-labs/rxjs-tools": "^1.1.15",
     "@consensus-labs/ts-tools": "^1.1.1",
     "typescript": "~4.8.4"
   },
@@ -25,8 +25,8 @@
     "@angular/common": "15.0.2",
     "@angular/core": "15.0.2",
     "@angular/material": "15.0.1",
-    "@consensus-labs/ngx-tools": "15.0.7",
-    "@consensus-labs/rxjs-tools": "1.0.5",
+    "@consensus-labs/ngx-tools": "15.0.8",
+    "@consensus-labs/rxjs-tools": "1.1.15",
     "@consensus-labs/ts-tools": "1.1.1"
   },
   "dependencies": {

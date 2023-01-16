@@ -3,7 +3,7 @@ import {ErrorSnackComponent} from "../components/error-snack/error-snack.compone
 import {PlainSnackComponent} from "../components/plain-snack/plain-snack.component";
 import {MatLegacySnackBar} from "@angular/material/legacy-snack-bar";
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class SnackbarService {
 
     constructor(private snackBar: MatLegacySnackBar) {

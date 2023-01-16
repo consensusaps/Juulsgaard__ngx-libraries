@@ -1,10 +1,10 @@
 
-<ngx-dialog *ngIf="swService.brokenState$ | truthy" [zIndex]="1000" header="An Error Occurred">
+<ngx-dialog *ngIf="swService.brokenState$ | truthy" header="An Error Occurred">
     <p>An error occurred while downloading this version of the app. <br> Please reload and try again.</p>
     <button mat-button dialogFooter color="primary" (click)="updateApp()">Reload</button>
 </ngx-dialog>
 
-<ngx-dialog *ngIf="(swService.brokenState$ | falsy) && showUpdateDialog" [zIndex]="1000" header="Update App">
+<ngx-dialog *ngIf="(swService.brokenState$ | falsy) && showUpdateDialog" header="Update App">
     <p>There is a new version of the app. Do you want to update now? <br> Any unsaved changed will be lost.</p>
     <button mat-button dialogFooter (click)="closeDialog()">Later</button>
     <button mat-button dialogFooter color="primary" (click)="updateApp()">Update</button>
