@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 15.1.1
+
+### Patch Changes
+
+- Import legacy snackbars properly
+
 ## 15.1.0
 
 ### Minor Changes
