@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-material
 
+## 15.1.2
+
+### Patch Changes
+
+- Improve template rendering for overlays
+- Updated dependencies
+  - @consensus-labs/ngx-tools@15.0.9
+
 ## 15.1.1
 
 ### Patch Changes

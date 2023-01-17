@@ -4,13 +4,14 @@ import {OverlayOutletDirective} from "./directives/overlay-outlet.directive";
 import {OverlayDirective} from "./directives/overlay.directive";
 import {BASE_OVERLAY_PROVIDERS} from "./models/overlay-tokens.models";
 import {CommonModule} from "@angular/common";
-import {IconDirective, TruthyPipe} from "@consensus-labs/ngx-tools";
+import {IconDirective, NgxRenderingModule, TruthyPipe} from "@consensus-labs/ngx-tools";
 
 @NgModule({
   imports: [
     CommonModule,
     TruthyPipe,
-    IconDirective
+    IconDirective,
+    NgxRenderingModule
   ],
   declarations: [
     RenderOverlayComponent,

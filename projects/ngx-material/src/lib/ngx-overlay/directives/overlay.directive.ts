@@ -1,12 +1,10 @@
-import {
-  ChangeDetectorRef, Directive, DoCheck, EventEmitter, Injector, Input, OnDestroy, Output, TemplateRef, ViewContainerRef
-} from '@angular/core';
+import {Directive, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewContainerRef} from '@angular/core';
 import {BehaviorSubject, distinctUntilChanged, Subject, Subscribable, Subscription, Unsubscribable} from "rxjs";
-import {OverlayInstance, OverlayManagerService} from "../services/overlay-manager.service";
-import {OverlayContext} from "../models/overlay-context.models";
+import {OverlayManagerService} from "../services/overlay-manager.service";
+import {OverlayInstance} from "../models/overlay-context.models";
 
 @Directive({selector: '[ngxOverlay]'})
-export class OverlayDirective implements OnDestroy, DoCheck {
+export class OverlayDirective implements OnDestroy {
 
   private showSub?: Unsubscribable;
   private externalShow$?: Subject<boolean>;
@@ -66,14 +64,11 @@ export class OverlayDirective implements OnDestroy, DoCheck {
 
   private sub: Subscription;
   private instance?: OverlayInstance;
-  private changes$ = new Subject<void>();
 
   constructor(
     private templateRef: TemplateRef<void>,
     private viewContainer: ViewContainerRef,
-    private manager: OverlayManagerService,
-    private injector: Injector,
-    private changes: ChangeDetectorRef
+    private manager: OverlayManagerService
   ) {
     this.sub = this.show$.pipe(distinctUntilChanged()).subscribe(show => this.toggleOverlay(show))
   }
@@ -93,17 +88,17 @@ export class OverlayDirective implements OnDestroy, DoCheck {
     if (show) {
       if (this.instance) return;
 
-      const context: OverlayContext = {
-        injector: this.injector,
-        onClose: () => this.closeOverlay(),
-        template: this.templateRef,
-        maxWidth$: this.maxWidth$,
-        scrollable$: this.scrollable$,
-        canClose$: this.canClose$,
-        changes$: this.changes$,
-        onChange: () => this.changes.detectChanges()
-      };
-      this.instance = this.manager.createOverlay(context);
+      this.instance = this.manager.createOverlay(
+        this.viewContainer,
+        this.templateRef,
+        {
+          maxWidth$: this.maxWidth$,
+          scrollable$: this.scrollable$,
+          canClose$: this.canClose$,
+        }
+      );
+
+      this.instance.onClose(() => this.closeOverlay());
       return;
     }
 
@@ -116,9 +111,5 @@ export class OverlayDirective implements OnDestroy, DoCheck {
     this._onClose?.();
     this.closed.emit();
     this.externalShow$?.next(false);
-  }
-
-  ngDoCheck() {
-    this.changes$.next();
   }
 }

@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.9
+
+### Patch Changes
+
+- Improve template rendering for overlays
+
 ## 15.0.8
 
 ### Patch Changes

@@ -2,11 +2,10 @@ import {
   ChangeDetectorRef, ComponentRef, Directive, Inject, Injector, OnInit, Optional, StaticProvider, ViewContainerRef
 } from '@angular/core';
 import {Subscription} from "rxjs";
-import {OverlayInstance, OverlayManagerService} from "../services/overlay-manager.service";
-import {
-  BASE_OVERLAY_PROVIDERS, OVERLAY_ANIMATE_IN, OVERLAY_CONTEXT, OVERLAY_Z_INDEX
-} from "../models/overlay-tokens.models";
+import {OverlayManagerService} from "../services/overlay-manager.service";
+import {BASE_OVERLAY_PROVIDERS, OVERLAY_ANIMATE_IN} from "../models/overlay-tokens.models";
 import {RenderOverlayComponent} from "../components/render-overlay/render-overlay.component";
+import {OverlayContext, OverlayInstance} from "../models/overlay-context.models";
 
 @Directive({selector: 'ngx-overlay-outlet'})
 export class OverlayOutletDirective implements OnInit {
@@ -19,14 +18,14 @@ export class OverlayOutletDirective implements OnInit {
     private manager: OverlayManagerService,
     private changes: ChangeDetectorRef,
     @Optional() @Inject(BASE_OVERLAY_PROVIDERS)
-    private baseProviders: StaticProvider[] = []
+    private baseProviders?: StaticProvider[]
   ) { }
 
   ngOnInit() {
-    this.sub = this.manager.overlay$.subscribe(x => this.renderDialog(x.item, x.added));
+    this.sub = this.manager.overlay$.subscribe(x => this.renderOverlay(x.item, x.added));
   }
 
-  renderDialog(instance: OverlayInstance | undefined, added: boolean) {
+  renderOverlay(instance: OverlayInstance | undefined, added: boolean) {
 
     if (this.component) {
       this.component.instance.animate = !instance || !added;
@@ -35,14 +34,14 @@ export class OverlayOutletDirective implements OnInit {
     }
 
     if (!instance) return;
+    console.log(this.baseProviders);
 
     const injector = Injector.create({
-      parent: instance.context.injector ?? this.viewContainer.injector,
+      parent: instance.injector ?? this.viewContainer.injector,
       providers: [
-        {provide: OVERLAY_CONTEXT, useValue: instance.context},
-        {provide: OVERLAY_Z_INDEX, useValue: instance.token.zIndex},
+        {provide: OverlayContext, useValue: instance},
         {provide: OVERLAY_ANIMATE_IN, useValue: added},
-        ...this.baseProviders
+        ...(this.baseProviders ?? [])
       ],
       name: 'Overlay Injector'
     });
