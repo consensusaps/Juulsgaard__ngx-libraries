@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 15.1.3
+
+### Patch Changes
+
+- Remove console log
+
 ## 15.1.2
 
 ### Patch Changes

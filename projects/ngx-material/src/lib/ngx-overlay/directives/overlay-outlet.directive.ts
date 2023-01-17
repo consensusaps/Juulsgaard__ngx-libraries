@@ -34,7 +34,6 @@ export class OverlayOutletDirective implements OnInit {
     }
 
     if (!instance) return;
-    console.log(this.baseProviders);
 
     const injector = Injector.create({
       parent: instance.injector ?? this.viewContainer.injector,
