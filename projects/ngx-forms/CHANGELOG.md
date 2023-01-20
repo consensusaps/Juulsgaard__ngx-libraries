@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.3.1
+
+### Patch Changes
+
+- Fix input naming for ngxForm
+
 ## 15.3.0
 
 ### Minor Changes

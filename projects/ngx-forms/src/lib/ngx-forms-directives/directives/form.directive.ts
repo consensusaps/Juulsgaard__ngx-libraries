@@ -13,7 +13,7 @@ import {AnyControlFormRoot, SmartFormUnion} from "@consensus-labs/ngx-forms-core
 })
 export class FormDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
 
-  @Input() form?: AnyControlFormRoot<TControls>;
+  @Input('ngxForm') form?: AnyControlFormRoot<TControls>;
   @Input('ngxFormWhen') show?: boolean;
 
   view?: EmbeddedViewRef<FormDirectiveContext<TControls>>
