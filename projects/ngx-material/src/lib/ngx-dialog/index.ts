@@ -6,7 +6,6 @@ export * from './directives/dialog-outlet.directive';
 export * from './directives/dialog-footer.directive';
 export * from './directives/dialog-content-template.directive';
 export * from './directives/dialog-footer-template.directive';
-export * from './directives/template-dialog.directive';
 
 export * from './models/dialog-context';
 export * from "./models/template-dialog-context";

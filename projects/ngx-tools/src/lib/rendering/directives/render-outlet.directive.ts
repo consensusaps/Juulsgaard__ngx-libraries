@@ -1,12 +1,15 @@
 import {Directive, ElementRef, Injector, Input, OnChanges, OnDestroy, SimpleChanges} from "@angular/core";
 import {TemplateRendering} from "../models/template-rendering";
 
-@Directive({selector: 'ngx-render', host: {'[style.display]': '"hidden"'}})
-export class RenderOutletDirective implements OnChanges, OnDestroy {
+@Directive({selector: 'ngx-render', host: {'[style.display]': 'inside ? "" : "hidden"'}})
+export class RenderOutletDirective<T> implements OnChanges, OnDestroy {
 
-  private template?: TemplateRendering;
-  @Input('template') _nextTemplate?: TemplateRendering;
+  private template?: TemplateRendering<T>;
+  @Input('template') _nextTemplate?: TemplateRendering<T>;
   @Input() inside?: boolean;
+
+  @Input() context?: T;
+  @Input() autoDispose: boolean|''|undefined;
 
   constructor(
     private element: ElementRef<HTMLElement>,
@@ -15,13 +18,24 @@ export class RenderOutletDirective implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+
     if (changes['_nextTemplate']) {
       this.render(this._nextTemplate);
+      return;
+    }
+
+    if (changes['context']) {
+      this.template?.updateContext(this.context);
     }
   }
 
   ngOnDestroy() {
-    this.template?.detach(this.element.nativeElement);
+    if (this.autoDispose || this.autoDispose === '') {
+      this.template?.dispose();
+      return;
+    }
+
+    this.template?.anchorRemoved(this.element.nativeElement);
   }
 
   render(nextTemplate?: TemplateRendering) {
@@ -29,9 +43,9 @@ export class RenderOutletDirective implements OnChanges, OnDestroy {
     this.template = nextTemplate;
 
     if (this.inside === true) {
-      this.template?.attachInside(this.element.nativeElement, this.injector);
+      this.template?.attachInside(this.element.nativeElement, this.injector, this.context);
     } else {
-      this.template?.attachAfter(this.element.nativeElement, this.injector);
+      this.template?.attachAfter(this.element.nativeElement, this.injector, this.context);
     }
   }
 }

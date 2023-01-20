@@ -1,6 +1,6 @@
-import {ViewContainerRef} from "@angular/core";
+import {TemplateRef, ViewContainerRef} from "@angular/core";
 import {Observable} from "rxjs";
-import {AnyTemplate, OverlayToken, SimpleTemplateRendering, TemplateRendering} from "@consensus-labs/ngx-tools";
+import {OverlayToken, Rendering, TemplateRendering} from "@consensus-labs/ngx-tools";
 
 
 export interface OverlayOptions {
@@ -28,7 +28,7 @@ export abstract class OverlayContext implements OverlayOptions {
 
 export class OverlayInstance extends OverlayContext {
 
-  content = new SimpleTemplateRendering(this.viewContainer, this.template);
+  content = Rendering.Static(this.viewContainer, this.template);
 
   get injector() {
     return this.viewContainer.injector
@@ -36,7 +36,7 @@ export class OverlayInstance extends OverlayContext {
 
   constructor(
     private viewContainer: ViewContainerRef,
-    private template: AnyTemplate,
+    private template: TemplateRef<void>,
     private token: OverlayToken,
     options: OverlayOptions
   ) {
@@ -46,7 +46,9 @@ export class OverlayInstance extends OverlayContext {
 
   dispose() {
     this.token.dispose();
-    this.content.dispose();
+
+    // Delay until after animation ends
+    setTimeout(() => this.content?.dispose(), 200);
   }
 
   private closeCallback?: () => any;

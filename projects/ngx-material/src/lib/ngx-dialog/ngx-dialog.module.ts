@@ -7,14 +7,12 @@ import {DialogOutletDirective} from './directives/dialog-outlet.directive';
 import {RenderDialogComponent} from './components/render-dialog/render-dialog.component';
 import {NgxRenderingModule, TruthyPipe} from "@consensus-labs/ngx-tools";
 import {DialogContentTemplateDirective} from "./directives/dialog-content-template.directive";
-import {TemplateDialogDirective} from "./directives/template-dialog.directive";
 import {DialogFooterTemplateDirective} from "./directives/dialog-footer-template.directive";
 
 
 @NgModule({
   declarations: [
     DialogComponent,
-    TemplateDialogDirective,
     DialogFooterDirective,
     DialogOutletDirective,
     RenderDialogComponent,
@@ -23,7 +21,6 @@ import {DialogFooterTemplateDirective} from "./directives/dialog-footer-template
   ],
   exports: [
     DialogComponent,
-    TemplateDialogDirective,
     DialogFooterDirective,
     DialogContentTemplateDirective,
     DialogOutletDirective,
@@ -33,7 +30,7 @@ import {DialogFooterTemplateDirective} from "./directives/dialog-footer-template
     CommonModule,
     MatLegacyButtonModule,
     TruthyPipe,
-    NgxRenderingModule
+    NgxRenderingModule,
   ]
 })
 export class NgxDialogModule { }

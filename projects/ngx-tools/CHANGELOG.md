@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.11
+
+### Patch Changes
+
+- Fix deferred template rendering
+
 ## 15.0.10
 
 ### Patch Changes
