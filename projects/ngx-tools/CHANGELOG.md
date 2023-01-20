@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.12
+
+### Patch Changes
+
+- Improve icon styling
+
 ## 15.0.11
 
 ### Patch Changes

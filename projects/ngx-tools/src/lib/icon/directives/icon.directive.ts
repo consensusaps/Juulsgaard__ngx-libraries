@@ -6,7 +6,8 @@ import {BaseIconAliases} from "../models/icon-aliases";
 
 @Directive({
   selector: 'ngx-icon',
-  standalone: true
+  standalone: true,
+  host: {'[class.ngx-icon]': 'true'}
 })
 export class IconDirective implements OnChanges {
 
