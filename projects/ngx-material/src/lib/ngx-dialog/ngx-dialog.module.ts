@@ -6,8 +6,9 @@ import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {DialogOutletDirective} from './directives/dialog-outlet.directive';
 import {RenderDialogComponent} from './components/render-dialog/render-dialog.component';
 import {NgxRenderingModule, TruthyPipe} from "@consensus-labs/ngx-tools";
-import {DialogContentDirective} from "./directives/dialog-content.directive";
+import {DialogContentTemplateDirective} from "./directives/dialog-content-template.directive";
 import {TemplateDialogDirective} from "./directives/template-dialog.directive";
+import {DialogFooterTemplateDirective} from "./directives/dialog-footer-template.directive";
 
 
 @NgModule({
@@ -17,14 +18,16 @@ import {TemplateDialogDirective} from "./directives/template-dialog.directive";
     DialogFooterDirective,
     DialogOutletDirective,
     RenderDialogComponent,
-    DialogContentDirective
+    DialogContentTemplateDirective,
+    DialogFooterTemplateDirective,
   ],
   exports: [
     DialogComponent,
     TemplateDialogDirective,
     DialogFooterDirective,
-    DialogContentDirective,
-    DialogOutletDirective
+    DialogContentTemplateDirective,
+    DialogOutletDirective,
+    DialogFooterTemplateDirective,
   ],
   imports: [
     CommonModule,

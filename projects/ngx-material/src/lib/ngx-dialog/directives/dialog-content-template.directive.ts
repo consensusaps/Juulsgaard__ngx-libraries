@@ -1,7 +1,7 @@
 import {Directive, TemplateRef} from '@angular/core';
 
-@Directive({selector: '[dialogContent]'})
-export class DialogContentDirective {
+@Directive({selector: '[dialog-content-tmpl]'})
+export class DialogContentTemplateDirective {
 
   constructor(public template: TemplateRef<void>) {
   }

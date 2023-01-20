@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 15.1.5
+
+### Patch Changes
+
+- Split out footer directives
+
 ## 15.1.4
 
 ### Patch Changes
