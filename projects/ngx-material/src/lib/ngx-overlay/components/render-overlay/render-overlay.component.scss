@@ -62,9 +62,10 @@
 }
 
 .close {
-  position: absolute;
-  --size: 32px;
   --padding: 4px;
+
+  position: absolute;
+  font-size: 32px;
   top: 5px;
   right: 5px;
   border-radius: 4px;

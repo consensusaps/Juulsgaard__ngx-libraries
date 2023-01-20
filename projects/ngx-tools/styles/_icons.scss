@@ -1,15 +1,14 @@
 
 ngx-icon {
   --padding: 0;
-  --size: 24px;
   --scale: 1;
 
   display: inline-block;
-  height: calc(var(--size) + 2 * var(--padding));
-  width: calc(var(--size) + 2 * var(--padding));
-  line-height: var(--size);
+  height: calc(1em + 2 * var(--padding));
+  width: calc(1em + 2 * var(--padding));
+  line-height: 1em;
   text-align: center;
-  font-size: calc(var(--size) * var(--scale));
+  font-size: calc(1em * var(--scale));
   padding: var(--padding);
 
   &.empty {
@@ -17,7 +16,6 @@ ngx-icon {
   }
 
   &.inline {
-    --size: 1em;
     line-height: inherit;
   }
 }
