@@ -1,28 +1,53 @@
-import {Injectable} from "@angular/core";
+import {Injectable, Injector, ViewContainerRef} from "@angular/core";
 import {Scheduler} from "@consensus-labs/rxjs-tools";
-import {distinctUntilChanged} from "rxjs";
-import {DialogContext, StaticDialogContext, TemplateDialogContext} from "../models/dialog-context.models";
+import {Observable} from "rxjs";
+import {DialogInstance} from "../models/dialog-context";
+import {AnyTemplate, OverlayService} from "@consensus-labs/ngx-tools";
+import {TemplateDialogInstance, TemplateDialogOptions} from "../models/template-dialog-context";
+import {StaticDialogInstance, StaticDialogOptions} from "../models/static-dialog-context";
 
 @Injectable({providedIn: 'root'})
 export class DialogManagerService {
 
-  scheduler$ = new Scheduler<DialogContext>();
+  scheduler = new Scheduler<DialogInstance>();
 
-  dialog$ = this.scheduler$.front$.pipe(distinctUntilChanged());
+  dialog$ = this.scheduler.frontChanges$;
 
-  constructor() {
+  constructor(private overlayService: OverlayService) {
 
   }
 
-  createStaticDialog(dialog: StaticDialogContext) {
-    this.scheduler$.push(dialog);
+  createDialog(
+    viewContainer: ViewContainerRef,
+    contentTemplate: Observable<AnyTemplate>|AnyTemplate,
+    footerTemplate: Observable<AnyTemplate|undefined>|AnyTemplate|undefined,
+    options: TemplateDialogOptions,
+  ): TemplateDialogInstance {
+    const token = this.overlayService.pushOverlay();
+    const instance = new TemplateDialogInstance(
+      viewContainer,
+      token,
+      options,
+      contentTemplate,
+      footerTemplate,
+    );
+    this.scheduler.push(instance);
+    return instance;
   }
 
-  createDialog(dialog: TemplateDialogContext) {
-    this.scheduler$.push(dialog);
+  closeDialog(instance: DialogInstance) {
+    instance.dispose();
+    this.scheduler.removeItem(instance);
   }
 
-  closeDialog(context: DialogContext) {
-    this.scheduler$.removeItem(context);
+  createStaticDialog(options: StaticDialogOptions, injector?: Injector) {
+    const token = this.overlayService.pushOverlay();
+    const instance = new StaticDialogInstance(
+      token,
+      options,
+      injector,
+    );
+    this.scheduler.push(instance);
+    return instance;
   }
 }

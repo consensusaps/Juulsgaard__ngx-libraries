@@ -1,7 +1,7 @@
-import {Injectable, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Injectable, ViewContainerRef} from '@angular/core';
 import {Scheduler} from "@consensus-labs/rxjs-tools";
 import {OverlayInstance, OverlayOptions} from "../models/overlay-context.models";
-import {OverlayService} from "@consensus-labs/ngx-tools";
+import {AnyTemplate, OverlayService} from "@consensus-labs/ngx-tools";
 
 @Injectable({providedIn: 'root'})
 export class OverlayManagerService {
@@ -15,7 +15,7 @@ export class OverlayManagerService {
 
   createOverlay(
     viewContainer: ViewContainerRef,
-    contentTemplate: TemplateRef<any>,
+    contentTemplate: AnyTemplate,
     options: OverlayOptions
   ): OverlayInstance {
     const token = this.overlayService.pushOverlay();

@@ -1,18 +1,19 @@
-import {EmbeddedViewRef, Injector, TemplateRef, ViewContainerRef} from "@angular/core";
+import {EmbeddedViewRef, Injector, ViewContainerRef} from "@angular/core";
+import {AnyTemplate, coalesceTemplate, DataTemplate} from "./data-template";
 
 interface Rendering {
   nodes: Node[];
   anchor: Element;
 }
 
-export abstract class TemplateRendering {
+export abstract class TemplateRendering<T = any> {
 
-  private view?: EmbeddedViewRef<void>;
+  private view?: EmbeddedViewRef<T>;
   private rendering?: Rendering;
 
-  protected abstract render(injector?: Injector): EmbeddedViewRef<void>;
+  protected abstract render(injector?: Injector): EmbeddedViewRef<T>;
 
-  private getView(injector: Injector | undefined): EmbeddedViewRef<void> {
+  private getView(injector: Injector | undefined): EmbeddedViewRef<T> {
     if (this.view) return this.view;
     this.view = this.render(injector);
     this.view.onDestroy(() => this.reset());
@@ -75,21 +76,20 @@ export abstract class TemplateRendering {
   }
 }
 
-export class SimpleTemplateRendering extends TemplateRendering {
+export class SimpleTemplateRendering<T = any> extends TemplateRendering<T> {
+
+  protected template: DataTemplate<T>;
 
   constructor(
     protected viewContainer: ViewContainerRef,
-    protected template: TemplateRef<void>
+    template: AnyTemplate<T>
   ) {
     super();
+    this.template = coalesceTemplate(template)
   }
 
-  protected render(injector?: Injector): EmbeddedViewRef<void> {
-    return this.viewContainer.createEmbeddedView(
-      this.template,
-      undefined,
-      {injector: injector}
-    );
+  protected render(injector?: Injector): EmbeddedViewRef<T> {
+    return this.template.render(this.viewContainer, injector);
   }
 
 }

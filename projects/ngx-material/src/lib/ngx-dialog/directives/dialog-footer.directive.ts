@@ -1,7 +1,8 @@
-import {Directive} from '@angular/core';
+import {Directive, Optional, TemplateRef} from '@angular/core';
 
 @Directive({selector: '[dialogFooter]'})
 export class DialogFooterDirective {
-  constructor() {
+
+  constructor(@Optional() public template: TemplateRef<void>) {
   }
 }

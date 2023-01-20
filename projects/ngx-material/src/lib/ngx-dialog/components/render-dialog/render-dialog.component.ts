@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Inject, Injector, TemplateRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Inject} from '@angular/core';
 import {Observable, of} from "rxjs";
-import {DialogContext, StaticDialogButton} from "../../models/dialog-context.models";
-import {DIALOG_CONTEXT, DIALOG_Z_INDEX} from "../../models/dialog-tokens.models";
-import {overlayAnimation} from '@consensus-labs/ngx-tools'
+import {DialogContext} from "../../models/dialog-context";
+import {DIALOG_ANIMATE_IN, DIALOG_CONTEXT} from "../../models/dialog-tokens";
+import {overlayAnimation, TemplateRendering} from '@consensus-labs/ngx-tools'
+import {StaticDialogButton, StaticDialogContext} from "../../models/static-dialog-context";
 
 @Component({
   templateUrl: './render-dialog.component.html',
@@ -11,17 +12,15 @@ import {overlayAnimation} from '@consensus-labs/ngx-tools'
   animations: [
     overlayAnimation(),
   ],
-  host: {'[@overlay]': 'true'}
+  host: {'[@overlay]': 'animate'}
 })
 export class RenderDialogComponent {
-
-  onClose?: () => any;
 
   header$: Observable<string>;
   scrollable$: Observable<boolean>;
 
-  contentTemplate$?: Observable<TemplateRef<void>>;
-  footerTemplate$?: Observable<TemplateRef<void>|undefined>;
+  contentTemplate$?: Observable<TemplateRendering>;
+  footerTemplate$?: Observable<TemplateRendering|undefined>;
 
   htmlDescription?: string;
   plainDescription?: string;
@@ -29,15 +28,13 @@ export class RenderDialogComponent {
 
   constructor(
     element: ElementRef<HTMLElement>,
-    @Inject(DIALOG_CONTEXT) context: DialogContext,
-    @Inject(DIALOG_Z_INDEX) zIndex: number|undefined,
-    public injector: Injector
+    @Inject(DIALOG_CONTEXT) private context: DialogContext,
+    @Inject(DIALOG_ANIMATE_IN) public animate: boolean
   ) {
 
-    element.nativeElement.style.zIndex = zIndex?.toFixed(0) ?? '';
-    this.onClose = context.onClose;
+    element.nativeElement.style.zIndex = context.zIndex?.toFixed(0) ?? '';
 
-    if ('buttons' in context) {
+    if (context instanceof StaticDialogContext) {
       this.header$ = of(context.header);
       this.scrollable$ = of(context.withScroll);
       this.plainDescription = context.isHtml ? undefined : context.description;
@@ -50,6 +47,10 @@ export class RenderDialogComponent {
     this.scrollable$ = context.withScroll$;
     this.contentTemplate$ = context.content$;
     this.footerTemplate$ = context.footer$;
+  }
+
+  onClose() {
+    this.context.close();
   }
 
 }

@@ -3,8 +3,8 @@ import {RenderDialogComponent} from "../components/render-dialog/render-dialog.c
 import {Subscription} from "rxjs";
 import {OverlayService} from "@consensus-labs/ngx-tools";
 import {DialogManagerService} from "../services/dialog-manager.service";
-import {DialogContext} from "../models/dialog-context.models";
-import {DIALOG_CONTEXT, DIALOG_Z_INDEX} from "../models/dialog-tokens.models";
+import {DialogInstance} from "../models/dialog-context";
+import {DIALOG_ANIMATE_IN, DIALOG_CONTEXT} from "../models/dialog-tokens";
 
 @Directive({
   selector: 'ngx-dialog-outlet'
@@ -12,7 +12,7 @@ import {DIALOG_CONTEXT, DIALOG_Z_INDEX} from "../models/dialog-tokens.models";
 export class DialogOutletDirective implements OnDestroy, OnInit {
 
   private sub?: Subscription;
-  private dialog?: ComponentRef<RenderDialogComponent>;
+  private component?: ComponentRef<RenderDialogComponent>;
 
   constructor(
     private viewContainer: ViewContainerRef,
@@ -24,33 +24,32 @@ export class DialogOutletDirective implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.sub = this.manager.dialog$.subscribe(dialog => this.renderDialog(dialog));
+    this.sub = this.manager.dialog$.subscribe(({item, added}) => this.renderDialog(item, added));
   }
 
-  renderDialog(context: DialogContext | undefined) {
+  renderDialog(instance: DialogInstance | undefined, added: boolean) {
 
-    this.dialog?.destroy();
+    if (this.component) {
+      this.component.instance.animate = !instance || !added;
+      this.component.changeDetectorRef.detectChanges();
+      this.component.destroy();
+    }
 
-    if (!context) return;
-
-    const overlayToken = this.overlayService.pushOverlay();
-    overlayToken.handleEscape(() => context.onClose?.());
+    if (!instance) return;
 
     const injector = Injector.create({
-      parent: context.injector ?? this.viewContainer.injector,
+      parent: instance.injector ?? this.viewContainer.injector,
       providers: [
-        {provide: DIALOG_CONTEXT, useValue: context},
-        {provide: DIALOG_Z_INDEX, useValue: overlayToken.zIndex},
+        {provide: DIALOG_CONTEXT, useValue: instance},
+        {provide: DIALOG_ANIMATE_IN, useValue: added},
       ],
       name: 'Dialog Injector'
     });
 
-    this.dialog = this.viewContainer.createComponent<RenderDialogComponent>(
+    this.component = this.viewContainer.createComponent<RenderDialogComponent>(
       RenderDialogComponent,
       {injector: injector}
     );
-
-    this.dialog.onDestroy(() => overlayToken.dispose())
 
     this.changes.detectChanges();
   }

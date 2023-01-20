@@ -1,6 +1,6 @@
-import {TemplateRef, ViewContainerRef} from "@angular/core";
+import {ViewContainerRef} from "@angular/core";
 import {Observable} from "rxjs";
-import {OverlayToken, SimpleTemplateRendering, TemplateRendering} from "@consensus-labs/ngx-tools";
+import {AnyTemplate, OverlayToken, SimpleTemplateRendering, TemplateRendering} from "@consensus-labs/ngx-tools";
 
 
 export interface OverlayOptions {
@@ -36,7 +36,7 @@ export class OverlayInstance extends OverlayContext {
 
   constructor(
     private viewContainer: ViewContainerRef,
-    private template: TemplateRef<void>,
+    private template: AnyTemplate,
     private token: OverlayToken,
     options: OverlayOptions
   ) {

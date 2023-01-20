@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ThemePalette} from "@angular/material/core";
 import {DialogManagerService} from "./dialog-manager.service";
-import {StaticDialogContext} from "../models/dialog-context.models";
+import {StaticDialogInstance, StaticDialogOptions} from "../models/static-dialog-context";
 
 interface PopupOptions {
   closeOnBackground?: boolean,
@@ -30,18 +30,19 @@ export class DialogService {
   ): Promise<boolean> {
     return new Promise<boolean>(resolve => {
 
-      const context: StaticDialogContext = {
+      let instance: StaticDialogInstance;
+
+      const data: StaticDialogOptions = {
         header: title,
         description: content,
         isHtml: options?.HtmlContent ?? false,
         withScroll: options?.scrollable ?? false,
-        onClose: options?.closeOnBackground ? () => this.manager.closeDialog(context) : undefined,
         buttons: buttons.map(btn => (
           {
             text: btn.text,
             color: btn.color,
             callback: () => {
-              this.manager.closeDialog(context);
+              this.manager.closeDialog(instance);
               btn.callback?.();
               resolve(btn.success ?? false);
             }
@@ -49,8 +50,10 @@ export class DialogService {
         ))
       };
 
-      this.manager.createStaticDialog(context);
-
+      instance = this.manager.createStaticDialog(data);
+      if (options?.closeOnBackground) {
+        instance.onClose(() => this.manager.closeDialog(instance));
+      }
     });
   }
 

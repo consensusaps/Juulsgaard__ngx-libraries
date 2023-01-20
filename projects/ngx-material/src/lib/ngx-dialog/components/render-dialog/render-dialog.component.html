@@ -11,7 +11,7 @@
     <div class="popup-content" *ngIf="htmlDescription" [innerHTML]="htmlDescription"></div>
 
     <div class="popup-content" *ngIf="contentTemplate$ | async as template">
-        <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletInjector]="injector"></ng-template>
+        <ngx-render [template]="template"></ngx-render>
     </div>
 
     <div class="footer" *ngIf="buttons">
@@ -21,6 +21,6 @@
     </div>
 
     <div class="footer" *ngIf="footerTemplate$ | async as template">
-        <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletInjector]="injector"></ng-template>
+        <ngx-render [template]="template"></ngx-render>
     </div>
 </div>
