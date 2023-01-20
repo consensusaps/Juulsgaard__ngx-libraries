@@ -1,35 +1,23 @@
-import {Directive, forwardRef, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from "@angular/core";
+import {Directive, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef} from "@angular/core";
 import {ControlContainer} from "@angular/forms";
-import {BehaviorSubject, combineLatest, ReplaySubject, Subscription} from "rxjs";
-import {AnyControlFormList, ControlFormLayer, ControlFormList, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
+import {Subscription} from "rxjs";
+import {ControlFormLayer, ControlFormList, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
   selector: '[formList][formListIn]',
-  providers: [{
-    provide: ControlContainer,
-    useExisting: forwardRef(() => FormListDirective)
-  }]
+  providers: [
+    {
+      provide: ControlContainer,
+      useExisting: FormListDirective
+    }
+  ]
 })
-export class FormListDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnInit, OnDestroy {
+export class FormListDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
 
-  list?: ControlFormList<TControls>;
-  context$ = new ReplaySubject<FormListDirectiveContext<TControls>[]>(1);
-  controlSub?: Subscription;
-  @Input() set formListIn(list: AnyControlFormList<TControls>) {
-    this.list = list;
-    this.controlSub?.unsubscribe();
-    this.controlSub = list.controls$.subscribe(
-      controls => this.context$.next(controls.map(x => new FormListDirectiveContext(x)))
-    );
-  }
+  @Input('formListIn') list?: ControlFormList<TControls>;
+  @Input('formListWhen') show?: boolean;
 
-  visible$ = new BehaviorSubject(true);
-  @Input() set formListWhen(show: boolean) {
-    this.visible$.next(show);
-  }
-
-  isRendered = false;
-  sub?: Subscription;
+  listSub?: Subscription;
 
   constructor(
     private templateRef: TemplateRef<FormListDirectiveContext<TControls>>,
@@ -38,21 +26,37 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
     super();
   }
 
-  ngOnInit() {
-    this.sub = combineLatest([this.context$, this.visible$]).subscribe(([context, visible]) => {
-      if (this.isRendered) this.viewContainer.clear();
-      if (!visible) return;
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes['list'] && !changes['show']) return;
 
-      for (let c of context) {
-        this.viewContainer.createEmbeddedView(this.templateRef, c);
+    if (this.listSub) {
+      this.listSub.unsubscribe();
+      this.viewContainer.clear();
+    }
+
+    if (this.show === false) return;
+    if (!this.list) return;
+
+    this.listSub = this.list.controls$.subscribe(controls => {
+      for (let control of controls) {
+        this.renderControl(control, controls);
       }
-
-      this.isRendered = true;
     });
   }
 
   ngOnDestroy() {
-    this.sub?.unsubscribe();
+    this.listSub?.unsubscribe();
+    this.viewContainer.clear();
+  }
+
+  private renderControl(layer: ControlFormLayer<TControls>, controls: ControlFormLayer<TControls>[]) {
+    const context = new FormListDirectiveContext(layer, controls);
+    const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
+    const sub = layer.controls$.subscribe(controls => {
+      context.$implicit = controls;
+      view?.detectChanges();
+    });
+    view.onDestroy(() => sub.unsubscribe());
   }
 
   get control() {
@@ -63,8 +67,10 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
 class FormListDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
 
   $implicit: TControls;
+  formListIn: TControls[];
 
-  constructor(list: ControlFormLayer<TControls>) {
+  constructor(list: ControlFormLayer<TControls>, controls: ControlFormLayer<TControls>[]) {
     this.$implicit = list.controls;
+    this.formListIn = controls.map(x => x.controls);
   }
 }

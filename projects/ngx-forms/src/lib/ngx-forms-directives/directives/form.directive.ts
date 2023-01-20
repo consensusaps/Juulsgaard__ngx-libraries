@@ -1,31 +1,22 @@
-import {Directive, forwardRef, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {
+  Directive, EmbeddedViewRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef
+} from '@angular/core';
 import {ControlContainer} from "@angular/forms";
-import {BehaviorSubject, combineLatest, ReplaySubject, Subscription} from "rxjs";
 import {AnyControlFormRoot, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
-  selector: '[form][formFrom]',
+  selector: '[form]',
   providers: [{
     provide: ControlContainer,
-    useExisting: forwardRef(() => FormDirective)
+    useExisting: FormDirective
   }]
 })
-export class FormDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnInit, OnDestroy {
+export class FormDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
 
-  form?: AnyControlFormRoot<TControls>;
-  context$ = new ReplaySubject<FormDirectiveContext<TControls>>(1);
-  @Input() set formFrom(form: AnyControlFormRoot<TControls>) {
-    this.form = form;
-    this.context$.next(new FormDirectiveContext(form));
-  };
+  @Input() form?: AnyControlFormRoot<TControls>;
+  @Input('formWhen') show?: boolean;
 
-  visible$ = new BehaviorSubject(true);
-  @Input() set formWhen(show: boolean) {
-    this.visible$.next(show);
-  }
-
-  isRendered = false;
-  sub?: Subscription;
+  view?: EmbeddedViewRef<FormDirectiveContext<TControls>>
 
   constructor(
     private templateRef: TemplateRef<FormDirectiveContext<TControls>>,
@@ -34,18 +25,27 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
     super();
   }
 
-  ngOnInit() {
-    this.sub = combineLatest([this.context$, this.visible$]).subscribe(([context, visible]) => {
-      if (this.isRendered) this.viewContainer.clear();
-      if (!visible) return;
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes['form'] && !changes['show']) return;
 
-      this.viewContainer.createEmbeddedView(this.templateRef, context);
-      this.isRendered = true;
+    this.view?.destroy();
+
+    if (this.show === false) return;
+    if (!this.form) return;
+
+    const context = new FormDirectiveContext(this.form);
+    const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
+    const sub = this.form.controls$.subscribe(controls => {
+      context.form = controls;
+      view?.detectChanges();
     });
+    view.onDestroy(() => sub.unsubscribe());
+
+    this.view = view;
   }
 
   ngOnDestroy() {
-    this.sub?.unsubscribe();
+    this.view?.destroy();
   }
 
   get control() {
@@ -55,9 +55,9 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
 
 class FormDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
 
-  $implicit: TControls;
+  form: TControls;
 
   constructor(form: AnyControlFormRoot<TControls>) {
-    this.$implicit = form.controls;
+    this.form = form.controls;
   }
 }

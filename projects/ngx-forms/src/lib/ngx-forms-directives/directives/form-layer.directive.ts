@@ -1,31 +1,22 @@
-import {Directive, forwardRef, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {
+  Directive, EmbeddedViewRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef
+} from '@angular/core';
 import {ControlContainer} from "@angular/forms";
-import {BehaviorSubject, combineLatest, ReplaySubject, Subscription} from "rxjs";
 import {AnyControlFormLayer, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
-  selector: '[formLayer][formLayerFrom]',
+  selector: '[formLayer]',
   providers: [{
     provide: ControlContainer,
-    useExisting: forwardRef(() => FormLayerDirective)
+    useExisting: FormLayerDirective
   }]
 })
-export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnInit, OnDestroy {
+export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
 
-  layer?: AnyControlFormLayer<TControls>;
-  context$ = new ReplaySubject<FormLayerDirectiveContext<TControls>>(1);
-  @Input() set formLayerFrom(layer: AnyControlFormLayer<TControls>) {
-    this.layer = layer;
-    this.context$.next(new FormLayerDirectiveContext(layer));
-  }
+  @Input('formLayer') layer?: AnyControlFormLayer<TControls>;
+  @Input('formLayerWhen') show?: boolean;
 
-  visible$ = new BehaviorSubject(true);
-  @Input() set formLayerWhen(show: boolean) {
-    this.visible$.next(show);
-  }
-
-  isRendered = false;
-  sub?: Subscription;
+  view?: EmbeddedViewRef<FormLayerDirectiveContext<TControls>>;
 
   constructor(
     private templateRef: TemplateRef<FormLayerDirectiveContext<TControls>>,
@@ -34,18 +25,27 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
     super();
   }
 
-  ngOnInit() {
-    this.sub = combineLatest([this.context$, this.visible$]).subscribe(([context, visible]) => {
-      if (this.isRendered) this.viewContainer.clear();
-      if (!visible) return;
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes['layer'] && !changes['show']) return;
 
-      this.viewContainer.createEmbeddedView(this.templateRef, context);
-      this.isRendered = true;
+    this.view?.destroy();
+
+    if (this.show === false) return;
+    if (!this.layer) return;
+
+    const context = new FormLayerDirectiveContext(this.layer);
+    const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
+    const sub = this.layer.controls$.subscribe(controls => {
+      context.formLayer = controls;
+      view?.detectChanges();
     });
+    view.onDestroy(() => sub.unsubscribe());
+
+    this.view = view;
   }
 
   ngOnDestroy() {
-    this.sub?.unsubscribe();
+    this.view?.destroy();
   }
 
   get control() {
@@ -55,9 +55,9 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
 
 class FormLayerDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
 
-  $implicit: TControls;
+  formLayer: TControls;
 
   constructor(form: AnyControlFormLayer<TControls>) {
-    this.$implicit = form.controls as TControls;
+    this.formLayer = form.controls;
   }
 }
