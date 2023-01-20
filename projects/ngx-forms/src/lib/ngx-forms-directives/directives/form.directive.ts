@@ -5,7 +5,7 @@ import {ControlContainer} from "@angular/forms";
 import {AnyControlFormRoot, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
-  selector: '[form]',
+  selector: '[ngxForm]',
   providers: [{
     provide: ControlContainer,
     useExisting: FormDirective
@@ -14,7 +14,7 @@ import {AnyControlFormRoot, SmartFormUnion} from "@consensus-labs/ngx-forms-core
 export class FormDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
 
   @Input() form?: AnyControlFormRoot<TControls>;
-  @Input('formWhen') show?: boolean;
+  @Input('ngxFormWhen') show?: boolean;
 
   view?: EmbeddedViewRef<FormDirectiveContext<TControls>>
 
@@ -36,7 +36,7 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
     const context = new FormDirectiveContext(this.form);
     const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
     const sub = this.form.controls$.subscribe(controls => {
-      context.form = controls;
+      context.ngxForm = controls;
       view?.detectChanges();
     });
     view.onDestroy(() => sub.unsubscribe());
@@ -55,9 +55,9 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
 
 class FormDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
 
-  form: TControls;
+  ngxForm: TControls;
 
   constructor(form: AnyControlFormRoot<TControls>) {
-    this.form = form.controls;
+    this.ngxForm = form.controls;
   }
 }

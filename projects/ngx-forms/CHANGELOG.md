@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.3.0
+
+### Minor Changes
+
+- Change form builder syntax
+
 ## 15.2.1
 
 ### Patch Changes

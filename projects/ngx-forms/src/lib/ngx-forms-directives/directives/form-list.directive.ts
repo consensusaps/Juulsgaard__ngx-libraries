@@ -4,7 +4,7 @@ import {Subscription} from "rxjs";
 import {ControlFormLayer, ControlFormList, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
-  selector: '[formList][formListIn]',
+  selector: '[ngxFormList][ngxFormListIn]',
   providers: [
     {
       provide: ControlContainer,
@@ -14,8 +14,8 @@ import {ControlFormLayer, ControlFormList, SmartFormUnion} from "@consensus-labs
 })
 export class FormListDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
 
-  @Input('formListIn') list?: ControlFormList<TControls>;
-  @Input('formListWhen') show?: boolean;
+  @Input('ngxFormListIn') list?: ControlFormList<TControls>;
+  @Input('ngxFormListWhen') show?: boolean;
 
   listSub?: Subscription;
 
@@ -67,10 +67,10 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
 class FormListDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
 
   $implicit: TControls;
-  formListIn: TControls[];
+  ngxFormListIn: TControls[];
 
   constructor(list: ControlFormLayer<TControls>, controls: ControlFormLayer<TControls>[]) {
     this.$implicit = list.controls;
-    this.formListIn = controls.map(x => x.controls);
+    this.ngxFormListIn = controls.map(x => x.controls);
   }
 }

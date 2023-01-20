@@ -5,7 +5,7 @@ import {ControlContainer} from "@angular/forms";
 import {AnyControlFormLayer, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
-  selector: '[formLayer]',
+  selector: '[ngxFormLayer]',
   providers: [{
     provide: ControlContainer,
     useExisting: FormLayerDirective
@@ -13,8 +13,8 @@ import {AnyControlFormLayer, SmartFormUnion} from "@consensus-labs/ngx-forms-cor
 })
 export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
 
-  @Input('formLayer') layer?: AnyControlFormLayer<TControls>;
-  @Input('formLayerWhen') show?: boolean;
+  @Input('ngxFormLayer') layer?: AnyControlFormLayer<TControls>;
+  @Input('ngxFormLayerWhen') show?: boolean;
 
   view?: EmbeddedViewRef<FormLayerDirectiveContext<TControls>>;
 
@@ -36,7 +36,7 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
     const context = new FormLayerDirectiveContext(this.layer);
     const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
     const sub = this.layer.controls$.subscribe(controls => {
-      context.formLayer = controls;
+      context.ngxFormLayer = controls;
       view?.detectChanges();
     });
     view.onDestroy(() => sub.unsubscribe());
@@ -55,9 +55,9 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
 
 class FormLayerDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
 
-  formLayer: TControls;
+  ngxFormLayer: TControls;
 
   constructor(form: AnyControlFormLayer<TControls>) {
-    this.formLayer = form.controls;
+    this.ngxFormLayer = form.controls;
   }
 }
