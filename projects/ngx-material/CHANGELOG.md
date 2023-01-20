@@ -1,5 +1,15 @@
 # @consensus-labs/ngx-material
 
+## 15.1.4
+
+### Patch Changes
+
+- 4e4c328: Improve overlay and dialog rendering to improve template support
+- Updated dependencies [8cde9bd]
+- Updated dependencies [82c80f8]
+- Updated dependencies [4e4c328]
+  - @consensus-labs/ngx-tools@15.0.10
+
 ## 15.1.3
 
 ### Patch Changes

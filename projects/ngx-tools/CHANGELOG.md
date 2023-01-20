@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-tools
 
+## 15.0.10
+
+### Patch Changes
+
+- 8cde9bd: Update default icon styles
+- 82c80f8: Add decorator tools
+- 4e4c328: Improve overlay and dialog rendering to improve template support
+
 ## 15.0.9
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.2.1
+
+### Patch Changes
+
+- 8cde9bd: Update default icon styles
+- Updated dependencies [8cde9bd]
+- Updated dependencies [9661771]
+- Updated dependencies [82c80f8]
+- Updated dependencies [4e4c328]
+  - @consensus-labs/ngx-tools@15.0.10
+  - @consensus-labs/ngx-forms@15.2.1
+
 ## 15.2.0
 
 ### Minor Changes
