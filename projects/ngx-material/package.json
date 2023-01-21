@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-material",
-  "version": "15.1.6",
+  "version": "15.2.0",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-material"
@@ -11,23 +11,23 @@
     "publish": "cd ../../dist/ngx-material && npm publish"
   },
   "peerDependencies": {
-    "@angular/cdk": "^15.0.1",
-    "@angular/common": "^15.0.2",
-    "@angular/core": "^15.0.2",
-    "@angular/material": "^15.0.1",
-    "@consensus-labs/ngx-tools": "^15.0.12",
-    "@consensus-labs/rxjs-tools": "^1.1.15",
-    "@consensus-labs/ts-tools": "^1.1.1",
-    "typescript": "~4.8.4"
+    "@angular/cdk": "^15.1.1",
+    "@angular/common": "^15.1.1",
+    "@angular/core": "^15.1.1",
+    "@angular/material": "^15.1.1",
+    "@consensus-labs/ngx-tools": "^15.1.0",
+    "@consensus-labs/rxjs-tools": "^1.2.0",
+    "@consensus-labs/ts-tools": "^1.3.1",
+    "typescript": "~4.9.4"
   },
   "devDependencies": {
-    "@angular/cdk": "15.0.1",
-    "@angular/common": "15.0.2",
-    "@angular/core": "15.0.2",
-    "@angular/material": "15.0.1",
-    "@consensus-labs/ngx-tools": "15.0.12",
-    "@consensus-labs/rxjs-tools": "1.1.15",
-    "@consensus-labs/ts-tools": "1.1.1"
+    "@angular/cdk": "15.1.1",
+    "@angular/common": "15.1.1",
+    "@angular/core": "15.1.1",
+    "@angular/material": "15.1.1",
+    "@consensus-labs/ngx-tools": "15.1.0",
+    "@consensus-labs/rxjs-tools": "1.2.0",
+    "@consensus-labs/ts-tools": "1.3.1"
   },
   "dependencies": {
     "tslib": "2.4.1"

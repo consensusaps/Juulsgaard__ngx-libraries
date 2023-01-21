@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.1.0
+
+### Minor Changes
+
+- Update typescript and Angular
+
 ## 15.0.12
 
 ### Patch Changes
