@@ -103,8 +103,8 @@ export class LongTapDirective implements OnDestroy {
   }
 
   getPosition(event: MouseEvent | TouchEvent) {
-    const pos = event instanceof TouchEvent ? event.touches[0] ?? event.changedTouches[0] : event;
-    return {x: pos.clientX + window.scrollX, y: pos.clientY + window.scrollY};
+    const pos = event instanceof TouchEvent ? event.touches[0] ?? event.changedTouches[0]! : event;
+    return {x: pos?.clientX + window.scrollX, y: pos.clientY + window.scrollY};
   }
 
   ngOnDestroy() {

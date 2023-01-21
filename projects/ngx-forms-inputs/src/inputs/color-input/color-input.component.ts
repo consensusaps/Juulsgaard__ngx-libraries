@@ -50,7 +50,7 @@ export class ColorInputComponent extends BaseInputComponent<string | undefined, 
     const alphaMatch = value.match(/^(#[\da-f]{6})[\da-f]{2}$/i);
 
     if (alphaMatch) {
-      return this.noAlpha ? alphaMatch[1].toUpperCase() : alphaMatch[0].toUpperCase();
+      return this.noAlpha ? alphaMatch[1]?.toUpperCase() : alphaMatch[0]?.toUpperCase();
     }
 
     return value;

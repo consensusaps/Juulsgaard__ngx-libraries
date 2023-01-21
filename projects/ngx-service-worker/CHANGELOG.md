@@ -1,5 +1,14 @@
 # @consensus-labs/ngx-service-worker
 
+## 15.2.1
+
+### Patch Changes
+
+- Update typescript config
+- Updated dependencies
+  - @consensus-labs/ngx-material@15.2.1
+  - @consensus-labs/ngx-tools@15.1.1
+
 ## 15.2.0
 
 ### Minor Changes

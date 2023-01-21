@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms
 
+## 15.4.1
+
+### Patch Changes
+
+- Update typescript config
+- Updated dependencies
+  - @consensus-labs/ngx-tools@15.1.1
+
 ## 15.4.0
 
 ### Minor Changes

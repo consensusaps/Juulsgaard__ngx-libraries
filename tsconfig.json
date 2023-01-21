@@ -2,14 +2,23 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
+    "target": "es2022",
+    "module": "es2022",
+    "declaration": false,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
+    "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "stripInternal": true,
+    "useDefineForClassFields": false,
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
@@ -29,18 +38,10 @@
         "dist/ngx-forms-inputs"
       ]
     },
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "es2022",
-    "module": "es2022",
     "lib": [
       "es2020",
       "dom"
     ],
-    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.1.1
+
+### Patch Changes
+
+- Update typescript config
+
 ## 15.1.0
 
 ### Minor Changes

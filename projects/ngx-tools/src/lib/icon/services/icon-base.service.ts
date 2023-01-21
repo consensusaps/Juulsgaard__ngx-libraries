@@ -16,7 +16,7 @@ export abstract class BaseIconService<TAliases extends string> {
 
   protected addAliases<T extends {[key: string]: AliasTranslation}>(aliases: T) {
     for (let alias in aliases) {
-      this.addAlias(alias, aliases[alias]);
+      this.addAlias(alias, aliases[alias]!);
     }
   }
 
