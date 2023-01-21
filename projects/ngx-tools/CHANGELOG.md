@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.1.2
+
+### Patch Changes
+
+- Fix default icon padding
+
 ## 15.1.1
 
 ### Patch Changes
