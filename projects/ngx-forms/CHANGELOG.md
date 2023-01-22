@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.4.2
+
+### Patch Changes
+
+- NgxForm supports form wrapping classes
+
 ## 15.4.1
 
 ### Patch Changes

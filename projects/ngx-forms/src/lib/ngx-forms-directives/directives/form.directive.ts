@@ -2,7 +2,7 @@ import {
   Directive, EmbeddedViewRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
-import {AnyControlFormRoot, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
+import {AnyControlFormRoot, isFormRoot, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
   selector: '[ngxForm]',
@@ -13,7 +13,7 @@ import {AnyControlFormRoot, SmartFormUnion} from "@consensus-labs/ngx-forms-core
 })
 export class FormDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
 
-  @Input('ngxForm') form?: AnyControlFormRoot<TControls>;
+  @Input('ngxForm') form?: AnyControlFormRoot<TControls>|{form: AnyControlFormRoot<TControls>};
   @Input('ngxFormWhen') show?: boolean;
 
   view?: EmbeddedViewRef<FormDirectiveContext<TControls>>
@@ -32,10 +32,11 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
 
     if (this.show === false) return;
     if (!this.form) return;
+    const form = isFormRoot(this.form) ? this.form : this.form.form;
 
-    const context = new FormDirectiveContext(this.form);
+    const context = new FormDirectiveContext(form);
     const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-    const sub = this.form.controls$.subscribe(controls => {
+    const sub = form.controls$.subscribe(controls => {
       context.ngxForm = controls;
       view?.detectChanges();
     });
@@ -49,7 +50,8 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
   }
 
   get control() {
-    return this.form ?? null;
+    if (!this.form) return null;
+    return isFormRoot(this.form) ? this.form : this.form.form;
   }
 }
 
