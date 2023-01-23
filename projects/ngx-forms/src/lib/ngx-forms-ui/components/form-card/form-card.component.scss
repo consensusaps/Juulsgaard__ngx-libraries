@@ -25,15 +25,20 @@ form-card {
     transition: background-color 100ms linear;
     
     .inner-bubble {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 40px;
       min-width: 40px;
-      line-height: 40px;
       border-radius: 20px;
-      text-align: center;
       font-size: 20px;
       font-weight: bold;
       color: $primary;
       border: thin solid $primary;
+
+      &::after {
+        display: inline-block;
+      }
     }
   }
   
