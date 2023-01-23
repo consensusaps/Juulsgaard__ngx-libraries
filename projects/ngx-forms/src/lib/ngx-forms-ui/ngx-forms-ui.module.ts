@@ -6,7 +6,7 @@ import {NgxFormCardTextDirective} from "./directives/form-card-text.directive";
 import {NgxFormCardWarningDirective} from "./directives/form-card-warning.directive";
 import {FormCardComponent} from "./components/form-card/form-card.component";
 import {FormFlowWrapperComponent} from './components/form-flow-wrapper/form-flow-wrapper.component';
-import {IconDirective} from "@consensus-labs/ngx-tools/src/lib/icon";
+import {IconDirective} from "@consensus-labs/ngx-tools";
 
 
 @NgModule({

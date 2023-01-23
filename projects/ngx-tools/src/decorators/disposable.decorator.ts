@@ -1,18 +1,25 @@
 import {DecoratorContext} from "./decorator-context";
+import {Disposable, KeysOfTypeOrNull} from "@consensus-labs/ts-tools";
+import {Unsubscribable} from "rxjs";
 
-export function Disposable(target: any, propertyKey: string): void {
+export function Dispose<T extends object>(
+  target: T,
+  propertyKey: KeysOfTypeOrNull<T, Unsubscribable|Disposable>
+): void {
 
-  const context = new DecoratorContext(target);
+  const context = new DecoratorContext<T>(target);
+
   context.onDestroy(instance => {
-    const prop = instance[propertyKey];
+
+    const prop = instance[propertyKey] as Unsubscribable|Disposable|undefined;
     if (!prop) return;
 
-    if (typeof prop.unsubscribe === 'function') {
+    if ('unsubscribe' in prop && typeof prop.unsubscribe === 'function') {
       prop.unsubscribe();
       return;
     }
 
-    if (typeof prop.dispose === 'function') {
+    if ('dispose' in prop && typeof prop.dispose === 'function') {
       prop.dispose();
       return;
     }

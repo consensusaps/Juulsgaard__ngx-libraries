@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.1.3
+
+### Patch Changes
+
+- Make the Dispose decorator typed
+
 ## 15.1.2
 
 ### Patch Changes
