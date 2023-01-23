@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.4.3
+
+### Patch Changes
+
+- Use new icons for Form Cards
+
 ## 15.4.2
 
 ### Patch Changes
