@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.1.4
+
+### Patch Changes
+
+- Make long tap work with onPush
+
 ## 15.1.3
 
 ### Patch Changes

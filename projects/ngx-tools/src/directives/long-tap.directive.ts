@@ -1,4 +1,4 @@
-import {Directive, EventEmitter, HostListener, Input, NgZone, OnDestroy, Output} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, HostListener, Input, NgZone, OnDestroy, Output} from '@angular/core';
 import {combineLatest, fromEvent, Observable, startWith, Subscription, timer} from "rxjs";
 import {filter, first, map, tap} from "rxjs/operators";
 
@@ -7,8 +7,6 @@ import {filter, first, map, tap} from "rxjs/operators";
   standalone: true,
   host: {
     'class': 'long-tap',
-    '[class.long-tap-active]': 'active',
-    '[class.long-tap-completed]': 'completed',
     '[style.--long-tap-duration]': 'tapDuration + "ms"'
   }
 })
@@ -22,8 +20,6 @@ export class LongTapDirective implements OnDestroy {
   @Output() longTap = new EventEmitter<void>();
 
   eventStartPos?: { x: number, y: number };
-  active = false;
-  completed = false;
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
@@ -51,7 +47,15 @@ export class LongTapDirective implements OnDestroy {
 
   sub?: Subscription;
 
-  constructor(private zone: NgZone) {
+  set active(active: boolean) {
+    this.element.nativeElement.classList.toggle('long-tap-active', active);
+  }
+
+  set completed(completed: boolean) {
+    this.element.nativeElement.classList.toggle('long-tap-completed', completed);
+  }
+
+  constructor(private zone: NgZone, private element: ElementRef<HTMLElement>) {
   }
 
   onStart(move: Observable<MouseEvent | TouchEvent>, end: Observable<MouseEvent | TouchEvent>) {
