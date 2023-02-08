@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.1.6
+
+### Patch Changes
+
+- Fix icon overflow
+
 ## 15.1.5
 
 ### Patch Changes

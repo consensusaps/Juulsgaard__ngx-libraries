@@ -10,6 +10,7 @@ ngx-icon.ngx-icon {
   text-align: center;
   font-size: calc(1em * var(--scale));
   padding: var(--padding);
+  overflow: hidden;
 
   &.empty {
     display: none;
