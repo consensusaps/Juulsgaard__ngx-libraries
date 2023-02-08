@@ -59,6 +59,10 @@ export class TruthyPipe implements PipeTransform, OnDestroy {
 
   private setValue(value: any, obj: Promise<any> | Subscribable<any>) {
     if (obj !== this.obj) return;
+
+    const val = this.parseValue(value);
+    if (val === this.asyncValue) return;
+
     this.asyncValue = this.parseValue(value);
     this.ref.detectChanges();
   }

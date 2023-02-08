@@ -4,6 +4,7 @@
 
 ### Patch Changes
 
+- Have truthy pipes ignore duplicate values
 - Make long tap work with onPush
 
 ## 15.1.3
