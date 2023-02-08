@@ -18,10 +18,7 @@ export class IconDirective implements OnChanges {
   @Input() alias?: string|BaseIconAliases;
 
   @Input() set size(size: number|string|undefined) {
-    this.element.nativeElement.style.setProperty(
-      '--size',
-      size ? (typeof size === 'string' ? size : `${size}px`) : null
-    );
+    this.element.nativeElement.style.fontSize = size != undefined ? (typeof size === 'string' ? size : `${size}px`) : '';
   }
 
   @Input() set padding(padding: number|string|undefined) {

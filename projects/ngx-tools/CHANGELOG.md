@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.1.5
+
+### Patch Changes
+
+- Fix dynamic icon sizing
+
 ## 15.1.4
 
 ### Patch Changes
