@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.4.4
+
+### Patch Changes
+
+- Fix ngxFormList types
+
 ## 15.4.3
 
 ### Patch Changes

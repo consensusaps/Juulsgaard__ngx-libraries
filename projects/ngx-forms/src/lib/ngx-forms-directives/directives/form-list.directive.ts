@@ -1,7 +1,7 @@
 import {Directive, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef} from "@angular/core";
 import {ControlContainer} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {ControlFormLayer, ControlFormList, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
+import {AnyControlFormList, ControlFormLayer, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
 
 @Directive({
   selector: '[ngxFormList][ngxFormListIn]',
@@ -14,7 +14,7 @@ import {ControlFormLayer, ControlFormList, SmartFormUnion} from "@consensus-labs
 })
 export class FormListDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
 
-  @Input('ngxFormListIn') list?: ControlFormList<TControls>;
+  @Input('ngxFormListIn') list?: AnyControlFormList<TControls>;
   @Input('ngxFormListWhen') show?: boolean;
 
   listSub?: Subscription;
