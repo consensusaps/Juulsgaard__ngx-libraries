@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.4.5
+
+### Patch Changes
+
+- Fix error with not using legacy material for BaseInput
+
 ## 15.4.4
 
 ### Patch Changes
