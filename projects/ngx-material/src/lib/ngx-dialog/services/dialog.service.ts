@@ -90,7 +90,7 @@ export class DialogService {
   public delete(
     title: string,
     text: string,
-    options: PopupOptions & { deleteText?: string, cancelText?: string }
+    options?: PopupOptions & { deleteText?: string, cancelText?: string }
   ): Promise<boolean> {
     return this.createDialog(
       title,
