@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 15.2.2
+
+### Patch Changes
+
+- Add classes to Overlay and Dialog
+
 ## 15.2.1
 
 ### Patch Changes

@@ -12,7 +12,7 @@ import {StaticDialogButton, StaticDialogContext} from "../../models/static-dialo
   animations: [
     overlayAnimation(),
   ],
-  host: {'[@overlay]': 'animate'}
+  host: {'[@overlay]': 'animate', '[class.ngx-dialog]': 'true'}
 })
 export class RenderDialogComponent {
 

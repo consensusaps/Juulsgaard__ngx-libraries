@@ -12,7 +12,7 @@ import {OverlayContext} from "../../models/overlay-context.models";
   animations: [
     overlayAnimation(),
   ],
-  host: {'[@overlay]': 'animate'}
+  host: {'[@overlay]': 'animate', '[class.ngx-overlay]': 'true'}
 })
 export class RenderOverlayComponent {
 
