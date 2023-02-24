@@ -38,8 +38,9 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
     if (!this.list) return;
 
     this.listSub = this.list.controls$.subscribe(controls => {
+      let index = 0;
       for (let control of controls) {
-        this.renderControl(control, controls);
+        this.renderControl(control, index++, controls);
       }
     });
   }
@@ -49,8 +50,8 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
     this.viewContainer.clear();
   }
 
-  private renderControl(layer: ControlFormLayer<TControls>, controls: ControlFormLayer<TControls>[]) {
-    const context = new FormListDirectiveContext(layer, controls);
+  private renderControl(layer: ControlFormLayer<TControls>, index: number, controls: ControlFormLayer<TControls>[]) {
+    const context = new FormListDirectiveContext(layer, index, controls);
     const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
     const sub = layer.controls$.subscribe(controls => {
       context.$implicit = controls;
@@ -68,9 +69,13 @@ class FormListDirectiveContext<TControls extends Record<string, SmartFormUnion>>
 
   $implicit: TControls;
   ngxFormListIn: TControls[];
+  index: number;
+  layer: ControlFormLayer<TControls>;
 
-  constructor(list: ControlFormLayer<TControls>, controls: ControlFormLayer<TControls>[]) {
-    this.$implicit = list.controls;
+  constructor(layer: ControlFormLayer<TControls>, index: number, controls: ControlFormLayer<TControls>[]) {
+    this.layer = layer;
+    this.$implicit = layer.controls;
     this.ngxFormListIn = controls.map(x => x.controls);
+    this.index = index;
   }
 }

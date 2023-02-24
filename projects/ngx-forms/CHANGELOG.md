@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.4.6
+
+### Patch Changes
+
+- Add index and layer variables to NgxFormList directive
+
 ## 15.4.5
 
 ### Patch Changes
