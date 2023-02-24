@@ -1,4 +1,6 @@
-import {Directive, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef} from "@angular/core";
+import {
+  Directive, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef, ViewRef
+} from "@angular/core";
 import {ControlContainer} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {AnyControlFormList, ControlFormLayer, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
@@ -18,6 +20,7 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
   @Input('ngxFormListWhen') show?: boolean;
 
   listSub?: Subscription;
+  views = new Map<ControlFormLayer<TControls>, ListItem<TControls>>();
 
   constructor(
     private templateRef: TemplateRef<FormListDirectiveContext<TControls>>,
@@ -29,15 +32,23 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
   ngOnChanges(changes: SimpleChanges) {
     if (!changes['list'] && !changes['show']) return;
 
-    if (this.listSub) {
-      this.listSub.unsubscribe();
+    this.listSub?.unsubscribe();
+
+    if (this.show === false || !this.list) {
       this.viewContainer.clear();
+      this.views.clear();
+      return;
     }
 
-    if (this.show === false) return;
-    if (!this.list) return;
-
     this.listSub = this.list.controls$.subscribe(controls => {
+
+      const newControls = new Set(controls);
+
+      for (let [control, view] of this.views) {
+        if (newControls.has(control)) continue;
+        view.view.destroy();
+      }
+
       let index = 0;
       for (let control of controls) {
         this.renderControl(control, index++, controls);
@@ -52,12 +63,27 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
 
   private renderControl(layer: ControlFormLayer<TControls>, index: number, controls: ControlFormLayer<TControls>[]) {
     const context = new FormListDirectiveContext(layer, index, controls);
-    const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
+
+    let view = this.views.get(layer);
+
+    if (view) {
+      const oldIndex = this.viewContainer.indexOf(view.view);
+      if (oldIndex !== index) this.viewContainer.move(view.view, index);
+      view.context.updateList(index, controls);
+      view.view.detectChanges();
+      return;
+    }
+
+    const viewRef = this.viewContainer.createEmbeddedView(this.templateRef, context, index);
+    view = {view: viewRef, context};
+    this.views.set(layer, view);
+
     const sub = layer.controls$.subscribe(controls => {
-      context.$implicit = controls;
-      view?.detectChanges();
+      context.updateControls(controls);
+      viewRef?.detectChanges();
     });
-    view.onDestroy(() => sub.unsubscribe());
+
+    viewRef.onDestroy(() => sub.unsubscribe());
   }
 
   get control() {
@@ -78,4 +104,18 @@ class FormListDirectiveContext<TControls extends Record<string, SmartFormUnion>>
     this.ngxFormListIn = controls.map(x => x.controls);
     this.index = index;
   }
+
+  updateList(index: number, controls: ControlFormLayer<TControls>[]) {
+    this.ngxFormListIn = controls.map(x => x.controls);
+    this.index = index;
+  }
+
+  updateControls(controls: TControls) {
+    this.$implicit = controls;
+  }
+}
+
+interface ListItem<TControls extends Record<string, SmartFormUnion>> {
+  view: ViewRef;
+  context: FormListDirectiveContext<TControls>;
 }

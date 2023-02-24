@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.4.7
+
+### Patch Changes
+
+- Fix list update handling in FormList directive
+
 ## 15.4.6
 
 ### Patch Changes
