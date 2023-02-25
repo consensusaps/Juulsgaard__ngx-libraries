@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.4.8
+
+### Patch Changes
+
+- Fix input initialisation order
+
 ## 15.4.7
 
 ### Patch Changes

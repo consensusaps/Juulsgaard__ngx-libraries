@@ -86,6 +86,26 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
 
         this.controlSub = new Subscription();
 
+        // Listen to control events
+        this.controlSub.add(control.actions$.subscribe(e => this.handleEvents(e)));
+
+
+        const inputError$ = this.inputError$.pipe(distinctUntilChanged());
+
+        // Map error state from control errors and internal errors
+        this.hasError$ = combineLatest([control.hasError$, inputError$]).pipe(
+          map(([hasError, error]) => hasError || !!error)
+        );
+        this.errorText$ = combineLatest([control.error$, inputError$]).pipe(
+          map(([controlError, inputError]) => inputError ?? controlError)
+        );
+        this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
+
+        // Force input to show errors when one is present
+        this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
+
+        this.loadFormNode(control);
+
         // Map control values to internal state
         this.controlSub.add(control.value$.subscribe(x => {
             if (this.pendingValue) {
@@ -107,28 +127,6 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
             this.control.markAsUntouched();
             this.changes.detectChanges();
         }));
-
-        // Listen to control events
-        this.controlSub.add(control.actions$.subscribe(e => this.handleEvents(e)));
-
-
-        const inputError$ = this.inputError$.pipe(distinctUntilChanged());
-
-        // Map error state from control errors and internal errors
-        this.hasError$ = combineLatest([control.hasError$, inputError$]).pipe(
-          map(([hasError, error]) => hasError || !!error)
-        );
-        this.errorText$ = combineLatest([control.error$, inputError$]).pipe(
-          map(([controlError, inputError]) => inputError ?? controlError)
-        );
-        this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
-
-        // Force input to show errors when one is present
-        this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
-
-        this.loadFormNode(control);
-
-        this.changes.detectChanges();
     }
 
     /** Reset control related values to default */
