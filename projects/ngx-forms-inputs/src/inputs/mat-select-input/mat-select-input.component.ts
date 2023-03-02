@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
 import {ControlContainer, FormsModule} from "@angular/forms";
-import {FormNode, isFormSelectNode} from "@consensus-labs/ngx-forms-core";
+import {FormNode, isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@consensus-labs/ngx-forms-core";
 import {skip} from "rxjs";
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {BaseInputComponent, FormContext} from "@consensus-labs/ngx-forms";
@@ -8,6 +8,7 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacySelectModule} from "@angular/material/legacy-select";
 import {MatIconModule} from "@angular/material/icon";
+import {Selection} from "@consensus-labs/ts-tools";
 
 type ArrOrNullable<T> = T extends any[] ? T : T | undefined;
 
@@ -44,8 +45,8 @@ export class MatSelectInputComponent<TItem, TVal extends any | any[]> extends Ba
     return !this.hideEmpty || this.items.length > 0;
   }
 
-  @Input() bindLabel?: string | ((item: TItem) => string);
-  @Input() bindValue?: string | ((item: TItem) => TVal);
+  @Input() bindLabel?: string | Selection<TItem, string>;
+  @Input() bindValue?: string | Selection<TItem, TVal>;
 
   @Input() multiple = false;
 
@@ -82,10 +83,11 @@ export class MatSelectInputComponent<TItem, TVal extends any | any[]> extends Ba
     )[this.bindValue];
   }
 
-  override loadFormNode(node: FormNode<ArrOrNullable<TVal>>) {
-    super.loadFormNode(node);
+  override loadFormNode(n: FormNode<ArrOrNullable<TVal>>) {
+    super.loadFormNode(n);
 
-    if (!isFormSelectNode(node)) return;
+    if (!isFormSelectNode(n)) return;
+    const node = n as SingleSelectNode<TVal, TItem>|MultiSelectNode<TVal, TItem>;
 
     this.bindLabel = node.bindLabel ?? this.bindLabel;
     this.bindValue = node.bindValue ?? this.bindValue;

@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 15.1.7
+
+### Patch Changes
+
+- Update dependencies
+
 ## 15.1.6
 
 ### Patch Changes

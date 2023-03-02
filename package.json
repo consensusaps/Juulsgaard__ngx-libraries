@@ -25,9 +25,9 @@
     "@angular/forms": "15.1.1",
     "@angular/platform-browser": "15.1.1",
     "@angular/service-worker": "15.1.1",
-    "@consensus-labs/ngx-forms-core": "15.2.1",
-    "@consensus-labs/rxjs-tools": "1.2.1",
-    "@consensus-labs/ts-tools": "1.3.3",
+    "@consensus-labs/ngx-forms-core": "15.2.7",
+    "@consensus-labs/rxjs-tools": "1.2.9",
+    "@consensus-labs/ts-tools": "1.3.7",
     "ngx-color-picker": "13.0.0"
   },
   "devDependencies": {
