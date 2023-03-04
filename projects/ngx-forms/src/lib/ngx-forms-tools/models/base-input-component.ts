@@ -20,7 +20,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     initialised = false;
 
     /** The main input element */
-    @ViewChild('input') inputElement?: ElementRef<HTMLElement>;
+    @ViewChild('input') inputElement?: ElementRef<HTMLElement|HTMLTextAreaElement|HTMLInputElement>;
     /** A list of all NgModels in the input */
     @ViewChildren(NgModel) ngModels!: QueryList<NgModel>;
     /** A material form suffix if one exists */
@@ -286,7 +286,14 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
 
     /** Focus the input */
     focus() {
-        setTimeout(() => this.inputElement?.nativeElement?.focus(), 0);
+        this.inputElement?.nativeElement?.focus();
+    }
+
+    select() {
+        const input = this.inputElement?.nativeElement;
+        if (!input) return;
+        if (!('select' in input)) return;
+        input.select();
     }
 
     /**
@@ -315,7 +322,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
 
     protected afterInit() {
         if (this.autofocus) {
-            this.focus();
+            setTimeout(() => this.focus());
         }
     }
 
@@ -324,6 +331,9 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
         switch (event) {
             case FormNodeEvent.Focus:
                 this.focus();
+                break;
+            case FormNodeEvent.Select:
+                this.select();
                 break;
         }
     }

@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.4.10
+
+### Patch Changes
+
+- Support Select FormNode event
+
 ## 15.4.9
 
 ### Patch Changes
