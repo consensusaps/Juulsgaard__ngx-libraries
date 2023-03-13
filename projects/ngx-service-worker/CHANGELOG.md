@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-service-worker
 
+## 15.2.3
+
+### Patch Changes
+
+- Add back enabled flag to service worker service
+
 ## 15.2.2
 
 ### Patch Changes

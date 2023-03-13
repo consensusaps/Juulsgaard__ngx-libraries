@@ -23,7 +23,7 @@ export class ServiceWorkerService {
   /** True when the Service Worker is not in default state */
   working$: Observable<boolean>;
 
-  constructor(private workerUpdates: SwUpdate, private appRef: ApplicationRef, private zone: NgZone) {
+  constructor(private workerUpdates: SwUpdate, private appRef: ApplicationRef, private zone: NgZone, readonly enabled: boolean) {
 
     this.serviceWorkerReady$ = appRef.isStable.pipe(
       first(x => x),

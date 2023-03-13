@@ -36,7 +36,7 @@ export class NgxServiceWorkerModule {
       providers: [
         {
           provide: ServiceWorkerService,
-          useFactory: (ref: ApplicationRef, update: SwUpdate, zone: NgZone) => new ServiceWorkerService(update, ref, zone),
+          useFactory: (ref: ApplicationRef, update: SwUpdate, zone: NgZone) => new ServiceWorkerService(update, ref, zone, enabled),
           deps: [ApplicationRef, SwUpdate, NgZone]
         }
       ]
