@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-service-worker
 
+## 15.2.2
+
+### Patch Changes
+
+- Move long timeout to run outside zone
+
 ## 15.2.1
 
 ### Patch Changes

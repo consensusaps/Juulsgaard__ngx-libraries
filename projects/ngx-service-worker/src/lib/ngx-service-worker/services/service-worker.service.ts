@@ -1,4 +1,4 @@
-import {ApplicationRef, Injectable} from '@angular/core';
+import {ApplicationRef, NgZone} from '@angular/core';
 import {SwUpdate} from "@angular/service-worker";
 import {BehaviorSubject, combineLatest, firstValueFrom, Observable, startWith} from "rxjs";
 import {filter, first, map, tap} from "rxjs/operators";
@@ -23,7 +23,7 @@ export class ServiceWorkerService {
   /** True when the Service Worker is not in default state */
   working$: Observable<boolean>;
 
-  constructor(private workerUpdates: SwUpdate, private appRef: ApplicationRef, public enabled: boolean) {
+  constructor(private workerUpdates: SwUpdate, private appRef: ApplicationRef, private zone: NgZone) {
 
     this.serviceWorkerReady$ = appRef.isStable.pipe(
       first(x => x),
@@ -58,10 +58,16 @@ export class ServiceWorkerService {
     this.checking$ = combineLatest([this._checkingForUpdate$, this.downloading$])
       .pipe(map(([checking, downloading]) => checking && !downloading));
 
-    this.canCheckForUpdate$ = combineLatest([this.serviceWorkerReady$, this.updateReady$, this.downloading$, this._updateCooldown$, this._checkingForUpdate$])
+    this.canCheckForUpdate$ = combineLatest([
+      this.serviceWorkerReady$,
+      this.updateReady$,
+      this.downloading$,
+      this._updateCooldown$,
+      this._checkingForUpdate$
+    ])
       .pipe(map(([hasServiceWorker, ready, downloading, cooldown, checking]) => hasServiceWorker && !ready && !downloading && !cooldown && !checking));
 
-    this.working$ =  combineLatest([this.updateReady$, this.downloading$, this.checking$])
+    this.working$ = combineLatest([this.updateReady$, this.downloading$, this.checking$])
       .pipe(map(([ready, downloading, checking]) => ready || downloading || checking));
   }
 
@@ -74,7 +80,13 @@ export class ServiceWorkerService {
     if (!await firstValueFrom(this.canCheckForUpdate$)) return;
 
     this._updateCooldown$.next(true);
-    setTimeout(() => this._updateCooldown$.next(false), 60000);
+    this.zone.runOutsideAngular(
+      () => setTimeout(
+        () => this.zone.run(() => this._updateCooldown$.next(false)
+        ),
+        60000
+      )
+    )
 
     this._checkingForUpdate$.next(true);
 

@@ -1,4 +1,4 @@
-import {ApplicationRef, ModuleWithProviders, NgModule} from '@angular/core';
+import {ApplicationRef, ModuleWithProviders, NgModule, NgZone} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SwUpdateButtonComponent} from "./components/sw-update-button/sw-update-button.component";
 import {FalsyPipe, IconDirective, TruthyPipe} from '@consensus-labs/ngx-tools';
@@ -36,8 +36,8 @@ export class NgxServiceWorkerModule {
       providers: [
         {
           provide: ServiceWorkerService,
-          useFactory: (ref: ApplicationRef, update: SwUpdate) => new ServiceWorkerService(update, ref, enabled),
-          deps: [ApplicationRef, SwUpdate]
+          useFactory: (ref: ApplicationRef, update: SwUpdate, zone: NgZone) => new ServiceWorkerService(update, ref, zone),
+          deps: [ApplicationRef, SwUpdate, NgZone]
         }
       ]
     };
