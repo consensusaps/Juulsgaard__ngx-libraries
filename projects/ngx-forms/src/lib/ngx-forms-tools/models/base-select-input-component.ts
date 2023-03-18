@@ -9,7 +9,8 @@ export abstract class BaseSelectInputComponent<TVal, TInputVal, TItem> extends B
 
   private hasExternalItems = false;
 
-  @Input('items') set itemsData(items: TItem[]) {
+  @Input('items') set itemsData(items: TItem[]|null|undefined) {
+    if (!items) return;
     this.hasExternalItems = true;
     this.items = items;
   }

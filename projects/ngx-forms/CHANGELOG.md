@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.5.2
+
+### Patch Changes
+
+- Better support async pipes
+
 ## 15.5.1
 
 ### Patch Changes
