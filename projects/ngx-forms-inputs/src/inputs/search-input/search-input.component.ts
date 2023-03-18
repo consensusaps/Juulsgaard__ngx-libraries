@@ -1,9 +1,6 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Host, HostListener, Input, NgZone, Optional,
-  Output, SkipSelf
-} from '@angular/core';
-import {ControlContainer, FormsModule} from '@angular/forms';
-import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
+import {ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, NgZone, Output} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {fromEvent} from "rxjs";
 import {filter} from "rxjs/operators";
 import {IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
@@ -46,13 +43,8 @@ export class SearchInputComponent extends BaseInputComponent<string|undefined, s
 
   @Output() submit = new EventEmitter<string>();
 
-  constructor(
-    zone: NgZone,
-    changes: ChangeDetectorRef,
-    @Optional() @Host() @SkipSelf() controlContainer?: ControlContainer,
-    @Optional() formScope?: FormContext
-  ) {
-    super(changes, controlContainer, formScope);
+  constructor(zone: NgZone) {
+    super();
 
     // Listen to key input that isn't in an input
     zone.runOutsideAngular(() => {

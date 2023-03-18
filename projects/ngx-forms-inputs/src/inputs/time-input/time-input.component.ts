@@ -1,10 +1,8 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Inject, LOCALE_ID, Optional, SkipSelf
-} from '@angular/core';
-import {ControlContainer, FormsModule} from "@angular/forms";
+import {ChangeDetectionStrategy, Component, Inject, LOCALE_ID} from '@angular/core';
+import {FormsModule} from "@angular/forms";
 import {NgxMatTimepickerComponent, NgxMatTimepickerModule} from "ngx-mat-timepicker";
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
-import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
+import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
@@ -36,12 +34,9 @@ export class TimeInputComponent extends BaseInputComponent<Date|undefined, strin
   timeFormat: 12|24;
 
   constructor(
-    changes: ChangeDetectorRef,
-    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormContext,
     @Inject(LOCALE_ID) public locale: string
   ) {
-    super(changes, controlContainer, formScope);
+    super();
 
     this.timeFormat = new Date(0)
       .toLocaleTimeString(locale, {hour: 'numeric'})

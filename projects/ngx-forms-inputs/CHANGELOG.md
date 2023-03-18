@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.4.3
+
+### Patch Changes
+
+- Standardise select component logic
+- Updated dependencies
+  - @consensus-labs/ngx-forms@15.5.0
+
 ## 15.4.2
 
 ### Patch Changes

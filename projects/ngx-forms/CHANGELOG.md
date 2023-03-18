@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.5.0
+
+### Minor Changes
+
+- Standardise select component logic
+
 ## 15.4.10
 
 ### Patch Changes

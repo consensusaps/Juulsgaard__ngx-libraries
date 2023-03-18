@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Optional, SkipSelf} from '@angular/core';
-import {ControlContainer, FormsModule} from "@angular/forms";
-import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {FormsModule} from "@angular/forms";
+import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
@@ -26,14 +26,6 @@ import {MatIconModule} from "@angular/material/icon";
   providers: []
 })
 export class NumberInputComponent extends BaseInputComponent<number | undefined, number> {
-
-  constructor(
-    changes: ChangeDetectorRef,
-    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormContext
-  ) {
-    super(changes, controlContainer, formScope);
-  }
 
   postprocessValue(value: number | undefined) {
     return value;

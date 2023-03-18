@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
-import {ControlContainer, ReactiveFormsModule} from '@angular/forms';
-import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
@@ -26,14 +26,6 @@ import {MatIconModule} from "@angular/material/icon";
 export class BoolInputComponent extends BaseInputComponent<boolean, boolean> {
 
   @Input() labelPosition: 'before' | 'after' = 'after';
-
-  constructor(
-    changes: ChangeDetectorRef,
-    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormContext
-  ) {
-    super(changes, controlContainer, formScope);
-  }
 
   postprocessValue(value: boolean) {
     return value;

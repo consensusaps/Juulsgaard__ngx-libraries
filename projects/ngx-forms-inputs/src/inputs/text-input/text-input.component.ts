@@ -1,7 +1,7 @@
-import {ControlContainer, FormsModule} from "@angular/forms";
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Optional, SkipSelf} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {ChangeDetectionStrategy, Component} from "@angular/core";
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
-import {BaseInputComponent, FormContext} from "@consensus-labs/ngx-forms";
+import {BaseInputComponent} from "@consensus-labs/ngx-forms";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
 import {MatLegacyInputModule} from "@angular/material/legacy-input";
@@ -25,14 +25,6 @@ import {MatIconModule} from "@angular/material/icon";
   standalone: true
 })
 export class TextInputComponent extends BaseInputComponent<string | undefined, string> {
-
-  constructor(
-    changes: ChangeDetectorRef,
-    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormContext
-  ) {
-    super(changes, controlContainer, formScope);
-  }
 
   postprocessValue(value: string | undefined) {
     return value ? value : undefined;

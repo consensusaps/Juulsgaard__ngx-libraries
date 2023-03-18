@@ -1,6 +1,5 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Input, Optional, SkipSelf} from '@angular/core';
-import {ControlContainer} from "@angular/forms";
-import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {FileDropDirective, FileSizePipe, IconDirective} from "@consensus-labs/ngx-tools";
 import {NgClass, NgIf} from "@angular/common";
 import {MatLegacyButtonModule} from "@angular/material/legacy-button";
@@ -28,14 +27,6 @@ import {MatIconModule} from "@angular/material/icon";
 export class FileInputComponent extends BaseInputComponent<File | undefined, File | undefined> {
 
   @Input() accept = '*';
-
-  constructor(
-    changes: ChangeDetectorRef,
-    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormContext
-  ) {
-    super(changes, controlContainer, formScope);
-  }
 
   preprocessValue(value: File | undefined) {
     return value;

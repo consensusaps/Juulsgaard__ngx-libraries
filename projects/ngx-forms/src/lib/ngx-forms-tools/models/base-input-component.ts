@@ -1,6 +1,6 @@
 import {
-    ChangeDetectorRef, ContentChild, Directive, ElementRef, EventEmitter, Host, HostBinding, Input, OnDestroy, OnInit,
-    Optional, Output, QueryList, SkipSelf, ViewChild, ViewChildren
+    ChangeDetectorRef, ContentChild, Directive, ElementRef, EventEmitter, HostBinding, inject, Input, OnDestroy, OnInit,
+    Output, QueryList, ViewChild, ViewChildren
 } from "@angular/core";
 import {BehaviorSubject, combineLatest, Observable, Subject, Subscribable, Subscription, Unsubscribable} from "rxjs";
 import {ControlContainer, NgModel} from "@angular/forms";
@@ -248,11 +248,11 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     get readonly(): boolean {return this._readonly === undefined ? this._scopeReadonly : this._readonly}
     //</editor-fold>
 
-    protected constructor(
-      protected changes: ChangeDetectorRef,
-      @Optional() @Host() @SkipSelf() private controlContainer?: ControlContainer,
-      @Optional() private formScope?: FormContext
-    ) {
+    protected changes = inject(ChangeDetectorRef);
+    private controlContainer = inject(ControlContainer, {optional: true, host: true, skipSelf: true});
+    private formScope = inject(FormContext, {optional: true});
+
+    protected constructor() {
         this.control = new FormNode(InputTypes.Generic, this.preprocessValue(undefined));
         this.subscriptions.add(this.control.value$.subscribe(x => this.inputValue = x));
 

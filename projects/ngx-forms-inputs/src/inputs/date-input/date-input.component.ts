@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Host, Optional, SkipSelf} from '@angular/core';
-import {ControlContainer, FormsModule} from "@angular/forms";
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {FormsModule} from "@angular/forms";
 import dayjs, {Dayjs} from "dayjs";
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {DayjsDateAdapter, MAT_DAYJS_DATE_FORMATS} from "../../adapters/date-adapter";
-import {BaseInputComponent, FormContext} from '@consensus-labs/ngx-forms';
+import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
@@ -38,14 +38,6 @@ import {MatIconModule} from "@angular/material/icon";
   ]
 })
 export class DateInputComponent extends BaseInputComponent<Date | undefined, Dayjs | undefined> {
-
-  constructor(
-    changes: ChangeDetectorRef,
-    @Optional() @Host() @SkipSelf() controlContainer: ControlContainer,
-    @Optional() formScope: FormContext
-  ) {
-    super(changes, controlContainer, formScope);
-  }
 
   postprocessValue(value?: Dayjs): Date | undefined {
     return value === undefined ? undefined : value.toDate();
