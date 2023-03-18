@@ -39,6 +39,10 @@ import {MatIconModule} from "@angular/material/icon";
 })
 export class DateInputComponent extends BaseInputComponent<Date | undefined, Dayjs | undefined> {
 
+  constructor() {
+    super();
+  }
+
   postprocessValue(value?: Dayjs): Date | undefined {
     return value === undefined ? undefined : value.toDate();
   }

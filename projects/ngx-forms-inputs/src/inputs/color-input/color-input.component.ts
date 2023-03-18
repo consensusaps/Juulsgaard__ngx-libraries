@@ -31,7 +31,9 @@ export class ColorInputComponent extends BaseInputComponent<string | undefined, 
 
   @Input() noAlpha = false;
 
-
+  constructor() {
+    super();
+  }
 
   postprocessValue(value?: string) {
     if (!value) return undefined;

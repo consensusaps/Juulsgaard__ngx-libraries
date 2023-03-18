@@ -34,6 +34,10 @@ export class PasswordInputComponent extends BaseInputComponent<string | undefine
 
   showPassword = false;
 
+  constructor() {
+    super();
+  }
+
   toggleShow(event: MouseEvent) {
     this.showPassword = !this.showPassword;
     this.inputElement?.nativeElement?.focus();

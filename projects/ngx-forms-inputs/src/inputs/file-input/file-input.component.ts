@@ -28,6 +28,10 @@ export class FileInputComponent extends BaseInputComponent<File | undefined, Fil
 
   @Input() accept = '*';
 
+  constructor() {
+    super();
+  }
+
   preprocessValue(value: File | undefined) {
     return value;
   }

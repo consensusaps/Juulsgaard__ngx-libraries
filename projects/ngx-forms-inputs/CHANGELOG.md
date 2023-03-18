@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 15.4.5
+
+### Patch Changes
+
+- Add public constructors to all inputs
+
 ## 15.4.4
 
 ### Patch Changes

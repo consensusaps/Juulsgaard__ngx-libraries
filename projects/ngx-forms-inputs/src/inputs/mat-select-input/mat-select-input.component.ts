@@ -37,6 +37,10 @@ export class MatSelectInputComponent<TItem, TVal extends any | any[]> extends Ba
 
   trackBy = (index: number, item: TItem) => this.getValue(item);
 
+  constructor() {
+    super();
+  }
+
   postprocessValue(value: ArrOrNullable<TVal>) {
     if (!value) return this.multiple ? [] as TVal : undefined;
     if (this.multiple) {

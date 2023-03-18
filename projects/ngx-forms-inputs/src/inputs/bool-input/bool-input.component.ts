@@ -27,6 +27,10 @@ export class BoolInputComponent extends BaseInputComponent<boolean, boolean> {
 
   @Input() labelPosition: 'before' | 'after' = 'after';
 
+  constructor() {
+    super();
+  }
+
   postprocessValue(value: boolean) {
     return value;
   }

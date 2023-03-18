@@ -27,6 +27,10 @@ import {MatIconModule} from "@angular/material/icon";
 })
 export class NumberInputComponent extends BaseInputComponent<number | undefined, number> {
 
+  constructor() {
+    super();
+  }
+
   postprocessValue(value: number | undefined) {
     return value;
   }

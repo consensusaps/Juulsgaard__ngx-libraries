@@ -27,6 +27,10 @@ import {MatIconModule} from "@angular/material/icon";
 })
 export class LongTextInputComponent extends BaseInputComponent<string | undefined, string> {
 
+  constructor() {
+    super();
+  }
+
   postprocessValue(value: string | undefined) {
     return value ? value : undefined;
   }
