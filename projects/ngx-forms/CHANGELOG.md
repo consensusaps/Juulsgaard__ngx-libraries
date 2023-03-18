@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.5.1
+
+### Patch Changes
+
+- Switch select inputs to using observables
+
 ## 15.5.0
 
 ### Minor Changes

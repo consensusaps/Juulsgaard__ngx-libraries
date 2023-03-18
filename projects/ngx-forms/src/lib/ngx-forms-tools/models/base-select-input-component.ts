@@ -2,7 +2,7 @@ import {Directive, Input} from "@angular/core";
 import {BaseInputComponent} from "./base-input-component";
 import {getSelectorFn, isString, MapFunc, Selection} from "@consensus-labs/ts-tools";
 import {FormNode, isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@consensus-labs/ngx-forms-core";
-import {skip} from "rxjs";
+import {BehaviorSubject, skip} from "rxjs";
 
 @Directive()
 export abstract class BaseSelectInputComponent<TVal, TInputVal, TItem> extends BaseInputComponent<TVal, TInputVal> {
@@ -14,7 +14,11 @@ export abstract class BaseSelectInputComponent<TVal, TInputVal, TItem> extends B
     this.items = items;
   }
 
-  items: TItem[] = [];
+  protected _items$ = new BehaviorSubject<TItem[]>([]);
+
+  items$ = this._items$.asObservable();
+  get items(): TItem[] {return this._items$.value};
+  set items(items: TItem[]) {this._items$.next(items)}
 
   get hidden() {
     return this.hideEmpty && this.items.length <= 0;
@@ -79,10 +83,7 @@ export abstract class BaseSelectInputComponent<TVal, TInputVal, TItem> extends B
       this.subscriptions.add(
         node.items$.pipe(
           skip(this.hasExternalItems ? 1 : 0)
-        ).subscribe(items => {
-          this.items = items;
-          this.changes.detectChanges();
-        })
+        ).subscribe(this._items$)
       );
     }
   }

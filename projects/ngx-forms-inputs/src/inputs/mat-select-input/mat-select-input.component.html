@@ -9,7 +9,7 @@
 
         <mat-select [errorStateMatcher]="(errorMatcher$ | async)!" [(ngModel)]="inputValue" [multiple]="multiple" [placeholder]="placeholder ?? label!" [required]="required" [disabled]="readonly" >
             <mat-option *ngIf="canClear">--</mat-option>
-            <mat-option *ngFor="let item of items; trackBy: trackBy" [value]="getValue(item)">
+            <mat-option *ngFor="let item of items$ | async; trackBy: trackBy" [value]="getValue(item)">
                 {{getLabel(item)}}
             </mat-option>
         </mat-select>
