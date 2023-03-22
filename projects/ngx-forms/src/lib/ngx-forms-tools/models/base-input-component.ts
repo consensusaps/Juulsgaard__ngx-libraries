@@ -152,7 +152,10 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     _value$?: Subject<TVal>|Subscribable<TVal>;
     @Input() set value$(value$: Subject<TVal>|Subscribable<TVal>) {
         this.valueSub?.unsubscribe();
-        this.valueSub = value$.subscribe({next: x => this.externalValue = x});
+        this.valueSub = value$.subscribe({next: x => {
+            this.externalValue = x;
+            this.changes.detectChanges();
+        }});
         this._value$ = value$;
     }
     //</editor-fold>

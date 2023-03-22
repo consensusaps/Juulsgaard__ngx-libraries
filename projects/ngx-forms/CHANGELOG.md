@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.5.3
+
+### Patch Changes
+
+- Fix subject values in form inputs not triggering change detection
+
 ## 15.5.2
 
 ### Patch Changes
