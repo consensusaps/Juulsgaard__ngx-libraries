@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 15.5.4
+
+### Patch Changes
+
+- Fix select items observable
+
 ## 15.5.3
 
 ### Patch Changes

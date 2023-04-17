@@ -84,7 +84,7 @@ export abstract class BaseSelectInputComponent<TVal, TInputVal, TItem> extends B
       this.subscriptions.add(
         node.items$.pipe(
           skip(this.hasExternalItems ? 1 : 0)
-        ).subscribe(this._items$)
+        ).subscribe(x => this.items = x)
       );
     }
   }
