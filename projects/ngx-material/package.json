@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-material",
-  "version": "15.2.3",
+  "version": "15.2.4",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-material"

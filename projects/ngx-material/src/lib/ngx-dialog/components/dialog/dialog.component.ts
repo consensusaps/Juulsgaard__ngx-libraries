@@ -5,7 +5,7 @@ import {DialogFooterDirective} from "../../directives/dialog-footer.directive";
 import {DialogManagerService} from "../../services/dialog-manager.service";
 import {DialogFooterTemplateDirective} from "../../directives/dialog-footer-template.directive";
 import {DialogContentTemplateDirective} from "../../directives/dialog-content-template.directive";
-import {BehaviorSubject, distinctUntilChanged, of, ReplaySubject, Subscription, switchMap} from "rxjs";
+import {auditTime, BehaviorSubject, distinctUntilChanged, of, ReplaySubject, Subscription, switchMap} from "rxjs";
 import {TemplateDialogInstance} from "../../models/template-dialog-context";
 import {map} from "rxjs/operators";
 import {RenderSource, RenderSourceDirective} from "@consensus-labs/ngx-tools";
@@ -70,6 +70,7 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     const content$ = this.contentTemplate$.pipe(
       map(template => template ?? this.content),
+      auditTime(0), // Move to next cycle so changes don't clash with Change Detection
       distinctUntilChanged()
     );
 
@@ -81,6 +82,7 @@ export class DialogComponent implements OnInit, OnDestroy {
             map(x => x ? this.footer : undefined)
           )
       ),
+      auditTime(0), // Move to next cycle so changes don't clash with Change Detection
       distinctUntilChanged()
     );
 

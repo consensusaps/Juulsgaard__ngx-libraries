@@ -54,8 +54,14 @@ export class TemplateDialogInstance extends TemplateDialogContext {
 
     const footer$ = footerTemplate instanceof Observable ? footerTemplate : of(footerTemplate);
     this.sub.add(footer$.subscribe(source => {
+
       this.footer?.dispose();
-      if (!source) return;
+
+      if (!source) {
+        this._footer$.next(undefined);
+        return;
+      }
+
       this.footer = Rendering.FromSource.Static(source);
       this._footer$.next(this.footer);
     }));

@@ -1,7 +1,6 @@
 import {ChangeDetectorRef, ComponentRef, Directive, Injector, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
 import {RenderDialogComponent} from "../components/render-dialog/render-dialog.component";
 import {Subscription} from "rxjs";
-import {OverlayService} from "@consensus-labs/ngx-tools";
 import {DialogManagerService} from "../services/dialog-manager.service";
 import {DialogInstance} from "../models/dialog-context";
 import {DIALOG_ANIMATE_IN, DIALOG_CONTEXT} from "../models/dialog-tokens";
@@ -17,7 +16,6 @@ export class DialogOutletDirective implements OnDestroy, OnInit {
   constructor(
     private viewContainer: ViewContainerRef,
     private manager: DialogManagerService,
-    private overlayService: OverlayService,
     private changes: ChangeDetectorRef,
   ) {
 

@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 15.2.4
+
+### Patch Changes
+
+- Fix cahnge detection for Dialog Footers
+
 ## 15.2.3
 
 ### Patch Changes
