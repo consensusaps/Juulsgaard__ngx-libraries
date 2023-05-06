@@ -1,27 +1,25 @@
-import {DecoratorContext} from "./decorator-context";
-import {Disposable, KeysOfTypeOrNull} from "@consensus-labs/ts-tools";
+import {Disposable} from "@consensus-labs/ts-tools";
 import {Unsubscribable} from "rxjs";
+import {DestroyRef, inject} from "@angular/core";
 
-export function Dispose<T extends object>(
-  target: T,
-  propertyKey: KeysOfTypeOrNull<T, Unsubscribable|Disposable>
-): void {
+function Dispose<TClass>(
+  init: Unsubscribable|Disposable|undefined,
+  context: ClassFieldDecoratorContext<TClass, Unsubscribable|Disposable|undefined>
+) {
+  context.addInitializer(function (this: TClass) {
+    inject(DestroyRef).onDestroy(() => {
+      const value = context.access.get(this);
+      if (value == undefined) return;
 
-  const context = new DecoratorContext<T>(target);
+      if ('unsubscribe' in value && typeof value.unsubscribe === 'function') {
+        value.unsubscribe();
+        return;
+      }
 
-  context.onDestroy(instance => {
-
-    const prop = instance[propertyKey] as Unsubscribable|Disposable|undefined;
-    if (!prop) return;
-
-    if ('unsubscribe' in prop && typeof prop.unsubscribe === 'function') {
-      prop.unsubscribe();
-      return;
-    }
-
-    if ('dispose' in prop && typeof prop.dispose === 'function') {
-      prop.dispose();
-      return;
-    }
-  });
+      if ('dispose' in value && typeof value.dispose === 'function') {
+        value.dispose();
+        return;
+      }
+    })
+  })
 }

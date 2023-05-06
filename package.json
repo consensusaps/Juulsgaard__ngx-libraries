@@ -16,27 +16,24 @@
   "workspaces": [
     "./projects/*"
   ],
-  "dependencies": {
-    "tslib": "2.4.1"
-  },
   "private": true,
   "devDependencies": {
-    "@angular-devkit/build-angular": "15.1.2",
-    "@angular/cli": "15.1.2",
-    "@angular/compiler": "15.1.1",
-    "@angular/compiler-cli": "15.1.1",
-    "@changesets/cli": "2.26.0",
+    "@angular-devkit/build-angular": "16.0.0",
+    "@angular/cli": "16.0.0",
+    "@angular/compiler": "16.0.0",
+    "@angular/compiler-cli": "16.0.0",
+    "@changesets/cli": "2.26.1",
     "@types/jasmine": "4.3.1",
-    "jasmine-core": "4.5.0",
-    "karma": "6.4.1",
-    "karma-chrome-launcher": "3.1.1",
+    "jasmine-core": "4.6.0",
+    "karma": "6.4.2",
+    "karma-chrome-launcher": "3.2.0",
     "karma-coverage": "2.2.0",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.0.0",
-    "ng-packagr": "15.1.1",
-    "rxjs": "7.8.0",
-    "syncpack": "8.4.11",
-    "typescript": "4.9.4",
-    "ngx-mat-timepicker": "15.1.2"
+    "ng-packagr": "16.0.0",
+    "rxjs": "7.8.1",
+    "syncpack": "9.8.6",
+    "typescript": "5.0.4",
+    "ngx-mat-timepicker": "15.1.7"
   }
 }
