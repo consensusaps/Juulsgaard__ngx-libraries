@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.0.1
+
+### Patch Changes
+
+- Export disposable decorator
+
 ## 16.0.0
 
 ### Major Changes

@@ -2,7 +2,7 @@ import {Disposable} from "@consensus-labs/ts-tools";
 import {Unsubscribable} from "rxjs";
 import {DestroyRef, inject} from "@angular/core";
 
-function Dispose<TClass>(
+export function Dispose<TClass>(
   init: Unsubscribable|Disposable|undefined,
   context: ClassFieldDecoratorContext<TClass, Unsubscribable|Disposable|undefined>
 ) {
