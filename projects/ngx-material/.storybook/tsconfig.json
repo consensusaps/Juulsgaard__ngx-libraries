@@ -3,7 +3,12 @@
   "compilerOptions": {
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@consensus-labs/ngx-tools": [
+        "projects/ngx-tools/src/public-api.ts"
+      ]
+    }
   },
   "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
   "include": ["../src/**/*", "./preview.ts"],

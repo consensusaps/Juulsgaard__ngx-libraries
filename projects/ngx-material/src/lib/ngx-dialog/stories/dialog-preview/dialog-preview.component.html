@@ -1,0 +1,8 @@
+
+<ngx-dialog-outlet/>
+
+<ngx-dialog [header]="header" *ngIf="show">
+    <p>{{text}}</p>
+    <button mat-button dialogFooter (click)="show = false">Cancel</button>
+    <button mat-button color="primary" dialogFooter (click)="submit.emit()">Submit</button>
+</ngx-dialog>

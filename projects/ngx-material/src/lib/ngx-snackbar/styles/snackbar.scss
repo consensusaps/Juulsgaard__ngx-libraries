@@ -4,12 +4,15 @@ $success: #4CB14B;
 $error: #CC0000;
 $warning: #FD9803;
 
-snack-bar-container.mat-snack-bar-container {
-	color: rgba(white, 0.86);
-	padding-right: 56px;
-	background-color: #2C2C2C;
-	
-	&::before {
+mat-snack-bar-container.mat-mdc-snack-bar-container {
+
+	.mdc-snackbar__surface {
+		color: rgba(white, 0.86);
+		padding-right: 56px;
+		background-color: #2C2C2C;
+	}
+
+	.tag {
 		border-radius: 4px 0 0 4px;
 		position: absolute;
 		left: 0;
@@ -17,60 +20,65 @@ snack-bar-container.mat-snack-bar-container {
 		bottom: 0;
 		width: 16px;
 	}
-	
-	&.error {
+
+	&.error .mdc-snackbar__surface {
 		padding-left: 32px;
-		min-height: 80px;
-		
-		&::before {
-			content: '';
+		min-height: 60px;
+
+		.tag {
 			background-color: $error;
 		}
+
+		.dismiss {
+			top: 0;
+			transform: none;
+		}
 	}
-	
-	&.success {
+
+	&.success .mdc-snackbar__surface {
 		padding-left: 32px;
-		
-		&::before {
-			content: '';
+
+		.tag {
 			background-color: $success;
 		}
 	}
-	
-	&.info {
+
+	&.info .mdc-snackbar__surface {
 		padding-left: 32px;
-		
-		&::before {
-			content: '';
+
+		.tag {
 			background-color: $info;
 		}
 	}
-	
-	&.warning {
+
+	&.warning .mdc-snackbar__surface {
 		padding-left: 32px;
-		
-		&::before {
-			content: '';
+
+		.tag {
 			background-color: $warning;
 		}
 	}
-	
+
 	.dismiss {
 		position: absolute;
 		right: 0;
 		top: 50%;
 		transform: translateY(-50%);
 	}
-	
+
 	.action {
 		position: absolute;
 		right: 2px;
-		bottom: 2px;
+		bottom: 0;
+		color: rgba(white, 0.86);
+		font-size: 14px;
+		height: 28px;
 	}
-	
+
 	.action-placeholder {
 		font-size: 14px;
 		white-space: nowrap;
 		visibility: hidden;
 	}
 }
+

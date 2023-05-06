@@ -1,0 +1,6 @@
+
+<ngx-overlay-outlet/>
+
+<ng-template [ngxOverlay]="show" [scrollable]="scrollable" [maxWidth]="maxWidth" (closed)="close()">
+    <p>{{content}}</p>
+</ng-template>

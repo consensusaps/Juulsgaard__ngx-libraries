@@ -38,7 +38,11 @@
             "configDir": "projects/ngx-tools/.storybook",
             "browserTarget": "ngx-tools:build",
             "compodoc": false,
-            "port": 6006
+            "port": 6006,
+            "styles": [
+              "./projects/ngx-tools/styles/index.scss",
+              "./projects/ngx-tools/styles/reset.scss"
+            ]
           }
         },
         "build-storybook": {
@@ -87,7 +91,13 @@
             "configDir": "projects/ngx-material/.storybook",
             "browserTarget": "ngx-material:build",
             "compodoc": false,
-            "port": 6006
+            "port": 6006,
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-material/styles/defaults.scss",
+              "./projects/ngx-material/styles/index.scss"
+            ]
           }
         },
         "build-storybook": {
@@ -136,7 +146,13 @@
             "configDir": "projects/ngx-service-worker/.storybook",
             "browserTarget": "ngx-service-worker:build",
             "compodoc": false,
-            "port": 6006
+            "port": 6006,
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-material/styles/defaults.scss",
+              "./projects/ngx-material/styles/index.scss"
+            ]
           }
         },
         "build-storybook": {
@@ -145,7 +161,13 @@
             "configDir": "projects/ngx-service-worker/.storybook",
             "browserTarget": "ngx-service-worker:build",
             "compodoc": false,
-            "outputDir": "dist/storybook/ngx-service-worker"
+            "outputDir": "dist/storybook/ngx-service-worker",
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-material/styles/defaults.scss"
+              "./projects/ngx-material/styles/index.scss"
+            ]
           }
         }
       }
@@ -185,7 +207,13 @@
             "configDir": "projects/ngx-forms/.storybook",
             "browserTarget": "ngx-forms:build",
             "compodoc": false,
-            "port": 6006
+            "port": 6006,
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-material/styles/defaults.scss",
+              "./projects/ngx-material/styles/index.scss"
+            ]
           }
         },
         "build-storybook": {
@@ -234,7 +262,13 @@
             "configDir": "projects/ngx-forms-inputs/.storybook",
             "browserTarget": "ngx-forms-inputs:build",
             "compodoc": false,
-            "port": 6006
+            "port": 6006,
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-material/styles/defaults.scss",
+              "./projects/ngx-material/styles/index.scss"
+            ]
           }
         },
         "build-storybook": {

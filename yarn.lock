@@ -2894,7 +2894,7 @@
     remark-slug "^6.0.0"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-essentials@7.0.9":
+"@storybook/addon-essentials@^7.0.9":
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/@storybook/addon-essentials/-/addon-essentials-7.0.9.tgz#0388351071e9cc814296b729c4121e1c923263a4"
   integrity sha512-XNZpFA1K2PLV4NdS99tpD6+L4yeLYMFeBuxI7u7dJo1kT0z5fDF+nZltEcnghDlZiWPsI2XvGaHsdS7AjLswcA==

@@ -17,7 +17,7 @@ import {MatButtonModule} from "@angular/material/button";
     DialogOutletDirective,
     RenderDialogComponent,
     DialogContentTemplateDirective,
-    DialogFooterTemplateDirective,
+    DialogFooterTemplateDirective
   ],
   exports: [
     DialogComponent,

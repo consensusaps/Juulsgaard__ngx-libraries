@@ -11,6 +11,12 @@
     "prepublish": "ng build ngx-material",
     "publish": "cd ../../dist/ngx-material && npm publish"
   },
+  "./defaults": {
+    "sass": "./styles/defaults.scss"
+  },
+  ".": {
+    "sass": "./styles/index.scss"
+  },
   "peerDependencies": {
     "@angular/cdk": "^16.0.0",
     "@angular/common": "^16.0.0",

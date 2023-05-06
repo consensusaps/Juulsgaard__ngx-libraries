@@ -8,16 +8,22 @@
   "main": "src/public-api.ts",
   "exports": {
     "./theme": {
-      "sass": "./theme/_index.scss"
+      "sass": "./theme/index.scss"
     },
     "./styles": {
-      "sass": "./styles/_index.scss"
+      "sass": "./styles/index.scss"
     },
     "./variables": {
       "sass": "./styles/variables.scss"
     },
+    "./styles/variables": {
+      "sass": "./styles/variables.scss"
+    },
+    "./reset": {
+      "sass": "./styles/reset.scss"
+    },
     ".": {
-      "sass": "./styles/_index.scss"
+      "sass": "./styles/index.scss"
     }
   },
   "scripts": {

@@ -1,9 +1,5 @@
 {
-  "extends": "../tsconfig.lib.json",
   "compilerOptions": {
-    "types": ["node"],
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
     "paths": {
       "@consensus-labs/ngx-material": [
         "projects/ngx-material/src/public-api.ts"
@@ -11,12 +7,15 @@
       "@consensus-labs/ngx-tools": [
         "projects/ngx-tools/src/public-api.ts"
       ],
+      "@consensus-labs/ngx-service-worker": [
+        "projects/ngx-service-worker/src/public-api.ts"
+      ],
       "@consensus-labs/ngx-forms": [
         "projects/ngx-forms/src/public-api.ts"
+      ],
+      "@consensus-labs/ngx-forms-inputs": [
+        "projects/ngx-forms-inputs/src/public-api.ts"
       ]
     }
-  },
-  "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
-  "include": ["../src/**/*", "./preview.ts"],
-  "files": ["./typings.d.ts"]
+  }
 }

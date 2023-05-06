@@ -11,6 +11,7 @@ ngx-icon.ngx-icon {
   font-size: calc(1em * var(--scale));
   padding: var(--padding);
   overflow: hidden;
+  box-sizing: border-box;
 
   &.empty {
     display: none;
@@ -18,5 +19,16 @@ ngx-icon.ngx-icon {
 
   &.inline {
     line-height: inherit;
+  }
+
+  &.font-awesome {
+    display: inline-flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    padding: 0;
+    width: unset;
+    min-width: calc(1em + 2 * var(--padding));
   }
 }
