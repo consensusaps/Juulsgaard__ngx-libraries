@@ -31,6 +31,24 @@
             "tsConfig": "projects/ngx-tools/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-tools/karma.conf.js"
           }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/ngx-tools/.storybook",
+            "browserTarget": "ngx-tools:build",
+            "compodoc": false,
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/ngx-tools/.storybook",
+            "browserTarget": "ngx-tools:build",
+            "compodoc": false,
+            "outputDir": "dist/storybook/ngx-tools"
+          }
         }
       }
     },
@@ -61,6 +79,24 @@
             "main": "projects/ngx-material/src/test.ts",
             "tsConfig": "projects/ngx-material/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-material/karma.conf.js"
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/ngx-material/.storybook",
+            "browserTarget": "ngx-material:build",
+            "compodoc": false,
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/ngx-material/.storybook",
+            "browserTarget": "ngx-material:build",
+            "compodoc": false,
+            "outputDir": "dist/storybook/ngx-material"
           }
         }
       }
@@ -93,6 +129,24 @@
             "tsConfig": "projects/ngx-service-worker/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-service-worker/karma.conf.js"
           }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/ngx-service-worker/.storybook",
+            "browserTarget": "ngx-service-worker:build",
+            "compodoc": false,
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/ngx-service-worker/.storybook",
+            "browserTarget": "ngx-service-worker:build",
+            "compodoc": false,
+            "outputDir": "dist/storybook/ngx-service-worker"
+          }
         }
       }
     },
@@ -124,6 +178,24 @@
             "tsConfig": "projects/ngx-forms/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-forms/karma.conf.js"
           }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/ngx-forms/.storybook",
+            "browserTarget": "ngx-forms:build",
+            "compodoc": false,
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/ngx-forms/.storybook",
+            "browserTarget": "ngx-forms:build",
+            "compodoc": false,
+            "outputDir": "dist/storybook/ngx-forms"
+          }
         }
       }
     },
@@ -154,6 +226,24 @@
             "main": "projects/ngx-forms-inputs/src/test.ts",
             "tsConfig": "projects/ngx-forms-inputs/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-forms-inputs/karma.conf.js"
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/ngx-forms-inputs/.storybook",
+            "browserTarget": "ngx-forms-inputs:build",
+            "compodoc": false,
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/ngx-forms-inputs/.storybook",
+            "browserTarget": "ngx-forms-inputs:build",
+            "compodoc": false,
+            "outputDir": "dist/storybook/ngx-forms-inputs"
           }
         }
       }
