@@ -94,6 +94,7 @@
             "port": 6006,
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
@@ -149,6 +150,7 @@
             "port": 6006,
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
@@ -161,13 +163,7 @@
             "configDir": "projects/ngx-service-worker/.storybook",
             "browserTarget": "ngx-service-worker:build",
             "compodoc": false,
-            "outputDir": "dist/storybook/ngx-service-worker",
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "./projects/ngx-tools/styles/reset.scss",
-              "./projects/ngx-material/styles/defaults.scss"
-              "./projects/ngx-material/styles/index.scss"
-            ]
+            "outputDir": "dist/storybook/ngx-service-worker"
           }
         }
       }
@@ -210,6 +206,7 @@
             "port": 6006,
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
@@ -265,6 +262,8 @@
             "port": 6006,
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-forms-inputs/styles/index.scss",
+              "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"

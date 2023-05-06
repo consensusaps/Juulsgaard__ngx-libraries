@@ -11,7 +11,12 @@
     "link:ngx-material": "npm run build -w @consensus-labs/ngx-material && cd dist/ngx-material && yalc push",
     "link:ngx-forms": "npm run build -w @consensus-labs/ngx-forms && cd dist/ngx-forms && yalc push",
     "link:ngx-forms-inputs": "npm run build -w @consensus-labs/ngx-forms-inputs && cd dist/ngx-forms-inputs && yalc push",
-    "link:ngx-service-worker": "npm run build -w @consensus-labs/ngx-service-worker && cd dist/ngx-service-worker && yalc push"
+    "link:ngx-service-worker": "npm run build -w @consensus-labs/ngx-service-worker && cd dist/ngx-service-worker && yalc push",
+    "storybook:ngx-tools": "ng run ngx-tools:storybook",
+    "storybook:ngx-material": "ng run ngx-material:storybook",
+    "storybook:ngx-forms": "ng run ngx-forms:storybook",
+    "storybook:ngx-forms-inputs": "ng run ngx-forms-inputs:storybook",
+    "storybook:ngx-service-worker": "ng run ngx-service-worker:storybook"
   },
   "workspaces": [
     "./projects/*"

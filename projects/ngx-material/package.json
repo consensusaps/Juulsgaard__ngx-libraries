@@ -9,7 +9,8 @@
   "scripts": {
     "build": "ng build ngx-material",
     "prepublish": "ng build ngx-material",
-    "publish": "cd ../../dist/ngx-material && npm publish"
+    "publish": "cd ../../dist/ngx-material && npm publish",
+    "storybook": "ng run ngx-material:storybook"
   },
   "./defaults": {
     "sass": "./styles/defaults.scss"

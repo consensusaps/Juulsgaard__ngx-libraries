@@ -1,15 +1,18 @@
 <div class="wrapper" [@harmonica]="show">
 
-    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" [matTooltip]="tooltip!"
-                    matTooltipPosition="above" matTooltipTouchGestures="off">
+    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color"
+                    subscriptSizing="dynamic">
 
         <mat-label *ngIf="label">
             {{label}}
-            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip"></ngx-icon>
+            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!"
+                      matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <input type="text" matInput [matDatepicker]="picker" [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
-               [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled">
+        <input type="text" matInput [matDatepicker]="picker" [placeholder]="placeholder ?? label!" [required]="required"
+               [readonly]="readonly" [(ngModel)]="inputValue"
+               [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!"
+               #input [disabled]="isDisabled">
 
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>

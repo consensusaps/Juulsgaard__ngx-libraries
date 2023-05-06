@@ -1,18 +1,22 @@
 <div class="wrapper" [@harmonica]="show">
 
-    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" [matTooltip]="tooltip!"
-                    matTooltipPosition="above" matTooltipTouchGestures="off">
+    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color"
+                     subscriptSizing="dynamic">
+
         <mat-label *ngIf="label">
             {{label}}
-            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip"></ngx-icon>
+            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!" matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <div class="color" matPrefix [colorPicker]="inputValue!" (colorPickerChange)="inputValue = $event" cpOutputFormat="hex" [cpAlphaChannel]="noAlpha ? 'disabled' : 'always'" noClickBubble [cpDisabled]="readonly">
+        <div class="color" matIconPrefix [colorPicker]="inputValue!" (colorPickerChange)="inputValue = $event"
+             cpOutputFormat="hex" [cpAlphaChannel]="noAlpha ? 'disabled' : 'always'" noClickBubble
+             [cpDisabled]="readonly">
             <div class="fill" [style.background-color]="externalValue"></div>
         </div>
 
         <input matInput type="text" [placeholder]="placeholder ?? label!" [(ngModel)]="inputValue" [required]="required"
-               [autocomplete]="autocomplete" [readonly]="readonly" [autofocus]="autofocus" #input [ngModelOptions]="{}" [errorStateMatcher]="(errorMatcher$ | async)!">
+               [autocomplete]="autocomplete" [readonly]="readonly" [autofocus]="autofocus" #input [ngModelOptions]="{}"
+               [errorStateMatcher]="(errorMatcher$ | async)!">
 
         <mat-error>{{errorText$ | async}}</mat-error>
 

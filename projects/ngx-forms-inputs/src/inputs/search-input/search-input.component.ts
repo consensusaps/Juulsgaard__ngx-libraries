@@ -7,6 +7,7 @@ import {IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
 import {MatRippleModule} from "@angular/material/core";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @Component({
@@ -20,7 +21,8 @@ import {MatInputModule} from "@angular/material/input";
     MatRippleModule,
     MatIconModule,
     IconDirective,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule
   ],
   standalone: true
 })

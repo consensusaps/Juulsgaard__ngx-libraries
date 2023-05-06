@@ -8,16 +8,17 @@
   "main": "src/public-api.ts",
   "exports": {
     "./styles": {
-      "sass": "./styles/_index.scss"
+      "sass": "./styles/index.scss"
     },
     ".": {
-      "sass": "./styles/_index.scss"
+      "sass": "./styles/index.scss"
     }
   },
   "scripts": {
     "build": "ng build ngx-forms-inputs",
     "prepublish": "ng build ngx-forms-inputs",
-    "publish": "cd ../../dist/ngx-forms-inputs && npm publish"
+    "publish": "cd ../../dist/ngx-forms-inputs && npm publish",
+    "storybook": "ng run ngx-forms-inputs:storybook"
   },
   "peerDependencies": {
     "@angular/animations": "^16.0.0",

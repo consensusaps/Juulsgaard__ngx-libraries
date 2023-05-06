@@ -4,6 +4,7 @@ import {FileDropDirective, FileSizePipe, IconDirective} from "@consensus-labs/ng
 import {NgClass, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'form-file-input',
@@ -20,7 +21,8 @@ import {MatButtonModule} from "@angular/material/button";
     FileDropDirective,
     FileSizePipe,
     IconDirective,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule
   ],
   providers: []
 })

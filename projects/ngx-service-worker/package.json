@@ -9,7 +9,8 @@
   "scripts": {
     "build": "ng build ngx-service-worker",
     "prepublish": "ng build ngx-service-worker",
-    "publish": "cd ../../dist/ngx-service-worker && npm publish"
+    "publish": "cd ../../dist/ngx-service-worker && npm publish",
+    "storybook": "ng run ngx-service-worker:storybook"
   },
   "peerDependencies": {
     "@angular/common": "^16.0.0",

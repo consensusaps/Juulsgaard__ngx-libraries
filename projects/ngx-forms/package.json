@@ -9,7 +9,8 @@
   "scripts": {
     "build": "ng build ngx-forms",
     "prepublish": "ng build ngx-forms",
-    "publish": "cd ../../dist/ngx-forms && npm publish"
+    "publish": "cd ../../dist/ngx-forms && npm publish",
+    "storybook": "ng run ngx-forms:storybook"
   },
   "peerDependencies": {
     "@angular/common": "^16.0.0",

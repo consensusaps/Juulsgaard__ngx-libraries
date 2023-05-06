@@ -29,7 +29,8 @@
   "scripts": {
     "build": "ng build ngx-tools",
     "prepublish": "ng build ngx-tools",
-    "publish": "cd ../../dist/ngx-tools && npm publish"
+    "publish": "cd ../../dist/ngx-tools && npm publish",
+    "storybook": "ng run ngx-tools:storybook"
   },
   "peerDependencies": {
     "@angular/common": "^16.0.0",

@@ -1,0 +1,30 @@
+
+.ngx-form-input {
+	> .wrapper {
+		display: flex;
+		flex-flow: column;
+		align-items: stretch;
+	}
+	
+	.required {
+		color: #CC0000FF;
+	}
+
+	.tooltip {
+		margin-left: 3px;
+		vertical-align: bottom;
+		font-size: 1.2em;
+		cursor: help;
+	}
+
+	.mdc-floating-label {
+		z-index: 1;
+	}
+
+	.mat-mdc-form-field-icon-prefix, .mat-mdc-form-field-icon-suffix {
+		> ngx-icon {
+			--padding: 0.3em;
+			font-size: 1.4em;
+		}
+	}
+}

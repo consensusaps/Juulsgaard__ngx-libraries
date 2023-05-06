@@ -1,20 +1,19 @@
 <div class="wrapper" [@harmonica]="show">
 
-    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" [matTooltip]="tooltip!"
-                    matTooltipPosition="above" matTooltipTouchGestures="off">
+    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" subscriptSizing="dynamic">
 
         <mat-label *ngIf="label">
             {{label}}
-            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip"></ngx-icon>
+            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!"
+                      matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
         <textarea type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
                [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input cdkTextareaAutosize></textarea>
 
-        <div matSuffix *ngIf="suffixChild">
+        <div matIconSuffix *ngIf="suffixChild">
             <ng-content></ng-content>
         </div>
-
 
         <mat-error>{{errorText$ | async}}</mat-error>
 

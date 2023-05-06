@@ -25,7 +25,7 @@ export abstract class BaseSelectInputComponent<TVal, TInputVal, TItem> extends B
     return this.hideEmpty && this.items.length <= 0;
   }
 
-  getValue!: MapFunc<TItem, TVal>;
+  getValue: MapFunc<TItem, TVal> = (x: any) => x as TVal;
   @Input() set bindValue(binding: string | Selection<TItem, TVal>) {
     // Typeless for backwards compatibility
     if (isString(binding)) {

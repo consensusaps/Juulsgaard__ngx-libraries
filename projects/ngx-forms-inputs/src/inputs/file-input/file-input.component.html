@@ -1,6 +1,10 @@
 
 <div class="drop" (fileDrop)="dropFile($event)" [fileDropDisable]="readonly" [class.empty]="!inputValue">
-    <p class="name" *ngIf="label">{{label}}</p>
+    <p class="name" *ngIf="label">
+        {{label}}
+        <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!"
+                  matTooltipPosition="above" matTooltipTouchGestures="off"/>
+    </p>
     <ngx-icon [alias]="readonly ? 'download' : 'upload'" [size]="40"></ngx-icon>
     <button mat-button (click)="fileInput.click()" *ngIf="!readonly">Browse Files</button>
     <p class="file-name" *ngIf="inputValue">{{inputValue.name}}</p>

@@ -7,6 +7,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
   selector: 'form-time-input',
@@ -24,6 +25,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     IconDirective,
     MatInputModule,
     MatTooltipModule,
+    MatButtonModule,
   ],
   standalone: true
 })
