@@ -1,5 +1,14 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.3
+
+### Patch Changes
+
+- Switch to MDC components
+- Updated dependencies
+  - @consensus-labs/ngx-forms@16.0.3
+  - @consensus-labs/ngx-tools@16.0.3
+
 ## 16.0.2
 
 ### Patch Changes

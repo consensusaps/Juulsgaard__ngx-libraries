@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-material
 
+## 16.0.3
+
+### Patch Changes
+
+- Switch to MDC components
+- Updated dependencies
+  - @consensus-labs/ngx-tools@16.0.3
+
 ## 16.0.2
 
 ### Patch Changes
