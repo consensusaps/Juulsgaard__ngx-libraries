@@ -3,9 +3,10 @@ import {FormsModule} from "@angular/forms";
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {BaseSelectInputComponent} from "@consensus-labs/ngx-forms";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
-import {MatLegacySelectModule} from "@angular/material/legacy-select";
 import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSelectModule} from "@angular/material/select";
 
 type ArrOrNullable<T> = T extends any[] ? T : T | undefined;
 
@@ -17,13 +18,14 @@ type ArrOrNullable<T> = T extends any[] ? T : T | undefined;
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
-    MatLegacySelectModule,
     AsyncPipe,
     NgIf,
-    MatLegacyTooltipModule,
     NgForOf,
     MatIconModule,
-    IconDirective
+    IconDirective,
+    MatInputModule,
+    MatTooltipModule,
+    MatSelectModule
   ],
   standalone: true
 })

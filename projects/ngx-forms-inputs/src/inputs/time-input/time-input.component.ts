@@ -1,13 +1,12 @@
-import {ChangeDetectionStrategy, Component, Inject, LOCALE_ID} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, LOCALE_ID} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgxMatTimepickerComponent, NgxMatTimepickerModule} from "ngx-mat-timepicker";
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
 import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {AsyncPipe, NgIf} from "@angular/common";
-import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
-import {MatLegacyInputModule} from "@angular/material/legacy-input";
-import {MatLegacyRippleModule} from "@angular/material/legacy-core";
 import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'form-time-input',
@@ -16,30 +15,28 @@ import {MatIconModule} from "@angular/material/icon";
   animations: [harmonicaAnimation()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatLegacyInputModule,
     NoClickBubbleDirective,
     NgxMatTimepickerModule,
     FormsModule,
-    MatLegacyTooltipModule,
-    MatLegacyRippleModule,
     NgIf,
     AsyncPipe,
     MatIconModule,
     IconDirective,
+    MatInputModule,
+    MatTooltipModule,
   ],
   standalone: true
 })
 export class TimeInputComponent extends BaseInputComponent<Date|undefined, string | undefined> {
 
   timeFormat: 12|24;
+  locale = inject(LOCALE_ID);
 
-  constructor(
-    @Inject(LOCALE_ID) public locale: string
-  ) {
+  constructor() {
     super();
 
     this.timeFormat = new Date(0)
-      .toLocaleTimeString(locale, {hour: 'numeric'})
+      .toLocaleTimeString(this.locale, {hour: 'numeric'})
       .match(/AM|PM/) ? 12 : 24;
   }
 

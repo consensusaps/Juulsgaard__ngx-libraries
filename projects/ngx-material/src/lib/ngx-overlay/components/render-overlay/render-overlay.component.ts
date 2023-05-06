@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
 import {Observable} from "rxjs";
 import {OVERLAY_ANIMATE_IN} from "../../models/overlay-tokens.models";
 import {map} from "rxjs/operators";
@@ -21,10 +21,11 @@ export class RenderOverlayComponent {
   scrollable$: Observable<boolean>;
   maxWidth$: Observable<string>;
 
+  animate = inject(OVERLAY_ANIMATE_IN);
+
   constructor(
     element: ElementRef<HTMLElement>,
-    private context: OverlayContext,
-    @Inject(OVERLAY_ANIMATE_IN) public animate: boolean
+    private context: OverlayContext
   ) {
 
     element.nativeElement.style.zIndex = context.zIndex?.toFixed(0) ?? '';

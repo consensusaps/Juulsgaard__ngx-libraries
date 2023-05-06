@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {ErrorSnackComponent} from "../components/error-snack/error-snack.component";
 import {PlainSnackComponent} from "../components/plain-snack/plain-snack.component";
-import {MatLegacySnackBar} from "@angular/material/legacy-snack-bar";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
 export class SnackbarService {
 
-    constructor(private snackBar: MatLegacySnackBar) {
+    constructor(private snackBar: MatSnackBar) {
     }
 
     success(message: string, title?: string) {

@@ -38,6 +38,7 @@ export class TimeAgoDirective implements OnDestroy {
 
     const delay = TimeAgoDirective.getSecondsUntilUpdate(seconds) * 1000;
 
+    // @ts-ignore
     this.timer = setTimeout(() => this.applyValue(), delay);
 
     this.element.nativeElement.innerText = secondsToTimeAgo(seconds, inFuture);

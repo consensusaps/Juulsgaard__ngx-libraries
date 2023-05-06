@@ -5,8 +5,8 @@ import {fromEvent} from "rxjs";
 import {filter} from "rxjs/operators";
 import {IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
 import {MatRippleModule} from "@angular/material/core";
-import {MatLegacyInputModule} from "@angular/material/legacy-input";
 import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
 
 
 @Component({
@@ -15,12 +15,12 @@ import {MatIconModule} from "@angular/material/icon";
   styleUrls: ['./search-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatLegacyInputModule,
     NoClickBubbleDirective,
     FormsModule,
     MatRippleModule,
     MatIconModule,
-    IconDirective
+    IconDirective,
+    MatInputModule
   ],
   standalone: true
 })

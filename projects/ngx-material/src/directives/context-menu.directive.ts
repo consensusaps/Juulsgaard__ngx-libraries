@@ -1,12 +1,12 @@
 import {Directive, HostListener, Input, NgZone, OnDestroy} from '@angular/core';
 import {fromEvent, merge, Subscription} from "rxjs";
 import {filter, first, map, tap} from "rxjs/operators";
-import {MatLegacyMenuTrigger} from "@angular/material/legacy-menu";
+import {MatMenuTrigger} from "@angular/material/menu";
 
 @Directive({selector: '[contextMenu]', standalone: true})
 export class ContextMenuDirective implements OnDestroy {
 
-  @Input('contextMenu') trigger?: MatLegacyMenuTrigger;
+  @Input('contextMenu') trigger?: MatMenuTrigger;
   @Input('triggerElement') element?: HTMLElement;
   @Input('menuData') data?: unknown;
   @Input() disableMenu?: boolean;

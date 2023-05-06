@@ -9,7 +9,7 @@ import {distinctUntilChanged, map} from "rxjs/operators";
 import {FormNode, FormNodeEvent, hasRequiredField, InputTypes} from "@consensus-labs/ngx-forms-core";
 import {alwaysErrorStateMatcher, neverErrorStateMatcher} from "./error-state-matchers";
 import {FormContext} from "../services/form-context.service";
-import {MatLegacyFormFieldAppearance, MatLegacyPrefix, MatLegacySuffix} from "@angular/material/legacy-form-field";
+import {MatFormFieldAppearance, MatPrefix, MatSuffix} from "@angular/material/form-field";
 
 @Directive()
 export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnDestroy {
@@ -24,9 +24,9 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     /** A list of all NgModels in the input */
     @ViewChildren(NgModel) ngModels!: QueryList<NgModel>;
     /** A material form suffix if one exists */
-    @ContentChild(MatLegacySuffix) suffixChild?: MatLegacySuffix;
+    @ContentChild(MatSuffix) suffixChild?: MatSuffix;
     /** A material form prefix if one exists */
-    @ContentChild(MatLegacyPrefix) prefixChild?: MatLegacyPrefix;
+    @ContentChild(MatPrefix) prefixChild?: MatPrefix;
 
     @Input() showAsRequired = false;
     private _fieldRequired = false;
@@ -237,7 +237,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     /** Set the theme color for the input */
     @Input() public color: ThemePalette = 'primary';
     /** Change the material input style */
-    @Input() public appearance: MatLegacyFormFieldAppearance = 'outline';
+    @Input() public appearance: MatFormFieldAppearance = 'outline';
     /** Hide the required asterisk */
     @Input() public hideRequired = false;
 

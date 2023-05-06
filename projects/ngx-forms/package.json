@@ -14,6 +14,7 @@
   "peerDependencies": {
     "@angular/common": "^16.0.0",
     "@angular/core": "^16.0.0",
+    "@angular/forms": "^16.0.0",
     "@consensus-labs/ngx-forms-core": "^16.0.0",
     "@consensus-labs/ngx-tools": "^16.0.2",
     "@consensus-labs/ts-tools": "^1.4.0",
@@ -25,7 +26,8 @@
     "@angular/forms": "16.0.0",
     "@consensus-labs/ngx-forms-core": "16.0.0",
     "@consensus-labs/ngx-tools": "16.0.2",
-    "@consensus-labs/ts-tools": "1.4.0"
+    "@consensus-labs/ts-tools": "1.4.0",
+    "typescript": "~5.0.4"
   },
   "dependencies": {
     "tslib": "2.5.0"

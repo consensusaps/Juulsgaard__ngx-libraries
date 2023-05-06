@@ -3,9 +3,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {NgIf} from "@angular/common";
-import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
-import {MatLegacySlideToggleModule} from "@angular/material/legacy-slide-toggle";
 import {MatIconModule} from "@angular/material/icon";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'form-bool-input',
@@ -14,12 +14,12 @@ import {MatIconModule} from "@angular/material/icon";
   animations: [harmonicaAnimation()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatLegacyTooltipModule,
-    MatLegacySlideToggleModule,
     ReactiveFormsModule,
     NgIf,
     MatIconModule,
-    IconDirective
+    IconDirective,
+    MatSlideToggleModule,
+    MatTooltipModule
   ],
   standalone: true
 })

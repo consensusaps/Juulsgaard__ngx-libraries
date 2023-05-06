@@ -1,6 +1,5 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
 import {Observable, of} from "rxjs";
-import {DialogContext} from "../../models/dialog-context";
 import {DIALOG_ANIMATE_IN, DIALOG_CONTEXT} from "../../models/dialog-tokens";
 import {overlayAnimation, TemplateRendering} from '@consensus-labs/ngx-tools'
 import {StaticDialogButton, StaticDialogContext} from "../../models/static-dialog-context";
@@ -26,27 +25,28 @@ export class RenderDialogComponent {
   plainDescription?: string;
   buttons?: StaticDialogButton[];
 
+  private context = inject(DIALOG_CONTEXT);
+  animate = inject(DIALOG_ANIMATE_IN);
+
   constructor(
-    element: ElementRef<HTMLElement>,
-    @Inject(DIALOG_CONTEXT) private context: DialogContext,
-    @Inject(DIALOG_ANIMATE_IN) public animate: boolean
+    element: ElementRef<HTMLElement>
   ) {
 
-    element.nativeElement.style.zIndex = context.zIndex?.toFixed(0) ?? '';
+    element.nativeElement.style.zIndex = this.context.zIndex?.toFixed(0) ?? '';
 
-    if (context instanceof StaticDialogContext) {
-      this.header$ = of(context.header);
-      this.scrollable$ = of(context.withScroll);
-      this.plainDescription = context.isHtml ? undefined : context.description;
-      this.htmlDescription = context.isHtml ? context.description : undefined;
-      this.buttons = context.buttons;
+    if (this.context instanceof StaticDialogContext) {
+      this.header$ = of(this.context.header);
+      this.scrollable$ = of(this.context.withScroll);
+      this.plainDescription = this.context.isHtml ? undefined : this.context.description;
+      this.htmlDescription = this.context.isHtml ? this.context.description : undefined;
+      this.buttons = this.context.buttons;
       return;
     }
 
-    this.header$ = context.header$;
-    this.scrollable$ = context.withScroll$;
-    this.contentTemplate$ = context.content$;
-    this.footerTemplate$ = context.footer$;
+    this.header$ = this.context.header$;
+    this.scrollable$ = this.context.withScroll$;
+    this.contentTemplate$ = this.context.content$;
+    this.footerTemplate$ = this.context.footer$;
   }
 
   onClose() {

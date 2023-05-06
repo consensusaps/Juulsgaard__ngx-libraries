@@ -3,11 +3,10 @@ import {FormsModule} from "@angular/forms";
 import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {AsyncPipe, NgClass, NgIf} from "@angular/common";
-import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
-import {MatLegacyInputModule} from "@angular/material/legacy-input";
-import {MatLegacyButtonModule} from "@angular/material/legacy-button";
-import {MatLegacyRippleModule} from "@angular/material/legacy-core";
 import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @Component({
@@ -17,16 +16,15 @@ import {MatIconModule} from "@angular/material/icon";
   animations: [harmonicaAnimation()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatLegacyInputModule,
-    MatLegacyTooltipModule,
     FormsModule,
     AsyncPipe,
-    MatLegacyButtonModule,
-    MatLegacyRippleModule,
     NgClass,
     NgIf,
     MatIconModule,
-    IconDirective
+    IconDirective,
+    MatInputModule,
+    MatTooltipModule,
+    MatButtonModule
   ],
   standalone: true
 })

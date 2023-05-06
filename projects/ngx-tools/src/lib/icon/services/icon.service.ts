@@ -1,13 +1,14 @@
-import {Inject, Injectable} from "@angular/core";
+import {inject, Injectable} from "@angular/core";
 import {BaseIconService} from "./icon-base.service";
 import {baseIconAliases, BaseIconAliases} from "../models/icon-aliases";
 import {ICON_PROVIDER} from "./icon-provider.service";
-import {IconProviders} from "../models/icon-providers";
 
 @Injectable({providedIn: 'root'})
 export class IconService extends BaseIconService<BaseIconAliases> {
 
-  constructor(@Inject(ICON_PROVIDER) provider: IconProviders) {
+  provider = inject(ICON_PROVIDER);
+
+  constructor() {
     super();
     this.addAliases(baseIconAliases);
   }

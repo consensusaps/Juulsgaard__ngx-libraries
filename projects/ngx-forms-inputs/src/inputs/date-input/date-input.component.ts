@@ -7,9 +7,9 @@ import {DayjsDateAdapter, MAT_DAYJS_DATE_FORMATS} from "../../adapters/date-adap
 import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AsyncPipe, NgIf} from "@angular/common";
-import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
-import {MatLegacyInputModule} from "@angular/material/legacy-input";
 import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'form-date-input',
@@ -20,13 +20,13 @@ import {MatIconModule} from "@angular/material/icon";
   standalone: true,
   imports: [
     FormsModule,
-    MatLegacyTooltipModule,
-    MatLegacyInputModule,
     MatDatepickerModule,
     NgIf,
     AsyncPipe,
     MatIconModule,
-    IconDirective
+    IconDirective,
+    MatInputModule,
+    MatTooltipModule
   ],
   providers: [
     {

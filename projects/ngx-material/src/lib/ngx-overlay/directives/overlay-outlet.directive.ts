@@ -1,6 +1,4 @@
-import {
-  ChangeDetectorRef, ComponentRef, Directive, Inject, Injector, OnInit, Optional, StaticProvider, ViewContainerRef
-} from '@angular/core';
+import {ChangeDetectorRef, ComponentRef, Directive, inject, Injector, OnInit, ViewContainerRef} from '@angular/core';
 import {Subscription} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
 import {BASE_OVERLAY_PROVIDERS, OVERLAY_ANIMATE_IN} from "../models/overlay-tokens.models";
@@ -13,12 +11,12 @@ export class OverlayOutletDirective implements OnInit {
   private sub?: Subscription;
   private component?: ComponentRef<RenderOverlayComponent>;
 
+  baseProviders = inject(BASE_OVERLAY_PROVIDERS, {optional: true});
+
   constructor(
     private viewContainer: ViewContainerRef,
     private manager: OverlayManagerService,
-    private changes: ChangeDetectorRef,
-    @Optional() @Inject(BASE_OVERLAY_PROVIDERS)
-    private baseProviders?: StaticProvider[]
+    private changes: ChangeDetectorRef
   ) { }
 
   ngOnInit() {

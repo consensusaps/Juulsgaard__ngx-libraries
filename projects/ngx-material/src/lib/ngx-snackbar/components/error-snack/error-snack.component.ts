@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, ViewEncapsulation} from '@angular/core';
 import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from '@angular/material/snack-bar';
 import {mapObj} from "@consensus-labs/ts-tools";
 import {SnackBarData} from "../../models/snack-bar.model";
@@ -13,8 +13,9 @@ import {Clipboard} from "@angular/cdk/clipboard";
 })
 export class ErrorSnackComponent {
 
+  data: SnackBarData = inject(MAT_SNACK_BAR_DATA);
+
   constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData,
     private snackRef: MatSnackBarRef<ErrorSnackComponent>,
     private clipboard: Clipboard
   ) {

@@ -3,9 +3,9 @@ import {ChangeDetectionStrategy, Component} from "@angular/core";
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {BaseInputComponent} from "@consensus-labs/ngx-forms";
 import {AsyncPipe, NgIf} from "@angular/common";
-import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
-import {MatLegacyInputModule} from "@angular/material/legacy-input";
 import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'form-text-input',
@@ -14,13 +14,13 @@ import {MatIconModule} from "@angular/material/icon";
   animations: [harmonicaAnimation()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatLegacyInputModule,
     NgIf,
-    MatLegacyTooltipModule,
     AsyncPipe,
     FormsModule,
     MatIconModule,
-    IconDirective
+    IconDirective,
+    MatInputModule,
+    MatTooltipModule
   ],
   standalone: true
 })

@@ -1,6 +1,6 @@
 import dayjs, {Dayjs} from "dayjs";
 import {DateAdapter, MAT_DATE_LOCALE, MatDateFormats} from "@angular/material/core";
-import {Inject, Optional} from "@angular/core";
+import {inject} from "@angular/core";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import localeData from "dayjs/plugin/localeData";
@@ -23,10 +23,11 @@ export class DayjsDateAdapter extends DateAdapter<Dayjs> {
     narrowDaysOfWeek: string[]
   };
 
-  constructor(@Optional() @Inject(MAT_DATE_LOCALE) matDateLocale: string,) {
+  constructor() {
     super();
 
-    super.setLocale(matDateLocale);
+    const locale = inject(MAT_DATE_LOCALE, {optional: true});
+    super.setLocale(locale);
 
     const now = this.create();
     const localeData = now.localeData();

@@ -6,8 +6,8 @@ import {NgxDialogModule} from '@consensus-labs/ngx-material';
 import {ServiceWorkerAlertComponent} from "./components/service-worker-alert/service-worker-alert.component";
 import {ServiceWorkerService} from "./services/service-worker.service";
 import {SwUpdate} from "@angular/service-worker";
-import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import {MatIconModule} from "@angular/material/icon";
     CommonModule,
     TruthyPipe,
     FalsyPipe,
-    MatLegacyButtonModule,
+    MatButtonModule,
     NgxDialogModule,
     MatIconModule,
     IconDirective

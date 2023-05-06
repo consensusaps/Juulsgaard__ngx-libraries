@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {MatLegacyProgressSpinnerModule} from "@angular/material/legacy-progress-spinner";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'ngx-loading-overlay',
@@ -8,7 +8,7 @@ import {MatLegacyProgressSpinnerModule} from "@angular/material/legacy-progress-
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatLegacyProgressSpinnerModule
+    MatProgressSpinnerModule
   ],
   host: {'[class]': 'type'}
 })

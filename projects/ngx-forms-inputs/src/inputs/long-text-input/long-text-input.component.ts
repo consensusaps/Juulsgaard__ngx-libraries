@@ -3,9 +3,9 @@ import {FormsModule} from "@angular/forms";
 import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {AsyncPipe, NgIf} from "@angular/common";
-import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
-import {MatLegacyInputModule} from "@angular/material/legacy-input";
 import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'form-long-text-input',
@@ -16,12 +16,12 @@ import {MatIconModule} from "@angular/material/icon";
   standalone: true,
   imports: [
     FormsModule,
-    MatLegacyInputModule,
     NgIf,
-    MatLegacyTooltipModule,
     AsyncPipe,
     MatIconModule,
-    IconDirective
+    IconDirective,
+    MatInputModule,
+    MatTooltipModule
   ],
   providers: []
 })

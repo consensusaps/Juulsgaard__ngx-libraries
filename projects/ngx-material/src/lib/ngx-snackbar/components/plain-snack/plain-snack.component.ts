@@ -1,6 +1,5 @@
-import {ChangeDetectionStrategy, Component, Inject, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, ViewEncapsulation} from '@angular/core';
 import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from '@angular/material/snack-bar';
-import {SnackBarData} from "../../models/snack-bar.model";
 
 
 @Component({
@@ -12,8 +11,9 @@ import {SnackBarData} from "../../models/snack-bar.model";
 })
 export class PlainSnackComponent {
 
+  data = inject(MAT_SNACK_BAR_DATA);
+
   constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData,
     private snackRef: MatSnackBarRef<PlainSnackComponent>,
   ) { }
 

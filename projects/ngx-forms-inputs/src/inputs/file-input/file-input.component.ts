@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {FileDropDirective, FileSizePipe, IconDirective} from "@consensus-labs/ngx-tools";
 import {NgClass, NgIf} from "@angular/common";
-import {MatLegacyButtonModule} from "@angular/material/legacy-button";
 import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
   selector: 'form-file-input',
@@ -14,13 +14,13 @@ import {MatIconModule} from "@angular/material/icon";
   imports: [
     FileDropDirective,
     NgIf,
-    MatLegacyButtonModule,
     FileSizePipe,
     NgClass,
     MatIconModule,
     FileDropDirective,
     FileSizePipe,
-    IconDirective
+    IconDirective,
+    MatButtonModule
   ],
   providers: []
 })

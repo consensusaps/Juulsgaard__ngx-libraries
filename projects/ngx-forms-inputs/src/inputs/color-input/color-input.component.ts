@@ -4,9 +4,9 @@ import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@consensus-labs/ngx-tools';
 import {ColorPickerModule} from "ngx-color-picker";
 import {AsyncPipe, NgIf} from "@angular/common";
-import {MatLegacyTooltipModule} from "@angular/material/legacy-tooltip";
-import {MatLegacyInputModule} from "@angular/material/legacy-input";
 import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'form-color-input',
@@ -15,15 +15,15 @@ import {MatIconModule} from "@angular/material/icon";
   animations: [harmonicaAnimation()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatLegacyTooltipModule,
-    MatLegacyInputModule,
     ColorPickerModule,
     NoClickBubbleDirective,
     FormsModule,
     NgIf,
     AsyncPipe,
     MatIconModule,
-    IconDirective
+    IconDirective,
+    MatInputModule,
+    MatTooltipModule
   ],
   standalone: true
 })

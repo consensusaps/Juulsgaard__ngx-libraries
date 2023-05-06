@@ -1,7 +1,7 @@
-<p *ngIf="data.title"><b>{{ data.title }}</b></p>
+<p *ngIf="data.title" matSnackBarLabel><b>{{ data.title }}</b></p>
 
-<p class="message-text">
+<p class="message-text" matSnackBarLabel>
     {{ data.message }}
 </p>
 
-<button class="dismiss" mat-icon-button (click)="dismiss()"><ngx-icon alias="close"></ngx-icon></button>
+<button matSnackBarAction class="dismiss" mat-icon-button (click)="dismiss()" ><ngx-icon alias="close"></ngx-icon></button>
