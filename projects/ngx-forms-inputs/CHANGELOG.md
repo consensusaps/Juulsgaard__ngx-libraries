@@ -1,5 +1,17 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.0
+
+### Major Changes
+
+- Upgrade to Angular 16
+
+### Patch Changes
+
+- Updated dependencies
+  - @consensus-labs/ngx-forms@16.0.0
+  - @consensus-labs/ngx-tools@16.0.0
+
 ## 15.4.5
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @consensus-labs/ngx-material
 
+## 16.0.0
+
+### Major Changes
+
+- Upgrade to Angular 16
+
+### Patch Changes
+
+- Updated dependencies
+  - @consensus-labs/ngx-tools@16.0.0
+
 ## 15.2.4
 
 ### Patch Changes

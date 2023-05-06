@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.0.0
+
+### Major Changes
+
+- Upgrade to Angular 16
+
 ## 15.1.7
 
 ### Patch Changes

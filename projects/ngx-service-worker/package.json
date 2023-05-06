@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-service-worker",
-  "version": "15.2.3",
+  "version": "16.0.0",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-service-worker"
@@ -15,16 +15,16 @@
     "@angular/common": "16.0.0",
     "@angular/core": "16.0.0",
     "@angular/service-worker": "16.0.0",
-    "@consensus-labs/ngx-material": "15.2.4",
-    "@consensus-labs/ngx-tools": "15.1.7",
+    "@consensus-labs/ngx-material": "16.0.0",
+    "@consensus-labs/ngx-tools": "16.0.0",
     "typescript": "~5.0.4"
   },
   "devDependencies": {
     "@angular/common": "16.0.0",
     "@angular/core": "16.0.0",
     "@angular/service-worker": "16.0.0",
-    "@consensus-labs/ngx-material": "15.2.4",
-    "@consensus-labs/ngx-tools": "15.1.7"
+    "@consensus-labs/ngx-material": "16.0.0",
+    "@consensus-labs/ngx-tools": "16.0.0"
   },
   "dependencies": {
     "tslib": "2.5.0"
