@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-tools",
-  "version": "16.0.1",
+  "version": "16.0.2",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-tools"
@@ -26,10 +26,10 @@
     "publish": "cd ../../dist/ngx-tools && npm publish"
   },
   "peerDependencies": {
-    "@angular/common": "16.0.0",
-    "@angular/core": "16.0.0",
-    "@angular/animations": "16.0.0",
-    "@consensus-labs/rxjs-tools": "1.3.0",
+    "@angular/common": "^16.0.0",
+    "@angular/core": "^16.0.0",
+    "@angular/animations": "^16.0.0",
+    "@consensus-labs/rxjs-tools": "^1.3.0",
     "typescript": "~5.0.4"
   },
   "devDependencies": {

@@ -1,5 +1,14 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.2
+
+### Patch Changes
+
+- Fix peer dependencies
+- Updated dependencies
+  - @consensus-labs/ngx-forms@16.0.2
+  - @consensus-labs/ngx-tools@16.0.2
+
 ## 16.0.1
 
 ### Patch Changes

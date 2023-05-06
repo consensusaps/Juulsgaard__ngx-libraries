@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.0.2
+
+### Patch Changes
+
+- Fix peer dependencies
+
 ## 16.0.1
 
 ### Patch Changes
