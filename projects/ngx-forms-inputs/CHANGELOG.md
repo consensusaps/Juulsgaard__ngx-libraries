@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.4
+
+### Patch Changes
+
+- Add style overrides to MDC components
+
 ## 16.0.3
 
 ### Patch Changes

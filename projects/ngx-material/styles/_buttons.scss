@@ -1,0 +1,26 @@
+
+//Icons in buttons
+.mat-mdc-button-base {
+
+  .mdc-button__label {
+    > *, & {
+      vertical-align: middle;
+    }
+
+    > .mat-icon, > .ngx-icon, > i {
+      font-size: 1.5em;
+
+      &:first-child:not(:last-child) {
+        margin-right: 0.5em;
+      }
+
+      &:last-child:not(:first-child) {
+        margin-left: 0.5em;
+      }
+    }
+  }
+}
+
+.mdc-button.mat-mdc-button-base {
+  letter-spacing: 0.03571428571em;
+}

@@ -1,0 +1,46 @@
+
+mat-checkbox.mat-mdc-checkbox {
+	--size: 18px;
+	--mdc-checkbox-state-layer-size: max(40px, var(--size) + 16px);
+
+	.mdc-checkbox {
+		padding: calc((var(--mdc-checkbox-state-layer-size) - var(--size)) / 2);
+		width: var(--size);
+		height: var(--size);
+		flex-basis: var(--size);
+
+		.mdc-checkbox__background {
+			top: calc((var(--mdc-checkbox-state-layer-size) - var(--size)) / 2);
+			left: calc((var(--mdc-checkbox-state-layer-size) - var(--size)) / 2);
+			width: var(--size);
+			height: var(--size);
+
+			svg {
+				padding: 1px;
+			}
+		}
+
+		.mat-mdc-checkbox-touch-target {
+			height: var(--mdc-checkbox-state-layer-size);
+			width: var(--mdc-checkbox-state-layer-size);
+		}
+	}
+
+	&.medium {
+		--size: 24px;
+	}
+
+	&.large {
+		--size: 32px;
+	}
+	
+	&.circle {
+		.mdc-checkbox__background {
+			border-radius: 50%;
+
+			svg {
+				padding: 2px;
+			}
+		}
+	}
+}

@@ -1,0 +1,25 @@
+
+form-search-input {
+
+  &.ngx-form-input {
+    padding-top: 0;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    background-color: unset !important;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: unset;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .mat-mdc-form-field-icon-suffix {
+    .mat-mdc-icon-button {
+      padding: 8px;
+      height: 40px;
+      width: 40px;
+    }
+  }
+}

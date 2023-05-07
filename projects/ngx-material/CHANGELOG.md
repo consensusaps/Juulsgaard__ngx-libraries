@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.7
+
+### Patch Changes
+
+- Add style overrides to MDC components
+
 ## 16.0.6
 
 ### Patch Changes
