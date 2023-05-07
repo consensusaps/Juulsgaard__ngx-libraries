@@ -1,29 +1,26 @@
 {
   "name": "@consensus-labs/ngx-tools",
-  "version": "16.0.3",
+  "version": "16.0.4",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-tools"
   },
   "main": "src/public-api.ts",
   "exports": {
+    ".": {
+      "sass": "./styles/index.scss"
+    },
     "./theme": {
       "sass": "./theme/index.scss"
     },
     "./styles": {
       "sass": "./styles/index.scss"
     },
-    "./variables": {
-      "sass": "./styles/variables.scss"
-    },
     "./styles/variables": {
       "sass": "./styles/variables.scss"
     },
-    "./reset": {
+    "./styles/reset": {
       "sass": "./styles/reset.scss"
-    },
-    ".": {
-      "sass": "./styles/index.scss"
     }
   },
   "scripts": {

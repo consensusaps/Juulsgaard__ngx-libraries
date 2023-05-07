@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.0.4
+
+### Patch Changes
+
+- Fix package exports
+
 ## 16.0.3
 
 ### Patch Changes
