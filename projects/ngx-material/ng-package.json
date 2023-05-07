@@ -3,5 +3,8 @@
   "dest": "../../dist/ngx-material",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    "./styles/**/*.scss"
+  ]
 }

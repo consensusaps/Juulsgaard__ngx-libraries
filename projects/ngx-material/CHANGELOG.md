@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.5
+
+### Patch Changes
+
+- Export styles
+
 ## 16.0.4
 
 ### Patch Changes
