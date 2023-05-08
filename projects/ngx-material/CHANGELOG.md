@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.8
+
+### Patch Changes
+
+- Properly export material override styles
+
 ## 16.0.7
 
 ### Patch Changes
