@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.0.6
+
+### Patch Changes
+
+- Remove old scaling
+
 ## 16.0.5
 
 ### Patch Changes
