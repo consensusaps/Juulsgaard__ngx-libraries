@@ -21,6 +21,10 @@ ngx-icon.ngx-icon {
     line-height: inherit;
   }
 
+  &.scaled {
+    transform: scale(var(--scale));
+  }
+
   &.font-awesome {
     display: inline-flex;
     flex-flow: column;

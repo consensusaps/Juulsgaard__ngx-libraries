@@ -18,7 +18,7 @@
     "@angular/material": "^16.0.0",
     "@angular/service-worker": "^16.0.0",
     "@consensus-labs/ngx-material": "^16.0.9",
-    "@consensus-labs/ngx-tools": "^16.0.4",
+    "@consensus-labs/ngx-tools": "^16.0.5",
     "typescript": "~5.0.4"
   },
   "devDependencies": {
@@ -27,7 +27,7 @@
     "@angular/material": "16.0.0",
     "@angular/service-worker": "16.0.0",
     "@consensus-labs/ngx-material": "16.0.9",
-    "@consensus-labs/ngx-tools": "16.0.4"
+    "@consensus-labs/ngx-tools": "16.0.5"
   },
   "dependencies": {
     "tslib": "2.5.0"

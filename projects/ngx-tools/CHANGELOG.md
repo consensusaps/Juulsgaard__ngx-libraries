@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.0.5
+
+### Patch Changes
+
+- Fix Icon scaling
+
 ## 16.0.4
 
 ### Patch Changes

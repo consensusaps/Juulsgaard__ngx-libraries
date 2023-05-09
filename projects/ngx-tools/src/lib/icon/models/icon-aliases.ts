@@ -1,7 +1,7 @@
 import {IconConfig} from "./icon-models";
 
 export const baseIconAliases = {
-  close: {mat: 'close', fa: 'far fa-times'},
+  close: {mat: 'close', fa: {icon: 'far fa-times', scale: 0.8}},
   search: {mat: 'search', fa: {icon: 'far fa-search', scale: 0.7}},
   visible: {mat: 'visibility_outline', fa: 'far fa-eye'},
   hidden: {mat: 'visibility_off_outline', fa: 'far fa-eye-slash'},

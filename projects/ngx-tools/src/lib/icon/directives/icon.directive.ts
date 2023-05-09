@@ -77,6 +77,7 @@ export class IconDirective implements OnChanges {
 
     this.classes = [data.providerClass, ...data.classes ?? []];
     this.element.nativeElement.innerText = data.text ?? '';
+    if (data.scale) this.classes.push('scaled');
     this.element.nativeElement.style.setProperty('--scale', data.scale?.toString() ?? null);
   }
 }
