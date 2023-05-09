@@ -18,6 +18,10 @@
                [autocomplete]="autocomplete" [readonly]="readonly" [autofocus]="autofocus" #input [ngModelOptions]="{}"
                [errorStateMatcher]="(errorMatcher$ | async)!">
 
+        <div matIconSuffix class="fix" *ngIf="suffixChild">
+            <ng-content></ng-content>
+        </div>
+
         <mat-error>{{errorText$ | async}}</mat-error>
 
     </mat-form-field>

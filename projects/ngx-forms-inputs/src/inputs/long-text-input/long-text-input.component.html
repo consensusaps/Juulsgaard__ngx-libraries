@@ -11,7 +11,7 @@
         <textarea type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
                [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input cdkTextareaAutosize></textarea>
 
-        <div matIconSuffix *ngIf="suffixChild">
+        <div matIconSuffix class="fix" *ngIf="suffixChild">
             <ng-content></ng-content>
         </div>
 

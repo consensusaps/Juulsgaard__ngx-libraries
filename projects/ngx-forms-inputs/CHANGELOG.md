@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.6
+
+### Patch Changes
+
+- Improve suffix styling
+
 ## 16.0.5
 
 ### Patch Changes
