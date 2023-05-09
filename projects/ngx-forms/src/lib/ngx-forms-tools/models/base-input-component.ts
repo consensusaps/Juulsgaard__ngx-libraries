@@ -128,11 +128,18 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
             this.control.markAsUntouched();
             this.changes.detectChanges();
         }));
+
+        // Sync with the disabled state
+        this.controlSub.add(control.disabled$.subscribe(x => {
+            this._controlDisabled = x;
+            this.changes.detectChanges();
+        }));
     }
 
     /** Reset control related values to default */
     private externalControlTeardown() {
         this._fieldRequired = false;
+        this._controlDisabled = false;
 
         const inputError$ = this.inputError$.pipe(distinctUntilChanged());
         this.hasError$ = inputError$.pipe(map(error => !!error));
@@ -209,9 +216,10 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     }
     //</editor-fold>
 
+    private _controlDisabled = false;
     /** Marks that the input should be shown as disabled */
     get isDisabled() {
-        return this.disable === undefined ? !!this.externalControl?.disabled : this.disable;
+        return this.disable === undefined ? this._controlDisabled : this.disable;
     }
 
     /** Marks whether the input should be displayed or not */
@@ -245,7 +253,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     /** Set the input as read-only */
     @Input('readonly') set readonlyState(readonly: boolean|undefined) {this._readonly = readonly};
     _scopeReadonly = false;
-    _readonly?: boolean = false;
+    _readonly?: boolean;
 
     /** Indicates that the user shouldn't be able to edit the input */
     @HostBinding('class.read-only')
@@ -260,10 +268,6 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
         this.control = new FormNode(InputTypes.Generic, this.preprocessValue(undefined));
         this.subscriptions.add(this.control.value$.subscribe(x => this.inputValue = x));
 
-        if (this.formScope) {
-            this.subscriptions.add(this.formScope.readonly$.subscribe(x => this._scopeReadonly = x));
-        }
-
         // Use control teardown to set up default error bindings
         this.externalControlTeardown();
     }
@@ -271,6 +275,13 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     ngOnInit(): void {
         if (this._externalControl) {
             this.externalControlSetup(this._externalControl);
+        }
+
+        if (this.formScope) {
+            this.subscriptions.add(this.formScope.readonly$.subscribe(x => {
+                this._scopeReadonly = x;
+                this.changes.detectChanges();
+            }));
         }
 
         this.initialised = true;
