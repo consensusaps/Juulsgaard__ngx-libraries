@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.9
+
+### Patch Changes
+
+- Tweak material button icon sizing
+
 ## 16.0.8
 
 ### Patch Changes
