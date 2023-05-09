@@ -33,5 +33,9 @@ ngx-icon.ngx-icon {
     padding: 0;
     width: unset;
     min-width: calc(1em + 2 * var(--padding));
+
+    &.mat-ripple {
+      overflow: hidden;
+    }
   }
 }

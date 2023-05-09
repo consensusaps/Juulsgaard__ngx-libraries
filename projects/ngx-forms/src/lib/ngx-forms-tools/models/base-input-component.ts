@@ -105,6 +105,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
         this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
 
         this.loadFormNode(control);
+        this.changes.detectChanges();
 
         // Map control values to internal state
         this.controlSub.add(control.value$.subscribe(x => {

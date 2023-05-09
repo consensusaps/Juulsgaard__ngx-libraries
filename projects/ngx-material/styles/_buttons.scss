@@ -3,20 +3,24 @@
 .mat-mdc-button-base {
 
   .mdc-button__label {
-    > *, & {
-      vertical-align: middle;
+
+  }
+}
+
+.mat-mdc-button-base .mdc-button__label, .mat-mdc-menu-item .mdc-list-item__primary-text {
+  > *, & {
+    vertical-align: middle;
+  }
+
+  > .mat-icon, > .ngx-icon, > i {
+    font-size: 1.125rem;
+
+    &:first-child:not(:last-child) {
+      margin-right: 8px;
     }
 
-    > .mat-icon, > .ngx-icon, > i {
-      font-size: 1.125rem;
-
-      &:first-child:not(:last-child) {
-        margin-right: 8px;
-      }
-
-      &:last-child:not(:first-child) {
-        margin-left: 8px;
-      }
+    &:last-child:not(:first-child) {
+      margin-left: 8px;
     }
   }
 }

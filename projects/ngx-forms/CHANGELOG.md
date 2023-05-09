@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms
 
+## 16.0.4
+
+### Patch Changes
+
+- Fix base input change detection
+- Updated dependencies
+  - @consensus-labs/ngx-tools@16.0.7
+
 ## 16.0.3
 
 ### Patch Changes

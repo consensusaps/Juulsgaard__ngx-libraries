@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.0.7
+
+### Patch Changes
+
+- Improve styles
+
 ## 16.0.6
 
 ### Patch Changes

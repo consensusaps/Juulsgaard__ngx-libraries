@@ -10,6 +10,10 @@ mat-snack-bar-container.mat-mdc-snack-bar-container {
 		color: rgba(white, 0.86);
 		padding-right: 56px;
 		background-color: #2C2C2C;
+
+		button, p {
+			color: rgba(white, 0.86);
+		}
 	}
 
 	.tag {

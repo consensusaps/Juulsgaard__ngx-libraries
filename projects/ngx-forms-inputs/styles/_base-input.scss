@@ -26,8 +26,13 @@
   }
 
   .mat-mdc-form-field-icon-prefix, .mat-mdc-form-field-icon-suffix {
-    > ngx-icon {
+    ngx-icon {
       --padding: 0.3em;
+      font-size: 1.4em;
+    }
+
+    i {
+      padding: 0.3em;
       font-size: 1.4em;
     }
   }
