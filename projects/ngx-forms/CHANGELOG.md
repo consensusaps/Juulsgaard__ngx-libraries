@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 16.0.6
+
+### Patch Changes
+
+- Improve input bindings
+
 ## 16.0.5
 
 ### Patch Changes

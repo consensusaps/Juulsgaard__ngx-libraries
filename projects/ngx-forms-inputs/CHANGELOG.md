@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.7
+
+### Patch Changes
+
+- Fix color picker
+- Updated dependencies
+  - @consensus-labs/ngx-forms@16.0.6
+
 ## 16.0.6
 
 ### Patch Changes

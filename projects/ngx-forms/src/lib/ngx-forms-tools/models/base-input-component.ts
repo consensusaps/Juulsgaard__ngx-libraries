@@ -236,19 +236,19 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     /** Input to tell the browser what type of autocomplete the input should use */
     @Input() public autocomplete?: string;
     /** Focus the input when it's first created */
-    @Input() public autofocus = false;
+    @Input() public autofocus?: boolean;
     /** Disable the input */
     @Input() public disable?: boolean;
     /** Add a tooltip with additional information about the input */
     @Input() public tooltip?: string;
     /** Disable hiding the input when it's disabled */
-    @Input() public showDisabled = false;
+    @Input() public showDisabled?: boolean;
     /** Set the theme color for the input */
     @Input() public color: ThemePalette = 'primary';
     /** Change the material input style */
     @Input() public appearance: MatFormFieldAppearance = 'outline';
     /** Hide the required asterisk */
-    @Input() public hideRequired = false;
+    @Input() public hideRequired?: boolean;
 
     /** Set the input as read-only */
     @Input('readonly') set readonlyState(readonly: boolean|undefined) {this._readonly = readonly};
@@ -326,11 +326,11 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     /** Apply config from FormNode */
     protected loadFormNode(node: FormNode<TVal>) {
         this.label = this.label ?? node.label;
-        this.autocomplete = node.autocomplete ?? this.autocomplete;
-        this.tooltip = node.tooltip ?? this.tooltip;
-        this.showDisabled = node.showDisabledField ?? this.showDisabled;
-        this.autofocus = node.autoFocus ?? this.autofocus;
-        this._readonly = node.readonly ?? this._readonly;
+        this.autocomplete = this.autocomplete ?? node.autocomplete;
+        this.tooltip = this.tooltip ?? node.tooltip;
+        this.showDisabled = this.showDisabled ?? node.showDisabledField;
+        this.autofocus = this.autofocus ?? node.autoFocus;
+        this._readonly = this._readonly ?? node.readonly;
 
         this.afterInit()
     }

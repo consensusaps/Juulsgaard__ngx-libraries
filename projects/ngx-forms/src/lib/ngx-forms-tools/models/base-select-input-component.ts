@@ -77,8 +77,8 @@ export abstract class BaseSelectInputComponent<TVal, TInputVal, TItem> extends B
     if (node.bindOption) this.bindOption = node.bindOption;
 
     this.multiple = node.multiple ?? this.multiple;
-    this.clearable = node.clearable ?? this.clearable;
-    this.hideEmpty = node.hideWhenEmpty ?? this.hideEmpty;
+    this.clearable = this.clearable ?? node.clearable;
+    this.hideEmpty = this.hideEmpty ?? node.hideWhenEmpty;
 
     if (node.items$) {
       this.subscriptions.add(
