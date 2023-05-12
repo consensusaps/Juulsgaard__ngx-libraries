@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.8
+
+### Patch Changes
+
+- Improve color input styling
+
 ## 16.0.7
 
 ### Patch Changes
