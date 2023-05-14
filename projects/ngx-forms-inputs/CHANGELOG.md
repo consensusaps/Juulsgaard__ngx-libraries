@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.9
+
+### Patch Changes
+
+- Update input styles
+
 ## 16.0.8
 
 ### Patch Changes

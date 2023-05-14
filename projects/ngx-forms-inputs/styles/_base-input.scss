@@ -1,13 +1,17 @@
 
 .ngx-form-input {
-  display: block;
-  padding-top: 10px;
   margin-bottom: 10px;
 
   > .wrapper {
     display: flex;
     flex-flow: column;
     align-items: stretch;
+  }
+
+  .mat-mdc-form-field {
+    &.mat-form-field-appearance-outline {
+      padding-top: 10px;
+    }
   }
 
   .required {
