@@ -64,9 +64,8 @@ export class NavTabBarComponent extends NavTabBarContext implements OnInit, Afte
       : undefined;
 
     if (this.tabContext) {
-      this.tabContext.registerHeader(this);
-      this.panelClass$ = this.tabContext.wrapperClass$.pipe(map(x => x ? [x, 'scrollable-content'] : []));
-      this.headerClass$ = this.tabContext.headerClass$.pipe(map(x => x ? [x] : []));
+      this.panelClass$ = this.tabContext.wrapperClasses$;
+      this.headerClass$ = this.tabContext.headerClasses$;
     }
 
   }
@@ -74,8 +73,8 @@ export class NavTabBarComponent extends NavTabBarContext implements OnInit, Afte
   ngOnInit() {
 
     if (this.context) {
-      this.sub.add(this.context.wrapperClass$.subscribe(x => {
-        this.wrapperClass = x ? [x, 'scrollable-content'] : [];
+      this.sub.add(this.context.wrapperClasses$.subscribe(x => {
+        this.wrapperClass = x;
         this.changes.detectChanges();
       }));
     }
@@ -120,7 +119,6 @@ export class NavTabBarComponent extends NavTabBarContext implements OnInit, Afte
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-    this.tabContext?.unregisterHeader(this);
   }
 
   override async openTab(slug: string) {

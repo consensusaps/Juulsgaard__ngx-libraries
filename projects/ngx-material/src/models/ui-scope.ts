@@ -1,7 +1,7 @@
 import {Injectable, Provider} from '@angular/core';
-import {combineLatestWith, distinctUntilChanged, Observable, of, switchMap} from "rxjs";
+import {BehaviorSubject, combineLatestWith, Observable, of, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
-import {cache, ObservableSet} from "@consensus-labs/rxjs-tools";
+import {cache, subscribed} from "@consensus-labs/rxjs-tools";
 
 @Injectable()
 export abstract class UIScopeContext {
@@ -12,30 +12,45 @@ export abstract class UIScopeContext {
 
   readonly abstract hasHeader$: Observable<boolean>;
   readonly abstract hasHeader: boolean;
+  readonly abstract hasChildren$: Observable<boolean>;
+  readonly abstract hasChildren: boolean;
+  readonly abstract hasWrapper$: Observable<boolean>;
+  readonly abstract hasWrapper: boolean;
 
-  readonly abstract wrapperClass$: Observable<string|undefined>;
-  readonly abstract headerClass$: Observable<string|undefined>;
-  readonly abstract showMenu$: Observable<boolean>;
-  readonly abstract scope$: Observable<UIScope>;
+  readonly abstract wrapperClasses$: Observable<string[]>;
+  readonly abstract headerClasses$: Observable<string[]>;
   readonly abstract childScope$: Observable<UIScope>;
 
-  abstract registerHeader(header: any): void;
-  abstract unregisterHeader(header: any): void;
+  readonly abstract showMenu$: Observable<boolean>;
+  readonly abstract scope$: Observable<UIScope>;
 }
 
 export class BaseUIScopeContext extends UIScopeContext {
 
-  private headers$ = new ObservableSet<object>();
+  //<editor-fold desc="Header">
+  headerClasses$: Observable<string[]>;
 
-  readonly hasHeader$ = this.headers$.size$.pipe(
-    map(size => size > 0),
-    distinctUntilChanged()
-  );
-  get hasHeader() {return this.headers$.size > 0}
+  private readonly _hasHeader$ = new BehaviorSubject(false);
+  readonly hasHeader$ = this._hasHeader$.asObservable();
+  get hasHeader() {return this._hasHeader$.value}
+  //</editor-fold>
 
-  wrapperClass$: Observable<string|undefined>;
-  headerClass$: Observable<string>;
+  //<editor-fold desc="Wrapper">
+  wrapperClasses$: Observable<string[]>;
+
+  private readonly _hasWrapper$ = new BehaviorSubject(false);
+  readonly hasWrapper$ = this._hasWrapper$.asObservable();
+  get hasWrapper() {return this._hasWrapper$.value}
+  //</editor-fold>
+
+  //<editor-fold desc="Children">
   childScope$: Observable<UIScope>;
+
+  private readonly _hasChildren$ = new BehaviorSubject(false);
+  readonly hasChildren$ = this._hasChildren$.asObservable();
+  get hasChildren() {return this._hasChildren$.value}
+  //</editor-fold>
+
   showMenu$: Observable<boolean>;
 
   constructor(public scope$: Observable<UIScope>) {
@@ -47,32 +62,33 @@ export class BaseUIScopeContext extends UIScopeContext {
 
     this.childScope$ = this.scope$.pipe(
       combineLatestWith(this.hasHeader$),
-      map(([scope, hasHeader]) => hasHeader ? scope.defaultChild ?? scope : scope)
+      map(([scope, hasHeader]) => hasHeader ? scope.child ?? scope : scope),
+      subscribed(this._hasChildren$),
+      cache()
     );
 
-    this.wrapperClass$ = this.hasHeader$.pipe(
+    this.wrapperClasses$ = this.hasHeader$.pipe(
       switchMap(
         hasHeader => !hasHeader
-          ? of(undefined)
+          ? of(['ngx-ui-scope', 'no-header'])
           : this.scope$.pipe(
-            map(x => `${x.class}-content`),
+            combineLatestWith(this.hasChildren$),
+            map(([scope, hasChildren]) => [
+              'ngx-ui-scope',
+              `${scope.class}-content`,
+              hasChildren ? 'has-children' : 'no-children'
+            ])
           )
       ),
+      subscribed(this._hasWrapper$),
       cache()
     );
 
-    this.headerClass$ = this.scope$.pipe(
-      map(x => `${x.class}-header`),
+    this.headerClasses$ = this.scope$.pipe(
+      map(x => [`${x.class}-header`, 'ngx-ui-header']),
+      subscribed(this._hasHeader$),
       cache()
     );
-  }
-
-  registerHeader(header: any): void {
-    this.headers$.add(header);
-  }
-
-  unregisterHeader(header: any): void {
-    this.headers$.delete(header);
   }
 }
 
