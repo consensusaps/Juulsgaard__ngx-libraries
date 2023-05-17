@@ -1,11 +1,11 @@
 
 .ngx-form-input {
-  margin-bottom: 10px;
 
   > .wrapper {
     display: flex;
     flex-flow: column;
     align-items: stretch;
+    margin-bottom: 10px;
   }
 
   .mat-mdc-form-field {

@@ -1,0 +1,46 @@
+<ng-container matColumnDef="{{id}}">
+    <th mat-header-cell *matHeaderCellDef [mat-sort-header]="id" [disabled]="!canSort">
+        {{getTitle()}}
+    </th>
+
+    <td mat-cell *matCellDef="let row" [ngSwitch]="getType(row)" [ngClass]="getTypeSlug(row)">
+
+        <ng-container *ngSwitchCase="renderTypes.Bool">
+            {{getData(row) ? 'Yes' : 'No'}}
+        </ng-container>
+
+        <mat-icon class="icon-data" *ngSwitchCase="renderTypes.Icon" [fontIcon]="getStringData(row)"></mat-icon>
+
+        <ng-container *ngSwitchCase="renderTypes.Date">
+            {{getDateData(row) | date: 'shortDate'}}
+        </ng-container>
+
+        <ng-container *ngSwitchCase="renderTypes.DateTime">
+            {{getDateData(row) | date: 'short'}}
+        </ng-container>
+
+        <ng-container *ngSwitchCase="renderTypes.Time">
+            {{getDateData(row) | date: 'shortTime'}}
+        </ng-container>
+
+        <ng-container *ngSwitchCase="renderTypes.Number">
+            {{getNumberData(row) | number: '0.0'}}
+        </ng-container>
+
+        <ng-container *ngSwitchCase="renderTypes.Decimal">
+            {{getNumberData(row) | number: '0.2'}}
+        </ng-container>
+
+        <ng-container *ngSwitchCase="renderTypes.Template">
+            <ng-container *ngTemplateOutlet="templates?.get(id) ?? null; context: getContext(row)"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="renderTypes.Image">
+            <img [src]="getStringData(row)">
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+            {{getData(row)}}
+        </ng-container>
+    </td>
+</ng-container>

@@ -1,0 +1,65 @@
+<ng-container *ngIf="show$ | truthy">
+  <div class="wrapper" *ngIf="state?.asideData$ | async as aside" @hozCollapse delayedAnimation
+       [style.filter]="filter$ | async">
+    <div class="aside">
+
+      <div class="head" [withId]="aside.model?.model?.id" [contextMenu]="trigger" [menuData]="aside"
+           [triggerElement]="triggerEl" [disableMenu]="!aside.actions.length">
+
+        <div class="path" [class.ghost]="!aside.model">
+          <span (click)="onFolderClick(undefined)">/</span>
+          <span *ngFor="let p of aside.path" (click)="onFolderClick(p.model)">{{p.name}}/</span>
+        </div>
+
+        <div class="hoz">
+          <i class="icon" [ngClass]="aside.icon"></i>
+          <div class="info">
+            <p class="name">{{aside.name}}</p>
+            <p class="bonus" *ngIf="aside.bonus">{{aside.bonus}}</p>
+          </div>
+
+          <i class="actions far fa-ellipsis-h" *ngIf="aside.actions.length" matRipple noClickBubble
+             [matMenuTriggerFor]="context" [matMenuTriggerData]="aside">
+          </i>
+
+        </div>
+      </div>
+
+      <div class="ngx-nav-list">
+
+        <ngx-nav-list-item
+          class="folder" *ngFor="let folder of aside.folders; trackBy: getId"
+          matRipple (click)="onFolderClick(folder.model)"
+          [withId]="folder.model.model.id" [item]="folder.model.model"
+          [activeId]="state?.itemId$ | async"
+          [icon]="folder.icon" [header]="folder.name" [subText]="folder.bonus"
+          [actions]="folder.actions"
+          [context]="context" [contextData]="folder"
+          [contextMenu]="trigger" [menuData]="folder"
+          [triggerElement]="triggerEl" [disableMenu]="!folder.actions.length"/>
+
+        <ngx-nav-list-item
+          class="item" *ngFor="let item of aside.items; trackBy: getId"
+          matRipple (click)="onItemClick(item.model)"
+          [withId]="item.model.model.id" [item]="item.model.model"
+          [activeId]="state?.itemId$ | async"
+          [icon]="item.icon" [header]="item.name" [subText]="item.bonus"
+          [actions]="item.actions"
+          [context]="context" [contextData]="item"
+          [contextMenu]="trigger" [menuData]="item"
+          [triggerElement]="triggerEl" [disableMenu]="!item.actions.length"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-trigger" [matMenuTriggerFor]="context" #trigger="matMenuTrigger" #triggerEl></div>
+
+    <mat-menu #context="matMenu">
+        <ng-template matMenuContent let-actions="actions" let-model="model">
+          <ngx-nav-menu-item *ngFor="let action of actions" [action]="action"
+                              (click)="action.action?.(model.model, model)">
+          </ngx-nav-menu-item>
+        </ng-template>
+    </mat-menu>
+
+</ng-container>

@@ -1,0 +1,29 @@
+
+<ngx-nav-search-bar *ngIf="showSearch" [query$]="dataSource.searchQuery$"></ngx-nav-search-bar>
+
+<div class="grid" cdkDropListGroup *ngIf="canDrag && (dataSource.searching$ | falsy) && (dataSource.filterActive$ | falsy)">
+
+    <ngx-nav-create-tile *ngFor="let action of createActions" [config]="action"></ngx-nav-create-tile>
+
+    <div class="placeholder" cdkDropList #placeholder (cdkDropListDropped)="placeholderDrop($event)"></div>
+
+    <div *ngFor="let item of dataSource.gridDisplayData$ | async; trackBy: getId" class="cell" cdkDropList [cdkDropListData]="item.index" (cdkDropListEntered)="onEnter($event)" [cdkDropListDisabled]="(item.index ?? 0) > 1000000">
+        <ngx-nav-grid-tile [imageFallback]="dataSource.gridFallbackImage" [data]="item" cdkDrag [cdkDragData]="item.id" [cdkDragStartDelay]="300" [cdkDragDisabled]="(item.index ?? 0) > 1000000"
+                           [noRipple]="!itemClick.observed || canDrag" (click)="onClick(item)" [class.no-blur]="noBlur" [active]="item.id === activeId" (longTap)="null" [tapDuration]="300">
+        </ngx-nav-grid-tile>
+    </div>
+
+    <ngx-loading-overlay type="absolute" *ngIf="loading"></ngx-loading-overlay>
+
+</div>
+
+<div class="grid" *ngIf="!canDrag || (dataSource.searching$ | truthy) || (dataSource.filterActive$ | truthy)">
+
+    <ngx-nav-create-tile *ngFor="let action of createActions" [config]="action"></ngx-nav-create-tile>
+
+    <ngx-nav-grid-tile class="cell" [imageFallback]="dataSource.gridFallbackImage" *ngFor="let item of dataSource.gridDisplayData$ | async; trackBy: getId" [data]="item"
+                       [noRipple]="!itemClick.observed" (click)="onClick(item)" [class.no-blur]="noBlur" [active]="item.id === activeId">
+    </ngx-nav-grid-tile>
+
+    <ngx-loading-overlay type="absolute" *ngIf="loading"></ngx-loading-overlay>
+</div>

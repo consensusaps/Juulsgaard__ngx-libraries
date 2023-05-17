@@ -1,0 +1,12 @@
+<div class="folder-list" *ngIf="folders$ | async as folders"
+     cdkDropList (cdkDropListDropped)="onFolderDrop($event)"
+     [cdkDropListDisabled]="canMove$ | falsy">
+
+    <ngx-nav-tree-folder *ngFor="let f of folders; trackBy: getId" [folder]="f"
+                         cdkDrag [cdkDragData]="f.model.model.id" [cdkDragStartDelay]="300"
+                         (longTap)="null" [tapDuration]="300" [longTapDisabled]="context.allowMoveFolder$ | falsy">
+
+        <ngx-nav-tree-folder-preview [icon]="f.data.icon" [name]="f.data.name" *cdkDragPreview/>
+
+    </ngx-nav-tree-folder>
+</div>

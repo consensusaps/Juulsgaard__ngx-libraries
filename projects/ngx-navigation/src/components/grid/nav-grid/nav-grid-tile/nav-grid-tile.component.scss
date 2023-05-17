@@ -1,0 +1,18 @@
+@use "variables" as *;
+
+:host {
+	
+	&.active {
+		.grid-tile {
+			background-color: $foreground-primary;
+		}
+	}
+	
+	&.no-blur {
+		.preview {
+			img.blur {
+				display: none;
+			}
+		}
+	}
+}

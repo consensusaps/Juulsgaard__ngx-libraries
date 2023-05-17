@@ -1,0 +1,8 @@
+
+<button mat-icon-button [disabled]="!showCut" (click)="cut.emit()" matTooltip="Cut"><i class="fad fa-scissors"></i></button>
+<button mat-icon-button [disabled]="!showPaste" (click)="paste.emit()" matTooltip="Paste"><i class="fad fa-paste"></i></button>
+
+<button mat-button [disabled]="!showClearClipboard && !showClearSelection" (click)="onClear()">
+    <i class="far fa-times"></i>
+    <span>Clear</span>
+</button>

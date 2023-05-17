@@ -18,6 +18,14 @@
     "@angular-devkit/core" "16.0.0"
     rxjs "7.8.1"
 
+"@angular-devkit/architect@^0.1600.2":
+  version "0.1600.2"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1600.2.tgz#26ba64209894e541a10c206ca8ed90709b7fa0d9"
+  integrity sha512-2AOP3/dwLywcjkRr3ixR/lb0uBn1jzaMWwQR3o7ye3IuEA2sRtyWhUzsy6V7smKBKWPDIbXvX2TcqYZAJ87ccA==
+  dependencies:
+    "@angular-devkit/core" "16.0.2"
+    rxjs "7.8.1"
+
 "@angular-devkit/build-angular@16.0.0":
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-16.0.0.tgz#78aa68deaec96f3b2a79e0aa1b2d843c97085520"
@@ -101,6 +109,17 @@
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-16.0.0.tgz#3d9066a9f4cea51beff8d5b03fda6a51d616904c"
   integrity sha512-YJKvAJlg4/lfP93pQNawlOTQalynWGpoatZU+1aXBgRh5YCTKu2S/A3gtQ71DBuhac76gJe1RpxDoq41kB2KlQ==
+  dependencies:
+    ajv "8.12.0"
+    ajv-formats "2.1.1"
+    jsonc-parser "3.2.0"
+    rxjs "7.8.1"
+    source-map "0.7.4"
+
+"@angular-devkit/core@16.0.2", "@angular-devkit/core@^16.0.0":
+  version "16.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-16.0.2.tgz#4f2081d733656413470480f815b8eb2a11003f76"
+  integrity sha512-V4+t0BHO+QML9O2IiG2mJi8DtjeMOm4LAuG6tNDeiHZGAPOflvSPsKBtVl2JlXX/JxdLmyF4B6kRoAXRMKcwTg==
   dependencies:
     ajv "8.12.0"
     ajv-formats "2.1.1"
@@ -255,10 +274,24 @@
     "@material/typography" "15.0.0-canary.51f9c0c28.0"
     tslib "^2.3.0"
 
+"@angular/platform-browser-dynamic@16.0.0":
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-16.0.0.tgz#dca416f337d1aba7d0fc93ad982250585790b39b"
+  integrity sha512-xUR36r+7hFQjAb0RA0VFfWrCLj2VnWg0xJgPe4FQmwaEWjKMc011tkJXs0PApaiTxvE0W08nadSDTu5jfsBrFw==
+  dependencies:
+    tslib "^2.3.0"
+
 "@angular/platform-browser@16.0.0":
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-16.0.0.tgz#4e0d58c7e11ec7d6c188ea1d5bc8217318e566c7"
   integrity sha512-6LpgLfEnumKMKM/S9joWrVSm4MdFuIjddFmlSG7zGcRqwM0N8doH/YkuwTK8/t9q8wI/yztp6qM2pg25Pgv1XA==
+  dependencies:
+    tslib "^2.3.0"
+
+"@angular/router@16.0.0":
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-16.0.0.tgz#04b917ce68a51d187246974ebf6ffc6f5fa20e71"
+  integrity sha512-+5gjJwFx3AFGv7OnY53pfUzaPbWe5gOVQWXAnlUuk6tsQmWJBMehuCQ5ZO5cxViQDZkyvNALzoUeU6aKWmNqmg==
   dependencies:
     tslib "^2.3.0"
 
@@ -335,7 +368,7 @@
     json5 "^2.2.2"
     semver "^6.3.0"
 
-"@babel/core@^7.11.6", "@babel/core@^7.12.10", "@babel/core@^7.12.3", "@babel/core@^7.13.16", "@babel/core@^7.20.2", "@babel/core@~7.21.0":
+"@babel/core@^7.11.6", "@babel/core@^7.12.10", "@babel/core@^7.12.3", "@babel/core@^7.13.16", "@babel/core@^7.20.2", "@babel/core@^7.21.8", "@babel/core@~7.21.0":
   version "7.21.8"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.21.8.tgz#2a8c7f0f53d60100ba4c32470ba0281c92aa9aa4"
   integrity sha512-YeM22Sondbo523Sz0+CirSPnbj9bG3P0CdHcBZdqUuaeOaYEFbOLoGU7lebvGP6P5J/WE9wOn7u7C4J9HvS1xQ==
@@ -1621,6 +1654,11 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
+"@consensus-labs/data-sources@1.11.0":
+  version "1.11.0"
+  resolved "https://gitlab.com/api/v4/projects/36921000/packages/npm/@consensus-labs/data-sources/-/@consensus-labs/data-sources-1.11.0.tgz#ff41ed0be2c709f59a3c6b4c9bf4920c06698a65"
+  integrity sha1-/0HtC+LHCfWaPGtMm/SSDAZpimU=
+
 "@consensus-labs/ngx-forms-core@16.0.0":
   version "16.0.0"
   resolved "https://gitlab.com/api/v4/projects/37055767/packages/npm/@consensus-labs/ngx-forms-core/-/@consensus-labs/ngx-forms-core-16.0.0.tgz#c9f371323d7f061d06db55245b609521f29412e6"
@@ -2894,7 +2932,7 @@
     remark-slug "^6.0.0"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-essentials@^7.0.9":
+"@storybook/addon-essentials@7.0.9":
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/@storybook/addon-essentials/-/addon-essentials-7.0.9.tgz#0388351071e9cc814296b729c4121e1c923263a4"
   integrity sha512-XNZpFA1K2PLV4NdS99tpD6+L4yeLYMFeBuxI7u7dJo1kT0z5fDF+nZltEcnghDlZiWPsI2XvGaHsdS7AjLswcA==
@@ -6455,6 +6493,11 @@ functions-have-names@^1.2.2, functions-have-names@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/functions-have-names/-/functions-have-names-1.2.3.tgz#0404fe4ee2ba2f607f0e0ec3c80bae994133b834"
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
+
+fuse.js@6.6.2:
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-6.6.2.tgz#fe463fed4b98c0226ac3da2856a415576dc9a111"
+  integrity sha512-cJaJkxCCxC8qIIcPBF9yGxY0W/tVZS3uEISDxhYIdtk8OL93pe+6Zj7LjCqVV4dzbqcriOZ+kQ/NE4RXZHsIGA==
 
 gauge@^3.0.0:
   version "3.0.2"

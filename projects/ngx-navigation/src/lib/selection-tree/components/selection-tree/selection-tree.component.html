@@ -1,0 +1,7 @@
+
+
+<div class="folder-list" *ngIf="folders$ | async as folders">
+    <cms-selection-tree-folder *ngFor="let folder of folders; trackBy: getId" [folder]="folder"></cms-selection-tree-folder>
+</div>
+
+<ngx-loading-overlay *ngIf="loading" type="content"></ngx-loading-overlay>

@@ -1,0 +1,51 @@
+<table mat-table [dataSource]="dataSource.tableDisplayData$" [trackBy]="getId" matSort
+       (matSortChange)="dataSource.setSort($event)"
+       [matSortDirection]="dataSource.sorting.direction" [matSortActive]="dataSource.sorting.active">
+
+    <ngx-table-column *ngFor="let col of dataSource.columns" [id]="col.id" [title]="col.title" [canSort]="!!col.sortFn"
+                      [mapData]="dataMap(col)" [mapContext]="contextMap(col)" [type]="col.dataType" [templates]="templateLookup$ | async">
+    </ngx-table-column>
+
+    <ng-container matColumnDef="_actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="actions">
+            <mat-icon class="far" *ngIf="element.actions.length" matRipple noClickBubble
+                      [matMenuTriggerFor]="itemContext" [matMenuTriggerData]="element">more_horiz</mat-icon>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="_selection">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="selection">
+            <mat-checkbox class="checkbox medium" [class.circle]="!multiSelect" [checked]="selection.isActive$(element) | truthy"></mat-checkbox>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="_flags">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="flags">
+            <mat-icon class="flag" *ngFor="let flag of element.flags" [ngClass]="flag.icon" [matTooltip]="flag.name"></mat-icon>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnIds"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnIds;" (click)="onClick(row.model)"
+        [contextMenu]="trigger" [triggerElement]="triggerEl" [menuData]="row" [disableMenu]="!row.actions.length">
+    </tr>
+</table>
+
+<div class="floating-trigger" [matMenuTriggerFor]="itemContext" #trigger="matMenuTrigger" #triggerEl></div>
+
+<mat-menu #itemContext="matMenu">
+    <ng-template matMenuContent let-actions="actions" let-model="model">
+        <ngx-nav-menu-item *ngFor="let action of actions" [action]="action"
+                           (click)="action.action?.(model)">
+        </ngx-nav-menu-item>
+    </ng-template>
+</mat-menu>
+
+<div class="grow"></div>
+
+<ngx-nav-paginator [dataSource]="dataSource" *ngIf="dataSource.paginated"></ngx-nav-paginator>
+
+<ngx-loading-overlay *ngIf="loading" type="absolute"></ngx-loading-overlay>

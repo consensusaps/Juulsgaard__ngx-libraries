@@ -1,0 +1,25 @@
+<cms-nav-tree-search-actions
+  *ngIf="(dataSource.searching$ | truthy) && showSearchActions"
+  [dataSource]="dataSource" [alwaysHideFolders]="alwaysHideFolders"
+  [alwaysHideItems]="alwaysHideItems" [(showFolders)]="showFolders"
+  [(showItems)]="showItems"/>
+
+<ng-container *ngIf="dataSource.searching$ | falsy">
+  <ng-content select="header"></ng-content>
+</ng-container>
+
+<div class="search">
+  <form-search-input [value$]="dataSource.searchQuery$"></form-search-input>
+</div>
+
+<cms-selection-tree
+  *ngIf="dataSource.searching$ | falsy" [dataSource]="dataSource"
+  [expandAll]="expandAll" [hideEmpty]="hideEmpty"
+  [state]="state" [loading]="loading"/>
+
+<app-selection-tree-search-result
+  *ngIf="dataSource.searching$ | truthy" [dataSource]="dataSource"
+  [showOpenFolder]="showOpenFolder"
+  (openFolder)="openSearchFolder($event)" [selection]="state" [loading]="loading"
+  [hideFolders]="alwaysHideFolders || !showFolders"
+  [hideItems]="alwaysHideItems || !showItems"/>

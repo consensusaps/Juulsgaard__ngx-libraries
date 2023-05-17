@@ -1,0 +1,10 @@
+
+<button mat-menu-item *ngIf="action.action" (click)="run.emit()" [ngClass]="action.color!">
+  <mat-icon [fontIcon]="action.icon"></mat-icon>
+  <span>{{action.name}}</span>
+</button>
+
+<a mat-menu-item *ngIf="action.route as route" [routerLink]="route" [ngClass]="action.color!">
+  <mat-icon [fontIcon]="action.icon"></mat-icon>
+  <span>{{action.name}}</span>
+</a>

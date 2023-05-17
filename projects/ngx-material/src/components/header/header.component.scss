@@ -1,0 +1,74 @@
+@use "variables" as *;
+
+@media (min-width: $medium-min) {
+  .menu {
+    display: none;
+  }
+}
+
+:host {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  border-bottom: thin solid $text-color-lightest;
+
+  html.no-scroll & {
+    padding-right: 26px;
+  }
+}
+
+.title {
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.2;
+  flex-shrink: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+mat-icon {
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 10px;
+  margin-left: -10px;
+}
+
+:host.main-header {
+  padding: 20px;
+  background-color: $main-header-background;
+  height: $main-header-height;
+  z-index: 12;
+
+  .title {
+    font-size: 34px;
+  }
+}
+
+:host.sub-header {
+  padding: 8px 20px;
+  background-color: $sub-header-background;
+  height: $sub-header-height;
+  z-index: 11;
+
+  .title {
+    font-size: 20px;
+  }
+}
+
+:host.sub-tab-header {
+  padding: 5px 20px;
+  background-color: $sub-header-background;
+  height: $sub-tab-header-height;
+  z-index: 10;
+
+  .title {
+    font-size: 18px;
+  }
+}

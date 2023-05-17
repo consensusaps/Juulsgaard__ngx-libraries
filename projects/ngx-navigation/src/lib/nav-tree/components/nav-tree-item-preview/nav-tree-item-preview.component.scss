@@ -1,0 +1,22 @@
+:host {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	width: 200px;
+	padding: 16px;
+	border-radius: 12px;
+}
+
+mat-icon {
+	font-size: 40px;
+	width: 40px;
+	height: 40px;
+	margin-bottom: 20px;
+}
+
+p {
+	text-align: center;
+	font-size: 18px;
+	font-weight: 500;
+	word-break: break-word;
+}

@@ -1,0 +1,36 @@
+<div class="item-row" matRipple [matRippleDisabled]="context.allowMoveItem$ | truthy"
+     (click)="onClick($event)"
+     [matTooltip]="item.data.tooltip!" matTooltipTouchGestures="off"
+
+     [class.active]="active$ | truthy"
+     [class.selected]="selected$ | truthy"
+     [class.cut]="inClipboard$ | truthy"
+     [contextMenu]="trigger" [triggerElement]="triggerEl" [disableMenu]="!item.actions.length"
+>
+
+    <mat-icon class="item-icon color-icon" [fontIcon]="item.data.icon"></mat-icon>
+    <p class="name" [innerHTML]="item.data.name"></p>
+    <p class="bonus" *ngIf="item.data.bonus">{{item.data.bonus}}</p>
+    <mat-icon class="action" fontIcon="more_horiz" matRipple
+       noClickBubble [class.ghost]="!item.actions.length"
+       [matMenuTriggerFor]="itemContext">
+    </mat-icon>
+</div>
+
+<div class="floating-trigger" [matMenuTriggerFor]="itemContext" #trigger="matMenuTrigger" #triggerEl></div>
+
+<mat-menu #itemContext="matMenu">
+    <ng-container *ngFor="let action of item.actions">
+
+        <button mat-menu-item *ngIf="action.action as act" (click)="act(item.model.model, item.model)" [ngClass]="action.color!">
+            <mat-icon [fontIcon]="action.icon"></mat-icon>
+            <span>{{action.name}}</span>
+        </button>
+
+        <a mat-menu-item *ngIf="action.route as route" [routerLink]="route" [ngClass]="action.color!">
+            <mat-icon [fontIcon]="action.icon"></mat-icon>
+            <span>{{action.name}}</span>
+        </a>
+
+    </ng-container>
+</mat-menu>

@@ -1,0 +1,13 @@
+
+<div class="grid">
+
+    <ngx-nav-create-tile *ngFor="let action of createActions" [config]="action"/>
+
+    <ngx-selection-grid-tile class="cell" *ngFor="let item of dataSource.gridDisplayData$ | async; trackBy: getId"
+                       [data]="item" [imageFallback]="dataSource.gridFallbackImage"
+                       [noRipple]="!itemClick.observed" [class.no-blur]="noBlur" [singleSelect]="!multiSelect"
+                       (click)="onClick(item.model)" [active]="selection.isActive$(item.model.id) | truthy">
+    </ngx-selection-grid-tile>
+
+    <ngx-loading-overlay type="absolute" *ngIf="loading"/>
+</div>

@@ -1,0 +1,29 @@
+@use "variables" as *;
+
+:host {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+	background-color: $sub-header-background;
+	height: $sub-header-height;
+	flex-shrink: 0;
+	position: sticky;
+	top: 0;
+	border-bottom: thin solid $text-color-lightest;
+	z-index: 10;
+	align-self: stretch;
+
+	&.sub-tab-header {
+		background-color: $sub-tab-header-background;
+		height: $sub-tab-header-height;
+	}
+
+	&.sub-header {
+		background-color: $sub-header-background;
+		height: $sub-header-height;
+	}
+}
+
+form-search-input {
+	flex-grow: 1;
+}

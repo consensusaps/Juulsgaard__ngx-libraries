@@ -1,0 +1,49 @@
+@use "variables" as *;
+
+:host {
+	position: relative;
+	display: flex;
+	flex-flow: column;
+	width: 100%;
+}
+
+table {
+	width: 100%;
+	
+	tr {
+		height: 70px;
+		border-bottom: thin solid $foreground;
+		cursor: pointer;
+
+		&.mat-mdc-header-row {
+			height: 56px;
+		}
+	}
+	
+	td.actions {
+		width: 64px;
+		max-width: 64px;
+		
+		mat-icon {
+			font-size: 22px;
+			width: 32px;
+			height: 32px;
+			padding: 5px;
+			border-radius: 8px;
+		}
+	}
+	
+	td.flags {
+		width: 0;
+		
+		mat-icon {
+			display: block;
+			width: 16px;
+			height: 16px;
+			font-size: 12px;
+			padding: 2px;
+			margin: 2px 0;
+			text-align: center;
+		}
+	}
+}

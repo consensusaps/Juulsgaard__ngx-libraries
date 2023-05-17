@@ -1,0 +1,127 @@
+@use "variables" as *;
+
+:host {
+	display: flex;
+	flex-flow: column;
+}
+
+.wrapper {
+	display: flex;
+	flex-flow: column;
+	overflow-x: hidden;
+	flex-grow: 1;
+}
+
+.aside {
+	background-color: $foreground-dark;
+	transition: background-color 100ms linear;
+	position: relative;
+	width: 400px;
+	overflow-y: auto;
+	flex-grow: 1;
+	@include default-scroll-bar();
+
+	.head {
+		display: flex;
+		flex-flow: column;
+		padding: 16px;
+		background-color: $sub-header-background;
+		position: sticky;
+		top: 0;
+		z-index: 1;
+
+		.path {
+			margin-bottom: 16px;
+			line-height: 1.5;
+
+			span {
+				font-weight: 500;
+				color: $primary;
+				cursor: pointer;
+				padding: 5px;
+				font-size: 16px;
+
+				&:hover {
+					opacity: 0.4;
+				}
+			}
+		}
+
+		.hoz {
+			display: flex;
+			flex-flow: row;
+			align-items: center;
+
+			.icon {
+				font-size: 24px;
+				line-height: 32px;
+				height: 32px;
+				width: 32px;
+				margin-right: 20px;
+				text-align: center;
+				flex-shrink: 0;
+				color: $text-color-light;
+			}
+
+			.info {
+				display: flex;
+				flex-flow: column;
+				justify-content: center;
+				flex-shrink: 1;
+				flex-grow: 1;
+
+				.name {
+					font-size: 18px;
+					font-weight: 500;
+				}
+
+				.bonus {
+					font-size: 16px;
+					font-style: italic;
+					margin-top: 2px;
+				}
+
+				.name, .bonus {
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+			}
+		}
+	}
+
+	mat-list {
+		padding-top: 0;
+
+		mat-list-item {
+			padding-left: 20px;
+
+			&.active {
+				background-color: $foreground;
+			}
+
+			&.item {
+				.icon {
+					color: $accent;
+				}
+			}
+
+			&.folder {
+				.icon {
+					color: $text-color-light;
+				}
+			}
+		}
+	}
+}
+
+i.actions {
+	font-size: 18px;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	border-radius: 4px;
+	flex-shrink: 0;
+}

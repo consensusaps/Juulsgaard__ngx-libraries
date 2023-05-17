@@ -1,0 +1,37 @@
+<div class="ngx-grid-tile" matRipple [matRippleDisabled]="noRipple"
+     [contextMenu]="trigger" [triggerElement]="triggerEl" [disableMenu]="!data.actions.length">
+
+    <div class="preview">
+
+        <ng-container *ngIf="data.image as image">
+            <img class="blur" [src]="image" [fallbackSrc]="imageFallback" [alt]="data.title" loading="lazy">
+            <img [src]="image" [fallbackSrc]="imageFallback" [alt]="data.title" loading="lazy">
+        </ng-container>
+
+        <mat-icon *ngIf="!data.image" class="tile-icon" [fontIcon]="data.icon ?? 'unknown_med'"></mat-icon>
+
+        <div class="flags" *ngIf="data.flags.length">
+            <mat-icon class="flag" *ngFor="let flag of data.flags" [fontIcon]="flag.icon" [matTooltip]="flag.name"></mat-icon>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="head">
+        <p class="title">{{data.title}}</p>
+        <p class="sub-title" [title]="data.subTitle">{{data.subTitle}}</p>
+    </div>
+
+    <mat-icon class="context" *ngIf="!!data.actions.length" mat-ripple noClickBubble [matMenuTriggerFor]="context">more_vert</mat-icon>
+
+    <mat-checkbox class="checkbox" [class.circle]="singleSelect" [checked]="active"></mat-checkbox>
+</div>
+
+<div class="floating-trigger" [matMenuTriggerFor]="context" #trigger="matMenuTrigger" #triggerEl></div>
+
+<mat-menu #context="matMenu">
+    <ngx-nav-menu-item *ngFor="let action of data.actions" [action]="action"
+                       (click)="action.action?.(data.model)">
+    </ngx-nav-menu-item>
+</mat-menu>

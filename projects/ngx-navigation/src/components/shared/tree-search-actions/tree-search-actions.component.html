@@ -1,0 +1,18 @@
+<ng-container *ngIf="!alwaysHideFolders && !alwaysHideItems">
+    <mat-slide-toggle color="primary" [ngModel]="showFolders" (ngModelChange)="toggleFolders($event)">
+        {{folderName}}
+    </mat-slide-toggle>
+    <mat-slide-toggle color="primary" [ngModel]="showItems" (ngModelChange)="toggleItems($event)">
+        {{itemName}}
+    </mat-slide-toggle>
+</ng-container>
+
+<div class="grow"></div>
+
+<mat-select [(value)]="sortValue" placeholder="Relevancy">
+    <mat-option>Relevancy</mat-option>
+    <ng-container *ngFor="let s of dataSource.sortOptions">
+        <mat-option [value]="s.id + '-' + 'asc'">{{s.name}} 🠕</mat-option>
+        <mat-option [value]="s.id + '-' + 'desc'">{{s.name}} 🠗</mat-option>
+    </ng-container>
+</mat-select>

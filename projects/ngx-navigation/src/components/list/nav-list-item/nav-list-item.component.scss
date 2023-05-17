@@ -1,0 +1,87 @@
+@use "variables" as *;
+
+:host {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid $text-color-lightest;
+  min-height: 64px;
+
+  &.active {
+    background-color: $primary-lighter;
+  }
+
+  &.faded {
+    color: $text-color-light;
+  }
+}
+
+.avatar {
+  padding: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+.icon {
+  color: $accent;
+  --padding: 8px;
+  font-size: 26px;
+}
+
+.avatar, .icon {
+  margin-right: 5px;
+  flex-shrink: 0;
+}
+
+.info {
+  min-width: 0;
+  padding-left: 10px;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  p {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  p:first-child {
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: $text-color;
+  }
+
+  p:nth-child(2) {
+    margin-top: 3px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+    color: $text-color-light;
+  }
+}
+
+.actions {
+  font-size: 24px;
+  --padding: 8px;
+  width: 28px;
+  padding: 8px 2px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.flags {
+  display: flex;
+  flex-flow: column;
+  padding: 0 2px;
+  margin-right: -4px;
+  flex-shrink: 0;
+}
+
+.flag {
+  font-size: 12px;
+  --padding: 2px;
+  margin: 2px 0;
+}

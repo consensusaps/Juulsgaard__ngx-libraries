@@ -1,0 +1,5 @@
+
+
+<ngx-nav-tree-folder-list *ngIf="state" [folders]="(dataSource.treeData$ | async) ?? []"></ngx-nav-tree-folder-list>
+
+<ngx-loading-overlay *ngIf="loading" type="content"></ngx-loading-overlay>

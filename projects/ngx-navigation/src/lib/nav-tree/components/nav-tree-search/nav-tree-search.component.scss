@@ -1,0 +1,22 @@
+@use "variables" as *;
+
+:host {
+	display: flex;
+	flex-flow: column;
+	min-height: 100%;
+}
+
+ngx-nav-search-bar {
+	
+	ngx-nav-tree-search-actions ~ & {
+		top: calc(#{$sub-header-height});
+	}
+	
+	@media (min-width: $large-min) {
+		display: none;
+	}
+}
+
+ngx-nav-tree, ngx-nav-tree-search-result {
+	flex-grow: 1;
+}

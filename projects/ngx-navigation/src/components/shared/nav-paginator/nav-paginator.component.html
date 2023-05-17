@@ -1,0 +1,8 @@
+
+<ng-container *ngIf="dataSource && dataSource.paginated && (dataSource.searching$ | falsy)">
+    <mat-paginator class="mini" *ngIf="dataSource.page$ | async as page"
+                   [pageIndex]="page.page" [hidePageSize]="true"
+                   [pageSize]="page.pageSize" (page)="dataSource.setPage($event)"
+                   [length]="(dataSource.length$ | async) ?? 0">
+    </mat-paginator>
+</ng-container>

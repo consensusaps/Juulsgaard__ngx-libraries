@@ -1,0 +1,16 @@
+
+<img class="avatar" [src]="avatar" *ngIf="!!avatar" [fallbackSrc]="avatarFallback" [alt]="item?.id">
+<ngx-icon class="icon" [icon]="icon" *ngIf="!!icon && !avatar"/>
+
+<div class="info">
+    <p>{{header}}</p>
+    <p *ngIf="!!subText">{{subText}}</p>
+</div>
+
+<ngx-icon class="actions" icon="more_vert" *ngIf="context && actions?.length" matRipple noClickBubble [matMenuTriggerFor]="context" [matMenuTriggerData]="{actions, item}"/>
+
+<mat-checkbox *ngIf="checkbox" [class.round]="checkbox === 'round'" [checked]="selected"/>
+
+<div class="flags" *ngIf="flags?.length">
+    <ngx-icon class="flag" *ngFor="let flag of flags" [icon]="flag.icon" [matTooltip]="flag.name"/>
+</div>

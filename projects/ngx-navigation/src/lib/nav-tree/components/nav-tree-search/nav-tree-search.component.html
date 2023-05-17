@@ -1,0 +1,25 @@
+<ngx-tree-search-actions
+        *ngIf="(dataSource.searching$ | truthy) && showSearchActions"
+        [dataSource]="dataSource" [alwaysHideFolders]="alwaysHideFolders"
+        [alwaysHideItems]="alwaysHideItems" [(showFolders)]="showFolders"
+        [(showItems)]="showItems" [folderName]="folderName" [itemName]="itemName"/>
+
+<ng-container *ngIf="dataSource.searching$ | falsy">
+    <ng-content select="header"/>
+</ng-container>
+
+<ngx-nav-search-bar [query$]="dataSource.searchQuery$"/>
+
+<ngx-nav-tree
+        [expandAll]="expandAll" [hideEmpty]="hideEmpty" [routeNav]="routeNav"
+        *ngIf="dataSource.searching$ | falsy" [loading]="loading"
+        [dataSource]="dataSource" [state]="state"
+        (itemClick)="itemClick.emit($event)" (folderClick)="folderClick.emit($event)"/>
+
+<ngx-nav-tree-search-result
+        *ngIf="dataSource.searching$ | truthy" [loading]="loading"
+        [showOpenFolder]="showOpenFolder" [routeNav]="routeNav"
+        [dataSource]="dataSource" [state]="state"
+        (folderClick)="onFolderClick($event)" (itemClick)="itemClick.emit($event)"
+        [hideFolders]="alwaysHideFolders || !showFolders"
+        [hideItems]="alwaysHideItems || !showItems"/>

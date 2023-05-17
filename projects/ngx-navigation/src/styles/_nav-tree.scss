@@ -1,0 +1,317 @@
+@use "src/styles/variables" as *;
+
+.ngx-nav-tree {
+
+  .folder-list {
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+
+    .folder-row {
+      position: relative;
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      padding: 20px;
+      border-bottom: thin solid $text-color-lightest;
+
+      &.active {
+        background-color: $foreground;
+      }
+
+      .collapse-toggle {
+        width: 28px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 28px;
+        border-radius: 4px;
+        text-align: center;
+        margin-right: 10px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .folder-icon {
+        font-size: 24px;
+        width: 30px;
+        height: 24px;
+        text-align: center;
+        color: $text-color-light;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+
+      .name {
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 20px;
+        flex-grow: 1;
+        flex-shrink: 1;
+      }
+
+      .bonus {
+        color: $text-color-light;
+        text-transform: uppercase;
+        font-size: 14px;
+        margin-right: 20px;
+        flex-shrink: 0;
+      }
+
+      .action {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 24px;
+        border-radius: 4px;
+        text-align: center;
+        flex-shrink: 0;
+
+        ~ .toggle {
+          margin-left: 20px;
+        }
+      }
+
+      .toggle {
+        width: 50px;
+        text-align: center;
+        flex-shrink: 0;
+        padding-right: 10px;
+
+        .mat-checkbox-inner-container {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+
+    .folder-list, .item-list {
+      padding-left: 32px;
+    }
+
+    > .cdk-drag-placeholder {
+      background-color: $text-color-lightest;
+      opacity: 0.5;
+    }
+  }
+
+  .item-list {
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+
+    .item-row {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      padding: 20px;
+      border-bottom: thin solid $text-color-lightest;
+
+      &.active {
+        background-color: $foreground;
+      }
+
+      .item-icon {
+        font-size: 24px;
+        width: 30px;
+        text-align: center;
+        color: $accent;
+        margin-right: 10px;
+        margin-left: 34px;
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .name {
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 20px;
+        flex-grow: 1;
+        flex-shrink: 1;
+      }
+
+      .bonus {
+        color: $text-color-light;
+        font-size: 14px;
+        text-transform: uppercase;
+        margin-right: 20px;
+        flex-shrink: 0;
+      }
+
+      .action {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 24px;
+        border-radius: 4px;
+        text-align: center;
+        flex-shrink: 0;
+
+        ~ .toggle {
+          margin-left: 20px;
+        }
+      }
+
+      .toggle {
+        width: 40px;
+        text-align: center;
+        flex-shrink: 0;
+
+        .mat-checkbox-inner-container {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+
+    > .cdk-drag-placeholder {
+      background-color: $text-color-lightest;
+      opacity: 0.5;
+    }
+  }
+
+  @media (max-width: $small-max) {
+    .folder-list {
+      .folder-row {
+        padding: 16px;
+
+        .collapse-toggle {
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          font-size: 20px;
+          margin-right: 10px;
+        }
+
+        .folder-icon {
+          font-size: 22px;
+          width: 26px;
+          margin-right: 10px;
+        }
+
+        .name {
+          font-size: 14px;
+          margin-right: 10px;
+        }
+
+        .bonus {
+          font-size: 12px;
+          margin-right: 10px;
+        }
+
+        .action {
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          font-size: 20px;
+        }
+
+        .toggle {
+          width: 30px;
+
+          .mat-checkbox-inner-container {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+
+      .folder-list, .item-list {
+        padding-left: 20px;
+      }
+    }
+
+    .item-list {
+
+      .item-row {
+        padding: 16px;
+
+        .item-icon {
+          font-size: 20px;
+          width: 26px;
+          margin-right: 10px;
+          margin-left: 30px;
+        }
+
+        .name {
+          font-size: 14px;
+          margin-right: 10px;
+        }
+
+        .bonus {
+          font-size: 12px;
+          margin-right: 10px;
+        }
+
+        .action {
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          font-size: 20px;
+        }
+
+        .toggle {
+          width: 30px;
+
+          .mat-checkbox-inner-container {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  .long-tap {
+    &.long-tap-active {
+      .folder-row, .item-row {
+        transition: background-color calc(var(--long-tap-duration) - 150ms) linear;
+        transition-delay: 100ms;
+        background-color: $primary-light;
+      }
+    }
+
+    &.long-tap-completed {
+      .folder-row, .item-row {
+        transition: background-color 50ms linear, color 100ms;
+        transition-delay: 0ms;
+        background-color: $primary;
+        color: $primary-contrast;
+      }
+    }
+  }
+}
+
+ngx-nav-tree-search, ngx-selection-tree-search {
+
+  > header {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    padding: 8px 20px;
+    background-color: #FFFFFF;
+    height: $sub-header-height;
+    flex-shrink: 0;
+    position: sticky;
+    z-index: 11;
+    border-bottom: thin solid $text-color-lightest;
+    top: 0;
+    align-self: stretch;
+
+    form-search-input {
+      flex-grow: 1;
+    }
+  }
+}
+
+.mat-menu-item.warn {
+  color: $warn;
+
+  mat-icon {
+    color: $warn;
+    opacity: 0.7;
+  }
+}

@@ -1,0 +1,19 @@
+
+<div class="ngx-grid-tile" (fileDrop)="onFileDrop($event)" [fileDropDisable]="!config.canUpload" matRipple (click)="config.create()">
+
+    <div class="preview">
+        <mat-icon class="tile-icon" [fontIcon]="config.icon"></mat-icon>
+    </div>
+
+    <hr>
+
+    <div class="head">
+        <button mat-raised-button color="primary">{{config.name}}</button>
+    </div>
+
+    <div class="file-drop">
+        <mat-icon>cloud_upload</mat-icon>
+        <p>Drop Files</p>
+    </div>
+
+</div>

@@ -1,0 +1,40 @@
+@use "variables" as *;
+
+:host {
+	position: relative;
+	display: flex;
+	flex-flow: column;
+}
+
+table {
+	width: 100%;
+
+	tr {
+		height: 70px;
+		border-bottom: thin solid $foreground;
+		cursor: pointer;
+	}
+
+	td.actions {
+		width: 40px;
+		max-width: 40px;
+
+		i {
+			font-size: 22px;
+			width: 32px;
+			height: 32px;
+			line-height: 32px;
+			text-align: center;
+			border-radius: 8px;
+		}
+	}
+
+	td.selection {
+		width: 60px;
+		max-width: 60px;
+
+		.checkbox {
+			pointer-events: none;
+		}
+	}
+}

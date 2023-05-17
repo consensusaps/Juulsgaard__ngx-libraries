@@ -1,0 +1,57 @@
+<div class="folder-row" [id]="'search_' + folder.model.model.id"
+     matRipple [matRippleDisabled]="!hasContent || (context.allowMoveFolder$ | truthy)" (click)="onClick($event)"
+
+     [class.active]="active$ | truthy"
+
+     [matTooltip]="folder.data.tooltip!" matTooltipTouchGestures="off"
+     [contextMenu]="trigger" [triggerElement]="triggerEl" [disableMenu]="!folder.actions.length">
+
+    <mat-icon class="collapse-toggle" [fontIcon]="(expanded$ | truthy) ? 'expand_less' : 'expand_more'"
+              [class.ghost]="!hasContent" noClickBubble (click)="folderState.toggleOpenFolder(folder.model)">
+    </mat-icon>
+
+    <mat-icon class="folder-icon" [fontIcon]="folder.data.icon"></mat-icon>
+    <p class="name">{{folder.data.name}}</p>
+    <p class="bonus" *ngIf="folder.data.bonus">{{folder.data.bonus}}</p>
+    <mat-icon class="action" fontIcon="more_horiz" matRipple [matMenuTriggerFor]="folderContext"
+       noClickBubble [class.ghost]="!folder.actions.length">
+    </mat-icon>
+
+</div>
+
+<ng-container *ngIf="expanded$ | truthy">
+    <ngx-nav-tree-folder-list *ngIf="hasFolders" [folders]="folder.folders"/>
+
+    <div class="item-list" *ngIf="hasItems" cdkDropList (cdkDropListDropped)="onItemDrop($event)"
+         [cdkDropListDisabled]="context.allowMoveItem$ | falsy">
+
+        <ngx-nav-tree-item *ngFor="let i of folder.items; trackBy: getId" [item]="i"
+                           cdkDrag [cdkDragData]="i.model.model.id" [cdkDragStartDelay]="300"
+                           (longTap)="null" [tapDuration]="300" [longTapDisabled]="context.allowMoveItem$ | falsy">
+
+            <ngx-nav-tree-item-preview [icon]="i.data.icon" [name]="i.data.name" *cdkDragPreview>
+            </ngx-nav-tree-item-preview>
+
+        </ngx-nav-tree-item>
+
+    </div>
+
+</ng-container>
+
+<div class="floating-trigger" [matMenuTriggerFor]="folderContext" #trigger="matMenuTrigger" #triggerEl></div>
+
+<mat-menu #folderContext="matMenu">
+    <ng-container *ngFor="let action of folder.actions">
+
+        <button mat-menu-item *ngIf="action.action as act" (click)="act(folder.model.model, folder.model)" [ngClass]="action.color!">
+            <mat-icon [fontIcon]="action.icon"></mat-icon>
+            <span>{{action.name}}</span>
+        </button>
+
+        <a mat-menu-item *ngIf="action.route as route" [routerLink]="route" [ngClass]="action.color!">
+            <mat-icon [fontIcon]="action.icon"></mat-icon>
+            <span>{{action.name}}</span>
+        </a>
+
+    </ng-container>
+</mat-menu>

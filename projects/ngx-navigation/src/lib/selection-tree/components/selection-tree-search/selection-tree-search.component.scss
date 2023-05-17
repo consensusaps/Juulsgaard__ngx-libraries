@@ -1,0 +1,37 @@
+@use "variables" as *;
+
+:host {
+	display: flex;
+	flex-flow: column;
+	min-height: 100%;
+}
+
+.search {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+	background-color: $sub-tab-header-background;
+	height: $cms-sub-tab-header-height;
+	flex-shrink: 0;
+	position: sticky;
+	top: var(--header-offset);
+	border-bottom: thin solid $text-color-lightest;
+	z-index: 10;
+	align-self: stretch;
+
+	cms-nav-tree-search-actions ~ & {
+		top: calc(#{$cms-sub-header-height} + var(--header-offset));
+	}
+
+	form-search-input {
+		flex-grow: 1;
+	}
+
+	@media (min-width: $large-min) {
+		display: none;
+	}
+}
+
+cms-selection-tree, app-selection-tree-search-result {
+	flex-grow: 1;
+}

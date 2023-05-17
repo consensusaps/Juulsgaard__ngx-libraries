@@ -1,0 +1,14 @@
+@use "variables" as *;
+
+:host {
+	position: relative;
+	display: flex;
+	flex-flow: column;
+	width: 100%;
+}
+
+ngx-nav-search-bar {
+	@media (min-width: 1001px) {
+		display: none;
+	}
+}

@@ -35,12 +35,15 @@
       ],
       "@consensus-labs/ngx-forms-inputs": [
         "dist/ngx-forms-inputs"
+      ],
+      "@consensus-labs/ngx-navigation": [
+        "dist/ngx-navigation"
       ]
     },
     "lib": [
-      "es2020",
+      "es2022",
       "dom"
-    ],
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

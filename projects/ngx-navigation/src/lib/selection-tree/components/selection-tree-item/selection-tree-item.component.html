@@ -1,0 +1,23 @@
+
+<div class="item-row" (click)="context.toggleItem(item.model.model)" matRipple
+     [matTooltip]="item.data.tooltip!" matTooltipTouchGestures="off"
+     [contextMenu]="trigger" [triggerElement]="triggerEl" [disableMenu]="!item.actions.length">
+
+    <i class="item-icon color-icon" [ngClass]="item.data.icon"></i>
+    <p class="name" [innerHTML]="item.data.name"></p>
+    <p class="bonus" *ngIf="item.data.bonus">{{item.data.bonus}}</p>
+    <i class="action far fa-ellipsis-h" *ngIf="item.actions.length" matRipple
+       noClickBubble [matMenuTriggerFor]="itemContext">
+    </i>
+    <div class="toggle">
+        <mat-checkbox class="checkbox medium" [class.circle]="!context.multiSelect" [checked]="active$ | truthy"></mat-checkbox>
+    </div>
+</div>
+
+<div class="floating-trigger" [matMenuTriggerFor]="itemContext" #trigger="matMenuTrigger" #triggerEl></div>
+
+<mat-menu #itemContext="matMenu">
+  <cms-nav-menu-item *ngFor="let action of item.actions" [action]="action"
+                     (click)="action.action?.(item.model.model, item.model)">
+  </cms-nav-menu-item>
+</mat-menu>

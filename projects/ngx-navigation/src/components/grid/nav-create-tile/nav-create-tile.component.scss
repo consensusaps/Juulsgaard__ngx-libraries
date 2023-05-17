@@ -1,0 +1,15 @@
+@use "variables" as *;
+
+:host {
+	&.file-hover {
+		border: thin dotted $text-color-lightest;
+		
+		> :not(.file-drop) {
+			visibility: hidden;
+		}
+	}
+}
+
+.file-drop {
+	display: none;
+}

@@ -1,0 +1,35 @@
+
+<div class="wrapper" *ngIf="show$ | async" @hozCollapse [style.filter]="filter$ | async">
+
+    <ngx-nav-search-bar *ngIf="showSearch" [query$]="dataSource.searchQuery$"></ngx-nav-search-bar>
+
+    <div class="ngx-nav-list">
+        <ngx-nav-list-item
+                *ngFor="let item of dataSource.listDisplayData$ | async; trackBy: getId"
+                [header]="item.firstLine" [subText]="item.secondLine" [icon]="item.icon"
+                [avatar]="item.avatar" [avatarFallback]="dataSource.listFallbackImage"
+                [item]="item.model" [activeId]="activeId"
+                matRipple (click)="rowClick(item, $event)"
+                [actions]="item.actions" [context]="itemContext" [flags]="item.flags"
+                [ngClass]="item.cssClasses"
+                [contextMenu]="trigger" [menuData]="item"
+                [triggerElement]="triggerEl" [disableMenu]="!item.actions.length"/>
+
+        <ngx-nav-list-item
+                *ngFor="let action of createActions" class="create-new"
+                [header]="action.name" [icon]="action.icon"
+                (click)="action.create()"/>
+    </div>
+
+    <ngx-nav-paginator [dataSource]="dataSource"></ngx-nav-paginator>
+</div>
+
+<div class="floating-trigger" [matMenuTriggerFor]="itemContext" #trigger="matMenuTrigger" #triggerEl></div>
+
+<mat-menu #itemContext="matMenu">
+    <ng-template matMenuContent let-actions="actions" let-model="item">
+      <ngx-nav-menu-item *ngFor="let action of actions" [action]="action"
+                         (click)="action.action?.(model)">
+      </ngx-nav-menu-item>
+    </ng-template>
+</mat-menu>

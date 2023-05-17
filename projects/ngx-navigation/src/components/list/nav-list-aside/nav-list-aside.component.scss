@@ -1,0 +1,32 @@
+@use "variables" as *;
+
+:host {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	max-height: 100%;
+	float: left;
+	position: sticky;
+	top: 0;
+	z-index: 15;
+}
+
+.wrapper {
+	display: flex;
+	flex-flow: column;
+	flex-grow: 1;
+	overflow-x: hidden;
+}
+
+.ngx-nav-list {
+	overflow-y: auto;
+	@include default-scroll-bar();
+}
+
+ngx-nav-search-bar {
+	top: 0;
+}
+
+ngx-nav-paginator, .ngx-nav-list, ngx-nav-search-bar {
+	width: 400px;
+}
