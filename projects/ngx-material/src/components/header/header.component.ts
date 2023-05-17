@@ -5,9 +5,10 @@ import {
 import {MatRippleModule} from "@angular/material/core";
 import {NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {Observable, Subscription} from "rxjs";
-import {map} from "rxjs/operators";
+import {Observable, of, Subscription} from "rxjs";
 import {TruthyPipe} from "@consensus-labs/ngx-tools";
+import {UIScopeContext} from "../../models/ui-scope";
+import {SidebarService} from "../../services/sidebar.service";
 
 @Component({
   selector: 'ngx-header',
@@ -32,24 +33,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @HostBinding('class')
   headerClass: string[] = [];
 
-  isTopLevel$: Observable<boolean>;
+  showMenu$: Observable<boolean>;
 
   private sub?: Subscription;
-  //TODO: Generic Sidebar service
-  sidebarService = inject(SidebarService, {optional: true});
+  private sidebarService = inject(SidebarService, {optional: true});
+  private uiContext = inject(UIScopeContext, {optional: true});
 
-  //TODO: Generic UI Scopes
   constructor(
-    private context: UIScopeContext,
     private changes: ChangeDetectorRef
   ) {
-    this.isTopLevel$ = context.scope$.pipe(map(s => s === 'root'));
+    if (this.sidebarService) {
+      this.showMenu$ = this.uiContext?.showMenu$ ?? of(true);
+    } else {
+      this.showMenu$ = of(false);
+    }
   }
 
   ngOnInit() {
-    this.context.registerHeader(this);
+    this.uiContext?.registerHeader(this);
 
-    this.sub = this.context.headerClass$.subscribe(x => {
+    this.sub = this.uiContext?.headerClass$.subscribe(x => {
       this.headerClass = x ? [x] : [];
       this.changes.detectChanges();
     });
@@ -57,6 +60,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
-    this.context.unregisterHeader(this);
+    this.uiContext?.unregisterHeader(this);
+  }
+
+  openMenu() {
+    this.sidebarService?.toggle(true)
   }
 }

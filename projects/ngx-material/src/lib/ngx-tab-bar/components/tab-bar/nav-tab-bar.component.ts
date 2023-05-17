@@ -1,14 +1,15 @@
 import {
-  AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, HostBinding,
-  inject, Input, OnDestroy, OnInit, Output, QueryList
+  AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, forwardRef,
+  HostBinding, inject, Injectable, Input, OnDestroy, OnInit, Output, QueryList
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {auditTime, merge, startWith, Subscription, switchMap} from "rxjs";
+import {auditTime, EMPTY, merge, Observable, startWith, Subscription, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 import {cache} from "@consensus-labs/rxjs-tools";
 import {NavTabBarContext, NavTabContext} from "../../services";
 import {RouteService} from "@consensus-labs/ngx-tools";
 import {INavTab} from "../../models/nav-tab.interface";
+import {BaseUIScopeContext, UIScopeContext} from "../../../../models/ui-scope";
 
 @Component({
   selector: 'ngx-tab-bar',
@@ -16,7 +17,7 @@ import {INavTab} from "../../models/nav-tab.interface";
   styleUrls: ['./nav-tab-bar.component.scss'],
   providers: [
     {provide: NavTabBarContext, useExisting: NavTabBarComponent},
-    {provide: UIScopeContext, useClass: TabUIScopeContext}
+    {provide: UIScopeContext, useClass: forwardRef(() => TabUIScopeContext)}
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -44,7 +45,11 @@ export class NavTabBarComponent extends NavTabBarContext implements OnInit, Afte
   @HostBinding('class')
   wrapperClass: string[] = [];
 
-  private context = inject(UIScopeContext, {skipSelf: true});
+  panelClass$?: Observable<string[]>;
+  headerClass$?: Observable<string[]>;
+
+  private readonly context = inject(UIScopeContext, {skipSelf: true, optional: true});
+  private readonly tabContext: UIScopeContext|undefined;
 
   constructor(
     private router: Router,
@@ -53,14 +58,27 @@ export class NavTabBarComponent extends NavTabBarContext implements OnInit, Afte
     private changes: ChangeDetectorRef
   ) {
     super();
+
+    this.tabContext = this.context
+      ? new BaseUIScopeContext(this.context.childScope$.pipe(map(x => x.tabScope ?? x)))
+      : undefined;
+
+    if (this.tabContext) {
+      this.tabContext.registerHeader(this);
+      this.panelClass$ = this.tabContext.wrapperClass$.pipe(map(x => x ? [x, 'scrollable-content'] : []));
+      this.headerClass$ = this.tabContext.headerClass$.pipe(map(x => x ? [x] : []));
+    }
+
   }
 
   ngOnInit() {
 
-    this.sub.add(this.context.wrapperClass$.subscribe(x => {
-      this.wrapperClass = x ? [x, 'scrollable-content'] : [];
-      this.changes.detectChanges();
-    }));
+    if (this.context) {
+      this.sub.add(this.context.wrapperClass$.subscribe(x => {
+        this.wrapperClass = x ? [x, 'scrollable-content'] : [];
+        this.changes.detectChanges();
+      }));
+    }
 
     this.sub.add(this.slug$.subscribe(this.slugChange));
 
@@ -102,6 +120,7 @@ export class NavTabBarComponent extends NavTabBarContext implements OnInit, Afte
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.tabContext?.unregisterHeader(this);
   }
 
   override async openTab(slug: string) {
@@ -136,5 +155,13 @@ export class NavTabBarComponent extends NavTabBarContext implements OnInit, Afte
   getFragment(tab: INavTab): string | undefined {
     if (this.fragmentNav) return tab.id;
     return undefined;
+  }
+}
+
+@Injectable()
+class TabUIScopeContext extends BaseUIScopeContext {
+  constructor() {
+    const context = inject(UIScopeContext, {skipSelf: true, optional: true});
+    super(context?.childScope$.pipe(map(x => x.tabScope?.child ?? x)) ?? EMPTY);
   }
 }

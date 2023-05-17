@@ -2,7 +2,7 @@
 <mat-icon class="back" *ngIf="back.observed" matRipple (click)="back.emit()">arrow_back_ios_new</mat-icon>
 <mat-icon class="close" *ngIf="close.observed && !this.hideClose" matRipple (click)="close.emit()">close</mat-icon>
 
-<mat-icon class="menu" *ngIf="sidebarService && (isTopLevel$ | truthy) && !back.observed && !close.observed" matRipple (click)="sidebarService.toggle(true)">menu</mat-icon>
+<mat-icon class="menu" *ngIf="(showMenu$ | truthy) && !back.observed && !close.observed" matRipple (click)="openMenu()">menu</mat-icon>
 
 <p class="title" *ngIf="heading">{{heading}}</p>
 
