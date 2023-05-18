@@ -23,6 +23,22 @@
         <ngx-tab-bar>
             <div ngxTab="first">
                 <ngx-header heading="Sub"></ngx-header>
+                <div wrapContent>
+                    <ngx-header heading="Sub"></ngx-header>
+                    <div class="very-large"></div>
+                </div>
+            </div>
+        </ngx-tab-bar>
+    </div>
+
+</div>
+
+<div class="container">
+    <ngx-header heading="Main" (close)="noop()"></ngx-header>
+    <div wrapContent>
+        <ngx-tab-bar>
+            <div ngxTab="first">
+                <ngx-header heading="Sub"></ngx-header>
                 <div class="very-large"></div>
             </div>
         </ngx-tab-bar>

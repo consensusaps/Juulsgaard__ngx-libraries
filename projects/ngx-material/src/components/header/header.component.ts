@@ -51,8 +51,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sub = this.uiContext?.headerClasses$.subscribe(x => {
-      this.headerClass = x;
+    this.sub = this.uiContext?.registerHeader(x => {
+      this.headerClass = x.classes;
       this.changes.detectChanges();
     });
   }

@@ -14,7 +14,7 @@ ngx-tab-bar {
   }
 
   &.ngx-ui-scope {
-    .mat-mdc-tab-nav-panel > * {
+    .mat-mdc-tab-nav-panel.has-children > * {
       height: 100%;
     }
   }

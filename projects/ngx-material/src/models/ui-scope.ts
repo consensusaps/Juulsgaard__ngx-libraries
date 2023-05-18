@@ -1,5 +1,5 @@
 import {inject, Injectable, InjectionToken, Provider} from '@angular/core';
-import {BehaviorSubject, combineLatestWith, Observable, of} from "rxjs";
+import {BehaviorSubject, combineLatestWith, Observable, of, Subscription} from "rxjs";
 import {map} from "rxjs/operators";
 import {cache, subscribed} from "@consensus-labs/rxjs-tools";
 
@@ -20,8 +20,14 @@ export abstract class UIScopeContext {
   readonly abstract hasWrapper$: Observable<boolean>;
   readonly abstract hasWrapper: boolean;
 
-  readonly abstract wrapperClasses$: Observable<string[]>;
-  readonly abstract headerClasses$: Observable<string[]>;
+  readonly abstract wrapper$: Observable<WrapperData>;
+  abstract registerWrapper$(): Observable<WrapperData>;
+  abstract registerWrapper(apply: (wrapper: WrapperData) => void): Subscription;
+
+  readonly abstract header$: Observable<HeaderData>;
+  abstract registerHeader$(): Observable<HeaderData>;
+  abstract registerHeader(apply: (wrapper: HeaderData) => void): Subscription;
+
   readonly abstract childScope$: Observable<UIScope>;
   readonly abstract passiveChildScope$: Observable<UIScope>;
 
@@ -32,7 +38,8 @@ export abstract class UIScopeContext {
 export class BaseUIScopeContext extends UIScopeContext {
 
   //<editor-fold desc="Header">
-  headerClasses$: Observable<string[]>;
+  readonly header$: Observable<HeaderData>;
+  private readonly _header$: Observable<HeaderData>;
 
   private readonly _hasHeader$ = new BehaviorSubject(false);
   readonly hasHeader$ = this._hasHeader$.asObservable();
@@ -40,7 +47,8 @@ export class BaseUIScopeContext extends UIScopeContext {
   //</editor-fold>
 
   //<editor-fold desc="Wrapper">
-  wrapperClasses$: Observable<string[]>;
+  readonly wrapper$: Observable<WrapperData>;
+  private readonly _wrapper$: Observable<WrapperData>;
 
   private readonly _hasWrapper$ = new BehaviorSubject(false);
   readonly hasWrapper$ = this._hasWrapper$.asObservable();
@@ -48,25 +56,31 @@ export class BaseUIScopeContext extends UIScopeContext {
   //</editor-fold>
 
   //<editor-fold desc="Children">
-  childScope$: Observable<UIScope>;
-  passiveChildScope$: Observable<UIScope>;
+  readonly childScope$: Observable<UIScope>;
+  readonly passiveChildScope$: Observable<UIScope>;
 
   private readonly _hasChildren$ = new BehaviorSubject(false);
   readonly hasChildren$ = this._hasChildren$.asObservable();
   get hasChildren() {return this._hasChildren$.value}
   //</editor-fold>
 
-  showMenu$: Observable<boolean>;
+  readonly showMenu$: Observable<boolean>;
+  readonly scope$: Observable<UIScope>
 
-  constructor(public scope$: Observable<UIScope>, passiveScope$?: Observable<UIScope>) {
+  constructor(scope$: UIScopeContext);
+  constructor(scope$: Observable<UIScope>, passiveScope$?: Observable<UIScope>);
+  constructor(_scope$: Observable<UIScope>|UIScopeContext, _passiveScope$?: Observable<UIScope>) {
     super();
 
-    passiveScope$ ??= scope$;
+    this.scope$ = _scope$ instanceof UIScopeContext
+      ? _scope$.childScope$
+      : _scope$;
 
-    this.showMenu$ = passiveScope$.pipe(
-      map(x => x.showMenu ?? false)
-    );
+    const passiveScope$ = _scope$ instanceof UIScopeContext
+      ? _scope$.passiveChildScope$
+      : _passiveScope$ ?? _scope$;
 
+    //<editor-fold desc="Children">
     this.passiveChildScope$ = this.scope$.pipe(
       combineLatestWith(this.hasHeader$),
       map(([scope, hasHeader]) => hasHeader ? scope.child ?? scope : scope),
@@ -77,25 +91,63 @@ export class BaseUIScopeContext extends UIScopeContext {
       subscribed(this._hasChildren$),
       cache()
     );
+    //</editor-fold>
 
-    this.wrapperClasses$ = this.scope$.pipe(
+    //<editor-fold desc="Wrapper">
+    this.wrapper$ = this.scope$.pipe(
       combineLatestWith(this.hasChildren$, this.hasHeader$),
       map(
-        ([scope,  hasChildren, hasHeader]) => [
-          'ngx-ui-scope',
-          hasChildren ? 'has-children' : 'no-children',
-          hasHeader ? `${scope.class}-content` : 'no-header'
-        ]
+        ([scope,  hasChildren, hasHeader]) => ({
+          classes: [
+            'ngx-ui-scope',
+            hasChildren ? 'has-children' : 'no-children',
+            hasHeader ? `${scope.class}-content` : 'no-header'
+          ]
+        })
       ),
+      cache()
+    );
+
+    this._wrapper$ = this.wrapper$.pipe(
       subscribed(this._hasWrapper$),
       cache()
     );
+    //</editor-fold>
 
-    this.headerClasses$ = passiveScope$.pipe(
-      map(x => [`${x.class}-header`, 'ngx-ui-header']),
+    //<editor-fold desc="Header">
+    this.showMenu$ = passiveScope$.pipe(
+      map(x => x.showMenu ?? false)
+    );
+
+    this.header$ = passiveScope$.pipe(
+      map(x => ({
+        classes: [`${x.class}-header`, 'ngx-ui-header'],
+        showMenu: !!x.showMenu
+      })),
+      cache()
+    );
+
+    this._header$ = this.header$.pipe(
       subscribed(this._hasHeader$),
       cache()
     );
+    //</editor-fold>
+  }
+
+  override registerHeader(apply: (wrapper: HeaderData) => void): Subscription {
+    return this._header$.subscribe(apply);
+  }
+
+  registerHeader$() {
+    return this._header$;
+  }
+
+  override registerWrapper(apply: (wrapper: WrapperData) => void): Subscription {
+    return this._wrapper$.subscribe(apply);
+  }
+
+  registerWrapper$() {
+    return this._wrapper$;
   }
 }
 
@@ -121,4 +173,13 @@ export interface UIScope {
   readonly showMenu?: boolean;
   readonly child?: UIScope;
   readonly tabScope?: UITabScope;
+}
+
+interface WrapperData {
+  classes: string[]
+}
+
+interface HeaderData {
+  classes: string[];
+  showMenu: boolean;
 }

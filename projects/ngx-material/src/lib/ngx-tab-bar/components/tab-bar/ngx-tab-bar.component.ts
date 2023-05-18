@@ -61,15 +61,15 @@ export class NgxTabBarComponent extends NgxTabBarContext implements OnInit, Afte
     super();
 
     this.tabContext = inject(TabUIScopeContext, {self: true});
-    this.panelClass$ = this.tabContext.wrapperClasses$;
-    this.headerClass$ = this.tabContext.headerClasses$;
+    this.panelClass$ = this.tabContext.registerWrapper$().pipe(map(x => x.classes));
+    this.headerClass$ = this.tabContext.registerHeader$().pipe(map(x => x.classes));
   }
 
   ngOnInit() {
 
     if (this.context) {
-      this.sub.add(this.context.wrapperClasses$.subscribe(x => {
-        this.wrapperClass = x;
+      this.sub.add(this.context.registerWrapper(x => {
+        this.wrapperClass = x.classes;
         this.changes.detectChanges();
       }));
     }

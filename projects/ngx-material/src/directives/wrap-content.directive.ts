@@ -20,13 +20,13 @@ export class WrapContentDirective extends BaseUIScopeContext implements OnInit, 
     private changes: ChangeDetectorRef
   ) {
     const context = inject(UIScopeContext, {skipSelf: true});
-    super(context.childScope$, context.passiveChildScope$);
+    super(context);
     this.context = context;
   }
 
   ngOnInit() {
-    this.sub = this.context.wrapperClasses$.subscribe(x => {
-      this.wrapperClass = x;
+    this.sub = this.context.registerWrapper(x => {
+      this.wrapperClass = x.classes;
       this.changes.detectChanges();
     });
   }

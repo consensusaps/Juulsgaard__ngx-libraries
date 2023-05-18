@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.14
+
+### Patch Changes
+
+- Improve UIContext syntax
+
 ## 16.0.13
 
 ### Patch Changes
