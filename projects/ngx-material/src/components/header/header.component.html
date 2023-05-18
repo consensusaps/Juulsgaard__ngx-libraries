@@ -1,8 +1,8 @@
 
-<mat-icon class="back" *ngIf="back.observed" matRipple (click)="back.emit()">arrow_back_ios_new</mat-icon>
-<mat-icon class="close" *ngIf="close.observed && !this.hideClose" matRipple (click)="close.emit()">close</mat-icon>
+<ngx-icon alias="back" class="back" *ngIf="back.observed" matRipple (click)="back.emit()"/>
+<ngx-icon alias="close" class="close" *ngIf="close.observed && !this.hideClose" matRipple (click)="close.emit()"/>
 
-<mat-icon class="menu" *ngIf="(showMenu$ | truthy) && !back.observed && !close.observed" matRipple (click)="openMenu()">menu</mat-icon>
+<ngx-icon alias="burger" class="menu" *ngIf="(showMenu$ | truthy) && !back.observed && !close.observed" matRipple (click)="openMenu()"/>
 
 <p class="title" *ngIf="heading">{{heading}}</p>
 

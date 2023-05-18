@@ -1,3 +1,3 @@
 
-export * from './nav-tab.context';
-export * from './nav-tab-bar.context';
+export * from './ngx-tab.context';
+export * from './ngx-tab-bar.context';

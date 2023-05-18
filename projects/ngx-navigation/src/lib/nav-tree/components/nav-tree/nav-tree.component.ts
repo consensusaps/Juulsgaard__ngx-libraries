@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, HostBinding, inject, Input, NgZone, Output
+  ChangeDetectionStrategy, Component, EventEmitter, forwardRef, HostBinding, inject, Input, NgZone, Output
 } from '@angular/core';
 import {combineLatest, filter, firstValueFrom, fromEvent, of, Subscription} from "rxjs";
 import {first, map, switchMap} from "rxjs/operators";
@@ -19,7 +19,7 @@ import {NavTreeActionsComponent} from "../nav-tree-actions/nav-tree-actions.comp
   styleUrls: ['./nav-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {provide: NavTreeContext, useExisting: NavTreeComponent},
+    {provide: NavTreeContext, useExisting: forwardRef(() => NavTreeComponent)},
     {provide: TreeFolderContext, useFactory: () => inject(NavTreeContext).folderState, deps: [NavTreeContext]},
     {provide: TreeClipboardContext, useFactory: () => inject(NavTreeContext).clipboard, deps: [NavTreeContext]},
   ]

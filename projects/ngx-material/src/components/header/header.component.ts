@@ -6,7 +6,7 @@ import {MatRippleModule} from "@angular/material/core";
 import {NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {Observable, of, Subscription} from "rxjs";
-import {TruthyPipe} from "@consensus-labs/ngx-tools";
+import {IconDirective, TruthyPipe} from "@consensus-labs/ngx-tools";
 import {UIScopeContext} from "../../models/ui-scope";
 import {SidebarService} from "../../services/sidebar.service";
 
@@ -19,7 +19,8 @@ import {SidebarService} from "../../services/sidebar.service";
     MatRippleModule,
     NgIf,
     MatIconModule,
-    TruthyPipe
+    TruthyPipe,
+    IconDirective
   ],
   standalone: true
 })

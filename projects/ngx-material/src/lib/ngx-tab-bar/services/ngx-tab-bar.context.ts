@@ -2,11 +2,11 @@ import {Injectable} from "@angular/core";
 import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, Observable, startWith} from "rxjs";
 import {map} from "rxjs/operators";
 import {slugify} from "@consensus-labs/ts-tools";
-import {cache} from "@consensus-labs/rxjs-tools";
+import {cache, filterList} from "@consensus-labs/rxjs-tools";
 import {INavTab} from "../models/nav-tab.interface";
 
 @Injectable()
-export abstract class NavTabBarContext {
+export abstract class NgxTabBarContext {
 
   private readonly _tabs$ = new BehaviorSubject<INavTab[]>([]);
   readonly tabs$ = this._tabs$.asObservable();
@@ -34,7 +34,7 @@ export abstract class NavTabBarContext {
     );
 
     const tabs$ = this.tabs$.pipe(
-      map(x => x.filter(t => !t.isHidden && !t.isDisabled))
+      filterList(x => !x.isDisabled && !x.isHidden)
     );
 
     this.tab$ = combineLatest([tabs$, this.slug$]).pipe(

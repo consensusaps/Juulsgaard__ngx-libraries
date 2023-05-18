@@ -1,0 +1,21 @@
+
+ngx-tab-bar {
+
+  .mat-mdc-tab-header {
+    --mat-tab-header-label-text-letter-spacing: 0.5px;
+  }
+
+  .mat-mdc-tab-links {
+    height: 100%;
+
+    > .mat-mdc-tab-link {
+      height: unset;
+    }
+  }
+
+  &.ngx-ui-scope {
+    .mat-mdc-tab-nav-panel > * {
+      height: 100%;
+    }
+  }
+}

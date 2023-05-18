@@ -1,5 +1,5 @@
 import {
-  Directive, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef, ViewRef
+  Directive, forwardRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef, ViewRef
 } from "@angular/core";
 import {ControlContainer} from "@angular/forms";
 import {Subscription} from "rxjs";
@@ -10,7 +10,7 @@ import {AnyControlFormList, ControlFormLayer, SmartFormUnion} from "@consensus-l
   providers: [
     {
       provide: ControlContainer,
-      useExisting: FormListDirective
+      useExisting: forwardRef(() => FormListDirective)
     }
   ]
 })

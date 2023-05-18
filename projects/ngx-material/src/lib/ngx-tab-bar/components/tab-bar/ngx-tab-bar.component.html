@@ -1,0 +1,14 @@
+
+<nav mat-tab-nav-bar mat-stretch-tabs color="primary" *ngIf="tabs$ | async as tabs" [tabPanel]="panel" [ngClass]="headerClass$ | async">
+   <ng-container *ngFor="let tab of tabs">
+       <a mat-tab-link *ngIf="tab.isHidden$ | falsy"
+          [active]="tab.isOpen$ | truthy" (click)="clickTab(tab)" [disabled]="tab.isDisabled$ | truthy"
+          [routerLink]="getRouterLink(tab)" [fragment]="getFragment(tab)" [relativeTo]="relativeTo ?? this.route">
+           {{tab.name}}
+       </a>
+   </ng-container>
+</nav>
+
+<mat-tab-nav-panel #panel [ngClass]="panelClass$ | async">
+    <ng-content></ng-content>
+</mat-tab-nav-panel>

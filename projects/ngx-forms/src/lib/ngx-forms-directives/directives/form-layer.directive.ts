@@ -1,5 +1,5 @@
 import {
-  Directive, EmbeddedViewRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef
+  Directive, EmbeddedViewRef, forwardRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormLayer, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
@@ -8,7 +8,7 @@ import {AnyControlFormLayer, SmartFormUnion} from "@consensus-labs/ngx-forms-cor
   selector: '[ngxFormLayer]',
   providers: [{
     provide: ControlContainer,
-    useExisting: FormLayerDirective
+    useExisting: forwardRef(() => FormLayerDirective)
   }]
 })
 export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {

@@ -1,2 +1,2 @@
 
-export * from './tab-bar/nav-tab-bar.component';
+export * from './tab-bar/ngx-tab-bar.component';

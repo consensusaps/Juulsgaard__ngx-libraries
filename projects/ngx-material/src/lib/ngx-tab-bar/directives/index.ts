@@ -1,3 +1,3 @@
 
-export * from './nav-tab.directive'
-export * from './lazy-nav-tab.directive'
+export * from './ngx-tab.directive'
+export * from './ngx-lazy-tab.directive'

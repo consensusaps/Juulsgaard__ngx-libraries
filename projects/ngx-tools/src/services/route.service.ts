@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, startWith, Subscription} from "rxjs";
 import {ActivatedRouteSnapshot, NavigationEnd, ParamMap, Router} from "@angular/router";
 import {cache} from "@consensus-labs/rxjs-tools";
@@ -7,7 +7,7 @@ import {distinctUntilChanged, filter, map} from "rxjs/operators";
 @Injectable({providedIn: 'root'})
 export class RouteService {
 
-  private sub: Subscription;
+  private sub?: Subscription;
 
   private _params$ = new BehaviorSubject(new Map<string, string>());
   public readonly params$ = this._params$.asObservable();
@@ -24,17 +24,20 @@ export class RouteService {
   public readonly data$ = this._data$.asObservable();
   get data() {return this._data$.value}
 
-  constructor(private router: Router) {
-    this.sub = this.router.events.pipe(
+  constructor() {
+    const router = inject(Router, {optional: true});
+    if (!router) return;
+
+    this.sub = router.events.pipe(
       filter(x => x instanceof NavigationEnd),
       startWith(undefined)
     ).subscribe(() => {
-      this.generateState(this.router.routerState.root.snapshot);
+      this.generateState(router.routerState.root.snapshot);
     });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
   }
 
   getParam$(key: string): Observable<string|undefined> {

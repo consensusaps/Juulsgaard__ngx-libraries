@@ -1,5 +1,5 @@
 import {Injectable, Provider} from '@angular/core';
-import {BehaviorSubject, combineLatestWith, Observable, of, switchMap} from "rxjs";
+import {BehaviorSubject, combineLatestWith, Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {cache, subscribed} from "@consensus-labs/rxjs-tools";
 
@@ -20,6 +20,7 @@ export abstract class UIScopeContext {
   readonly abstract wrapperClasses$: Observable<string[]>;
   readonly abstract headerClasses$: Observable<string[]>;
   readonly abstract childScope$: Observable<UIScope>;
+  readonly abstract passiveChildScope$: Observable<UIScope>;
 
   readonly abstract showMenu$: Observable<boolean>;
   readonly abstract scope$: Observable<UIScope>;
@@ -45,6 +46,7 @@ export class BaseUIScopeContext extends UIScopeContext {
 
   //<editor-fold desc="Children">
   childScope$: Observable<UIScope>;
+  passiveChildScope$: Observable<UIScope>;
 
   private readonly _hasChildren$ = new BehaviorSubject(false);
   readonly hasChildren$ = this._hasChildren$.asObservable();
@@ -53,38 +55,40 @@ export class BaseUIScopeContext extends UIScopeContext {
 
   showMenu$: Observable<boolean>;
 
-  constructor(public scope$: Observable<UIScope>) {
+  constructor(public scope$: Observable<UIScope>, passiveScope$?: Observable<UIScope>) {
     super();
+
+    passiveScope$ ??= scope$;
 
     this.showMenu$ = this.scope$.pipe(
       map(x => x.showMenu ?? false)
     );
 
-    this.childScope$ = this.scope$.pipe(
+    this.passiveChildScope$ = this.scope$.pipe(
       combineLatestWith(this.hasHeader$),
       map(([scope, hasHeader]) => hasHeader ? scope.child ?? scope : scope),
+      cache()
+    );
+
+    this.childScope$ = this.passiveChildScope$.pipe(
       subscribed(this._hasChildren$),
       cache()
     );
 
-    this.wrapperClasses$ = this.hasHeader$.pipe(
-      switchMap(
-        hasHeader => !hasHeader
-          ? of(['ngx-ui-scope', 'no-header'])
-          : this.scope$.pipe(
-            combineLatestWith(this.hasChildren$),
-            map(([scope, hasChildren]) => [
-              'ngx-ui-scope',
-              `${scope.class}-content`,
-              hasChildren ? 'has-children' : 'no-children'
-            ])
-          )
+    this.wrapperClasses$ = this.scope$.pipe(
+      combineLatestWith(this.hasChildren$, this.hasHeader$),
+      map(
+        ([scope,  hasChildren, hasHeader]) => [
+          'ngx-ui-scope',
+          hasChildren ? 'has-children' : 'no-children',
+          hasHeader ? `${scope.class}-content` : 'no-header'
+        ]
       ),
       subscribed(this._hasWrapper$),
       cache()
     );
 
-    this.headerClasses$ = this.scope$.pipe(
+    this.headerClasses$ = passiveScope$.pipe(
       map(x => [`${x.class}-header`, 'ngx-ui-header']),
       subscribed(this._hasHeader$),
       cache()
@@ -112,20 +116,4 @@ export interface UIScope {
   readonly showMenu?: boolean;
   readonly child?: UIScope;
   readonly tabScope?: UITabScope;
-}
-
-const defaultConfig: UIScopeConfig = {
-  default: {
-    showMenu: true,
-    class: 'main',
-    child: {
-      class: 'sub',
-      tabScope: {
-        class: 'tab',
-        child: {
-          class: 'sub-tab'
-        }
-      }
-    }
-  }
 }

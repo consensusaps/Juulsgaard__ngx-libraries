@@ -1,16 +1,16 @@
 import {RouterLink} from "@angular/router";
-import {LazyNavTabDirective, NavTabDirective} from "./directives";
+import {NgxLazyTabDirective, NgxTabDirective} from "./directives";
 import {CommonModule} from "@angular/common";
-import {TruthyPipe} from "@consensus-labs/ngx-tools";
+import {FalsyPipe, TruthyPipe} from "@consensus-labs/ngx-tools";
 import {NgModule} from "@angular/core";
-import {NavTabBarComponent} from "./components";
+import {NgxTabBarComponent} from "./components";
 import {MatTabsModule} from "@angular/material/tabs";
 
 
 @NgModule({
-  imports: [CommonModule, MatTabsModule, TruthyPipe, RouterLink],
-  exports: [NavTabBarComponent, NavTabDirective, LazyNavTabDirective],
-  declarations: [NavTabBarComponent, NavTabDirective, LazyNavTabDirective],
+  imports: [CommonModule, MatTabsModule, TruthyPipe, FalsyPipe, RouterLink],
+  declarations: [NgxTabBarComponent, NgxTabDirective, NgxLazyTabDirective],
+  exports: [NgxTabBarComponent, NgxTabDirective, NgxLazyTabDirective],
 })
 export class NgxNavTabBarModule {
 }

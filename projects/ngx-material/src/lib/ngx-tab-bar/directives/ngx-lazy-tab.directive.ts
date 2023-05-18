@@ -1,28 +1,33 @@
-import {Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from "@angular/core";
-import {NavTabBarContext, NavTabContext} from "../services";
+import {Directive, forwardRef, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from "@angular/core";
+import {NgxTabBarContext, NgxTabContext} from "../services";
 import {Subscription} from "rxjs";
 
 @Directive({
-  selector: '[lazyTab]',
-  providers: [{provide: NavTabContext, useExisting: LazyNavTabDirective}]
+  selector: '[ngxLazyTab]',
+  providers: [{provide: NgxTabContext, useExisting: forwardRef(() => NgxLazyTabDirective)}]
 })
-export class LazyNavTabDirective extends NavTabContext implements OnInit, OnDestroy {
+export class NgxLazyTabDirective extends NgxTabContext implements OnInit, OnDestroy {
 
-  @Input('lazyTab') id!: string;
-  @Input('lazyTabName') tabName?: string;
+  @Input('ngxLazyTab') id!: string;
+  @Input('ngxLazyTabName') tabName?: string;
 
   get name() {
     return this.tabName ?? this.id
   }
 
-  @Input('lazyTabDisabled') disabled = false;
-  @Input('lazyTabHide') hide = false;
+  @Input('ngxLazyTabDisabled') set disabled(disabled: boolean) {
+    this._disabled$.next(disabled);
+  }
+
+  @Input('ngxLazyTabHide') set hide(hide: boolean) {
+    this._hidden$.next(hide);
+  }
 
   private sub?: Subscription;
   private visible = false;
 
   constructor(
-    context: NavTabBarContext,
+    context: NgxTabBarContext,
     private templateRef: TemplateRef<void>,
     private viewContainer: ViewContainerRef
   ) {

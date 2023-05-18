@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, HostBinding, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, HostBinding, inject, Input} from '@angular/core';
 import {AnyTreeSelection, TreeDataSource, TreeFolderData} from "@consensus-labs/data-sources";
 import {WithId} from "@consensus-labs/ts-tools";
 import {distinctUntilChanged, map, switchMap} from "rxjs/operators";
@@ -12,7 +12,7 @@ import {SelectionTreeContext} from "../../models/selection-tree-context";
   styleUrls: ['./selection-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {provide: SelectionTreeContext, useExisting: SelectionTreeComponent},
+    {provide: SelectionTreeContext, useExisting: forwardRef(() => SelectionTreeComponent)},
     {provide: TreeFolderContext, useFactory: () => inject(SelectionTreeContext).folderState, deps: [SelectionTreeContext]},
   ]
 })

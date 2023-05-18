@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
 import {FormContext} from "../../services/form-context.service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
@@ -8,7 +8,7 @@ import {TruthyPipe} from "@consensus-labs/ngx-tools";
   selector: 'form-wrapper',
   templateUrl: './form-wrapper.component.html',
   styleUrls: ['./form-wrapper.component.scss'],
-  providers: [{provide: FormContext, useExisting: FormWrapperComponent}],
+  providers: [{provide: FormContext, useExisting: forwardRef(() => FormWrapperComponent)}],
   imports: [
     CommonModule,
     FormsModule,

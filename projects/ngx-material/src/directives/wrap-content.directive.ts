@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, HostBinding, inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Directive, forwardRef, HostBinding, inject, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {Dispose} from "@consensus-labs/ngx-tools";
 import {BaseUIScopeContext, UIScopeContext} from "../models/ui-scope";
@@ -6,7 +6,7 @@ import {BaseUIScopeContext, UIScopeContext} from "../models/ui-scope";
 @Directive({
   selector: '[wrapContent]',
   standalone: true,
-  providers: [{provide: UIScopeContext, useExisting: WrapContentDirective}]
+  providers: [{provide: UIScopeContext, useExisting: forwardRef(() => WrapContentDirective)}]
 })
 export class WrapContentDirective extends BaseUIScopeContext implements OnInit {
 
@@ -22,13 +22,13 @@ export class WrapContentDirective extends BaseUIScopeContext implements OnInit {
     private changes: ChangeDetectorRef
   ) {
     const context = inject(UIScopeContext, {skipSelf: true});
-    super(context.childScope$);
+    super(context.childScope$, context.passiveChildScope$);
     this.context = context;
   }
 
   ngOnInit() {
-    this.sub = this.context.wrapperClass$.subscribe(x => {
-      this.wrapperClass = x ? [x, 'scrollable-content'] : [];
+    this.sub = this.context.wrapperClasses$.subscribe(x => {
+      this.wrapperClass = x;
       this.changes.detectChanges();
     });
   }
