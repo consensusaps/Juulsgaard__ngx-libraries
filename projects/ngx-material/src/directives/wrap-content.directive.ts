@@ -1,6 +1,5 @@
-import {ChangeDetectorRef, Directive, forwardRef, HostBinding, inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Directive, forwardRef, HostBinding, inject, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
-import {Dispose} from "@consensus-labs/ngx-tools";
 import {BaseUIScopeContext, UIScopeContext} from "../models/ui-scope";
 
 @Directive({
@@ -8,9 +7,8 @@ import {BaseUIScopeContext, UIScopeContext} from "../models/ui-scope";
   standalone: true,
   providers: [{provide: UIScopeContext, useExisting: forwardRef(() => WrapContentDirective)}]
 })
-export class WrapContentDirective extends BaseUIScopeContext implements OnInit {
+export class WrapContentDirective extends BaseUIScopeContext implements OnInit, OnDestroy {
 
-  @Dispose
   private sub?: Subscription;
 
   @HostBinding('class')
@@ -31,6 +29,10 @@ export class WrapContentDirective extends BaseUIScopeContext implements OnInit {
       this.wrapperClass = x;
       this.changes.detectChanges();
     });
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 
 }

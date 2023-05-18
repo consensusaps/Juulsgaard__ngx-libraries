@@ -1,4 +1,4 @@
-import {Injectable, Provider} from '@angular/core';
+import {inject, Injectable, InjectionToken, Provider} from '@angular/core';
 import {BehaviorSubject, combineLatestWith, Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {cache, subscribed} from "@consensus-labs/rxjs-tools";
@@ -6,8 +6,11 @@ import {cache, subscribed} from "@consensus-labs/rxjs-tools";
 @Injectable()
 export abstract class UIScopeContext {
 
-  public static Provide(config: UIScopeConfig): Provider {
-    return {provide: UIScopeContext, useValue: new RootUIScopeContext(config)};
+  public static Provide(config: UIScopeConfig): Provider[] {
+    return [
+      {provide: UI_SCOPE_CONFIG, useValue: config},
+      {provide: UIScopeContext, useClass: RootUIScopeContext}
+    ];
   }
 
   readonly abstract hasHeader$: Observable<boolean>;
@@ -99,11 +102,13 @@ export class BaseUIScopeContext extends UIScopeContext {
 @Injectable()
 export class RootUIScopeContext extends BaseUIScopeContext {
 
-  constructor(config: UIScopeConfig) {
-    super(of(config.default));
+  constructor() {
+    super(of(inject(UI_SCOPE_CONFIG).default));
   }
 
 }
+
+const UI_SCOPE_CONFIG = new InjectionToken<UIScopeConfig>('Config for UI Scope');
 
 export interface UIScopeConfig {
   readonly default: UIScope;
