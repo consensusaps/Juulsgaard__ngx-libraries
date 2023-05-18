@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.12
+
+### Patch Changes
+
+- Fix exports
+
 ## 16.0.11
 
 ### Patch Changes
