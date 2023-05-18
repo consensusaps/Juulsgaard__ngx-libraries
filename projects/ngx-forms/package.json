@@ -17,7 +17,7 @@
     "@angular/core": "^16.0.0",
     "@angular/forms": "^16.0.0",
     "@consensus-labs/ngx-forms-core": "^16.0.0",
-    "@consensus-labs/ngx-tools": "^16.0.7",
+    "@consensus-labs/ngx-tools": "^16.0.8",
     "@consensus-labs/ts-tools": "^1.4.0",
     "typescript": "~5.0.4"
   },
@@ -26,7 +26,7 @@
     "@angular/core": "16.0.0",
     "@angular/forms": "16.0.0",
     "@consensus-labs/ngx-forms-core": "16.0.0",
-    "@consensus-labs/ngx-tools": "16.0.7",
+    "@consensus-labs/ngx-tools": "16.0.8",
     "@consensus-labs/ts-tools": "1.4.0",
     "typescript": "~5.0.4"
   },

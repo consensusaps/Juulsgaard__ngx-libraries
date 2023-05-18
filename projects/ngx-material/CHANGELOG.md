@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-material
 
+## 16.0.11
+
+### Patch Changes
+
+- Add UI Scope, Headers and Tab Bars
+- Updated dependencies
+  - @consensus-labs/ngx-tools@16.0.8
+
 ## 16.0.10
 
 ### Patch Changes
