@@ -63,7 +63,7 @@ export class BaseUIScopeContext extends UIScopeContext {
 
     passiveScope$ ??= scope$;
 
-    this.showMenu$ = this.scope$.pipe(
+    this.showMenu$ = passiveScope$.pipe(
       map(x => x.showMenu ?? false)
     );
 

@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.13
+
+### Patch Changes
+
+- Fix use of passive scope
+
 ## 16.0.12
 
 ### Patch Changes
