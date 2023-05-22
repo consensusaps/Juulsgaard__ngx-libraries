@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.15
+
+### Patch Changes
+
+- Properly hide menu button on phones
+
 ## 16.0.14
 
 ### Patch Changes
