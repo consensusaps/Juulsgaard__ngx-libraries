@@ -227,6 +227,11 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
         return !this.isDisabled || this.showDisabled;
     }
 
+    @HostBinding('class.hidden')
+    get dontShow() {
+        return !this.show;
+    }
+
     //<editor-fold desc="Configuration">
 
     /** The input label */
