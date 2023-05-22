@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.17
+
+### Patch Changes
+
+- Debounce UI scope updates
+
 ## 16.0.16
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 import {inject, Injectable, InjectionToken, Provider} from '@angular/core';
-import {BehaviorSubject, combineLatestWith, Observable, of, Subscription} from "rxjs";
+import {auditTime, BehaviorSubject, combineLatestWith, Observable, of, Subscription} from "rxjs";
 import {map} from "rxjs/operators";
-import {cache, subscribed} from "@consensus-labs/rxjs-tools";
+import {cache, persistentCache, subscribed} from "@consensus-labs/rxjs-tools";
 
 @Injectable()
 export abstract class UIScopeContext {
@@ -105,12 +105,13 @@ export class BaseUIScopeContext extends UIScopeContext {
           ]
         })
       ),
+      auditTime(0),
       cache()
     );
 
     this._wrapper$ = this.wrapper$.pipe(
       subscribed(this._hasWrapper$),
-      cache()
+      persistentCache(0)
     );
     //</editor-fold>
 
@@ -126,7 +127,7 @@ export class BaseUIScopeContext extends UIScopeContext {
 
     this._header$ = this.header$.pipe(
       subscribed(this._hasHeader$),
-      cache()
+      persistentCache(0)
     );
     //</editor-fold>
   }
