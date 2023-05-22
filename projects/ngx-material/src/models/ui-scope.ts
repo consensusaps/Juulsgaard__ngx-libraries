@@ -31,7 +31,6 @@ export abstract class UIScopeContext {
   readonly abstract childScope$: Observable<UIScope>;
   readonly abstract passiveChildScope$: Observable<UIScope>;
 
-  readonly abstract showMenu$: Observable<boolean>;
   readonly abstract scope$: Observable<UIScope>;
 }
 
@@ -64,7 +63,6 @@ export class BaseUIScopeContext extends UIScopeContext {
   get hasChildren() {return this._hasChildren$.value}
   //</editor-fold>
 
-  readonly showMenu$: Observable<boolean>;
   readonly scope$: Observable<UIScope>
 
   constructor(scope$: UIScopeContext);
@@ -81,13 +79,15 @@ export class BaseUIScopeContext extends UIScopeContext {
       : _passiveScope$ ?? _scope$;
 
     //<editor-fold desc="Children">
-    this.passiveChildScope$ = this.scope$.pipe(
+    this.passiveChildScope$ = passiveScope$.pipe(
       combineLatestWith(this.hasHeader$),
       map(([scope, hasHeader]) => hasHeader ? scope.child ?? scope : scope),
       cache()
     );
 
-    this.childScope$ = this.passiveChildScope$.pipe(
+    this.childScope$ = this.scope$.pipe(
+      combineLatestWith(this.hasHeader$),
+      map(([scope, hasHeader]) => hasHeader ? scope.child ?? scope : scope),
       subscribed(this._hasChildren$),
       cache()
     );
@@ -115,9 +115,6 @@ export class BaseUIScopeContext extends UIScopeContext {
     //</editor-fold>
 
     //<editor-fold desc="Header">
-    this.showMenu$ = passiveScope$.pipe(
-      map(x => x.showMenu ?? false)
-    );
 
     this.header$ = passiveScope$.pipe(
       map(x => ({

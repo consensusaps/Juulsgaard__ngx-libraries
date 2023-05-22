@@ -1,15 +1,17 @@
 import {
   AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, forwardRef,
-  HostBinding, inject, Injectable, Input, OnDestroy, OnInit, Output, QueryList
+  HostBinding, inject, Input, OnDestroy, OnInit, Output, QueryList
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {auditTime, EMPTY, merge, Observable, startWith, Subscription, switchMap} from "rxjs";
+import {auditTime, merge, Observable, startWith, Subscription, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 import {cache} from "@consensus-labs/rxjs-tools";
 import {NgxTabBarContext, NgxTabContext} from "../../services";
 import {RouteService} from "@consensus-labs/ngx-tools";
 import {INavTab} from "../../models/nav-tab.interface";
-import {BaseUIScopeContext, UIScopeContext} from "../../../../models/ui-scope";
+import {TabPanelUIScopeContext} from "../../services/tab-panel-ui-scope.context";
+import {TabBarUIScopeContext} from "../../services/tab-bar-ui-scope.context";
+import {UIScopeContext} from "../../../../models";
 
 @Component({
   selector: 'ngx-tab-bar',
@@ -17,8 +19,8 @@ import {BaseUIScopeContext, UIScopeContext} from "../../../../models/ui-scope";
   styleUrls: ['./ngx-tab-bar.component.scss'],
   providers: [
     {provide: NgxTabBarContext, useExisting: forwardRef(() => NgxTabBarComponent)},
-    {provide: forwardRef(() => TabUIScopeContext)},
-    {provide: UIScopeContext, useClass: forwardRef(() => SubTabUIScopeContext)}
+    TabBarUIScopeContext,
+    TabPanelUIScopeContext
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -50,7 +52,7 @@ export class NgxTabBarComponent extends NgxTabBarContext implements OnInit, Afte
   headerClass$: Observable<string[]>;
 
   private readonly context = inject(UIScopeContext, {skipSelf: true, optional: true});
-  private readonly tabContext = inject(TabUIScopeContext, {self: true});
+  private readonly tabContext = inject(TabBarUIScopeContext, {self: true});
   readonly route = inject(ActivatedRoute, {optional: true});
 
   constructor(
@@ -60,9 +62,9 @@ export class NgxTabBarComponent extends NgxTabBarContext implements OnInit, Afte
   ) {
     super();
 
-    this.tabContext = inject(TabUIScopeContext, {self: true});
-    this.panelClass$ = this.tabContext.registerWrapper$().pipe(map(x => x.classes));
+    this.tabContext = inject(TabBarUIScopeContext, {self: true});
     this.headerClass$ = this.tabContext.registerHeader$().pipe(map(x => x.classes));
+    this.panelClass$ = this.tabContext.registerWrapper$().pipe(map(x => x.classes));
   }
 
   ngOnInit() {
@@ -156,18 +158,3 @@ export class NgxTabBarComponent extends NgxTabBarContext implements OnInit, Afte
   }
 }
 
-@Injectable()
-class TabUIScopeContext extends BaseUIScopeContext {
-  constructor() {
-    const context = inject(UIScopeContext, {skipSelf: true, optional: true});
-    super(context?.childScope$.pipe(map(x => x.tabScope ?? x)) ?? EMPTY);
-  }
-}
-
-@Injectable()
-class SubTabUIScopeContext extends BaseUIScopeContext {
-  constructor() {
-    const context = inject(TabUIScopeContext, {self: true, optional: true});
-    super(context?.childScope$ ?? EMPTY, context?.passiveChildScope$);
-  }
-}

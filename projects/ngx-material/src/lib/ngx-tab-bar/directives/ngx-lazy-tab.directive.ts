@@ -1,10 +1,15 @@
 import {Directive, forwardRef, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from "@angular/core";
 import {NgxTabBarContext, NgxTabContext} from "../services";
 import {Subscription} from "rxjs";
+import {UIScopeContext} from "../../../models";
+import {TabPanelUIScopeContext} from "../services/tab-panel-ui-scope.context";
 
 @Directive({
   selector: '[ngxLazyTab]',
-  providers: [{provide: NgxTabContext, useExisting: forwardRef(() => NgxLazyTabDirective)}]
+  providers: [
+    {provide: NgxTabContext, useExisting: forwardRef(() => NgxLazyTabDirective)},
+    {provide: UIScopeContext, useExisting: TabPanelUIScopeContext}
+  ]
 })
 export class NgxLazyTabDirective extends NgxTabContext implements OnInit, OnDestroy {
 

@@ -7,8 +7,9 @@ import {NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {Observable, of, Subscription} from "rxjs";
 import {IconDirective, TruthyPipe} from "@consensus-labs/ngx-tools";
-import {UIScopeContext} from "../../models/ui-scope";
-import {SidebarService} from "../../services/sidebar.service";
+import {UIScopeContext} from "../../models";
+import {SidebarService} from "../../services";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'ngx-header',
@@ -44,7 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private changes: ChangeDetectorRef
   ) {
     if (this.sidebarService) {
-      this.showMenu$ = this.uiContext?.showMenu$ ?? of(true);
+      this.showMenu$ = this.uiContext?.header$.pipe(map(x => x.showMenu)) ?? of(true);
     } else {
       this.showMenu$ = of(false);
     }

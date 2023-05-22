@@ -1,10 +1,15 @@
 import {Directive, ElementRef, forwardRef, Input} from '@angular/core';
 import {Subscription} from "rxjs";
 import {NgxTabBarContext, NgxTabContext} from "../services";
+import {UIScopeContext} from "../../../models";
+import {TabUIScopeContext} from "../services/tab-ui-scope.context";
 
 @Directive({
   selector: '[ngxTab]',
-  providers: [{provide: NgxTabContext, useExisting: forwardRef(() => NgxTabDirective)}],
+  providers: [
+    {provide: NgxTabContext, useExisting: forwardRef(() => NgxTabDirective)},
+    {provide: UIScopeContext, useClass: TabUIScopeContext}
+  ],
   host: {'[class.ngx-tab]': 'true'}
 })
 export class NgxTabDirective extends NgxTabContext {

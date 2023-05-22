@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.16
+
+### Patch Changes
+
+- Split tab UI contexts
+
 ## 16.0.15
 
 ### Patch Changes
