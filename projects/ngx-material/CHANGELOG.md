@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.18
+
+### Patch Changes
+
+- Add NgxList
+
 ## 16.0.17
 
 ### Patch Changes

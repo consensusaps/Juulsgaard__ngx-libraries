@@ -1,0 +1,21 @@
+@use "@consensus-labs/ngx-tools/styles/variables" as *;
+
+:host {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid $text-color-light;
+  min-height: 64px;
+
+  &.active {
+    background-color: $foreground-light;
+  }
+}
+
+.info {
+  min-width: 0;
+  padding-left: 10px;
+  flex-grow: 1;
+  flex-shrink: 1;
+}

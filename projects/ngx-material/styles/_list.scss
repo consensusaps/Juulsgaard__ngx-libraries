@@ -1,0 +1,52 @@
+@use "@consensus-labs/ngx-tools/styles/variables" as *;
+
+.ngx-list-item {
+
+  .ngx-list-prefix {
+    margin-right: 5px;
+    flex-shrink: 0;
+  }
+
+  img.ngx-list-prefix {
+    padding: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .ngx-icon.ngx-list-prefix {
+    color: $accent;
+    --padding: 8px;
+    font-size: 26px;
+  }
+
+  > .info {
+    p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    p:first-child {
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      color: $text-color;
+    }
+
+    p:not(:first-child) {
+      margin-top: 3px;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.25px;
+      color: $text-color-light;
+    }
+  }
+
+  .ngx-icon.ngx-list-suffix {
+    font-size: 24px;
+    --padding: 8px;
+    flex-shrink: 0;
+  }
+}
