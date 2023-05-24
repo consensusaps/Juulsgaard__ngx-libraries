@@ -1,6 +1,14 @@
 @use "@consensus-labs/ngx-tools/styles/variables" as *;
 
 .ngx-list-item {
+  position: relative;
+
+  > .mat-divider, .ngx-divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 
   .ngx-list-prefix {
     margin-right: 5px;

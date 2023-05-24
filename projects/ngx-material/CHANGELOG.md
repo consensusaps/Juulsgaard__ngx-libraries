@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.19
+
+### Patch Changes
+
+- Improve list dividers
+
 ## 16.0.18
 
 ### Patch Changes
