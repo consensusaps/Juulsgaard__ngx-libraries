@@ -1,7 +1,8 @@
 import {Directive, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewContainerRef} from '@angular/core';
 import {BehaviorSubject, distinctUntilChanged, Subject, Subscribable, Subscription, Unsubscribable} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
-import {OverlayInstance} from "../models/overlay-context.models";
+
+import {OverlayInstance} from "../models/overlay-instance";
 
 @Directive({selector: '[ngxOverlay]'})
 export class OverlayDirective implements OnDestroy {

@@ -1,0 +1,27 @@
+
+<div class="background ngx-fade" (click)="onClose()"></div>
+
+<div class="menu ngx-move-in">
+
+    <div class="head">
+        <ngx-icon class="close" alias="close" matRipple (click)="onClose()"/>
+        <ng-container *ngIf="tab$ | async as t">
+            <p *ngIf="t.name">{{t.name}}</p>
+        </ng-container>
+        <ng-container *ngIf="showButtons$ | truthy">
+            <ng-container *ngIf="tabs$ | async as tabs">
+                <ng-container  *ngFor="let tab of tabs">
+                    <ngx-icon class="tab-button" *ngIf="tab.icon"
+                              [class.active]="tab.isOpen$ | async"
+                              [icon]="tab.icon!"
+                              [matTooltip]="tab.name ?? ''"
+                              [matBadge]="tab.badge ?? ''"
+                              [matBadgeHidden]="!tab.badge"
+                              (click)="toggleTab(tab)"/>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+
+    <ngx-render [template]="t.content" *ngIf="tab$ | async as t"/>
+</div>

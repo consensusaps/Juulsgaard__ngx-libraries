@@ -1,30 +1,7 @@
+import {OverlayToken, Rendering} from "@consensus-labs/ngx-tools";
 import {TemplateRef, ViewContainerRef} from "@angular/core";
-import {Observable} from "rxjs";
-import {OverlayToken, Rendering, TemplateRendering} from "@consensus-labs/ngx-tools";
-
-
-export interface OverlayOptions {
-  canClose$: Observable<boolean>;
-  scrollable$: Observable<boolean>;
-  maxWidth$: Observable<number|undefined>;
-}
-
-export abstract class OverlayContext implements OverlayOptions {
-
-  canClose$: Observable<boolean>;
-  maxWidth$: Observable<number | undefined>;
-  scrollable$: Observable<boolean>;
-
-  abstract content: TemplateRendering;
-
-  protected constructor(options: OverlayOptions, public zIndex: number) {
-    this.canClose$ = options.canClose$;
-    this.maxWidth$ = options.maxWidth$;
-    this.scrollable$ = options.scrollable$;
-  }
-
-  abstract close(): void;
-}
+import {OverlayOptions} from "./overlay-options";
+import {OverlayContext} from "./overlay-context";
 
 export class OverlayInstance extends OverlayContext {
 

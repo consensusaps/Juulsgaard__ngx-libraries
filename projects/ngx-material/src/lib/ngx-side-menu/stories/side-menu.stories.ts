@@ -1,17 +1,16 @@
 import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
-import {DialogPreviewComponent} from "./dialog-preview/dialog-preview.component";
+import {SideMenuPreviewComponent} from "./side-menu-preview/side-menu-preview.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 export default {
-  title: 'Dialog',
-  component: DialogPreviewComponent,
+  title: 'Side Menu',
+  component: SideMenuPreviewComponent,
   args: {
-    show: true,
-    header: 'Dialog Showcase',
-    text: "This is a simple Dialog popup"
+    show: true
   },
   argTypes: {
-    submit: {action: 'Submitted'}
+    showChanged: {action: 'showChanged'},
+    maxWidth: {type: 'number'}
   },
   decorators: [
     moduleMetadata({
@@ -20,7 +19,7 @@ export default {
   ]
 } satisfies Meta;
 
-type Story = StoryObj<DialogPreviewComponent>;
+type Story = StoryObj<SideMenuPreviewComponent>;
 
 export const Default: Story = {
   render: (args) => ({props: args})

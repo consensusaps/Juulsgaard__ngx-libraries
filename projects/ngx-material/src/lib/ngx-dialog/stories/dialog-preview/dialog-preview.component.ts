@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgxDialogModule} from "../../ngx-dialog.module";
 import {MatButtonModule} from "@angular/material/button";
 import {NgIf} from "@angular/common";
+import {DialogOutletDirective} from "../../directives/dialog-outlet.directive";
 
 @Component({
   selector: 'ngx-dialog-preview',
@@ -10,7 +11,8 @@ import {NgIf} from "@angular/common";
   imports: [
     NgxDialogModule,
     MatButtonModule,
-    NgIf
+    NgIf,
+    DialogOutletDirective
   ],
   standalone: true
 })

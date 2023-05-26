@@ -1,11 +1,12 @@
 import {ChangeDetectorRef, ComponentRef, Directive, inject, Injector, OnInit, ViewContainerRef} from '@angular/core';
 import {Subscription} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
-import {BASE_OVERLAY_PROVIDERS, OVERLAY_ANIMATE_IN} from "../models/overlay-tokens.models";
 import {RenderOverlayComponent} from "../components/render-overlay/render-overlay.component";
-import {OverlayContext, OverlayInstance} from "../models/overlay-context.models";
+import {OverlayInstance} from "../models/overlay-instance";
+import {BASE_OVERLAY_PROVIDERS, OVERLAY_ANIMATE_IN} from "../models/overlay-tokens";
+import {OverlayContext} from "../models/overlay-context";
 
-@Directive({selector: 'ngx-overlay-outlet'})
+@Directive({selector: 'ngx-overlay-outlet', standalone: true})
 export class OverlayOutletDirective implements OnInit {
 
   private sub?: Subscription;

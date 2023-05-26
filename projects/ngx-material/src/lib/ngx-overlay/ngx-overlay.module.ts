@@ -1,10 +1,9 @@
-import {ModuleWithProviders, NgModule, StaticProvider} from '@angular/core';
+import {NgModule, Provider, StaticProvider} from '@angular/core';
 import {RenderOverlayComponent} from './components/render-overlay/render-overlay.component';
-import {OverlayOutletDirective} from "./directives/overlay-outlet.directive";
 import {OverlayDirective} from "./directives/overlay.directive";
-import {BASE_OVERLAY_PROVIDERS} from "./models/overlay-tokens.models";
 import {CommonModule} from "@angular/common";
 import {IconDirective, NgxRenderingModule, TruthyPipe} from "@consensus-labs/ngx-tools";
+import {BASE_OVERLAY_PROVIDERS} from "./models/overlay-tokens";
 
 @NgModule({
   imports: [
@@ -15,22 +14,16 @@ import {IconDirective, NgxRenderingModule, TruthyPipe} from "@consensus-labs/ngx
   ],
   declarations: [
     RenderOverlayComponent,
-    OverlayOutletDirective,
     OverlayDirective
   ],
   exports: [
-    OverlayOutletDirective,
     OverlayDirective
-  ],
-  providers: [],
+  ]
 })
 export class NgxOverlayModule {
 
-  public static WithBaseProviders(...providers: StaticProvider[]): ModuleWithProviders<NgxOverlayModule> {
-    return {
-      ngModule: NgxOverlayModule,
-      providers: [{provide: BASE_OVERLAY_PROVIDERS, useValue: providers}]
-    }
+  public static ProvideBaseProviders(...providers: StaticProvider[]): Provider {
+    return {provide: BASE_OVERLAY_PROVIDERS, useValue: providers};
   }
 
 }

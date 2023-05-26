@@ -1664,15 +1664,10 @@
   resolved "https://gitlab.com/api/v4/projects/37055767/packages/npm/@consensus-labs/ngx-forms-core/-/@consensus-labs/ngx-forms-core-16.0.0.tgz#c9f371323d7f061d06db55245b609521f29412e6"
   integrity sha1-yfNxMj1/Bh0G21UkW2CVIfKUEuY=
 
-"@consensus-labs/rxjs-tools@1.3.0":
-  version "1.3.0"
-  resolved "https://gitlab.com/api/v4/projects/38260126/packages/npm/@consensus-labs/rxjs-tools/-/@consensus-labs/rxjs-tools-1.3.0.tgz#3bcccca63a70fadd4068801e3c7f5c37b070c187"
-  integrity sha1-O8zMpjpw+t1AaIAePH9cN7BwwYc=
-
-"@consensus-labs/rxjs-tools@1.3.1":
-  version "1.3.1"
-  resolved "https://gitlab.com/api/v4/projects/38260126/packages/npm/@consensus-labs/rxjs-tools/-/@consensus-labs/rxjs-tools-1.3.1.tgz#3a1b895ea30ec853ea975612215f0b793fd83baa"
-  integrity sha1-OhuJXqMOyFPql1YSIV8LeT/YO6o=
+"@consensus-labs/rxjs-tools@1.3.5":
+  version "1.3.5"
+  resolved "https://gitlab.com/api/v4/projects/38260126/packages/npm/@consensus-labs/rxjs-tools/-/@consensus-labs/rxjs-tools-1.3.5.tgz#c1efb340bf576217e8d5b68de1593ce3f1859aea"
+  integrity sha1-we+zQL9XYhfo1baN4Vk84/GFmuo=
 
 "@consensus-labs/ts-tools@1.4.0":
   version "1.4.0"

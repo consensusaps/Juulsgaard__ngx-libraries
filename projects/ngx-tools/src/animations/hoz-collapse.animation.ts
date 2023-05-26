@@ -8,6 +8,7 @@ export function hozCollapseAnimation(duration = 400) {
       animate(`${duration}ms ${cubicInOut}`, style({width: '*'}))
     ]),
     transition(':leave',
-      animate(`${duration}ms ${cubicInOut}`, style({width: 0})))
+      animate(`${duration}ms ${cubicInOut}`, style({width: 0}))
+    )
   ]);
 }

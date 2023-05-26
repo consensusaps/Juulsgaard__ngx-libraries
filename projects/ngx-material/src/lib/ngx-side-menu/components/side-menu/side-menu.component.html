@@ -1,0 +1,13 @@
+
+<ng-container *ngIf="showButtons$ | truthy">
+    <ng-container *ngIf="tabs$ | async as tabs">
+        <ng-container  *ngFor="let tab of tabs">
+            <ngx-icon class="tab-button" *ngIf="tab.icon"
+                      [icon]="tab.icon!"
+                      [matTooltip]="tab.name ?? ''"
+                      [matBadge]="tab.badge ?? ''"
+                      [matBadgeHidden]="!tab.badge"
+                      (click)="toggleTab(tab)"/>
+        </ng-container>
+    </ng-container>
+</ng-container>

@@ -6,7 +6,8 @@ import {DialogInstance} from "../models/dialog-context";
 import {DIALOG_ANIMATE_IN, DIALOG_CONTEXT} from "../models/dialog-tokens";
 
 @Directive({
-  selector: 'ngx-dialog-outlet'
+  selector: 'ngx-dialog-outlet',
+  standalone: true
 })
 export class DialogOutletDirective implements OnDestroy, OnInit {
 
