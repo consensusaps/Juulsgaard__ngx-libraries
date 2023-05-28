@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.1.2
+
+### Patch Changes
+
+- Improve palette range
+
 ## 16.1.1
 
 ### Patch Changes

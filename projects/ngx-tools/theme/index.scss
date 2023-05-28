@@ -73,16 +73,21 @@
 }
 
 @function _create-palette($color, $light: true) {
+	$low-delta: if($light, 100% - lightness($color), lightness($color));
+	$low-step: $low-delta / 5;
+	$high-delta: 100% - $low-delta;
+	$high-step: $high-delta / 5;
+
 	@return (
-		"100": _lighten-theme($color, 24, $light),
-		"200": _lighten-theme($color, 18, $light),
-		"300": _lighten-theme($color, 12, $light),
-		"400": _lighten-theme($color, 6, $light),
+		"100": _lighten-theme($color, $low-step * 4, $light),
+		"200": _lighten-theme($color, $low-step * 3, $light),
+		"300": _lighten-theme($color, $low-step * 2, $light),
+		"400": _lighten-theme($color, $low-step * 1, $light),
 		"500": $color,
-		"600": _darken-theme($color, 6, $light),
-		"700": _darken-theme($color, 12, $light),
-		"800": _darken-theme($color, 18, $light),
-		"900": _darken-theme($color, 24, $light),
+		"600": _darken-theme($color, $high-step * 1, $light),
+		"700": _darken-theme($color, $high-step * 2, $light),
+		"800": _darken-theme($color, $high-step * 3, $light),
+		"900": _darken-theme($color, $high-step * 4, $light),
 	)
 }
 
