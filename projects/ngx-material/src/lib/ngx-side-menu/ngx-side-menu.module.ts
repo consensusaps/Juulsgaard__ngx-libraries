@@ -8,9 +8,10 @@ import {IconDirective, NgxRenderingModule, TruthyPipe} from "@consensus-labs/ngx
 import {RenderSideMenuComponent} from './components/render-side-menu/render-side-menu.component';
 import {MatRippleModule} from "@angular/material/core";
 import {SideMenuTabDirective} from "./directives/side-menu-tab.directive";
+import {IconButtonComponent} from "../../components/icon-button/icon-button.component";
 
 @NgModule({
-  imports: [CommonModule, MatTooltipModule, MatBadgeModule, IconDirective, NgxRenderingModule, TruthyPipe, MatRippleModule],
+  imports: [CommonModule, MatTooltipModule, MatBadgeModule, IconDirective, NgxRenderingModule, TruthyPipe, MatRippleModule, IconButtonComponent],
   declarations: [
     SideMenuComponent,
     SideMenuTabComponent,
@@ -19,7 +20,8 @@ import {SideMenuTabDirective} from "./directives/side-menu-tab.directive";
   ],
   exports: [
     SideMenuComponent,
-    SideMenuTabDirective
+    SideMenuTabDirective,
+    SideMenuTabComponent
   ],
 })
 export class NgxSideMenuModule {

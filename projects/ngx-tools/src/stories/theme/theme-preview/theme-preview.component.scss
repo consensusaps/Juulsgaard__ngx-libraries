@@ -1,0 +1,44 @@
+
+@use "@consensus-labs/ngx-tools/theme";
+@use "@consensus-labs/ngx-tools/styles/variables" as v;
+
+:host.light {
+  @include theme.ngx-light-theme();
+}
+
+:host.dark {
+  @include theme.ngx-dark-theme();
+}
+
+:host {
+  display: block;
+  background-color: v.$background;
+  color: v.$text-color;
+  padding: 20px;
+}
+
+.preview-box {
+  .box {
+    padding: 20px 40px;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: sans-serif;
+  }
+}
+
+$names: '100', '200', '300', '400', '500', '600', '700', '800', '900';
+@each $name in $names {
+  .primary-#{$name} {
+    background-color: var(--ngx-primary-#{$name});
+    color: var(--ngx-primary-#{$name}-contrast);
+  }
+
+  .accent-#{$name} {
+    background-color: var(--ngx-accent-#{$name});
+    color: var(--ngx-accent-#{$name}-contrast);
+  }
+
+  .foreground-#{$name} {
+    background-color: var(--ngx-foreground-#{$name});
+  }
+}

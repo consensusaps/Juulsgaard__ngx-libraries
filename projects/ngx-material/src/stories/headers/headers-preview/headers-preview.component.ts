@@ -1,8 +1,8 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HeaderComponent} from "../../components/header/header.component";
-import {WrapContentDirective} from "../../directives/wrap-content.directive";
-import {NgxNavTabBarModule} from "../../lib/ngx-tab-bar";
+import {HeaderComponent} from "../../../components/header/header.component";
+import {WrapContentDirective} from "../../../directives/wrap-content.directive";
+import {NgxNavTabBarModule} from "../../../lib/ngx-tab-bar";
 import {underscore} from "@angular-devkit/core/src/utils/strings";
 
 @Component({

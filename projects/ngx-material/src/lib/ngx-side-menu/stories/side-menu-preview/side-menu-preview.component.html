@@ -1,9 +1,7 @@
 
 <ngx-side-menu-outlet/>
 
-{{show}}
-
-<ngx-side-menu (showChange)="showChanged.emit($event)" [buttons]="true">
+<ngx-side-menu (showChange)="showChanged.emit($event)" [show]="show" [buttons]="true">
     <ng-template ngxMenuTab="filter" name="Filter" icon="done">
         Filter tab
     </ng-template>
@@ -11,4 +9,8 @@
     <ng-template ngxMenuTab="two" name="Page 2" icon="inventory">
         Tab nr 2
     </ng-template>
+
+    <ngx-side-menu-tab id="three" icon="account_circle">
+        Page 3
+    </ngx-side-menu-tab>
 </ngx-side-menu>

@@ -1,0 +1,57 @@
+@use '@consensus-labs/ngx-tools/styles/variables' as *;
+
+:host {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  cursor: pointer;
+  outline: none;
+
+  &.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+.ngx-icon {
+  display: block;
+  font-size: inherit;
+}
+
+ngx-icon-button:host {
+  --padding: 0.5em;
+  font-size: 18px;
+  border-radius: 50%;
+
+  &::after {
+    content: '';
+    background-color: currentcolor;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  &:hover, &:focus {
+    &::after {
+      opacity: 0.05;
+    }
+  }
+}
+
+ngx-raised-icon-button:host {
+  --padding: 0.5em;
+  font-size: 18px;
+  border-radius: 4px;
+  background-color: $foreground-600;
+  box-shadow: 1px 1px 2px $text-color-100;
+  color: $primary;
+
+  &.active {
+    background-color: $accent-400;
+    color: $accent-400-contrast;
+  }
+}

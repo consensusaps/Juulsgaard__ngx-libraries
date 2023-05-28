@@ -1,6 +1,6 @@
 import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {HeadersPreviewComponent} from "./headers-preview/headers-preview.component";
-import {UIScopeConfig, UIScopeContext} from "../models/ui-scope";
+import {UIScopeConfig, UIScopeContext} from "../../models/ui-scope";
 import {RouterTestingModule} from "@angular/router/testing";
 
 const defaultConfig: UIScopeConfig = {

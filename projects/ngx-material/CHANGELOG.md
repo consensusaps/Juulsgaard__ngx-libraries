@@ -1,5 +1,14 @@
 # @consensus-labs/ngx-material
 
+## 16.0.20
+
+### Patch Changes
+
+- Add icon buttons
+- Add Side Menus
+- Updated dependencies
+  - @consensus-labs/ngx-tools@16.1.0
+
 ## 16.0.19
 
 ### Patch Changes

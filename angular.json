@@ -106,6 +106,7 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-tools/theme/light-theme.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
             ]
@@ -162,6 +163,7 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-tools/theme/light-theme.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
             ]
@@ -218,6 +220,7 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-tools/theme/light-theme.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
             ]
@@ -275,6 +278,7 @@
               "./projects/ngx-forms-inputs/styles/index.scss",
               "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-tools/theme/light-theme.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
             ]

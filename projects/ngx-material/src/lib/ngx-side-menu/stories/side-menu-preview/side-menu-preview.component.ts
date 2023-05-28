@@ -6,7 +6,7 @@ import {NgxSideMenuModule} from "../../ngx-side-menu.module";
 @Component({
   selector: 'ngx-side-menu-preview',
   standalone: true,
-  imports: [CommonModule, NgxSideMenuModule, NgxSideMenuOutletDirective, NgxSideMenuModule],
+  imports: [CommonModule, NgxSideMenuModule, NgxSideMenuOutletDirective, NgxSideMenuModule, NgxSideMenuModule],
   templateUrl: './side-menu-preview.component.html',
   styleUrls: ['./side-menu-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

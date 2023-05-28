@@ -1,0 +1,5 @@
+@use './index';
+
+:root {
+  @include index.ngx-light-theme();
+}

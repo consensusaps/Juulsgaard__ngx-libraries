@@ -1,21 +1,7 @@
 @use "@consensus-labs/ngx-tools/styles/variables" as *;
 
-.tab-button {
-  background-color: $foreground-light;
-  color: $text-color;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  box-shadow: 1px 1px 4px 2px rgba(black, 0.1);
-  margin-left: 24px;
-  line-height: 40px;
-  text-align: center;
-  font-size: 24px;
+.btn {
+  display: inline-block;
+  margin-left: 10px;
   flex-shrink: 0;
-  cursor: pointer;
-
-  &.active {
-    background-color: $primary;
-    color: white;
-  }
 }

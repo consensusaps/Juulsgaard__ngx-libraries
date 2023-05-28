@@ -1,23 +1,114 @@
+@use 'sass:map';
 
-@mixin ngx-theme(
-	$background: #f0f0f0,
-	$foreground: #FCFCFC,
-	$foreground-light: #FFFFFF,
+@mixin ngx-light-theme(
 	$primary: #455a64,
 	$accent: #8d6e63,
-	$text-color: #000000DD,
-	$text-color-light: null
+	$background: #f0f0f0,
+	$foreground: #FCFCFC
 ) {
-	
-	@if($text-color-light == null) {
-		$text-color-light: opacify($text-color, -0.25)
-	}
-	
 	--ngx-background: #{$background};
+
 	--ngx-foreground: #{$foreground};
-	--ngx-foreground-light: #{$foreground-light};
+	--ngx-foreground-900: #{_darken-theme($foreground, 12, true)};
+	--ngx-foreground-800: #{_darken-theme($foreground, 9, true)};
+	--ngx-foreground-700: #{_darken-theme($foreground, 6, true)};
+	--ngx-foreground-600: #{_darken-theme($foreground, 3, true)};
+	--ngx-foreground-500: #{$foreground};
+	--ngx-foreground-400: #{_lighten-theme($foreground, 3, true)};
+	--ngx-foreground-300: #{_lighten-theme($foreground, 6, true)};
+	--ngx-foreground-200: #{_lighten-theme($foreground, 9, true)};
+	--ngx-foreground-100: #{_lighten-theme($foreground, 12, true)};
+
 	--ngx-primary: #{$primary};
+	$primary-palette: _create-palette($primary, true);
+	@include _apply-palette('primary', $primary-palette);
+	@include _apply-palette-contrast('primary', $primary-palette);
+
 	--ngx-accent: #{$accent};
-	--ngx-text-color: #{$text-color};
-	--ngx-text-color-light: #{$text-color-light};
+	$accent-palette: _create-palette($accent, true);
+	@include _apply-palette('accent', $accent-palette);
+	@include _apply-palette-contrast('accent', $accent-palette);
+
+	--ngx-text-color: #000000DD;
+	--ngx-text-color-400: #00000099;
+	--ngx-text-color-300: #00000060;
+	--ngx-text-color-200: #00000032;
+	--ngx-text-color-100: #0000001E;
+}
+
+@mixin ngx-dark-theme(
+	$primary: #7986cb,
+	$accent: #ff4081,
+	$background: #121212,
+	$foreground: #1E1E1E
+) {
+	--ngx-background: #{$background};
+
+	--ngx-foreground: #{$foreground};
+	--ngx-foreground-900: #{lighten($foreground, 12)};
+	--ngx-foreground-800: #{lighten($foreground, 9)};
+	--ngx-foreground-700: #{lighten($foreground, 6)};
+	--ngx-foreground-600: #{lighten($foreground, 3)};
+	--ngx-foreground-500: #{$foreground};
+	--ngx-foreground-400: #{darken($foreground, 3)};
+	--ngx-foreground-300: #{darken($foreground, 6)};
+	--ngx-foreground-200: #{darken($foreground, 9)};
+	--ngx-foreground-100: #{darken($foreground, 12)};
+
+	--ngx-primary: #{$primary};
+	$primary-palette: _create-palette($primary, false);
+	@include _apply-palette('primary', $primary-palette);
+	@include _apply-palette-contrast('primary', $primary-palette);
+
+	--ngx-accent: #{$accent};
+	$accent-palette: _create-palette($accent, false);
+	@include _apply-palette('accent', $accent-palette);
+	@include _apply-palette-contrast('accent', $accent-palette);
+
+	--ngx-text-color: #FFFFFFDD;
+	--ngx-text-color-400: #FFFFFF99;
+	--ngx-text-color-300: #FFFFFF60;
+	--ngx-text-color-200: #FFFFFF32;
+	--ngx-text-color-100: #FFFFFF1E;
+}
+
+@function _create-palette($color, $light: true) {
+	@return (
+		"100": _lighten-theme($color, 24, $light),
+		"200": _lighten-theme($color, 18, $light),
+		"300": _lighten-theme($color, 12, $light),
+		"400": _lighten-theme($color, 6, $light),
+		"500": $color,
+		"600": _darken-theme($color, 6, $light),
+		"700": _darken-theme($color, 12, $light),
+		"800": _darken-theme($color, 18, $light),
+		"900": _darken-theme($color, 24, $light),
+	)
+}
+
+@mixin _apply-palette($prefix, $palette) {
+	@each $name, $color in $palette {
+		--ngx-#{$prefix}-#{$name}: #{$color};
+	}
+}
+
+@mixin _apply-palette-contrast($prefix, $palette) {
+	--ngx-#{$prefix}-contrast: if(lightness(map.get($palette, '500')) < 55%, #FFFFFFDD, #000000DD);
+	@each $name, $color in $palette {
+		--ngx-#{$prefix}-#{$name}-contrast: #{if(lightness($color) < 55%, #FFFFFFDD, #000000DD)};
+	}
+}
+
+@function _lighten-theme($color, $amount, $light: true) {
+	@if $light {
+		@return lighten($color, $amount);
+	}
+	@return darken($color, $amount);
+}
+
+@function _darken-theme($color, $amount, $light: true) {
+	@if $light {
+		@return darken($color, $amount);
+	}
+	@return lighten($color, $amount);
 }
