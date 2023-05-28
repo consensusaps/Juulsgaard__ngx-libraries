@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.21
+
+### Patch Changes
+
+- Fix Outlet component imports
+
 ## 16.0.20
 
 ### Patch Changes

@@ -3,7 +3,7 @@
 <div class="menu ngx-move-in">
 
     <div class="head">
-        <ngx-icon class="close" alias="close" matRipple (click)="onClose()"/>
+        <ngx-icon-button class="close" alias="close" (click)="onClose()"/>
         <ng-container *ngIf="tab$ | async as t">
             <p *ngIf="t.name">{{t.name}}</p>
         </ng-container>

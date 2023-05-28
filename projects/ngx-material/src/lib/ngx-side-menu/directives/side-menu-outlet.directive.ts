@@ -7,8 +7,7 @@ import {SideMenuRenderContext} from "../models/side-menu-render-context";
 import {SIDE_MENU_ANIMATE_IN} from "../models/menu-tokens";
 
 @Directive({
-  selector: 'ngx-side-menu-outlet',
-  standalone: true
+  selector: 'ngx-side-menu-outlet'
 })
 export class NgxSideMenuOutletDirective {
 

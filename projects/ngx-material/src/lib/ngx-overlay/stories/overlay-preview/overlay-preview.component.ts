@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgxOverlayModule} from "../../ngx-overlay.module";
 import {MatButtonModule} from "@angular/material/button";
-import {OverlayOutletDirective} from "../../directives/overlay-outlet.directive";
+import {NgxOverlayOutletModule} from "../../ngx-overlay-outlet.module";
 
 @Component({
   selector: 'ngx-overlay-preview',
@@ -9,7 +9,7 @@ import {OverlayOutletDirective} from "../../directives/overlay-outlet.directive"
   imports: [
     NgxOverlayModule,
     MatButtonModule,
-    OverlayOutletDirective
+    NgxOverlayOutletModule
   ],
   templateUrl: './overlay-preview.component.html',
   styleUrls: ['./overlay-preview.component.css']

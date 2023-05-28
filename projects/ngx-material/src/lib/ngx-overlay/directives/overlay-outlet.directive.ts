@@ -6,7 +6,7 @@ import {OverlayInstance} from "../models/overlay-instance";
 import {BASE_OVERLAY_PROVIDERS, OVERLAY_ANIMATE_IN} from "../models/overlay-tokens";
 import {OverlayContext} from "../models/overlay-context";
 
-@Directive({selector: 'ngx-overlay-outlet', standalone: true})
+@Directive({selector: 'ngx-overlay-outlet'})
 export class OverlayOutletDirective implements OnInit {
 
   private sub?: Subscription;
