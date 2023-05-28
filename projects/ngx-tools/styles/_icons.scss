@@ -3,11 +3,11 @@ ngx-icon.ngx-icon {
   --scale: 1;
 
   display: inline-block;
-  height: calc(1em + 2 * var(--padding, 0));
-  width: calc(1em + 2 * var(--padding, 0));
+  height: calc(1em + 2 * var(--padding, 0px));
+  width: calc(1em + 2 * var(--padding, 0px));
   line-height: 1em;
   text-align: center;
-  padding: var(--padding, 0);
+  padding: var(--padding, 0px);
   overflow: hidden;
   box-sizing: border-box;
   user-select: none;
@@ -32,7 +32,7 @@ ngx-icon.ngx-icon {
     overflow: visible;
     padding: 0;
     width: unset;
-    min-width: calc(1em + 2 * var(--padding, 0));
+    min-width: calc(1em + 2 * var(--padding, 0px));
 
     &.mat-ripple {
       overflow: hidden;
