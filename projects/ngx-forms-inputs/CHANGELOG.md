@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.11
+
+### Patch Changes
+
+- Make inputs blocks
+
 ## 16.0.10
 
 ### Patch Changes
