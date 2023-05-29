@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.22
+
+### Patch Changes
+
+- Improve side menu
+
 ## 16.0.21
 
 ### Patch Changes

@@ -1,8 +1,15 @@
 <ng-container *ngIf="showButtons$ | truthy">
     <ng-container *ngIf="tabs$ | async as tabs">
         <ng-container *ngFor="let tab of tabs">
-            <div class="btn" *ngIf="tab.icon" [matBadge]="tab.badge ?? ''" [matBadgeHidden]="!tab.badge">
-                <ngx-raised-icon-button [icon]="tab.icon" [matTooltip]="tab.name ?? ''" (click)="toggleTab(tab)"/>
+            <div class="btn" *ngIf="tab.icon"
+                 [matBadge]="(tab.badge$ | async) ?? ''"
+                 [matBadgeHidden]="tab.badge$ | falsy">
+
+                <ngx-raised-icon-button
+                        [active]="tab.isOpen$ | truthy"
+                        [icon]="(tab.icon$ | async) ?? undefined"
+                        [matTooltip]="(tab.name$ | async) ?? ''"
+                        (click)="toggleTab(tab)"/>
             </div>
         </ng-container>
     </ng-container>

@@ -7,9 +7,18 @@ import {NgxSideMenuContext} from "./menu-context";
 export abstract class NgxSideMenuTabContext {
 
   abstract id: string;
-  abstract name?: string;
-  abstract icon?: string;
-  abstract badge?: string;
+
+  protected _name$ = new BehaviorSubject<string|undefined>(undefined);
+  readonly name$ = this._name$.asObservable();
+  get name() {return this._name$.value}
+
+  protected _icon$ = new BehaviorSubject<string|undefined>(undefined);
+  readonly icon$ = this._icon$.asObservable();
+  get icon() {return this._icon$.value}
+
+  protected _badge$ = new BehaviorSubject<string|undefined>(undefined);
+  readonly badge$ = this._badge$.asObservable();
+  get badge() {return this._badge$.value}
 
   abstract readonly templateRef: TemplateRef<void>;
   abstract readonly viewContainer: ViewContainerRef;

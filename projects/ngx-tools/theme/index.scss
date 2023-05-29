@@ -14,10 +14,10 @@
 	--ngx-foreground-700: #{_darken-theme($foreground, 6, true)};
 	--ngx-foreground-600: #{_darken-theme($foreground, 3, true)};
 	--ngx-foreground-500: #{$foreground};
-	--ngx-foreground-400: #{_lighten-theme($foreground, 3, true)};
-	--ngx-foreground-300: #{_lighten-theme($foreground, 6, true)};
-	--ngx-foreground-200: #{_lighten-theme($foreground, 9, true)};
-	--ngx-foreground-100: #{_lighten-theme($foreground, 12, true)};
+	--ngx-foreground-400: #{_lighten-theme($foreground, 2, true)};
+	--ngx-foreground-300: #{_lighten-theme($foreground, 4, true)};
+	--ngx-foreground-200: #{_lighten-theme($foreground, 6, true)};
+	--ngx-foreground-100: #{_lighten-theme($foreground, 8, true)};
 
 	--ngx-primary: #{$primary};
 	$primary-palette: _create-palette($primary, true);
