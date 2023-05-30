@@ -4,20 +4,23 @@
 	$primary: #455a64,
 	$accent: #8d6e63,
 	$background: #f0f0f0,
-	$foreground: #FCFCFC
+	$foreground: #FFFFFF
 ) {
 	--ngx-background: #{$background};
 
+	$delta: lightness($foreground) - lightness($background);
+	$step: $delta / 5;
+
 	--ngx-foreground: #{$foreground};
-	--ngx-foreground-900: #{_darken-theme($foreground, 12, true)};
-	--ngx-foreground-800: #{_darken-theme($foreground, 9, true)};
-	--ngx-foreground-700: #{_darken-theme($foreground, 6, true)};
-	--ngx-foreground-600: #{_darken-theme($foreground, 3, true)};
+	--ngx-foreground-900: #{darken($foreground, 12)};
+	--ngx-foreground-800: #{darken($foreground, 9)};
+	--ngx-foreground-700: #{darken($foreground, 6)};
+	--ngx-foreground-600: #{darken($foreground, 3)};
 	--ngx-foreground-500: #{$foreground};
-	--ngx-foreground-400: #{_lighten-theme($foreground, 2, true)};
-	--ngx-foreground-300: #{_lighten-theme($foreground, 4, true)};
-	--ngx-foreground-200: #{_lighten-theme($foreground, 6, true)};
-	--ngx-foreground-100: #{_lighten-theme($foreground, 8, true)};
+	--ngx-foreground-400: #{darken($foreground, $step * 1)};
+	--ngx-foreground-300: #{darken($foreground, $step * 2)};
+	--ngx-foreground-200: #{darken($foreground, $step * 3)};
+	--ngx-foreground-100: #{darken($foreground, $step * 4)};
 
 	--ngx-primary: #{$primary};
 	$primary-palette: _create-palette($primary, true);
@@ -40,9 +43,12 @@
 	$primary: #7986cb,
 	$accent: #ff4081,
 	$background: #121212,
-	$foreground: #1E1E1E
+	$foreground: #191919
 ) {
 	--ngx-background: #{$background};
+
+	$delta: lightness($foreground) - lightness($background);
+	$step: $delta / 5;
 
 	--ngx-foreground: #{$foreground};
 	--ngx-foreground-900: #{lighten($foreground, 12)};
@@ -50,10 +56,10 @@
 	--ngx-foreground-700: #{lighten($foreground, 6)};
 	--ngx-foreground-600: #{lighten($foreground, 3)};
 	--ngx-foreground-500: #{$foreground};
-	--ngx-foreground-400: #{darken($foreground, 3)};
-	--ngx-foreground-300: #{darken($foreground, 6)};
-	--ngx-foreground-200: #{darken($foreground, 9)};
-	--ngx-foreground-100: #{darken($foreground, 12)};
+	--ngx-foreground-400: #{darken($foreground, $step * 1)};
+	--ngx-foreground-300: #{darken($foreground, $step * 2)};
+	--ngx-foreground-200: #{darken($foreground, $step * 3)};
+	--ngx-foreground-100: #{darken($foreground, $step * 4)};
 
 	--ngx-primary: #{$primary};
 	$primary-palette: _create-palette($primary, false);
@@ -98,7 +104,7 @@
 }
 
 @mixin _apply-palette-contrast($prefix, $palette) {
-	--ngx-#{$prefix}-contrast: if(lightness(map.get($palette, '500')) < 55%, #FFFFFFDD, #000000DD);
+	--ngx-#{$prefix}-contrast: #{if(lightness(map.get($palette, '500')) < 55%, #FFFFFFDD, #000000DD)};
 	@each $name, $color in $palette {
 		--ngx-#{$prefix}-#{$name}-contrast: #{if(lightness($color) < 55%, #FFFFFFDD, #000000DD)};
 	}

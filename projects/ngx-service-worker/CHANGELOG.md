@@ -1,5 +1,14 @@
 # @consensus-labs/ngx-service-worker
 
+## 16.0.4
+
+### Patch Changes
+
+- Update theming
+- Updated dependencies
+  - @consensus-labs/ngx-material@16.0.23
+  - @consensus-labs/ngx-tools@16.1.3
+
 ## 16.0.3
 
 ### Patch Changes

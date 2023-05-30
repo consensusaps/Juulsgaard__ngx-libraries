@@ -1,8 +1,18 @@
+@use "@consensus-labs/ngx-tools/styles/variables" as *;
 
 ngx-tab-bar {
 
   .mat-mdc-tab-header {
     --mat-tab-header-label-text-letter-spacing: 0.5px;
+  }
+
+  .mat-mdc-tab-nav-bar {
+    --mat-tab-header-active-label-text-color: #{$text-color};
+    --mat-tab-header-active-focus-label-text-color: #{$text-color};
+    --mat-tab-header-active-hover-label-text-color: #{$text-color};
+    --mat-tab-header-active-ripple-color: #{$text-color-300};
+    --mat-tab-header-inactive-ripple-color: #{$text-color-300};
+    --mat-tab-header-disabled-ripple-color: #{$text-color-300};
   }
 
   .mat-mdc-tab-links {

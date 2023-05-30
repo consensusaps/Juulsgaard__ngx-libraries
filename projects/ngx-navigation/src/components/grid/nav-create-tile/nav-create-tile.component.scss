@@ -2,7 +2,7 @@
 
 :host {
 	&.file-hover {
-		border: thin dotted $text-color-lightest;
+		border: thin dotted $text-color-200;
 		
 		> :not(.file-drop) {
 			visibility: hidden;

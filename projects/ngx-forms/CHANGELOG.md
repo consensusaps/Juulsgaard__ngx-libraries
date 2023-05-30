@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms
 
+## 16.0.8
+
+### Patch Changes
+
+- Update theming
+- Updated dependencies
+  - @consensus-labs/ngx-tools@16.1.3
+
 ## 16.0.7
 
 ### Patch Changes

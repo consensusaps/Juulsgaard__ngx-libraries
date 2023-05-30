@@ -27,7 +27,7 @@
   max-width: 100%;
   display: flex;
   flex-flow: column;
-  background-color: $foreground;
+  background-color: $foreground-400;
 
   .head {
     display: flex;
@@ -36,7 +36,7 @@
     justify-content: flex-end;
     padding: 10px 20px;
     height: 80px;
-    background-color: $foreground-300;
+    background-color: $foreground;
     box-shadow: rgba(black, 0.3) 0 0 8px -2px;
 
     .close {

@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.1.3
+
+### Patch Changes
+
+- Update theming
+
 ## 16.1.2
 
 ### Patch Changes
