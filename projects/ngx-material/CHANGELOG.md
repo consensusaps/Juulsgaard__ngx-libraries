@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-material
 
+## 16.0.25
+
+### Patch Changes
+
+- Export theme tools
+- Updated dependencies
+  - @consensus-labs/ngx-tools@16.1.5
+
 ## 16.0.24
 
 ### Patch Changes

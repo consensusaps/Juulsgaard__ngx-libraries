@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.1.5
+
+### Patch Changes
+
+- Export theme tools
+
 ## 16.1.4
 
 ### Patch Changes

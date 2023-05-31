@@ -11,3 +11,4 @@ export * from './directives';
 export * from './pipes';
 export * from './animations';
 export * from './decorators';
+export * from './helpers';
