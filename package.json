@@ -58,6 +58,7 @@
     "@storybook/testing-library": "0.0.14-next.2",
     "@types/jasmine": "4.3.1",
     "@types/node": "18.15.3",
+    "@types/tinycolor2": "1.4.3",
     "jasmine-core": "4.6.0",
     "karma": "6.4.2",
     "karma-chrome-launcher": "3.2.0",

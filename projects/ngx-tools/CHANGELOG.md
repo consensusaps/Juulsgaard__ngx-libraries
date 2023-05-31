@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.1.4
+
+### Patch Changes
+
+- Add theme generation tools
+
 ## 16.1.3
 
 ### Patch Changes

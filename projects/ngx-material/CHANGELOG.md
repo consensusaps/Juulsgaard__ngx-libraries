@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-material
 
+## 16.0.24
+
+### Patch Changes
+
+- Add theme generation tools
+- Updated dependencies
+  - @consensus-labs/ngx-tools@16.1.4
+
 ## 16.0.23
 
 ### Patch Changes

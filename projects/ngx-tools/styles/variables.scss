@@ -28,7 +28,7 @@ $primary-900-contrast: var(--ngx-primary-900-contrast, #{$primary-contrast});
 $primary-800-contrast: var(--ngx-primary-800-contrast, #{$primary-contrast});
 $primary-700-contrast: var(--ngx-primary-700-contrast, #{$primary-contrast});
 $primary-600-contrast: var(--ngx-primary-600-contrast, #{$primary-contrast});
-$primary-500-contrast: $primary;
+$primary-500-contrast: $primary-contrast;
 $primary-400-contrast: var(--ngx-primary-400-contrast, #{$primary-contrast});
 $primary-300-contrast: var(--ngx-primary-300-contrast, #{$primary-contrast});
 $primary-200-contrast: var(--ngx-primary-200-contrast, #{$primary-contrast});
@@ -50,7 +50,7 @@ $accent-900-contrast: var(--ngx-accent-900-contrast, #{$accent-contrast});
 $accent-800-contrast: var(--ngx-accent-800-contrast, #{$accent-contrast});
 $accent-700-contrast: var(--ngx-accent-700-contrast, #{$accent-contrast});
 $accent-600-contrast: var(--ngx-accent-600-contrast, #{$accent-contrast});
-$accent-500-contrast: $accent;
+$accent-500-contrast: $accent-contrast;
 $accent-400-contrast: var(--ngx-accent-400-contrast, #{$accent-contrast});
 $accent-300-contrast: var(--ngx-accent-300-contrast, #{$accent-contrast});
 $accent-200-contrast: var(--ngx-accent-200-contrast, #{$accent-contrast});
@@ -63,11 +63,13 @@ $text-color-300: var(--ngx-text-color-300, #{$text-color});
 $text-color-200: var(--ngx-text-color-200, #{$text-color});
 $text-color-100: var(--ngx-text-color-100, #{$text-color});
 
+
 // Device sizes
 $small-max: 600px;
 $medium-min: 601px;
 $medium-max: 1000px;
 $large-min: 1001px;
+
 
 // Misc Colors
 $info: #2595ED;
