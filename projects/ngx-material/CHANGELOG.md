@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.26
+
+### Patch Changes
+
+- Add color options for badge
+
 ## 16.0.25
 
 ### Patch Changes

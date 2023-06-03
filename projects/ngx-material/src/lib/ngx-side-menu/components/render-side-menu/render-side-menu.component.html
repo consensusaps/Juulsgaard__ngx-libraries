@@ -12,7 +12,8 @@
                 <ng-container *ngFor="let tab of tabs">
                     <div class="btn" *ngIf="tab.icon"
                          [matBadge]="(tab.badge$ | async) ?? ''"
-                         [matBadgeHidden]="tab.badge$ | falsy">
+                         [matBadgeHidden]="tab.badge$ | falsy"
+                         [matBadgeColor]="(tab.badgeColor$ | async) ?? 'accent'">
 
                         <ngx-raised-icon-button
                                 [active]="tab.isOpen$ | truthy"

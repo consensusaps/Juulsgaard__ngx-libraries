@@ -1,5 +1,6 @@
 import {Directive, forwardRef, Input, TemplateRef, ViewContainerRef} from '@angular/core';
 import {NgxSideMenuTabContext} from "../models/menu-tab-context";
+import {ThemePalette} from "@angular/material/core";
 
 @Directive({
   selector: '[ngxMenuTab]',
@@ -24,6 +25,10 @@ export class SideMenuTabDirective extends NgxSideMenuTabContext {
     }
 
     this._badge$.next(badge ?? undefined);
+  };
+
+  @Input('badgeColor') set badgeColorData(color: ThemePalette|undefined|null) {
+    this._badgeColor$.next(color ?? undefined);
   };
 
   constructor(

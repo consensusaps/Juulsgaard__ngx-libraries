@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy, Component, forwardRef, Input, TemplateRef, ViewChild, ViewContainerRef
 } from '@angular/core';
 import {NgxSideMenuTabContext} from "../../models/menu-tab-context";
+import {ThemePalette} from "@angular/material/core";
 
 @Component({
   selector: 'ngx-side-menu-tab',
@@ -28,6 +29,10 @@ export class SideMenuTabComponent extends NgxSideMenuTabContext {
     }
 
     this._badge$.next(badge ?? undefined);
+  };
+
+  @Input('badgeColor') set badgeColorData(color: ThemePalette|undefined|null) {
+    this._badgeColor$.next(color ?? undefined);
   };
 
   constructor(readonly viewContainer: ViewContainerRef) {

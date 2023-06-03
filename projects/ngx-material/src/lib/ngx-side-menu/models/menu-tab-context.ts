@@ -3,6 +3,7 @@ import {distinctUntilChanged, map} from "rxjs/operators";
 import {cache} from "@consensus-labs/rxjs-tools";
 import {inject, TemplateRef, ViewContainerRef} from "@angular/core";
 import {NgxSideMenuContext} from "./menu-context";
+import {ThemePalette} from "@angular/material/core";
 
 export abstract class NgxSideMenuTabContext {
 
@@ -19,6 +20,10 @@ export abstract class NgxSideMenuTabContext {
   protected _badge$ = new BehaviorSubject<string|undefined>(undefined);
   readonly badge$ = this._badge$.asObservable();
   get badge() {return this._badge$.value}
+
+  protected _badgeColor$ = new BehaviorSubject<ThemePalette|undefined>(undefined);
+  readonly badgeColor$ = this._badgeColor$.asObservable();
+  get badgeColor() {return this._badgeColor$.value}
 
   abstract readonly templateRef: TemplateRef<void>;
   abstract readonly viewContainer: ViewContainerRef;
