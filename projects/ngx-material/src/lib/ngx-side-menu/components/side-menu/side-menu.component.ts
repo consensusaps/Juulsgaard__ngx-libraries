@@ -81,6 +81,7 @@ export class SideMenuComponent extends NgxSideMenuContext implements AfterConten
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    if (this.instance) this.menuManager.closeMenu(this.instance);
   }
 
   private changeState(state: string|boolean|undefined) {

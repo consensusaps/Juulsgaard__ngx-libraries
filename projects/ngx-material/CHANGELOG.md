@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.27
+
+### Patch Changes
+
+- Properly destroy side-menu
+
 ## 16.0.26
 
 ### Patch Changes
