@@ -38,6 +38,7 @@
     height: 80px;
     background-color: $foreground;
     box-shadow: rgba(black, 0.3) 0 0 8px -2px;
+    flex-shrink: 0;
 
     .close {
       font-size: 24px;
