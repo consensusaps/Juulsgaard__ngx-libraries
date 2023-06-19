@@ -1,6 +1,6 @@
 {
   "name": "@consensus-labs/ngx-forms",
-  "version": "16.0.8",
+  "version": "16.0.9",
   "publishConfig": {
     "@consensus-labs:registry": "https://gitlab.com/api/v4/projects/38278038/packages/npm/",
     "directory": "../../dist/ngx-forms"

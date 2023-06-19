@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BaseInputComponent} from '@consensus-labs/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
 import {NgIf} from "@angular/common";
@@ -19,7 +19,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatIconModule,
     IconDirective,
     MatSlideToggleModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FormsModule
   ],
   standalone: true
 })

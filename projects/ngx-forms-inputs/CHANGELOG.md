@@ -1,5 +1,13 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.13
+
+### Patch Changes
+
+- Fix disabled inputs not hiding
+- Updated dependencies
+  - @consensus-labs/ngx-forms@16.0.9
+
 ## 16.0.12
 
 ### Patch Changes

@@ -224,7 +224,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
 
     /** Marks whether the input should be displayed or not */
     get show() {
-        return !this.isDisabled || this.showDisabled;
+        return !this.isDisabled || !!this.showDisabled;
     }
 
     @HostBinding('class.hidden')
