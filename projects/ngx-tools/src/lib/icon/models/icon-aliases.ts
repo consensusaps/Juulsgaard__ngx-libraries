@@ -3,8 +3,8 @@ import {IconConfig} from "./icon-models";
 export const baseIconAliases = {
   close: {mat: 'close', fa: {icon: 'far fa-times', scale: 0.8}},
   search: {mat: 'search', fa: {icon: 'far fa-search', scale: 0.7}},
-  visible: {mat: 'visibility_outline', fa: 'far fa-eye'},
-  hidden: {mat: 'visibility_off_outline', fa: 'far fa-eye-slash'},
+  visible: {mat: 'visibility_outline', fa: {icon: 'far fa-eye', scale: 0.8}},
+  hidden: {mat: 'visibility_off_outline', fa: {icon: 'far fa-eye-slash', scale: 0.8}},
   upload: {mat: 'cloud_upload_outline', fa: 'fal fa-cloud-arrow-up'},
   download: {mat: 'cloud_download_outline', fa: 'fal fa-cloud-arrow-down'},
   help: {mat: 'help', fa: 'fas fa-question-circle'},

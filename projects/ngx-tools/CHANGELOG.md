@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-tools
 
+## 16.1.6
+
+### Patch Changes
+
+- Update FA icon scales
+
 ## 16.1.5
 
 ### Patch Changes
