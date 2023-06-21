@@ -31,7 +31,7 @@
     "@consensus-labs/ngx-tools": "^16.1.6",
     "dayjs": "^1.11.7",
     "ngx-color-picker": "^14.0.0",
-    "ngx-mat-timepicker": "^15.1.7",
+    "ngx-mat-timepicker": "^16.0.1",
     "typescript": "~5.0.4"
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "@consensus-labs/ngx-tools": "16.1.6",
     "dayjs": "1.11.7",
     "ngx-color-picker": "14.0.0",
-    "ngx-mat-timepicker": "15.1.7"
+    "ngx-mat-timepicker": "16.0.1"
   },
   "dependencies": {
     "tslib": "2.5.0"

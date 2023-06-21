@@ -4065,7 +4065,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/tinycolor2@^1.4.3":
+"@types/tinycolor2@1.4.3":
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.3.tgz#ed4a0901f954b126e6a914b4839c77462d56e706"
   integrity sha512-Kf1w9NE5HEgGxCRyIcRXR/ZYtDv0V8FVPtYHwLxl0O+maGX0erE77pQlD0gpP+/KByMZ87mOA79SjifhSB3PjQ==
@@ -8453,13 +8453,13 @@ ngx-color-picker@14.0.0:
   dependencies:
     tslib "^2.3.0"
 
-ngx-mat-timepicker@15.1.7:
-  version "15.1.7"
-  resolved "https://registry.yarnpkg.com/ngx-mat-timepicker/-/ngx-mat-timepicker-15.1.7.tgz#9f14a5d8ae2eae9656ca4c9d3741ba56e39a954b"
-  integrity sha512-FqlRMl5MaFJf+2gM9EC/tjhyph76ec6fHOM5qI+ZF1AQAafzLYq/b2jMsPs6vaVRGiwLQBbH4TgpRkJhRtpsNg==
+ngx-mat-timepicker@16.0.1:
+  version "16.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-mat-timepicker/-/ngx-mat-timepicker-16.0.1.tgz#76561c79bdf62c63033da8e06ae2986889bc72a6"
+  integrity sha512-WGXTWK/LBcr0ZtRnproHSrRilBibeWBXDigkAWgKXkvasDvZQGXp8DAuL4gUOnlKXaakCZl5r0Pib3CdRVWFOQ==
   dependencies:
-    ts-luxon "^4.2.1"
-    tslib "^2.4.1"
+    ts-luxon "^4.3.2"
+    tslib "^2.5.2"
 
 nice-napi@^1.0.2:
   version "1.0.2"
@@ -10640,10 +10640,10 @@ ts-dedent@^2.0.0, ts-dedent@^2.2.0:
   resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-2.2.0.tgz#39e4bd297cd036292ae2394eb3412be63f563bb5"
   integrity sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==
 
-ts-luxon@^4.2.1:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/ts-luxon/-/ts-luxon-4.2.2.tgz#e86590324541cddee7b88f732e8e55dbb78ee434"
-  integrity sha512-R5MaJMKhYIrICJIP5TS3LP7OKAxhHPVHMZhiuFMjiK6m4TV67jdYh4k6/j9I0UqaQg/ML0bmG8uBPK9Ssx3LKg==
+ts-luxon@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/ts-luxon/-/ts-luxon-4.3.2.tgz#3f7d762be721720c91f6b51850aa2168f966e04c"
+  integrity sha512-Vx4iGyvpKxC0pnY1e7O+btm8HxHqbL3s8WNQ+2KCLqCnO13aW3W5LDK8YtzvLDqlbpOTWO08SNC5Ku4lNb/PKw==
 
 ts-node@10.9.1:
   version "10.9.1"
@@ -10683,10 +10683,15 @@ tsconfig-paths@^3.9.0:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
-tslib@2.5.0, tslib@^2.0.0, tslib@^2.0.1, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.4.0, tslib@^2.4.1:
+tslib@2.5.0, tslib@^2.0.0, tslib@^2.0.1, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.4.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.5.0.tgz#42bfed86f5787aeb41d031866c8f402429e0fddf"
   integrity sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==
+
+tslib@^2.5.2:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.5.3.tgz#24944ba2d990940e6e982c4bea147aba80209913"
+  integrity sha512-mSxlJJwl3BMEQCUNnxXBU9jP4JBktcEGhURcPR6VQVlnP0FdDEsIaz0C35dXNGLyRfrATNofF0F5p2KPxQgB+w==
 
 tty-table@^4.1.5:
   version "4.2.1"
