@@ -102,7 +102,8 @@ export class BaseUIScopeContext extends UIScopeContext {
             'ngx-ui-scope',
             hasChildren ? 'has-children' : 'no-children',
             hasHeader ? `${scope.class}-content` : 'no-header'
-          ]
+          ],
+          scrollable: !hasChildren
         })
       ),
       auditTime(0),
@@ -175,6 +176,7 @@ export interface UIScope {
 
 interface WrapperData {
   classes: string[]
+  scrollable: boolean;
 }
 
 interface HeaderData {

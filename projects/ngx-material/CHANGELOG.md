@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.30
+
+### Patch Changes
+
+- Register wrappers as scrollable containers
+
 ## 16.0.29
 
 ### Patch Changes
