@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.16
+
+### Patch Changes
+
+- Improve search input style
+
 ## 16.0.15
 
 ### Patch Changes
