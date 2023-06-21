@@ -10,10 +10,8 @@
 
         <input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
                [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled">
-        <button mat-icon-button matIconSuffix (click)="openPicker(picker)" (mousedown)="$event.preventDefault()">
-            <ngx-icon alias="time"/>
-        </button>
 
+        <ngx-icon-button alias="time" matIconSuffix (click)="openPicker(picker)" noClickBubble/>
 
         <mat-error>{{errorText$ | async}}</mat-error>
 

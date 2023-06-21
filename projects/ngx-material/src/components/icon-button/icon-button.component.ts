@@ -12,7 +12,7 @@ import {IconDirective} from "@consensus-labs/ngx-tools";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MatRipple],
-  host: {'[tabIndex]': '0', '[role]': '"button"', '[class.active]': 'active', '[class.disabled]': 'disabled', '[class.ngx-icon-button]': 'true'}
+  host: {'[tabIndex]': 'disabled ? -1 : 0', '[role]': '"button"', '[class.active]': 'active', '[class.disabled]': 'disabled', '[class.ngx-icon-button]': 'true'}
 })
 export class IconButtonComponent {
 

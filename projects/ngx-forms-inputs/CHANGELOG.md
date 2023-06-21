@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms-inputs
 
+## 16.0.15
+
+### Patch Changes
+
+- Improve icons buttons for inputs
+
 ## 16.0.14
 
 ### Patch Changes

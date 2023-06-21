@@ -5,8 +5,6 @@
 
 	<input type="search" matInput [autofocus]="autofocus" [placeholder]="placeholder ?? label!" [readonly]="readonly" [(ngModel)]="inputValue" #input>
 
-	<button mat-icon-button matIconSuffix (click)="inputValue = ''" (mousedown)="$event.preventDefault()">
-		<ngx-icon matIconSuffix matRipple alias="close"/>
-	</button>
+	<ngx-icon-button alias="close" matIconSuffix (click)="inputValue = ''" noClickBubble [disabled]="!inputValue || inputValue.length < 1"/>
 
 </mat-form-field>

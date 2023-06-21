@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-material
 
+## 16.0.29
+
+### Patch Changes
+
+- Improve icons buttons for inputs
+
 ## 16.0.28
 
 ### Patch Changes

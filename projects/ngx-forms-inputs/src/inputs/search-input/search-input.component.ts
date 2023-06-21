@@ -8,6 +8,7 @@ import {MatRippleModule} from "@angular/material/core";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+import {IconButtonComponent} from "@consensus-labs/ngx-material";
 
 
 @Component({
@@ -22,7 +23,8 @@ import {MatButtonModule} from "@angular/material/button";
     MatIconModule,
     IconDirective,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    IconButtonComponent
   ],
   standalone: true
 })

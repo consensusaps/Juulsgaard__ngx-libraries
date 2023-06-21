@@ -1,10 +1,16 @@
 :host {
   display: flex;
   flex-flow: column;
-  margin: 0 20px;
+  align-items: stretch;
 }
 
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration { display: none; }
+
+.ngx-icon-button {
+  margin-right: 5px;
+  font-size: 24px;
+  --padding: 5px;
+}
