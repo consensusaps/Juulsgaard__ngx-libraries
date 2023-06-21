@@ -1,5 +1,11 @@
 # @consensus-labs/ngx-forms
 
+## 16.0.10
+
+### Patch Changes
+
+- Update theme constrast
+
 ## 16.0.9
 
 ### Patch Changes
