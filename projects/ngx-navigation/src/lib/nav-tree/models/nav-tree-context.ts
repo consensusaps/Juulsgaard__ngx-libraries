@@ -1,10 +1,10 @@
 import {EventEmitter, inject, Injectable, OnInit} from "@angular/core";
-import {WithId} from "@consensus-labs/ts-tools";
+import {WithId} from "@juulsgaard/ts-tools";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AnyTreeState, TreeFolder, TreeItem, TreeItemState, TreeState} from "@consensus-labs/data-sources";
+import {AnyTreeState, TreeFolder, TreeItem, TreeItemState, TreeState} from "@juulsgaard/data-sources";
 import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
-import {latestValueFromOrDefault} from "@consensus-labs/rxjs-tools";
+import {latestValueFromOrDefault} from "@juulsgaard/rxjs-tools";
 import {TreeClipboardContext} from "./tree-clipboard-context.service";
 import {BaseTreeContext} from "../../../models/base-tree-context";
 import {MoveModel} from "../../../models/move";

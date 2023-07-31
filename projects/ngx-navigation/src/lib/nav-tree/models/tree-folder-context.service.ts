@@ -1,8 +1,8 @@
 import {inject, Injectable} from "@angular/core";
-import {ObservableSet} from "@consensus-labs/rxjs-tools";
+import {ObservableSet} from "@juulsgaard/rxjs-tools";
 import {Observable} from "rxjs";
-import {TreeFolder, TreeItem} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {TreeFolder, TreeItem} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {distinctUntilChanged, map} from "rxjs/operators";
 
 @Injectable()

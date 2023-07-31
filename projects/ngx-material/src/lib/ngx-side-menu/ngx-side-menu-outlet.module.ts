@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {NgxSideMenuOutletDirective} from "./directives/side-menu-outlet.directive";
 import {RenderSideMenuComponent} from "./components/render-side-menu/render-side-menu.component";
-import {FalsyPipe, IconDirective, NgxRenderingModule, TruthyPipe} from "@consensus-labs/ngx-tools";
+import {FalsyPipe, IconDirective, NgxRenderingModule, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {IconButtonComponent} from "../../components";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {MatBadgeModule} from "@angular/material/badge";

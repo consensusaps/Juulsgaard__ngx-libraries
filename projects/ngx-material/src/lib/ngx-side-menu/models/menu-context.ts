@@ -1,7 +1,7 @@
 import {BehaviorSubject, combineLatest, distinctUntilChanged, Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {isBool, slugify} from "@consensus-labs/ts-tools";
-import {cache, filterList} from "@consensus-labs/rxjs-tools";
+import {isBool, slugify} from "@juulsgaard/ts-tools";
+import {cache, filterList} from "@juulsgaard/rxjs-tools";
 import {NgxSideMenuTabContext} from "./menu-tab-context";
 
 export abstract class NgxSideMenuContext {

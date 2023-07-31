@@ -1,6 +1,6 @@
 import {Directive, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {AnyListSelection, ListDataSource, ListRange, ListSelection} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {AnyListSelection, ListDataSource, ListRange, ListSelection} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 
 @Directive()
 export class SelectionListContext<TModel extends WithId> implements OnInit {

@@ -21,22 +21,22 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@consensus-labs/ngx-material": [
+      "@juulsgaard/ngx-material": [
         "dist/ngx-material"
       ],
-      "@consensus-labs/ngx-tools": [
+      "@juulsgaard/ngx-tools": [
         "dist/ngx-tools"
       ],
-      "@consensus-labs/ngx-service-worker": [
+      "@juulsgaard/ngx-service-worker": [
         "dist/ngx-service-worker"
       ],
-      "@consensus-labs/ngx-forms": [
+      "@juulsgaard/ngx-forms": [
         "dist/ngx-forms"
       ],
-      "@consensus-labs/ngx-forms-inputs": [
+      "@juulsgaard/ngx-forms-inputs": [
         "dist/ngx-forms-inputs"
       ],
-      "@consensus-labs/ngx-navigation": [
+      "@juulsgaard/ngx-navigation": [
         "dist/ngx-navigation"
       ]
     },

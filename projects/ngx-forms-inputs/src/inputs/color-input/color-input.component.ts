@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {BaseInputComponent} from '@consensus-labs/ngx-forms';
-import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@consensus-labs/ngx-tools';
+import {BaseInputComponent} from '@juulsgaard/ngx-forms';
+import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@juulsgaard/ngx-tools';
 import {ColorPickerModule} from "ngx-color-picker";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";

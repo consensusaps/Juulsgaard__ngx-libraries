@@ -2,7 +2,7 @@ import {ApplicationRef, NgZone} from '@angular/core';
 import {SwUpdate} from "@angular/service-worker";
 import {BehaviorSubject, combineLatest, firstValueFrom, Observable, startWith} from "rxjs";
 import {filter, first, map, tap} from "rxjs/operators";
-import {permanentCache} from "@consensus-labs/rxjs-tools";
+import {permanentCache} from "@juulsgaard/rxjs-tools";
 
 export class ServiceWorkerService {
 

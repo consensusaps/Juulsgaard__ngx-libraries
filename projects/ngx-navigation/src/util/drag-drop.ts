@@ -1,4 +1,4 @@
-import {WithId} from "@consensus-labs/ts-tools";
+import {WithId} from "@juulsgaard/ts-tools";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {MoveModel} from "../models/move";
 import {ISorted} from "../models/sorted";

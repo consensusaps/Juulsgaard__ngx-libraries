@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BaseInputComponent} from '@consensus-labs/ngx-forms';
-import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
+import {BaseInputComponent} from '@juulsgaard/ngx-forms';
+import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
 import {NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input} from '@angular/core';
 import {MatRipple} from "@angular/material/core";
-import {IconDirective} from "@consensus-labs/ngx-tools";
+import {IconDirective} from "@juulsgaard/ngx-tools";
 
 @Component({
   selector: 'ngx-icon-button, ngx-raised-icon-button',

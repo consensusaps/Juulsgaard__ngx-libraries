@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {DialogOutletDirective} from "./directives/dialog-outlet.directive";
 import {RenderDialogComponent} from "./components/render-dialog/render-dialog.component";
-import {NgxRenderingModule, TruthyPipe} from "@consensus-labs/ngx-tools";
+import {NgxRenderingModule, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {MatButtonModule} from "@angular/material/button";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 

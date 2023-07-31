@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, forwardRef, HostBinding, inject, Input} from '@angular/core';
-import {AnyTreeSelection, TreeDataSource, TreeFolderData} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {AnyTreeSelection, TreeDataSource, TreeFolderData} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {TreeFolderContext} from "../../../nav-tree/models/tree-folder-context.service";

@@ -1,4 +1,4 @@
-import {Disposable} from "@consensus-labs/ts-tools";
+import {Disposable} from "@juulsgaard/ts-tools";
 import {Unsubscribable} from "rxjs";
 import {DestroyRef, inject} from "@angular/core";
 

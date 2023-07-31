@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {auditTime, combineLatest, Observable} from "rxjs";
-import {TreeFolderData, TreeItemData} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {TreeFolderData, TreeItemData} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {map} from "rxjs/operators";
 import {NavTreeContext} from "../../models/nav-tree-context";
 import {TreeClipboardContext} from "../../models/tree-clipboard-context.service";

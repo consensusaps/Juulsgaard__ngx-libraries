@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, HostBinding, Input} from '@angular/core';
-import {GridData} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {GridData} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {CommonModule} from "@angular/common";
 import {MatRippleModule} from "@angular/material/core";
-import {ContextMenuDirective} from "@consensus-labs/ngx-material";
+import {ContextMenuDirective} from "@juulsgaard/ngx-material";
 import {MatIconModule} from "@angular/material/icon";
-import {ImageFallbackDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
+import {ImageFallbackDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NavMenuItemComponent} from "../../../shared/nav-menu-item/nav-menu-item.component";

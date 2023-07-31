@@ -1,5 +1,5 @@
 import {Directive, TemplateRef, ViewContainerRef} from '@angular/core';
-import {RenderSource} from "@consensus-labs/ngx-tools";
+import {RenderSource} from "@juulsgaard/ngx-tools";
 
 @Directive({selector: '[dialog-footer-tmpl]'})
 export class DialogFooterTemplateDirective implements RenderSource {

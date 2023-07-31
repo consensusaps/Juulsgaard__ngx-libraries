@@ -1,6 +1,6 @@
 import {Injectable, TemplateRef, ViewContainerRef} from '@angular/core';
-import {Scheduler} from "@consensus-labs/rxjs-tools";
-import {OverlayService} from "@consensus-labs/ngx-tools";
+import {Scheduler} from "@juulsgaard/rxjs-tools";
+import {OverlayService} from "@juulsgaard/ngx-tools";
 import {OverlayInstance} from "../models/overlay-instance";
 import {OverlayOptions} from "../models/overlay-options";
 

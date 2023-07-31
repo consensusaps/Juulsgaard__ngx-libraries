@@ -3,7 +3,7 @@ import {
 } from "@angular/core";
 import {ControlContainer} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {AnyControlFormList, ControlFormLayer, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
+import {AnyControlFormList, ControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
 
 @Directive({
   selector: '[ngxFormList][ngxFormListIn]',

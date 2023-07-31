@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
-import {Scheduler} from "@consensus-labs/rxjs-tools";
-import {OverlayService} from "@consensus-labs/ngx-tools";
+import {Scheduler} from "@juulsgaard/rxjs-tools";
+import {OverlayService} from "@juulsgaard/ngx-tools";
 import {NgxSideMenuContext} from "../models/menu-context";
 import {SideMenuOptions} from "../models/side-menu-options";
 import {SideMenuInstance} from "../models/side-menu-instance";

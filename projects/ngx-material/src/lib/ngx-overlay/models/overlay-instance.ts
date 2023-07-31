@@ -1,4 +1,4 @@
-import {OverlayToken, Rendering} from "@consensus-labs/ngx-tools";
+import {OverlayToken, Rendering} from "@juulsgaard/ngx-tools";
 import {TemplateRef, ViewContainerRef} from "@angular/core";
 import {OverlayOptions} from "./overlay-options";
 import {OverlayContext} from "./overlay-context";

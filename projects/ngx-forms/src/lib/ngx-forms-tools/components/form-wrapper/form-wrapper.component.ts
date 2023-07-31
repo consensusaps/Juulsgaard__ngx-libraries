@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Out
 import {FormContext} from "../../services/form-context.service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {TruthyPipe} from "@consensus-labs/ngx-tools";
+import {TruthyPipe} from "@juulsgaard/ngx-tools";
 
 @Component({
   selector: 'form-wrapper',

@@ -1,6 +1,6 @@
 import {Directive, Input, TemplateRef} from "@angular/core";
-import {WithId} from "@consensus-labs/ts-tools";
-import {ListDataSource} from "@consensus-labs/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
+import {ListDataSource} from "@juulsgaard/data-sources";
 
 @Directive({selector: '[tableTemplate]', standalone: true})
 export class TableTemplateDirective<T extends WithId> {

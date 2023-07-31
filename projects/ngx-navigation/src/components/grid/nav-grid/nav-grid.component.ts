@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {CdkDragDrop, CdkDragEnter, CdkDropList, CdkDropListGroup, DragDropModule} from "@angular/cdk/drag-drop";
-import {CreateAction, GridData, ListDataSource} from "@consensus-labs/data-sources";
-import {isString, WithId} from "@consensus-labs/ts-tools";
+import {CreateAction, GridData, ListDataSource} from "@juulsgaard/data-sources";
+import {isString, WithId} from "@juulsgaard/ts-tools";
 import {CommonModule} from "@angular/common";
-import {FalsyPipe, LongTapDirective, TruthyPipe} from "@consensus-labs/ngx-tools";
-import {LoadingOverlayComponent} from "@consensus-labs/ngx-material";
+import {FalsyPipe, LongTapDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
+import {LoadingOverlayComponent} from "@juulsgaard/ngx-material";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NavSearchBarComponent} from "../../shared/nav-search-bar/nav-search-bar.component";
 import {NavGridTileComponent} from "./nav-grid-tile/nav-grid-tile.component";

@@ -1,6 +1,6 @@
 import {inject, Injectable} from "@angular/core";
-import {WithId} from "@consensus-labs/ts-tools";
-import {TreeDataSource} from "@consensus-labs/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
+import {TreeDataSource} from "@juulsgaard/data-sources";
 import {BehaviorSubject, firstValueFrom, Observable, of} from "rxjs";
 import {distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {TreeFolderContext} from "../lib/nav-tree/models/tree-folder-context.service";

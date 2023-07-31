@@ -1,6 +1,6 @@
 
-@use "@consensus-labs/ngx-tools/theme";
-@use "@consensus-labs/ngx-tools/styles/variables" as v;
+@use "@juulsgaard/ngx-tools/theme";
+@use "@juulsgaard/ngx-tools/styles/variables" as v;
 
 :host.light {
   @include theme.ngx-light-theme();

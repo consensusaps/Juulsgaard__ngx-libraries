@@ -2,7 +2,7 @@ import {
   Directive, EmbeddedViewRef, forwardRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
-import {AnyControlFormLayer, SmartFormUnion} from "@consensus-labs/ngx-forms-core";
+import {AnyControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
 
 @Directive({
   selector: '[ngxFormLayer]',

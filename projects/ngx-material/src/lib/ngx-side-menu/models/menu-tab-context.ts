@@ -1,6 +1,6 @@
 import {BehaviorSubject, merge, Observable, skip} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
-import {cache} from "@consensus-labs/rxjs-tools";
+import {cache} from "@juulsgaard/rxjs-tools";
 import {inject, TemplateRef, ViewContainerRef} from "@angular/core";
 import {NgxSideMenuContext} from "./menu-context";
 import {ThemePalette} from "@angular/material/core";

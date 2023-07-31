@@ -1,16 +1,16 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
-import {isString, WithId} from "@consensus-labs/ts-tools";
+import {isString, WithId} from "@juulsgaard/ts-tools";
 import {AsyncPipe, NgClass, NgForOf, NgIf} from "@angular/common";
-import {ContextMenuDirective, LoadingOverlayComponent} from "@consensus-labs/ngx-material";
+import {ContextMenuDirective, LoadingOverlayComponent} from "@juulsgaard/ngx-material";
 import {MatRippleModule} from "@angular/material/core";
 import {MatMenuModule} from "@angular/material/menu";
 import {NavPaginatorComponent} from "../../shared/nav-paginator/nav-paginator.component";
 import {NavMenuItemComponent} from "../../shared/nav-menu-item/nav-menu-item.component";
 import {NavListItemComponent} from "../nav-list-item/nav-list-item.component";
 import {NavSearchBarComponent} from "../../shared/nav-search-bar/nav-search-bar.component";
-import {CreateAction, ListData, ListDataSource} from "@consensus-labs/data-sources";
+import {CreateAction, ListData, ListDataSource} from "@juulsgaard/data-sources";
 import {ActivatedRoute, Router} from "@angular/router";
-import {WithIdDirective} from "@consensus-labs/ngx-tools";
+import {WithIdDirective} from "@juulsgaard/ngx-tools";
 
 @Component({
     selector: 'ngx-nav-list',

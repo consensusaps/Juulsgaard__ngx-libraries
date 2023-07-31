@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NgxListModule} from "../../ngx-list.module";
-import {IconDirective} from "@consensus-labs/ngx-tools";
+import {IconDirective} from "@juulsgaard/ngx-tools";
 import {MatDividerModule} from "@angular/material/divider";
 import {NgxDividerComponent} from "../../../../components/divider/ngx-divider.component";
 

@@ -1,7 +1,7 @@
 import {FormsModule} from "@angular/forms";
 import {ChangeDetectionStrategy, Component} from "@angular/core";
-import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
-import {BaseInputComponent} from "@consensus-labs/ngx-forms";
+import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
+import {BaseInputComponent} from "@juulsgaard/ngx-forms";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";

@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, startWith, Subscription} from "rxjs";
 import {ActivatedRouteSnapshot, NavigationEnd, ParamMap, Router} from "@angular/router";
-import {cache} from "@consensus-labs/rxjs-tools";
+import {cache} from "@juulsgaard/rxjs-tools";
 import {distinctUntilChanged, filter, map} from "rxjs/operators";
 
 @Injectable({providedIn: 'root'})

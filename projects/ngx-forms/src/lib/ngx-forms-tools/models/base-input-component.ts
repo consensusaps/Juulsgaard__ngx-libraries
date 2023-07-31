@@ -6,7 +6,7 @@ import {BehaviorSubject, combineLatest, Observable, Subject, Subscribable, Subsc
 import {ControlContainer, NgModel} from "@angular/forms";
 import {ErrorStateMatcher, ThemePalette} from '@angular/material/core';
 import {distinctUntilChanged, map} from "rxjs/operators";
-import {FormNode, FormNodeEvent, hasRequiredField, InputTypes} from "@consensus-labs/ngx-forms-core";
+import {FormNode, FormNodeEvent, hasRequiredField, InputTypes} from "@juulsgaard/ngx-forms-core";
 import {alwaysErrorStateMatcher, neverErrorStateMatcher} from "./error-state-matchers";
 import {FormContext} from "../services/form-context.service";
 import {MatFormFieldAppearance, MatPrefix, MatSuffix} from "@angular/material/form-field";

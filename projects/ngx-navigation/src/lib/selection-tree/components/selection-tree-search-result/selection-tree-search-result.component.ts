@@ -4,8 +4,8 @@ import {
 import {Observable} from "rxjs";
 import {
   AnyTreeSelection, TreeDataSource, TreeFolder, TreeSearchColumnConfig, TreeSearchRowData, TreeSelection
-} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {TreeFolderContext} from "../../../nav-tree/models/tree-folder-context.service";
 
 @Component({

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {CreateAction} from "@consensus-labs/data-sources";
-import {FileDropDirective} from "@consensus-labs/ngx-tools";
+import {CreateAction} from "@juulsgaard/data-sources";
+import {FileDropDirective} from "@juulsgaard/ngx-tools";
 import {CommonModule} from "@angular/common";
 import {MatRippleModule} from "@angular/material/core";
 import {MatIconModule} from "@angular/material/icon";

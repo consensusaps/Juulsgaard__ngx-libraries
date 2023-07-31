@@ -1,5 +1,5 @@
 import {Observable} from "rxjs";
-import {TemplateRendering} from "@consensus-labs/ngx-tools";
+import {TemplateRendering} from "@juulsgaard/ngx-tools";
 import {OverlayOptions} from "./overlay-options";
 
 

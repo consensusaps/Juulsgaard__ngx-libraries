@@ -1,7 +1,7 @@
 import {inject, Injectable, InjectionToken, Provider} from '@angular/core';
 import {auditTime, BehaviorSubject, combineLatestWith, Observable, of, Subscription} from "rxjs";
 import {map} from "rxjs/operators";
-import {cache, persistentCache, subscribed} from "@consensus-labs/rxjs-tools";
+import {cache, persistentCache, subscribed} from "@juulsgaard/rxjs-tools";
 
 @Injectable()
 export abstract class UIScopeContext {

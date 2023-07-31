@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {overlayAnimation, TemplateRendering} from '@consensus-labs/ngx-tools'
+import {overlayAnimation, TemplateRendering} from '@juulsgaard/ngx-tools'
 import {OverlayContext} from "../../models/overlay-context";
 import {OVERLAY_ANIMATE_IN} from "../../models/overlay-tokens";
 

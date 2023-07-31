@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Observable, ReplaySubject} from "rxjs";
 import {distinctUntilChanged, map, switchMap} from "rxjs/operators";
-import {TreeFolderData} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {TreeFolderData} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {SelectionTreeContext} from "../../models/selection-tree-context";
 import {TreeFolderContext} from "../../../nav-tree/models/tree-folder-context.service";

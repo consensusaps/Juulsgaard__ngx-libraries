@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, HostBinding, Input} from '@angular/core';
-import {AnyTreeSelection, TreeDataSource, TreeFolder} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {AnyTreeSelection, TreeDataSource, TreeFolder} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {TreeFolderContext} from "../../../nav-tree/models/tree-folder-context.service";
 
 @Component({

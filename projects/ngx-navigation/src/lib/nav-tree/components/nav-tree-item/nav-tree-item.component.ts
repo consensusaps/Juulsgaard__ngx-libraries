@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {TreeItemData} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {TreeItemData} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {NavTreeContext} from "../../models/nav-tree-context";
 import {TreeClipboardContext} from "../../models/tree-clipboard-context.service";
 

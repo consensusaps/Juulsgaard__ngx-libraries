@@ -5,10 +5,10 @@ import {
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {BehaviorSubject, distinctUntilChanged, Observable, Subscription} from "rxjs";
 import {map} from "rxjs/operators";
-import {AnyListSelection, CreateAction, ListDataSource, ListSelection} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
-import {persistentCache} from "@consensus-labs/rxjs-tools";
-import {Dispose} from "@consensus-labs/ngx-tools";
+import {AnyListSelection, CreateAction, ListDataSource, ListSelection} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
+import {persistentCache} from "@juulsgaard/rxjs-tools";
+import {Dispose} from "@juulsgaard/ngx-tools";
 import {TableTemplateDirective} from "./table-template.directive";
 import {SelectionTableComponent} from "../components/table/selection-table/selection-table.component";
 import {SelectionListComponent} from "../components/list/selection-list/selection-list.component";

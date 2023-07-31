@@ -5,7 +5,7 @@ import {
 import {NgxSideMenuTabContext} from "../../models/menu-tab-context";
 import {map} from "rxjs/operators";
 import {auditTime, distinctUntilChanged, firstValueFrom, merge, startWith, Subscription, switchMap} from "rxjs";
-import {cache} from "@consensus-labs/rxjs-tools";
+import {cache} from "@juulsgaard/rxjs-tools";
 import {NgxSideMenuContext} from "../../models/menu-context";
 import {SideMenuManagerService} from "../../services/side-menu-manager.service";
 import {SideMenuInstance} from "../../models/side-menu-instance";

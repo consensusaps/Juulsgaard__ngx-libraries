@@ -1,9 +1,9 @@
 import {Injectable, OnInit} from "@angular/core";
-import {WithId} from "@consensus-labs/ts-tools";
-import {AnyTreeSelection, TreeFolder, TreeFolderData} from "@consensus-labs/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
+import {AnyTreeSelection, TreeFolder, TreeFolderData} from "@juulsgaard/data-sources";
 import {Observable, of, OperatorFunction} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
-import {cache} from "@consensus-labs/rxjs-tools";
+import {cache} from "@juulsgaard/rxjs-tools";
 import {BaseTreeContext} from "../../../models/base-tree-context";
 
 @Injectable()

@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, Observable, startWith} from "rxjs";
 import {map} from "rxjs/operators";
-import {slugify} from "@consensus-labs/ts-tools";
-import {cache, filterList} from "@consensus-labs/rxjs-tools";
+import {slugify} from "@juulsgaard/ts-tools";
+import {cache, filterList} from "@juulsgaard/rxjs-tools";
 import {INavTab} from "../models/nav-tab.interface";
 
 @Injectable()

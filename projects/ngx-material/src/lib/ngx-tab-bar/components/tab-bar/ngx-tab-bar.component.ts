@@ -5,9 +5,9 @@ import {
 import {ActivatedRoute, Router} from "@angular/router";
 import {auditTime, merge, Observable, startWith, Subscription, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
-import {cache} from "@consensus-labs/rxjs-tools";
+import {cache} from "@juulsgaard/rxjs-tools";
 import {NgxTabBarContext, NgxTabContext} from "../../services";
-import {RouteService} from "@consensus-labs/ngx-tools";
+import {RouteService} from "@juulsgaard/ngx-tools";
 import {INavTab} from "../../models/nav-tab.interface";
 import {TabPanelUIScopeContext} from "../../services/tab-panel-ui-scope.context";
 import {TabBarUIScopeContext} from "../../services/tab-bar-ui-scope.context";

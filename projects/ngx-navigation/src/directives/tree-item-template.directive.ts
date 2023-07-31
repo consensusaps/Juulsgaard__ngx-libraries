@@ -1,6 +1,6 @@
 import {Directive, Input, TemplateRef} from "@angular/core";
-import {WithId} from "@consensus-labs/ts-tools";
-import {TreeDataSource} from "@consensus-labs/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
+import {TreeDataSource} from "@juulsgaard/data-sources";
 
 @Directive({selector: '[treeItemTemplate]', standalone: true})
 export class TreeItemTemplateDirective<TItem extends WithId> {

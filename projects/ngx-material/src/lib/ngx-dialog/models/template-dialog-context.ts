@@ -1,5 +1,5 @@
 import {Observable, of, ReplaySubject, Subscription} from "rxjs";
-import {OverlayToken, Rendering, RenderSource, TemplateRendering} from "@consensus-labs/ngx-tools";
+import {OverlayToken, Rendering, RenderSource, TemplateRendering} from "@juulsgaard/ngx-tools";
 import {Injector} from "@angular/core";
 
 export interface TemplateDialogOptions {

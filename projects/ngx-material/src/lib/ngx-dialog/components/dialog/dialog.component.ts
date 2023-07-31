@@ -8,7 +8,7 @@ import {DialogContentTemplateDirective} from "../../directives/dialog-content-te
 import {auditTime, BehaviorSubject, distinctUntilChanged, of, ReplaySubject, Subscription, switchMap} from "rxjs";
 import {TemplateDialogInstance} from "../../models/template-dialog-context";
 import {map} from "rxjs/operators";
-import {RenderSource, RenderSourceDirective} from "@consensus-labs/ngx-tools";
+import {RenderSource, RenderSourceDirective} from "@juulsgaard/ngx-tools";
 
 
 @Component({

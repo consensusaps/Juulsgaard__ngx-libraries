@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, merge, Observable, of, skip, switchMap} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
-import {cache} from "@consensus-labs/rxjs-tools";
+import {cache} from "@juulsgaard/rxjs-tools";
 import {INavTab} from "../models/nav-tab.interface";
 import {NgxTabBarContext} from "./ngx-tab-bar.context";
 

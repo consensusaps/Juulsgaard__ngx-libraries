@@ -3,14 +3,14 @@ import {
 } from '@angular/core';
 import {combineLatest, filter, firstValueFrom, fromEvent, of, Subscription} from "rxjs";
 import {first, map, switchMap} from "rxjs/operators";
-import {AnyTreeState, TreeDataSource, TreeFolder} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {AnyTreeState, TreeDataSource, TreeFolder} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {ActivatedRoute} from "@angular/router";
-import {Dispose} from "@consensus-labs/ngx-tools";
+import {Dispose} from "@juulsgaard/ngx-tools";
 import {NavTreeContext} from "../../models/nav-tree-context";
 import {TreeFolderContext} from "../../models/tree-folder-context.service";
 import {TreeClipboardContext} from "../../models/tree-clipboard-context.service";
-import {SnackbarService} from "@consensus-labs/ngx-material";
+import {SnackbarService} from "@juulsgaard/ngx-material";
 import {NavTreeActionsComponent} from "../nav-tree-actions/nav-tree-actions.component";
 
 @Component({

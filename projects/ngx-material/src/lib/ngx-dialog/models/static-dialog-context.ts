@@ -1,4 +1,4 @@
-import {OverlayToken} from "@consensus-labs/ngx-tools";
+import {OverlayToken} from "@juulsgaard/ngx-tools";
 import {Injector} from "@angular/core";
 import {ThemePalette} from "@angular/material/core";
 

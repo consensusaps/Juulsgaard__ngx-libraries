@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
 import {Observable, of} from "rxjs";
 import {DIALOG_ANIMATE_IN, DIALOG_CONTEXT} from "../../models/dialog-tokens";
-import {overlayAnimation, TemplateRendering} from '@consensus-labs/ngx-tools'
+import {overlayAnimation, TemplateRendering} from '@juulsgaard/ngx-tools'
 import {StaticDialogButton, StaticDialogContext} from "../../models/static-dialog-context";
 
 @Component({

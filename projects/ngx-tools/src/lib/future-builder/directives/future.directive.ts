@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
 import {BehaviorSubject, Subscribable, Unsubscribable} from "rxjs";
-import {Future} from "@consensus-labs/rxjs-tools";
+import {Future} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
 
 @Directive({

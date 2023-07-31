@@ -1,6 +1,5 @@
 import {Injectable, NgZone} from '@angular/core';
-import {BehaviorSubject, Subject} from 'rxjs';
-import {Scheduler} from "@consensus-labs/rxjs-tools";
+import {Scheduler} from "@juulsgaard/rxjs-tools";
 import {OverlayToken} from "./overlay.model";
 
 

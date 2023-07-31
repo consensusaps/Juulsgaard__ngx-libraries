@@ -6,8 +6,8 @@ import {NavTreeFolderPreviewComponent} from "./components/nav-tree-folder-previe
 import {NavTreeItemPreviewComponent} from "./components/nav-tree-item-preview/nav-tree-item-preview.component";
 import {NavTreeItemComponent} from "./components/nav-tree-item/nav-tree-item.component";
 import {CommonModule} from "@angular/common";
-import {ContextMenuDirective, LoadingOverlayComponent} from "@consensus-labs/ngx-material";
-import {FalsyPipe, LongTapDirective, NoClickBubbleDirective, TruthyPipe} from "@consensus-labs/ngx-tools";
+import {ContextMenuDirective, LoadingOverlayComponent} from "@juulsgaard/ngx-material";
+import {FalsyPipe, LongTapDirective, NoClickBubbleDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {MatRippleModule} from "@angular/material/core";
 import {CdkDrag, CdkDragPreview, CdkDropList} from "@angular/cdk/drag-drop";
 import {MatIconModule} from "@angular/material/icon";

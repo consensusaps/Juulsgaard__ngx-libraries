@@ -1,5 +1,5 @@
-import {Disposable} from "@consensus-labs/ts-tools";
-import {Rendering, TemplateRendering} from "@consensus-labs/ngx-tools";
+import {Disposable} from "@juulsgaard/ts-tools";
+import {Rendering, TemplateRendering} from "@juulsgaard/ngx-tools";
 import {NgxSideMenuTabContext} from "./menu-tab-context";
 
 export class RenderTab implements Disposable {

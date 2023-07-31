@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {ListDataSource} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {ListDataSource} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {CommonModule} from "@angular/common";
-import {FalsyPipe} from "@consensus-labs/ngx-tools";
+import {FalsyPipe} from "@juulsgaard/ngx-tools";
 import {MatPaginatorModule} from "@angular/material/paginator";
 
 @Component({

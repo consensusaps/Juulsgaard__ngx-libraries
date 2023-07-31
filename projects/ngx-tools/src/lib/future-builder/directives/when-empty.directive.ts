@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
 import {map, switchMap} from "rxjs/operators";
 import {Subject, Subscription} from "rxjs";
-import {FutureError, FutureLoading} from "@consensus-labs/rxjs-tools";
+import {FutureError, FutureLoading} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
 

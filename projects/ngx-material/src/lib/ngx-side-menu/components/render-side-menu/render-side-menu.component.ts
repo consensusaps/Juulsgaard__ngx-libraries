@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
 import {SIDE_MENU_ANIMATE_IN} from "../../models/menu-tokens";
-import {sideMenuAnimation} from "@consensus-labs/ngx-tools";
+import {sideMenuAnimation} from "@juulsgaard/ngx-tools";
 import {NgxSideMenuTabContext} from "../../models/menu-tab-context";
 import {Observable} from "rxjs";
 import {RenderTab} from "../../models/render-tab";

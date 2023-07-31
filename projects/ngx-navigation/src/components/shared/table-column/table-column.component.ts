@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {RenderDataTypes} from "@consensus-labs/data-sources";
-import {applySelector, isString, MapFunc, slugify, titleCase} from "@consensus-labs/ts-tools";
+import {RenderDataTypes} from "@juulsgaard/data-sources";
+import {applySelector, isString, MapFunc, slugify, titleCase} from "@juulsgaard/ts-tools";
 import {MatSortModule} from "@angular/material/sort";
 import {
   DatePipe, DecimalPipe, NgClass, NgSwitch, NgSwitchCase, NgSwitchDefault, NgTemplateOutlet

@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit
 } from '@angular/core';
 import {Subject, Subscription} from "rxjs";
-import {SearchInputComponent} from "@consensus-labs/ngx-forms-inputs";
+import {SearchInputComponent} from "@juulsgaard/ngx-forms-inputs";
 import {NgIf} from "@angular/common";
 
 @Component({

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {BaseInputComponent} from '@consensus-labs/ngx-forms';
-import {FileDropDirective, FileSizePipe, IconDirective} from "@consensus-labs/ngx-tools";
+import {BaseInputComponent} from '@juulsgaard/ngx-forms';
+import {FileDropDirective, FileSizePipe, IconDirective} from "@juulsgaard/ngx-tools";
 import {NgClass, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";

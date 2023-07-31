@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AnyTreeState, TreeDataSource, TreeState} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {AnyTreeState, TreeDataSource, TreeState} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {ActivatedRoute} from "@angular/router";
 import {TreeFolderContext} from "../../models/tree-folder-context.service";
 import {TreeClipboardContext} from "../../models/tree-clipboard-context.service";

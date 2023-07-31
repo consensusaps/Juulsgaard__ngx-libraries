@@ -1,12 +1,12 @@
-import {Disposable} from "@consensus-labs/ts-tools";
+import {Disposable} from "@juulsgaard/ts-tools";
 import {Observable} from "rxjs";
 import {RenderTab} from "./render-tab";
 import {NgxSideMenuContext} from "./menu-context";
 import {SideMenuOptions} from "./side-menu-options";
-import {OverlayToken} from "@consensus-labs/ngx-tools";
+import {OverlayToken} from "@juulsgaard/ngx-tools";
 import {Injector} from "@angular/core";
 import {map} from "rxjs/operators";
-import {cache, disposable} from "@consensus-labs/rxjs-tools";
+import {cache, disposable} from "@juulsgaard/rxjs-tools";
 import {NgxSideMenuTabContext} from "./menu-tab-context";
 
 import {SideMenuRenderContext} from "./side-menu-render-context";

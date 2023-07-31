@@ -3,17 +3,17 @@ import {
   TemplateRef
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {ListData, ListDataSource, TableColumn, TableData} from "@consensus-labs/data-sources";
-import {arrToMap, isString, WithId} from "@consensus-labs/ts-tools";
+import {ListData, ListDataSource, TableColumn, TableData} from "@juulsgaard/data-sources";
+import {arrToMap, isString, WithId} from "@juulsgaard/ts-tools";
 import {CommonModule} from "@angular/common";
 import {MatSortModule} from "@angular/material/sort";
 import {MatRippleModule} from "@angular/material/core";
-import {Dispose, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
-import {ContextMenuDirective, LoadingOverlayComponent} from "@consensus-labs/ngx-material";
+import {Dispose, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
+import {ContextMenuDirective, LoadingOverlayComponent} from "@juulsgaard/ngx-material";
 import {MatIconModule} from "@angular/material/icon";
 import {distinctUntilChanged, Observable, startWith, Subscription} from "rxjs";
 import {map} from "rxjs/operators";
-import {cache} from "@consensus-labs/rxjs-tools";
+import {cache} from "@juulsgaard/rxjs-tools";
 import {MatTableModule} from "@angular/material/table";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatTooltipModule} from "@angular/material/tooltip";

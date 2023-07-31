@@ -1,5 +1,5 @@
 import {inject, Injectable} from "@angular/core";
-import {ObservableSet} from "@consensus-labs/rxjs-tools";
+import {ObservableSet} from "@juulsgaard/rxjs-tools";
 import {auditTime, combineLatest, Observable} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
 

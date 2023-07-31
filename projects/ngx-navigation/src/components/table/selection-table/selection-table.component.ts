@@ -1,17 +1,17 @@
 import {
   AfterContentInit, ChangeDetectionStrategy, Component, ContentChildren, Input, QueryList, TemplateRef
 } from '@angular/core';
-import {TableColumn, TableData} from "@consensus-labs/data-sources";
-import {arrToMap, WithId} from "@consensus-labs/ts-tools";
+import {TableColumn, TableData} from "@juulsgaard/data-sources";
+import {arrToMap, WithId} from "@juulsgaard/ts-tools";
 import {CommonModule} from "@angular/common";
 import {MatSortModule} from "@angular/material/sort";
 import {MatRippleModule} from "@angular/material/core";
-import {NoClickBubbleDirective, TruthyPipe} from "@consensus-labs/ngx-tools";
-import {ContextMenuDirective, LoadingOverlayComponent} from "@consensus-labs/ngx-material";
+import {NoClickBubbleDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
+import {ContextMenuDirective, LoadingOverlayComponent} from "@juulsgaard/ngx-material";
 import {MatIconModule} from "@angular/material/icon";
 import {distinctUntilChanged, Observable, startWith} from "rxjs";
 import {map} from "rxjs/operators";
-import {cache} from "@consensus-labs/rxjs-tools";
+import {cache} from "@juulsgaard/rxjs-tools";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatTableModule} from "@angular/material/table";
 import {MatMenuModule} from "@angular/material/menu";

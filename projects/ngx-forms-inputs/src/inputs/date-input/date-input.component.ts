@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import dayjs, {Dayjs} from "dayjs";
-import {harmonicaAnimation, IconDirective} from "@consensus-labs/ngx-tools";
+import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {DayjsDateAdapter, MAT_DAYJS_DATE_FORMATS} from "../../adapters/date-adapter";
-import {BaseInputComponent} from '@consensus-labs/ngx-forms';
+import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";

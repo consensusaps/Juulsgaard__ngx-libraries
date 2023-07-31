@@ -1,6 +1,8 @@
 import {auditTime, BehaviorSubject, combineLatest, Observable, of, switchMap} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
-import {cache, Future, FutureEmpty, FutureError, FutureLoading, FutureUnion, FutureValue, subscribed} from "@consensus-labs/rxjs-tools";
+import {
+  cache, Future, FutureEmpty, FutureError, FutureLoading, FutureUnion, FutureValue, subscribed
+} from "@juulsgaard/rxjs-tools";
 
 export class FutureSwitch<T> {
 

@@ -1,7 +1,7 @@
 import {Directive, Input} from "@angular/core";
 import {BaseInputComponent} from "./base-input-component";
-import {getSelectorFn, isString, MapFunc, Selection} from "@consensus-labs/ts-tools";
-import {FormNode, isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@consensus-labs/ngx-forms-core";
+import {getSelectorFn, isString, MapFunc, Selection} from "@juulsgaard/ts-tools";
+import {FormNode, isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@juulsgaard/ngx-forms-core";
 import {BehaviorSubject, skip} from "rxjs";
 
 @Directive()

@@ -13,8 +13,8 @@ Basic utilities for working with Angular
 When using the library make sure to import the styles. There is also an optional CSS reset file you can include.
 
 ```scss
-@use "@consensus-labs/ngx-tools/styles/reset"; // Options CSS Reset
-@use "@consensus-labs/ngx-tools"; // All styles for NGX Tools
+@use "@juulsgaard/ngx-tools/styles/reset"; // Options CSS Reset
+@use "@juulsgaard/ngx-tools"; // All styles for NGX Tools
 ```
 
 ### Theme

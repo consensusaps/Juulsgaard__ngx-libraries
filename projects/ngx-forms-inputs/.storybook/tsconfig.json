@@ -5,13 +5,13 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "paths": {
-      "@consensus-labs/ngx-material": [
+      "@juulsgaard/ngx-material": [
         "projects/ngx-material/src/public-api.ts"
       ],
-      "@consensus-labs/ngx-tools": [
+      "@juulsgaard/ngx-tools": [
         "projects/ngx-tools/src/public-api.ts"
       ],
-      "@consensus-labs/ngx-forms": [
+      "@juulsgaard/ngx-forms": [
         "projects/ngx-forms/src/public-api.ts"
       ]
     }

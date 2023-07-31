@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
-import {TreeFolderData} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {TreeFolderData} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {BehaviorSubject, Observable, of, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 import {NavTreeContext} from "../../models/nav-tree-context";

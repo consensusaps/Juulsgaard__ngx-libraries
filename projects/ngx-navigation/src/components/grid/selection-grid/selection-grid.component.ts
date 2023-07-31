@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {CreateAction} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {CreateAction} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {CommonModule} from "@angular/common";
-import {TruthyPipe} from "@consensus-labs/ngx-tools";
-import {LoadingOverlayComponent} from "@consensus-labs/ngx-material";
+import {TruthyPipe} from "@juulsgaard/ngx-tools";
+import {LoadingOverlayComponent} from "@juulsgaard/ngx-material";
 import {NavCreateTileComponent} from "../nav-create-tile/nav-create-tile.component";
 import {SelectionGridTileComponent} from "./selection-grid-tile/selection-grid-tile.component";
 import {SelectionListContext} from "../../../models/selection-list-context";

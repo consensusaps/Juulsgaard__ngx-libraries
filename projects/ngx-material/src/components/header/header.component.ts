@@ -6,7 +6,7 @@ import {MatRippleModule} from "@angular/material/core";
 import {NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {Observable, of, Subscription} from "rxjs";
-import {IconDirective, TruthyPipe} from "@consensus-labs/ngx-tools";
+import {IconDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {UIScopeContext} from "../../models";
 import {SidebarService} from "../../services";
 import {map} from "rxjs/operators";

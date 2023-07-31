@@ -3,8 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {
   AnyTreeState, TreeDataSource, TreeFolder, TreeItem, TreeSearchColumnConfig, TreeSearchRowData, TreeState
-} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {TreeFolderContext} from "../../models/tree-folder-context.service";
 
 @Component({

@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {CreateAction} from "@consensus-labs/data-sources";
-import {WithId} from "@consensus-labs/ts-tools";
+import {CreateAction} from "@juulsgaard/data-sources";
+import {WithId} from "@juulsgaard/ts-tools";
 import {CommonModule} from "@angular/common";
-import {ContextMenuDirective, LoadingOverlayComponent} from "@consensus-labs/ngx-material";
+import {ContextMenuDirective, LoadingOverlayComponent} from "@juulsgaard/ngx-material";
 import {MatRippleModule} from "@angular/material/core";
-import {ImageFallbackDirective, NoClickBubbleDirective, TruthyPipe} from "@consensus-labs/ngx-tools";
+import {ImageFallbackDirective, NoClickBubbleDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatListModule} from "@angular/material/list";

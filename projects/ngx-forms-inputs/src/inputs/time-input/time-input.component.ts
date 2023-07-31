@@ -1,14 +1,14 @@
 import {ChangeDetectionStrategy, Component, inject, LOCALE_ID} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgxMatTimepickerComponent, NgxMatTimepickerModule} from "ngx-mat-timepicker";
-import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@consensus-labs/ngx-tools";
-import {BaseInputComponent} from '@consensus-labs/ngx-forms';
+import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
+import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
-import {IconButtonComponent} from "@consensus-labs/ngx-material";
+import {IconButtonComponent} from "@juulsgaard/ngx-material";
 
 @Component({
   selector: 'form-time-input',

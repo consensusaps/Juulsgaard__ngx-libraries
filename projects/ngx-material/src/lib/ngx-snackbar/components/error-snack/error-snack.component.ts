@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, ViewEncapsulation} from '@angular/core';
 import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from '@angular/material/snack-bar';
-import {mapObj} from "@consensus-labs/ts-tools";
+import {mapObj} from "@juulsgaard/ts-tools";
 import {SnackBarData} from "../../models/snack-bar.model";
 import {Clipboard} from "@angular/cdk/clipboard";
 

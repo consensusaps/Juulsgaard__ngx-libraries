@@ -1,8 +1,8 @@
 import {Injectable, Injector} from "@angular/core";
-import {Scheduler} from "@consensus-labs/rxjs-tools";
+import {Scheduler} from "@juulsgaard/rxjs-tools";
 import {Observable} from "rxjs";
 import {DialogInstance} from "../models/dialog-context";
-import {OverlayService, RenderSource} from "@consensus-labs/ngx-tools";
+import {OverlayService, RenderSource} from "@juulsgaard/ngx-tools";
 import {TemplateDialogInstance, TemplateDialogOptions} from "../models/template-dialog-context";
 import {StaticDialogInstance, StaticDialogOptions} from "../models/static-dialog-context";
 

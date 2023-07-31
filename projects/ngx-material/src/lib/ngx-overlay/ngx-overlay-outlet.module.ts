@@ -2,7 +2,7 @@ import {ModuleWithProviders, NgModule, StaticProvider} from '@angular/core';
 import {OverlayOutletDirective} from "./directives/overlay-outlet.directive";
 import {RenderOverlayComponent} from "./components/render-overlay/render-overlay.component";
 import {BASE_OVERLAY_PROVIDERS} from "./models/overlay-tokens";
-import {IconDirective, NgxRenderingModule, TruthyPipe} from "@consensus-labs/ngx-tools";
+import {IconDirective, NgxRenderingModule, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {AsyncPipe, NgIf} from "@angular/common";
 
 @NgModule({
