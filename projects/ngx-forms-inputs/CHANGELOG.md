@@ -1,4 +1,4 @@
-# @consensus-labs/ngx-forms-inputs
+# @juulsgaard/ngx-forms-inputs
 
 ## 16.0.16
 

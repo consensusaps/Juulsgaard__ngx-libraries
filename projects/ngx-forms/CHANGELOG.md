@@ -1,4 +1,4 @@
-# @consensus-labs/ngx-forms
+# @juulsgaard/ngx-forms
 
 ## 16.0.10
 

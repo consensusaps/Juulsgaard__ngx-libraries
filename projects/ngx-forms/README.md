@@ -1,24 +1,8 @@
-# NgxForms
+# Angular Forms
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
+![NPM License](https://img.shields.io/npm/v/@juulsgaard/ngx-forms)
+![NPM License](https://img.shields.io/npm/l/@juulsgaard/ngx-forms)
+![NPM Downloads](https://img.shields.io/npm/dw/@juulsgaard/ngx-forms)
 
-## Code scaffolding
+This library contains Angular components and tools for working with Forms
 
-Run `ng generate component component-name --project ngx-forms` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-forms`.
-> Note: Don't forget to add `--project ngx-forms` or else it will be added to the default project in your `angular.json` file. 
-
-## Build
-
-Run `ng build ngx-forms` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Publishing
-
-After building your library with `ng build ngx-forms`, go to the dist folder `cd dist/ngx-forms` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ngx-forms` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

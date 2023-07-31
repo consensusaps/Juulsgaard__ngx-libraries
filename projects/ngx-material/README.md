@@ -1,24 +1,17 @@
-# NgxMaterial
+# Angular Material
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
+![NPM License](https://img.shields.io/npm/v/@juulsgaard/ngx-material)
+![NPM License](https://img.shields.io/npm/l/@juulsgaard/ngx-material)
+![NPM Downloads](https://img.shields.io/npm/dw/@juulsgaard/ngx-material)
 
-## Code scaffolding
+A library adding Material inspired utilities and components
 
-Run `ng generate component component-name --project ngx-material` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-material`.
-> Note: Don't forget to add `--project ngx-material` or else it will be added to the default project in your `angular.json` file. 
+## Setup
 
-## Build
+### Styles
 
-Run `ng build ngx-material` to build the project. The build artifacts will be stored in the `dist/` directory.
+Import the styles for this package:
 
-## Publishing
-
-After building your library with `ng build ngx-material`, go to the dist folder `cd dist/ngx-material` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ngx-material` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```scss
+@use "@juulsgaard/ngx-material";
+```

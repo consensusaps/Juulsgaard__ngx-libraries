@@ -1,4 +1,4 @@
-# @consensus-labs/ngx-tools
+# @juulsgaard/ngx-tools
 
 ## 16.1.6
 

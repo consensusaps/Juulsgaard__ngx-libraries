@@ -1,4 +1,4 @@
-# @consensus-labs/ngx-service-worker
+# @juulsgaard/ngx-service-worker
 
 ## 16.0.4
 

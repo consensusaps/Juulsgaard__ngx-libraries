@@ -1,4 +1,4 @@
-# @consensus-labs/ngx-material
+# @juulsgaard/ngx-material
 
 ## 16.0.30
 
