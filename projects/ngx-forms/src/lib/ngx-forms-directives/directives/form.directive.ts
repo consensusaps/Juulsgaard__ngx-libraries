@@ -53,6 +53,13 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
     if (!this.form) return null;
     return isFormRoot(this.form) ? this.form : this.form.form;
   }
+
+  static ngContextTemplateGuard<TControls extends Record<string, SmartFormUnion>>(
+    directive: FormDirective<TControls>,
+    context: unknown
+  ): context is FormDirectiveContext<TControls> {
+    return true;
+  }
 }
 
 class FormDirectiveContext<TControls extends Record<string, SmartFormUnion>> {

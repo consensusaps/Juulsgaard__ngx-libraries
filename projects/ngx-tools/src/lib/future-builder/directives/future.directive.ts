@@ -4,14 +4,14 @@ import {Future} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
 
 @Directive({
-  selector: '[future][futureFrom]'
+  selector: '[future]'
 })
 export class FutureDirective<T> implements OnDestroy {
 
   private futureSub?: Unsubscribable;
   private _future$ = new BehaviorSubject<Future<T>|undefined>(undefined);
 
-  @Input() set futureFrom(future: Subscribable<Future<T>|undefined>|Future<T>|undefined) {
+  @Input() set future(future: Subscribable<Future<T>|undefined>|Future<T>|undefined) {
 
     this.futureSub?.unsubscribe();
 
@@ -35,7 +35,7 @@ export class FutureDirective<T> implements OnDestroy {
   ) {
     this.viewContainer.createEmbeddedView(
       this.templateRef,
-      {$implicit: new FutureSwitch<T>(this._future$)}
+      {future: new FutureSwitch<T>(this._future$)}
     );
   }
 
@@ -50,8 +50,15 @@ export class FutureDirective<T> implements OnDestroy {
     this.changes.detectChanges();
   }
 
+  static ngContextTemplateGuard<T>(
+    directive: FutureDirective<T>,
+    context: unknown
+  ): context is TemplateContext<T> {
+    return true;
+  }
+
 }
 
 interface TemplateContext<T> {
-  $implicit: FutureSwitch<T>
+  future: FutureSwitch<T>
 }

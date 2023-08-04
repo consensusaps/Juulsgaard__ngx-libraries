@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-forms
 
+## 16.0.11
+
+### Patch Changes
+
+- Add template context guards to structural directives
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.7
+
 ## 16.0.10
 
 ### Patch Changes

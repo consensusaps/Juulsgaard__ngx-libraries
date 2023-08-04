@@ -51,6 +51,13 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
   get control() {
     return this.layer ?? null;
   }
+
+  static ngContextTemplateGuard<TControls extends Record<string, SmartFormUnion>>(
+    directive: FormLayerDirective<TControls>,
+    context: unknown
+  ): context is FormLayerDirectiveContext<TControls> {
+    return true;
+  }
 }
 
 class FormLayerDirectiveContext<TControls extends Record<string, SmartFormUnion>> {

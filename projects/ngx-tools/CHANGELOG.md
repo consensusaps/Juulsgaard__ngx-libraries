@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.7
+
+### Patch Changes
+
+- Add template context guards to structural directives
+
 ## 16.1.6
 
 ### Patch Changes

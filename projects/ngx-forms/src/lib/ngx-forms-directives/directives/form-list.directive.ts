@@ -89,6 +89,13 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
   get control() {
     return this.list ?? null;
   }
+
+  static ngContextTemplateGuard<TControls extends Record<string, SmartFormUnion>>(
+    directive: FormListDirective<TControls>,
+    context: unknown
+  ): context is FormListDirectiveContext<TControls> {
+    return true;
+  }
 }
 
 class FormListDirectiveContext<TControls extends Record<string, SmartFormUnion>> {

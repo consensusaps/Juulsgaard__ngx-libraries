@@ -3,7 +3,7 @@
   "description": "This library contains Angular components and tools for working with Forms",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-forms",
-  "version": "16.0.10",
+  "version": "16.0.11",
   "publishConfig": {
     "directory": "../../dist/ngx-forms"
   },
@@ -19,7 +19,7 @@
     "@angular/core": "^16.0.0",
     "@angular/forms": "^16.0.0",
     "@juulsgaard/ngx-forms-core": "^16.0.2",
-    "@juulsgaard/ngx-tools": "^16.1.6",
+    "@juulsgaard/ngx-tools": "^16.1.7",
     "@juulsgaard/ts-tools": "^1.4.2",
     "typescript": "~5.0.4"
   },
@@ -28,7 +28,7 @@
     "@angular/core": "16.0.0",
     "@angular/forms": "16.0.0",
     "@juulsgaard/ngx-forms-core": "16.0.2",
-    "@juulsgaard/ngx-tools": "16.1.6",
+    "@juulsgaard/ngx-tools": "16.1.7",
     "@juulsgaard/ts-tools": "1.4.2",
     "typescript": "~5.0.4"
   },
