@@ -50,7 +50,7 @@ export class FutureDirective<T> implements OnDestroy {
     this.changes.detectChanges();
   }
 
-  static ngContextTemplateGuard<T>(
+  static ngTemplateContextGuard<T>(
     directive: FutureDirective<T>,
     context: unknown
   ): context is TemplateContext<T> {

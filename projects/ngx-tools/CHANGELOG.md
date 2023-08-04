@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.8
+
+### Patch Changes
+
+- Fix template guards
+
 ## 16.1.7
 
 ### Patch Changes

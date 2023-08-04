@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-forms
 
+## 16.0.12
+
+### Patch Changes
+
+- Fix template guards
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.8
+
 ## 16.0.11
 
 ### Patch Changes
