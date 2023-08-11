@@ -9,7 +9,7 @@
         </mat-label>
 
         <input type="number" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
-               [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input >
+               [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [attr.dir]="direction">
 
         <div matIconSuffix class="fix" *ngIf="suffixChild">
             <ng-content></ng-content>

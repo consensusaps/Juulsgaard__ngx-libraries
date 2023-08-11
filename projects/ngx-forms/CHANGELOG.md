@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 16.0.13
+
+### Patch Changes
+
+- Add direction to inputs
+
 ## 16.0.12
 
 ### Patch Changes

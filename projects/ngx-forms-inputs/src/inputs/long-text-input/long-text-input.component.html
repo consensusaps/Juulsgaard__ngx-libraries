@@ -9,7 +9,7 @@
         </mat-label>
 
         <textarea type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
-               [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input cdkTextareaAutosize></textarea>
+               [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input cdkTextareaAutosize [attr.dir]="direction"></textarea>
 
         <div matIconSuffix class="fix" *ngIf="suffixChild">
             <ng-content></ng-content>

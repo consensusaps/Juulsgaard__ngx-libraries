@@ -9,7 +9,7 @@
         </mat-label>
 
         <input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
-               [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled">
+               [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled" [attr.dir]="direction">
 
         <ngx-icon-button alias="time" matIconSuffix (click)="openPicker(picker)" noClickBubble/>
 

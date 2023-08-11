@@ -3,7 +3,7 @@
 
 	<ngx-icon matIconPrefix class="search" alias="search"/>
 
-	<input type="search" matInput [autofocus]="autofocus" [placeholder]="placeholder ?? label!" [readonly]="readonly" [(ngModel)]="inputValue" #input>
+	<input type="search" matInput [autofocus]="autofocus" [placeholder]="placeholder ?? label!" [readonly]="readonly" [(ngModel)]="inputValue" #input [attr.dir]="direction">
 
 	<ngx-icon-button alias="close" matIconSuffix (click)="inputValue = ''" noClickBubble [disabled]="!inputValue || inputValue.length < 1"/>
 

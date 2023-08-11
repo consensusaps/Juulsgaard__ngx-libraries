@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.17
+
+### Patch Changes
+
+- Add direction to inputs
+- Updated dependencies
+  - @juulsgaard/ngx-forms@16.0.13
+
 ## 16.0.16
 
 ### Patch Changes

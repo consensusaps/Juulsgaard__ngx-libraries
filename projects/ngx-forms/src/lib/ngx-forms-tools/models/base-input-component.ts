@@ -254,6 +254,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     @Input() public appearance: MatFormFieldAppearance = 'outline';
     /** Hide the required asterisk */
     @Input() public hideRequired?: boolean;
+    @Input() public direction?: 'ltr'|'rtl'|'auto';
 
     /** Set the input as read-only */
     @Input('readonly') set readonlyState(readonly: boolean|undefined) {this._readonly = readonly};
