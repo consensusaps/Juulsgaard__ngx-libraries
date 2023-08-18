@@ -1,0 +1,17 @@
+name: Sync from upstream
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+  workflow_dispatch: {}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - run: gh repo sync $UPSTREAM
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPSTREAM: consensusaps/Juulsgaard__ngx-libraries
