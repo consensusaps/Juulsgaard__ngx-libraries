@@ -34,6 +34,13 @@ export class WhenLoadingOverlayDirective<T> extends BaseFutureRender<TemplateCon
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  static ngTemplateContextGuard<T>(
+    directive: WhenLoadingOverlayDirective<T>,
+    context: unknown
+  ): context is TemplateContext<T> {
+    return true;
+  }
 }
 
 interface TemplateContext<T> {

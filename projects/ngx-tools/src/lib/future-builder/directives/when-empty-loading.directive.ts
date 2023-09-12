@@ -6,7 +6,7 @@ import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
 
 @Directive({selector: '[whenEmptyLoading]'})
-export class WhenEmptyLoadingDirective<T> extends BaseFutureRender<TemplateContext<T>> implements OnDestroy {
+export class WhenEmptyLoadingDirective<T> extends BaseFutureRender<TemplateContext> implements OnDestroy {
 
   sub: Subscription;
   states$ = new Subject<FutureSwitch<T>>();
@@ -16,7 +16,7 @@ export class WhenEmptyLoadingDirective<T> extends BaseFutureRender<TemplateConte
   }
 
   constructor(
-    templateRef: TemplateRef<TemplateContext<T>>,
+    templateRef: TemplateRef<TemplateContext>,
     viewContainer: ViewContainerRef,
     changes: ChangeDetectorRef
   ) {
@@ -24,15 +24,22 @@ export class WhenEmptyLoadingDirective<T> extends BaseFutureRender<TemplateConte
 
     this.sub = this.states$.pipe(
       switchMap(x => x.emptyLoading$),
-      map(x => x ? {loading: x instanceof FutureLoading} as TemplateContext<T> : undefined)
+      map(x => x ? {loading: x instanceof FutureLoading} as TemplateContext : undefined)
     ).subscribe(c => this.updateView(c));
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  static ngTemplateContextGuard<T>(
+    directive: WhenEmptyLoadingDirective<T>,
+    context: unknown
+  ): context is TemplateContext {
+    return true;
+  }
 }
 
-interface TemplateContext<T> {
+interface TemplateContext {
   loading: boolean;
 }

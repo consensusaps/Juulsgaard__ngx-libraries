@@ -12,8 +12,7 @@ export class WhenLoadingDirective<T> extends BaseFutureRender<TemplateContext<T>
   states$ = new Subject<FutureSwitch<T>>();
 
   @Input('whenLoading')
-  set state(state: FutureSwitch<T>|string) {
-    if (!(state instanceof FutureSwitch<T>)) return;
+  set state(state: FutureSwitch<T>) {
     this.states$.next(state);
   }
 
@@ -35,6 +34,13 @@ export class WhenLoadingDirective<T> extends BaseFutureRender<TemplateContext<T>
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  static ngTemplateContextGuard<T>(
+    directive: WhenLoadingDirective<T>,
+    context: unknown
+  ): context is TemplateContext<T> {
+    return true;
   }
 }
 

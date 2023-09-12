@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.9
+
+### Patch Changes
+
+- Add template guards to Future directives
+
 ## 16.1.8
 
 ### Patch Changes

@@ -4,20 +4,14 @@ import {map} from "rxjs/operators";
 import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
 
-@Directive({selector: '[whenData], [whenData][whenDataFrom]'})
+@Directive({selector: '[whenData]'})
 export class WhenDataDirective<T> extends BaseFutureRender<TemplateContext<T>> implements OnDestroy {
 
   sub: Subscription;
   states$ = new Subject<FutureSwitch<T>>();
 
   @Input('whenData')
-  set state(state: FutureSwitch<T> | string) {
-    if (!(state instanceof FutureSwitch<T>)) return;
-    this.states$.next(state);
-  }
-
-  @Input('whenDataFrom')
-  set fromState(state: FutureSwitch<T>) {
+  set state(state: FutureSwitch<T>) {
     this.states$.next(state);
   }
 
@@ -30,7 +24,7 @@ export class WhenDataDirective<T> extends BaseFutureRender<TemplateContext<T>> i
 
     this.sub = this.states$.pipe(
       switchMap(x => x.data$),
-      map(x => x ? {$implicit: x.value} as TemplateContext<T> : undefined)
+      map(x => x ? {whenData: x.value} as TemplateContext<T> : undefined)
     ).subscribe(c => this.updateView(c));
   }
 
@@ -38,8 +32,15 @@ export class WhenDataDirective<T> extends BaseFutureRender<TemplateContext<T>> i
     this.sub.unsubscribe();
   }
 
+  static ngTemplateContextGuard<T>(
+    directive: WhenDataDirective<T>,
+    context: unknown
+  ): context is TemplateContext<T> {
+    return true;
+  }
+
 }
 
 interface TemplateContext<T> {
-  $implicit: T;
+  whenData: T;
 }
