@@ -4,20 +4,14 @@ import {map} from "rxjs/operators";
 import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
 
-@Directive({selector: '[whenErrorOverlay], [whenErrorOverlay][whenErrorOverlayFrom]'})
+@Directive({selector: '[whenErrorOverlay]'})
 export class WhenErrorOverlayDirective<T> extends BaseFutureRender<TemplateContext<T>> implements OnDestroy {
 
   sub: Subscription;
   states$ = new Subject<FutureSwitch<T>>();
 
   @Input('whenErrorOverlay')
-  set state(state: FutureSwitch<T>|string) {
-    if (!(state instanceof FutureSwitch<T>)) return;
-    this.states$.next(state);
-  }
-
-  @Input('whenErrorOverlayFrom')
-  set fromState(state: FutureSwitch<T>) {
+  set state(state: FutureSwitch<T>) {
     this.states$.next(state);
   }
 
@@ -30,16 +24,23 @@ export class WhenErrorOverlayDirective<T> extends BaseFutureRender<TemplateConte
 
     this.sub = this.states$.pipe(
       switchMap(x => x.errorOverlay$),
-      map(x => x ? {$implicit: x.error, data: x.value} as TemplateContext<T> : undefined)
+      map(x => x ? {whenErrorOverlay: x.error, data: x.value} as TemplateContext<T> : undefined)
     ).subscribe(c => this.updateView(c));
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  static ngTemplateContextGuard<T>(
+    directive: WhenErrorOverlayDirective<T>,
+    context: unknown
+  ): context is TemplateContext<T> {
+    return true;
+  }
 }
 
 interface TemplateContext<T> {
-  $implicit: Error;
+  whenErrorOverlay: Error;
   data: T|undefined;
 }

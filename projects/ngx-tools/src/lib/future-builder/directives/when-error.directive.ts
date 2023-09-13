@@ -4,20 +4,14 @@ import {map} from "rxjs/operators";
 import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
 
-@Directive({selector: '[whenError], [whenError][whenErrorFrom]'})
+@Directive({selector: '[whenError]'})
 export class WhenErrorDirective<T> extends BaseFutureRender<TemplateContext<T>> implements OnDestroy {
 
   sub: Subscription;
   states$ = new Subject<FutureSwitch<T>>();
 
   @Input('whenError')
-  set state(state: FutureSwitch<T>|string) {
-    if (!(state instanceof FutureSwitch<T>)) return;
-    this.states$.next(state);
-  }
-
-  @Input('whenErrorFrom')
-  set fromState(state: FutureSwitch<T>) {
+  set state(state: FutureSwitch<T>) {
     this.states$.next(state);
   }
 
@@ -30,16 +24,23 @@ export class WhenErrorDirective<T> extends BaseFutureRender<TemplateContext<T>> 
 
     this.sub = this.states$.pipe(
       switchMap(x => x.error$),
-      map(x => x ? {$implicit: x.error, data: x.value} as TemplateContext<T> : undefined)
+      map(x => x ? {whenError: x.error, data: x.value} as TemplateContext<T> : undefined)
     ).subscribe(c => this.updateView(c));
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  static ngTemplateContextGuard<T>(
+    directive: WhenErrorDirective<T>,
+    context: unknown
+  ): context is TemplateContext<T> {
+    return true;
+  }
 }
 
 interface TemplateContext<T> {
-  $implicit: Error;
+  whenError: Error;
   data: T|undefined;
 }
