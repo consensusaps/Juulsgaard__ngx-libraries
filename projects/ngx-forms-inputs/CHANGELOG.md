@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.18
+
+### Patch Changes
+
+- Make all inputs standalone
+
 ## 16.0.17
 
 ### Patch Changes

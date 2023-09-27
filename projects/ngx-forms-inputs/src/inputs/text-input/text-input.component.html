@@ -8,7 +8,7 @@
 					  matTooltipPosition="above" matTooltipTouchGestures="off"/>
 		</mat-label>
 
-		<input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
+		<input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue" [ngModelOptions]="{standalone: true}"
 		       [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled" [attr.dir]="direction">
 
 		<div matIconSuffix class="fix" *ngIf="suffixChild">

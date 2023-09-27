@@ -8,7 +8,7 @@
                       matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <textarea type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue"
+        <textarea type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue" [ngModelOptions]="{standalone: true}"
                [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input cdkTextareaAutosize [attr.dir]="direction"></textarea>
 
         <div matIconSuffix class="fix" *ngIf="suffixChild">

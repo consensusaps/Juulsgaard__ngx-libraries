@@ -8,7 +8,7 @@
                       matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <mat-select [errorStateMatcher]="(errorMatcher$ | async)!" [(ngModel)]="inputValue" [multiple]="multiple" [placeholder]="placeholder ?? label!" [required]="required" [disabled]="readonly" >
+        <mat-select [errorStateMatcher]="(errorMatcher$ | async)!" [(ngModel)]="inputValue" [ngModelOptions]="{standalone: true}" [multiple]="multiple" [placeholder]="placeholder ?? label!" [required]="required" [disabled]="readonly" >
             <mat-option *ngIf="canClear">--</mat-option>
             <mat-option *ngFor="let item of items$ | async; trackBy: trackBy" [value]="getValue(item)">
                 {{getLabel(item)}}
