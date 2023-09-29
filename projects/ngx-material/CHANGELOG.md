@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.0.32
+
+### Patch Changes
+
+- Export Icon Anchor
+
 ## 16.0.31
 
 ### Patch Changes
