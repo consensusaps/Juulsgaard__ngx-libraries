@@ -1,3 +1,4 @@
+@use "@juulsgaard/ngx-tools/styles/variables" as *;
 
 //Icons in buttons
 .mat-mdc-button-base {
@@ -28,3 +29,65 @@
 .mdc-button.mat-mdc-button-base {
   letter-spacing: 0.03571428571em;
 }
+
+.ngx-button-base {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  cursor: pointer;
+  outline: none;
+
+  &.disabled {
+    pointer-events: none;
+  }
+}
+
+//<editor-fold desc="Icon Button">
+.ngx-icon-button-base {
+  --padding: 0.5em;
+  font-size: 18px;
+
+  &.disabled {
+    opacity: 0.4;
+  }
+
+  .ngx-icon {
+    display: block;
+    font-size: inherit;
+  }
+}
+
+.ngx-icon-button {
+  border-radius: 50%;
+
+  &::after {
+    content: '';
+    background-color: currentcolor;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  &:hover, &:focus {
+    &::after {
+      opacity: 0.05;
+    }
+  }
+}
+
+.ngx-raised-icon-button {
+  border-radius: 4px;
+  background-color: $foreground-600;
+  box-shadow: 1px 1px 2px $text-color-100;
+  color: $primary;
+
+  &.active {
+    background-color: $accent-400;
+    color: $accent-400-contrast;
+  }
+}
+//</editor-fold>

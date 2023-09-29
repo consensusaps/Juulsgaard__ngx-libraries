@@ -1,5 +1,14 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.19
+
+### Patch Changes
+
+- Update Angular version
+- Updated dependencies
+  - @juulsgaard/ngx-forms@16.0.14
+  - @juulsgaard/ngx-tools@16.1.10
+
 ## 16.0.18
 
 ### Patch Changes

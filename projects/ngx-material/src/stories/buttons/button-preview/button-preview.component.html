@@ -1,3 +1,9 @@
 
 <ngx-icon-button alias="close"/>
 <ngx-raised-icon-button alias="close" [active]="active" (click)="active = !active"/>
+<br>
+<ngx-icon-button alias="close" disabled/>
+<ngx-raised-icon-button alias="close" disabled [active]="active" (click)="active = !active"/>
+<br>
+<a ngxIconButton alias="close"></a>
+<a ngxRaisedIconButton alias="close" [active]="active" (click)="active = !active"></a>

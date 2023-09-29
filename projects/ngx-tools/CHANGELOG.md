@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.10
+
+### Patch Changes
+
+- Update Angular version
+
 ## 16.1.9
 
 ### Patch Changes

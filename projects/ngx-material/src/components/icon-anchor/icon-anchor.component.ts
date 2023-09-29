@@ -1,21 +1,20 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input} from '@angular/core';
+import {BaseAnchor} from "../../models/base-button";
 import {IconDirective} from "@juulsgaard/ngx-tools";
 import {coerceBooleanProperty} from "@angular/cdk/coercion";
-import {BaseButton} from "../../models/base-button";
 
 @Component({
-  selector: 'ngx-icon-button, ngx-raised-icon-button',
+  selector: 'a[ngxIconButton], a[ngxRaisedIconButton]',
   standalone: true,
-  templateUrl: './icon-button.component.html',
-  styleUrls: ['./icon-button.component.scss'],
   imports: [
     IconDirective
   ],
+  templateUrl: './icon-anchor.component.html',
+  styleUrls: ['./icon-anchor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {'[role]': '"button"', '[class.active]': 'active'}
 })
-export class IconButtonComponent extends BaseButton {
-
+export class IconAnchorComponent extends BaseAnchor {
   @Input() icon?: string;
   @Input() alias?: string;
 
@@ -36,4 +35,3 @@ export class IconButtonComponent extends BaseButton {
     super();
   }
 }
-

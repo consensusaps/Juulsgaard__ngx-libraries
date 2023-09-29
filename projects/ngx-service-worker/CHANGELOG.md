@@ -1,5 +1,15 @@
 # @juulsgaard/ngx-service-worker
 
+## 16.0.5
+
+### Patch Changes
+
+- Update Angular version
+- Updated dependencies
+- Updated dependencies
+  - @juulsgaard/ngx-material@16.0.31
+  - @juulsgaard/ngx-tools@16.1.10
+
 ## 16.0.4
 
 ### Patch Changes
