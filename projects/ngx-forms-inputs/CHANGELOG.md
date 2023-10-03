@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.20
+
+### Patch Changes
+
+- Let number input handle undefined
+- Updated dependencies
+  - @juulsgaard/ngx-forms@16.0.15
+
 ## 16.0.19
 
 ### Patch Changes
