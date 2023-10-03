@@ -31,7 +31,6 @@ export class BaseButton implements RippleTarget {
 
     elementRef.nativeElement.classList.add('ngx-button-base');
     const tagName = elementRef.nativeElement.tagName.toLowerCase().replaceAll('-', '');
-    console.log(tagName)
 
     for (let attr of [tagName, ...elementRef.nativeElement.getAttributeNames()]) {
       const match = buttonClassLookup.get(attr.toLowerCase());

@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.0.33
+
+### Patch Changes
+
+- Remove console log
+
 ## 16.0.32
 
 ### Patch Changes
