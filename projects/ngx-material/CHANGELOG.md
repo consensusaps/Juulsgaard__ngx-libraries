@@ -1,5 +1,26 @@
 # @juulsgaard/ngx-material
 
+## 16.0.33
+
+### Patch Changes
+
+- Remove console log
+
+## 16.0.32
+
+### Patch Changes
+
+- Export Icon Anchor
+
+## 16.0.31
+
+### Patch Changes
+
+- Update Angular version
+- Upgrade icon buttons
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.10
+
 ## 16.0.30
 
 ### Patch Changes
