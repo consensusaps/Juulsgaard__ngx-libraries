@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.21
+
+### Patch Changes
+
+- Fix input overflow errors
+
 ## 16.0.20
 
 ### Patch Changes
