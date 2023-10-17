@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.23
+
+### Patch Changes
+
+- Switch color picker
+
 ## 16.0.22
 
 ### Patch Changes

@@ -8,9 +8,10 @@
             <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!" matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <div class="color" matIconPrefix [colorPicker]="inputValue!" (colorPickerChange)="inputValue = $event"
-             cpOutputFormat="hex" [cpAlphaChannel]="noAlpha ? 'disabled' : 'always'" noClickBubble
-             [cpDisabled]="readonly">
+        <div class="color" matIconPrefix ngx-colors-trigger
+             [colorPickerControls]="withAlpha ? 'default' : 'no-alpha'" colorsAnimation="popup" [hideTextInput]="true"
+             [(ngModel)]="inputValue" format="hex" [disabled]="readonly" [palette]="palette"
+             noClickBubble>
             <div class="fill" [style.background-color]="externalValue"></div>
         </div>
 
