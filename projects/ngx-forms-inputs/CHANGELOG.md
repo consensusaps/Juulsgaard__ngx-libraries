@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.22
+
+### Patch Changes
+
+- Use dayjs for time input
+
 ## 16.0.21
 
 ### Patch Changes

@@ -7277,6 +7277,11 @@ date-format@^4.0.14:
   resolved "https://registry.yarnpkg.com/date-format/-/date-format-4.0.14.tgz#7a8e584434fb169a521c8b7aa481f355810d9400"
   integrity sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==
 
+dayjs@1.11.10:
+  version "1.11.10"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.10.tgz#68acea85317a6e164457d6d6947564029a6a16a0"
+  integrity sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==
+
 dayjs@1.11.7:
   version "1.11.7"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"
@@ -10558,10 +10563,25 @@ ngx-color-picker@14.0.0:
   dependencies:
     tslib "^2.3.0"
 
+ngx-color-picker@15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-color-picker/-/ngx-color-picker-15.0.0.tgz#c6ffadd175de3329fc7e18919f638bee27d3d083"
+  integrity sha512-+7wK8Pz9pm7ywJQOWELRcLYO9J0q4giF4b5QFxq8J3kEcHsUBn0hKOpBbGud+UmNnOwbJVgU2rhyRpGIDUCDJw==
+  dependencies:
+    tslib "^2.3.0"
+
 ngx-mat-timepicker@16.0.1:
   version "16.0.1"
   resolved "https://registry.yarnpkg.com/ngx-mat-timepicker/-/ngx-mat-timepicker-16.0.1.tgz#76561c79bdf62c63033da8e06ae2986889bc72a6"
   integrity sha512-WGXTWK/LBcr0ZtRnproHSrRilBibeWBXDigkAWgKXkvasDvZQGXp8DAuL4gUOnlKXaakCZl5r0Pib3CdRVWFOQ==
+  dependencies:
+    ts-luxon "^4.3.2"
+    tslib "^2.5.2"
+
+ngx-mat-timepicker@16.1.1:
+  version "16.1.1"
+  resolved "https://registry.yarnpkg.com/ngx-mat-timepicker/-/ngx-mat-timepicker-16.1.1.tgz#26f58c9999e9baed1792de67abf0abd40622fde9"
+  integrity sha512-6Lg0PANRtI7J6n5Q5h9wohpIRPQ/nM73Ir6Zj2l7hTVte//6mFwKdKUFBysRZ0kmRqKzV4/+zVG4th9cy3cIqQ==
   dependencies:
     ts-luxon "^4.3.2"
     tslib "^2.5.2"
