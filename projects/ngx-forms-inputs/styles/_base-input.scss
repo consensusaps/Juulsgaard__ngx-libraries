@@ -48,4 +48,11 @@
       }
     }
   }
+
+  .mat-mdc-form-field {
+    .mat-mdc-text-field-wrapper {
+      will-change: color;
+    }
+  }
+
 }

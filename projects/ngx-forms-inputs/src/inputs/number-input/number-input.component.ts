@@ -25,7 +25,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   ],
   providers: []
 })
-export class NumberInputComponent extends BaseInputComponent<number | undefined, number> {
+export class NumberInputComponent extends BaseInputComponent<number | undefined, number|undefined> {
 
   constructor() {
     super();
@@ -35,8 +35,9 @@ export class NumberInputComponent extends BaseInputComponent<number | undefined,
     return value;
   }
 
-  preprocessValue(value: number | undefined): number {
-    return value ?? 0;
+  preprocessValue(value: number | undefined): number|undefined {
+    if (this.externalControl && !this.externalControl.nullable) return value ?? 0;
+    return value;
   }
 
 }

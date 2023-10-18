@@ -9,6 +9,10 @@ import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
 import {IconButtonComponent} from "@juulsgaard/ngx-material";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 @Component({
   selector: 'form-time-input',
@@ -46,21 +50,17 @@ export class TimeInputComponent extends BaseInputComponent<Date|undefined, strin
 
   preprocessValue(value: Date | undefined): string | undefined {
     if (!value) return undefined;
-    const date = new Date(value);
-    date.setHours(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-    return date.toLocaleTimeString(this.locale, {hour: "2-digit", minute: "2-digit"})
+    const date = new Date(value)
+    return date.toLocaleTimeString(this.locale, {hour: "2-digit", minute: "2-digit", timeZone: 'utc'})
   }
 
   postprocessValue(value: string | undefined): Date | undefined {
     if (!value) return undefined;
-    const date = new Date(`1970-1-1 ${value}`);
-    const invalid = isNaN(date.getTime());
+    const date = dayjs(`1970-01-01 ${value}`).utc(true)
 
-    this.inputError = invalid ? 'Invalid Time Format' : undefined;
-    if (invalid) return undefined;
-
-    date.setUTCHours(date.getHours(), date.getMinutes(), date.getSeconds());
-    return date;
+    this.inputError = !date.isValid() ? 'Invalid Time Format' : undefined;
+    if (!date.isValid()) return undefined;
+    return date.toDate();
   }
 
   pickTime(time: string) {
@@ -68,9 +68,8 @@ export class TimeInputComponent extends BaseInputComponent<Date|undefined, strin
   }
 
   openPicker(picker: NgxMatTimepickerComponent) {
-    const date = new Date(this.externalValue ?? '1970-1-1 12:00:00');
-    date.setHours(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-    picker.defaultTime = date.toLocaleTimeString(this.locale, {hour: "2-digit", minute: "2-digit"});
+    const date = this.externalValue ? new Date(this.externalValue) : new Date('1970-01-01T12:00:00Z');
+    picker.defaultTime = date.toLocaleTimeString(this.locale, {hour: "2-digit", minute: "2-digit", timeZone: 'utc'});
     picker.open();
   }
 }

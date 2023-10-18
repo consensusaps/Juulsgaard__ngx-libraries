@@ -253,7 +253,7 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
     /** Change the material input style */
     @Input() public appearance: MatFormFieldAppearance = 'outline';
     /** Hide the required asterisk */
-    @Input() public hideRequired?: boolean;
+    @Input() public hideRequired = false;
     @Input() public direction?: 'ltr'|'rtl'|'auto';
 
     /** Set the input as read-only */

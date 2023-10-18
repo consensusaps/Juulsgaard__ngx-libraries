@@ -8,7 +8,8 @@ export default {
   render: (args) => ({props: args}),
   args: {
     label: 'Time Input',
-    tooltip: 'Tooltip'
+    tooltip: 'Tooltip',
+    value: new Date()
   },
   argTypes: {
     valueChange: {action: 'Value Changed'}

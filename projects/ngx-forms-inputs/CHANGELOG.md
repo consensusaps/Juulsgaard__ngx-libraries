@@ -1,5 +1,31 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.23
+
+### Patch Changes
+
+- Switch color picker
+
+## 16.0.22
+
+### Patch Changes
+
+- Use dayjs for time input
+
+## 16.0.21
+
+### Patch Changes
+
+- Fix input overflow errors
+
+## 16.0.20
+
+### Patch Changes
+
+- Let number input handle undefined
+- Updated dependencies
+  - @juulsgaard/ngx-forms@16.0.15
+
 ## 16.0.19
 
 ### Patch Changes

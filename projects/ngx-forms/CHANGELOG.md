@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 16.0.15
+
+### Patch Changes
+
+- Make hideRequired boolean
+
 ## 16.0.14
 
 ### Patch Changes
