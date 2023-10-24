@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.11
+
+### Patch Changes
+
+- Add ScopedRouter
+
 ## 16.1.10
 
 ### Patch Changes
