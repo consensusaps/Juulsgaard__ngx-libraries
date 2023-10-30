@@ -10,3 +10,4 @@ export * from './password-input/password-input.component';
 export * from './time-input/time-input.component';
 export * from './search-input/search-input.component';
 export * from './text-input/text-input.component';
+export * from './tag-list-input/tag-list-input.component';

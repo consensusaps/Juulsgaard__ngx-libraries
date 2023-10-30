@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.25
+
+### Patch Changes
+
+- Export Tag List Input
+
 ## 16.0.24
 
 ### Patch Changes

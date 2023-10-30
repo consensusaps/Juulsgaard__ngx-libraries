@@ -3,7 +3,7 @@
   "description": "A library containing default input components for different input types",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-forms-inputs",
-  "version": "16.0.24",
+  "version": "16.0.25",
   "publishConfig": {
     "directory": "../../dist/ngx-forms-inputs"
   },
