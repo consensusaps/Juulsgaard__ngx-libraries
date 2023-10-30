@@ -4,7 +4,7 @@ import {
   AsyncObjectFallbackMapper, AsyncOrSyncObject, AsyncVal, AsyncValueFallbackMapper, isSubscribable
 } from "@juulsgaard/rxjs-tools";
 import {Dispose} from "../decorators";
-import {isObject} from "@juulsgaard/ts-tools";
+import {isObject, shallowEquals} from "@juulsgaard/ts-tools";
 
 @Directive({selector: '[ngxAsync]', standalone: true})
 export class NgxAsyncDirective<T extends AsyncVal<unknown>|AsyncOrSyncObject<Record<string, unknown>>> {
@@ -37,6 +37,7 @@ export class NgxAsyncDirective<T extends AsyncVal<unknown>|AsyncOrSyncObject<Rec
 
   updateSingle(value: AsyncVal<unknown>) {
     this.objectMapper.reset();
+    this.oldObject = undefined;
 
     if (this.oldVal === value) return;
     this.oldVal = value;
@@ -44,10 +45,15 @@ export class NgxAsyncDirective<T extends AsyncVal<unknown>|AsyncOrSyncObject<Rec
     this.valueMapper.update(value);
   }
 
+  private oldObject?: AsyncOrSyncObject<Record<string, unknown>>;
   @Dispose private objectMapper = new AsyncObjectFallbackMapper<Record<string, unknown>, null>(null);
   updateObject(values: Record<string, unknown>) {
-
     this.valueMapper.reset();
+    this.oldVal = undefined;
+
+    if (this.oldObject && shallowEquals(this.oldObject, values)) return;
+    this.oldObject = values;
+
     this.objectMapper.update(values);
   }
 

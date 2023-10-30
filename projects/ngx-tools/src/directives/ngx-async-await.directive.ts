@@ -7,7 +7,7 @@ import {
   UnwrappedAsyncVal
 } from "@juulsgaard/rxjs-tools";
 import {Dispose} from "../decorators";
-import {isObject} from "@juulsgaard/ts-tools";
+import {isObject, shallowEquals} from "@juulsgaard/ts-tools";
 
 @Directive({selector: '[ngxAsyncAwait]', standalone: true})
 export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObject<Record<string, unknown>>> implements OnChanges {
@@ -80,6 +80,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
 
   updateSingle(value: AsyncVal<unknown>) {
     this.objectMapper.reset();
+    this.oldObject = undefined;
 
     if (this.oldVal === value) return;
     this.oldVal = value;
@@ -100,9 +101,14 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
     }
   }
 
+  private oldObject?: AsyncOrSyncObject<Record<string, unknown>>;
   @Dispose private objectMapper = new AsyncObjectMapper<Record<string, unknown>>();
-  updateObject(values: Record<string, unknown>) {
+  updateObject(values: AsyncOrSyncObject<Record<string, unknown>>) {
     this.valueMapper.reset();
+    this.oldVal = undefined;
+
+    if (this.oldObject && shallowEquals(this.oldObject, values)) return;
+    this.oldObject = values;
 
     if (!this.view) {
       this.objectMapper.update(values);

@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.13
+
+### Patch Changes
+
+- Improve ngxLet and ngxAsync
+
 ## 16.1.12
 
 ### Patch Changes

@@ -1,7 +1,10 @@
 import {Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef} from '@angular/core';
 import {BehaviorSubject, mergeWith, Observable, Subscribable} from "rxjs";
 import {Dispose} from "../decorators";
-import {AsyncOrSyncVal, AsyncTupleFallbackMapper, AsyncValueFallbackMapper} from "@juulsgaard/rxjs-tools";
+import {
+  AsyncOrSyncTuple, AsyncOrSyncVal, AsyncTupleFallbackMapper, AsyncValueFallbackMapper
+} from "@juulsgaard/rxjs-tools";
+import {shallowEquals} from "@juulsgaard/ts-tools";
 
 @Directive({selector: '[ngxLet]', standalone: true})
 export class NgxLetDirective<T> {
@@ -33,6 +36,7 @@ export class NgxLetDirective<T> {
 
   updateSingle(value: AsyncOrSyncVal<unknown>) {
     this.tupleMapper.reset();
+    this.oldTuple = undefined;
 
     if (this.oldVal === value) return;
     this.oldVal = value;
@@ -40,10 +44,15 @@ export class NgxLetDirective<T> {
     this.valueMapper.update(value);
   }
 
+  private oldTuple?: AsyncOrSyncTuple<unknown[]>;
   @Dispose private tupleMapper = new AsyncTupleFallbackMapper<unknown[], null>(null);
-  updateArray(values: unknown[]) {
-
+  updateArray(values: AsyncOrSyncTuple<unknown[]>) {
     this.valueMapper.reset();
+    this.oldVal = undefined;
+
+    if (this.oldTuple && shallowEquals(this.oldTuple, values)) return;
+    this.oldTuple = values;
+
     this.tupleMapper.update(values);
   }
 

@@ -4,8 +4,10 @@ import {
 import {mergeWith} from "rxjs";
 import {Dispose} from "../decorators";
 import {
-  AsyncOrSyncVal, AsyncTupleMapper, AsyncValueMapper, UnwrappedAsyncOrSyncTuple, UnwrappedAsyncOrSyncVal
+  AsyncOrSyncTuple, AsyncOrSyncVal, AsyncTupleMapper, AsyncValueMapper, UnwrappedAsyncOrSyncTuple,
+  UnwrappedAsyncOrSyncVal
 } from "@juulsgaard/rxjs-tools";
+import {shallowEquals} from "@juulsgaard/ts-tools";
 
 @Directive({selector: '[ngxLetAwait]', standalone: true})
 export class NgxLetAwaitDirective<T> implements OnChanges {
@@ -76,6 +78,7 @@ export class NgxLetAwaitDirective<T> implements OnChanges {
 
   updateSingle(value: AsyncOrSyncVal<unknown>) {
     this.tupleMapper.reset();
+    this.oldTuple = undefined;
 
     if (this.oldVal === value) return;
     this.oldVal = value;
@@ -96,9 +99,14 @@ export class NgxLetAwaitDirective<T> implements OnChanges {
     }
   }
 
+  private oldTuple?: AsyncOrSyncTuple<unknown[]>;
   @Dispose private tupleMapper = new AsyncTupleMapper<unknown[]>();
-  updateArray(values: unknown[]) {
+  updateArray(values: AsyncOrSyncTuple<unknown[]>) {
     this.valueMapper.reset();
+    this.oldVal = undefined;
+
+    if (this.oldTuple && shallowEquals(this.oldTuple, values)) return;
+    this.oldTuple = values;
 
     if (!this.view) {
       this.tupleMapper.update(values);

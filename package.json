@@ -35,7 +35,7 @@
     "@juulsgaard/data-sources": "1.11.7",
     "@juulsgaard/ngx-forms-core": "16.0.5",
     "@juulsgaard/rxjs-tools": "1.3.10",
-    "@juulsgaard/ts-tools": "1.4.2",
+    "@juulsgaard/ts-tools": "1.4.3",
     "fuse.js": "6.6.2",
     "dayjs": "1.11.10",
     "ngx-colors": "3.5.2",

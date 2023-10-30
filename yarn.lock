@@ -2960,15 +2960,15 @@
   resolved "https://registry.yarnpkg.com/@juulsgaard/rxjs-tools/-/rxjs-tools-1.3.10.tgz#723f66ba728a46773537c29787a45a4101a9eeb3"
   integrity sha512-anvoKploPOCGOCl3BoVGqhoQzmJ7E1/JDDyojfZihUFp2Sxni8H6wuoSrTTvLN66aFGgsi3Kx8efrVZ8c2jfXg==
 
-"@juulsgaard/rxjs-tools@1.3.9":
-  version "1.3.9"
-  resolved "https://registry.yarnpkg.com/@juulsgaard/rxjs-tools/-/rxjs-tools-1.3.9.tgz#662f514e0813f93924db9f74d3ce78856f0cafcf"
-  integrity sha512-jP/t8goIdTv9ukXYVHtRtVCuwuddgJIoTvtjV2xg125PbpBy2YNJDIOsnhJcAhSeoIvozl7qzFwM1L5AugLPVw==
-
 "@juulsgaard/ts-tools@1.4.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@juulsgaard/ts-tools/-/ts-tools-1.4.2.tgz#1ab1af24da9d3edd922903e3f0e5d266751ec801"
   integrity sha512-x/YPj34CDUT4i4uSavAxoshmvP18wJzuVMc3TF5BR8l2+I4tRY5NG9yK2HebeSMU+Ls0dcdiFJ2slPXSApkndg==
+
+"@juulsgaard/ts-tools@1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@juulsgaard/ts-tools/-/ts-tools-1.4.3.tgz#42c6b7c30949ae45e0b63a7883a7f54fa1d6c056"
+  integrity sha512-2eSseJJ2SUj6H3foK6eA6o3ucU/43B0T2WIyKfbZs4NG4ApPCR8rPbsF4/tZlQZA+6wAECjSrhHIhxIMmygs+A==
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
