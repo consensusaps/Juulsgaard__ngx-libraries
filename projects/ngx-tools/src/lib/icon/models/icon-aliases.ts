@@ -15,6 +15,7 @@ export const baseIconAliases = {
   upgrade: {mat: 'arrow_circle_up', fa: 'fas fa-circle-up'},
   back: {mat: 'arrow_back_ios_new', fa: 'fas fa-chevron-left'},
   burger: {mat: 'menu', fa: 'fas fa-bars'},
+  add: {mat: 'add', fa: 'far fa-plus'},
 } as const;
 
 export type BaseIconAliases = keyof typeof baseIconAliases;

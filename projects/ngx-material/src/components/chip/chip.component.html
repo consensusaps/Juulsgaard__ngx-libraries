@@ -1,0 +1,3 @@
+
+<ng-content/>
+<ngx-icon-button *ngIf="removed.observed && this.canRemove !== false" class="close" (click)="removed.emit()" alias="close" (keydown.backspace)="removed.emit()" #remove/>

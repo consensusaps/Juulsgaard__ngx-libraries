@@ -3,6 +3,8 @@ import {Directive, ElementRef, HostBinding, inject, Input, NgZone} from "@angula
 import {RippleConfig, RippleRenderer, RippleTarget} from "@angular/material/core";
 import {coerceBooleanProperty} from "@angular/cdk/coercion";
 import {Platform} from "@angular/cdk/platform";
+import {fromEvent, Subscription} from "rxjs";
+import {Dispose} from "@juulsgaard/ngx-tools";
 
 @Directive()
 export class BaseButton implements RippleTarget {
@@ -24,20 +26,36 @@ export class BaseButton implements RippleTarget {
   @HostBinding('tabIndex')
   get tabIndex() {return this.disabled ? -1 : 0}
 
+  @Dispose private keydownSub?: Subscription;
+  readonly elementRef = inject(ElementRef<HTMLElement>);
+
   constructor() {
-    const elementRef = inject(ElementRef<HTMLElement>);
-    this._rippleRenderer = new RippleRenderer(this, inject(NgZone), elementRef, inject(Platform));
-    this._rippleRenderer.setupTriggerEvents(elementRef.nativeElement);
 
-    elementRef.nativeElement.classList.add('ngx-button-base');
-    const tagName = elementRef.nativeElement.tagName.toLowerCase().replaceAll('-', '');
+    this._rippleRenderer = new RippleRenderer(this, inject(NgZone), this.elementRef, inject(Platform));
+    this._rippleRenderer.setupTriggerEvents(this.elementRef.nativeElement);
 
-    for (let attr of [tagName, ...elementRef.nativeElement.getAttributeNames()]) {
+    this.elementRef.nativeElement.classList.add('ngx-button-base');
+    const tagName = this.elementRef.nativeElement.tagName.toLowerCase().replaceAll('-', '');
+
+    for (let attr of [tagName, ...this.elementRef.nativeElement.getAttributeNames()]) {
       const match = buttonClassLookup.get(attr.toLowerCase());
       if (!match) continue;
-      elementRef.nativeElement.classList.add(...match);
+      this.elementRef.nativeElement.classList.add(...match);
       break;
     }
+
+    const zone = inject(NgZone);
+
+    zone.runOutsideAngular(() => {
+      this.keydownSub = fromEvent<KeyboardEvent>(this.elementRef.nativeElement, 'keydown').subscribe(e => {
+        if (e.key != 'Enter') return;
+        zone.run(() => this.elementRef.nativeElement.click());
+      });
+    })
+  }
+
+  focus() {
+    this.elementRef.nativeElement.focus();
   }
 }
 

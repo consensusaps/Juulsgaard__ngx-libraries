@@ -1,0 +1,17 @@
+:host {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+	background-color: #DEDEDE;
+	font-size: 16px;
+	border-radius: 1em;
+	min-height: 2em;
+	padding: 0.25em 0.8em;
+	line-height: 1.5;
+	
+	.close {
+		margin: calc(-0.25em + 2px)  calc(-0.8em + 2px)  calc(-0.25em + 2px) 0.4em;
+		--padding: calc(0.45em - 2px);
+		font-size: 1.1em;
+	}
+}

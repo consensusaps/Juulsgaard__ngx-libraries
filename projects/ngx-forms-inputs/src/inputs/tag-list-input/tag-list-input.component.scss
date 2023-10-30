@@ -1,0 +1,25 @@
+
+.row {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.ngx-chip {
+  font-size: 12px;
+  height: auto;
+}
+
+input {
+  min-width: 100px;
+  width: 100px;
+  flex-grow: 1;
+}
+
+mat-option {
+  .ngx-icon {
+    vertical-align: bottom;
+    margin-right: 5px;
+  }
+}

@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.14
+
+### Patch Changes
+
+- Export let and async directives
+
 ## 16.1.13
 
 ### Patch Changes
