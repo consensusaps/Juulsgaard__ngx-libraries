@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.0.35
+
+### Patch Changes
+
+- Make chips use the theme
+
 ## 16.0.34
 
 ### Patch Changes

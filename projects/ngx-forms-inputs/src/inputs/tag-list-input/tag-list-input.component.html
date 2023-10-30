@@ -1,7 +1,7 @@
 
 <div class="wrapper" [@harmonica]="show">
 
-    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" subscriptSizing="dynamic" matAutocompleteOrigin #container="matAutocompleteOrigin" [floatLabel]="inputValue.length ? 'always' : 'auto'">
+    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" subscriptSizing="dynamic" matAutocompleteOrigin #container="matAutocompleteOrigin" [floatLabel]="(floatLabel$ | async) ?? 'auto'">
 
         <mat-label *ngIf="label">
             {{label}}

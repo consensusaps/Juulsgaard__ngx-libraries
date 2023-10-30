@@ -38,6 +38,9 @@ export class TagListInputComponent extends BaseInputComponent<string[]|undefined
   set query(query: string) {this.query$.next(query)}
 
   private hasExternalItems = false;
+  floatLabel$ = this.inputValue$.pipe(
+    map(val => val.length ? 'always' : 'auto')
+  );
 
   @Input('items') set itemsData(items: string[] | null | undefined) {
     if (!items) return;

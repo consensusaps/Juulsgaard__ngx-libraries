@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.27
+
+### Patch Changes
+
+- Update label float logic
+
 ## 16.0.26
 
 ### Patch Changes
