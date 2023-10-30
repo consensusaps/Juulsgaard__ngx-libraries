@@ -28,7 +28,7 @@
 </div>
 
 <mat-autocomplete #options [autoActiveFirstOption]="true" (optionSelected)="onSelected($event)">
-    <ng-container *ngxAsyncAwait="options$ as options">
+    <ng-container *ngIf="options$ | async as options">
 
         <mat-option *ngIf="options.match" [value]="options.match">
             {{options.match}}

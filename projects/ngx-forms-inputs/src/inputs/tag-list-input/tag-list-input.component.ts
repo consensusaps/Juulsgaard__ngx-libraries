@@ -5,7 +5,7 @@ import {
   asyncScheduler, BehaviorSubject, combineLatestWith, distinctUntilChanged, map, Observable, skip, throttleTime
 } from "rxjs";
 import {FormNode, isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@juulsgaard/ngx-forms-core";
-import {harmonicaAnimation, IconDirective, NgxAsyncAwaitDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
+import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
 import {ChipComponent} from "@juulsgaard/ngx-material";
 import {
   MatAutocompleteModule, MatAutocompleteSelectedEvent, MatAutocompleteTrigger
@@ -22,7 +22,7 @@ import {isString} from "@juulsgaard/ts-tools";
   standalone: true,
   imports: [
     CommonModule, ChipComponent, IconDirective, MatAutocompleteModule, FormsModule, MatFormFieldModule,
-    MatInputModule, MatTooltipModule, NgxAsyncAwaitDirective, NoClickBubbleDirective, ChipComponent
+    MatInputModule, MatTooltipModule, NoClickBubbleDirective, ChipComponent
   ],
   animations: [harmonicaAnimation()],
   templateUrl: './tag-list-input.component.html',
@@ -150,7 +150,7 @@ export class TagListInputComponent extends BaseInputComponent<string[]|undefined
     setTimeout(() => this.trigger?.openPanel(), 500);
   }
 
-  onBackspace(event: KeyboardEvent) {
+  onBackspace(event: Event) {
     const input = event.target as HTMLInputElement;
 
     if (input.selectionStart == null) return;
