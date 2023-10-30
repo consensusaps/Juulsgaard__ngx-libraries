@@ -12,6 +12,7 @@ export class TruthyPipe implements PipeTransform, OnDestroy {
   private asyncValue;
   private obj?: Promise<any> | Subscribable<any>;
   private subscription?: Unsubscribable;
+  private startup = false;
 
   constructor(private ref: ChangeDetectorRef) {
     this.asyncValue = this.parseValue(false);
@@ -32,7 +33,9 @@ export class TruthyPipe implements PipeTransform, OnDestroy {
       if (value !== this.obj) {
         this.obj = value;
         this.subscription?.unsubscribe();
+        this.startup = true;
         this.subscription = value.subscribe({next: x => this.setValue(x, value)});
+        this.startup = false;
       }
       return this.asyncValue;
     }
@@ -42,10 +45,12 @@ export class TruthyPipe implements PipeTransform, OnDestroy {
     if (value instanceof Promise) {
       if (value !== this.obj) {
         this.obj = value;
+        this.startup = true;
         value.then(
           x => this.setValue(x, value),
           () => this.setValue(false, value)
         );
+        this.startup = false;
       }
       return this.asyncValue;
     }
@@ -64,6 +69,7 @@ export class TruthyPipe implements PipeTransform, OnDestroy {
     if (val === this.asyncValue) return;
 
     this.asyncValue = this.parseValue(value);
+    if (this.startup) return;
     this.ref.detectChanges();
   }
 

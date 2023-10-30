@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.12
+
+### Patch Changes
+
+- Add ngxLet and ngxAsync directives
+
 ## 16.1.11
 
 ### Patch Changes

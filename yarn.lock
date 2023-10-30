@@ -2955,10 +2955,15 @@
   resolved "https://registry.yarnpkg.com/@juulsgaard/ngx-forms-core/-/ngx-forms-core-16.0.5.tgz#fd00871a121828201442e10488266285ba31619d"
   integrity sha512-qn4qkS+gX5QqgfnItCGq7KqpzaXs75ZqUT6ptPLil8wjZWWgWpzMxlJEjB3Tt2RA5sh705pjzch8bRkMKiGwFw==
 
-"@juulsgaard/rxjs-tools@1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@juulsgaard/rxjs-tools/-/rxjs-tools-1.3.6.tgz#c7f00875076c0573ddfa83228f03f4a396d7d99f"
-  integrity sha512-BcEzJspTmw2qmKE+py+WtgML7LCZ3tsrRt+9wreosC3ox531qLsP5Q8ODGSPB5aFSP0FuMFV1yPDFvuqaIBi+A==
+"@juulsgaard/rxjs-tools@1.3.10":
+  version "1.3.10"
+  resolved "https://registry.yarnpkg.com/@juulsgaard/rxjs-tools/-/rxjs-tools-1.3.10.tgz#723f66ba728a46773537c29787a45a4101a9eeb3"
+  integrity sha512-anvoKploPOCGOCl3BoVGqhoQzmJ7E1/JDDyojfZihUFp2Sxni8H6wuoSrTTvLN66aFGgsi3Kx8efrVZ8c2jfXg==
+
+"@juulsgaard/rxjs-tools@1.3.9":
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/@juulsgaard/rxjs-tools/-/rxjs-tools-1.3.9.tgz#662f514e0813f93924db9f74d3ce78856f0cafcf"
+  integrity sha512-jP/t8goIdTv9ukXYVHtRtVCuwuddgJIoTvtjV2xg125PbpBy2YNJDIOsnhJcAhSeoIvozl7qzFwM1L5AugLPVw==
 
 "@juulsgaard/ts-tools@1.4.2":
   version "1.4.2"

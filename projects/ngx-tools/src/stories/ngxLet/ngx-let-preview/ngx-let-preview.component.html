@@ -1,0 +1,51 @@
+
+<section *ngxLet="counter$ as counter">
+    <p>Count: {{counter}}</p>
+    <button (click)="count()">+ 1</button>
+</section>
+
+<hr>
+
+<section *ngxAsync="counter$ as counter">
+    <p>Count: {{counter}}</p>
+    <button (click)="count()">+ 1</button>
+</section>
+
+<hr>
+
+<section *ngxLet="[counter$, timer$] as vars">
+    <p>Count: {{vars[0]}}</p>
+    <button (click)="count()">+ 1</button>
+    <br>
+    <p>Timer: {{vars[1]}}</p>
+</section>
+
+<hr>
+
+<section *ngxAsync="{counter: counter$, timer: timer$} as vars">
+    <p>Count: {{vars.counter}}</p>
+    <button (click)="count()">+ 1</button>
+    <br>
+    <p>Timer: {{vars.timer}}</p>
+</section>
+
+<hr>
+
+<section *ngxLetAwait="[delay$, countedToTen$] as x; else waiting">
+    <p>Waited</p>
+    <p>delay: {{x[0]}}</p>
+    <p>counted: {{x[1]}}</p>
+</section>
+
+<hr>
+
+<section *ngxAsyncAwait="{delay: delay$, counted: countedToTen$} as x; else waiting">
+    <p>Waited</p>
+    <p>delay: {{x.delay}}</p>
+    <p>counted: {{x.counted}}</p>
+</section>
+
+
+<ng-template #waiting>
+    <p>Waiting...</p>
+</ng-template>
