@@ -1,5 +1,26 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.26
+
+### Patch Changes
+
+- Improve tag list design
+
+## 16.0.25
+
+### Patch Changes
+
+- Export Tag List Input
+
+## 16.0.24
+
+### Patch Changes
+
+- Add Tag List Input
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.14
+  - @juulsgaard/ngx-forms@16.0.15
+
 ## 16.0.23
 
 ### Patch Changes

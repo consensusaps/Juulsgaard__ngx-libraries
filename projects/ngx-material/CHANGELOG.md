@@ -1,5 +1,14 @@
 # @juulsgaard/ngx-material
 
+## 16.0.34
+
+### Patch Changes
+
+- Improve BaseButton
+- Add Chips
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.14
+
 ## 16.0.33
 
 ### Patch Changes

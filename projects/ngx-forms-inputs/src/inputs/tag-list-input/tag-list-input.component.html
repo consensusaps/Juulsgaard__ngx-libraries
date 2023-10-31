@@ -1,0 +1,46 @@
+
+<div class="wrapper" [@harmonica]="show">
+
+    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" subscriptSizing="dynamic" matAutocompleteOrigin #container="matAutocompleteOrigin" [floatLabel]="inputValue.length ? 'always' : 'auto'">
+
+        <mat-label *ngIf="label">
+            {{label}}
+            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!"
+                      matTooltipPosition="above" matTooltipTouchGestures="off"/>
+        </mat-label>
+
+        <div class="row">
+            <ngx-chip *ngFor="let tag of inputValue$ | async" (removed)="removeTag(tag)" noClickBubble (click)="$event.stopPropagation()" [canRemove]="!readonly">{{tag}}</ngx-chip>
+
+            <input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" *ngIf="!readonly" [(ngModel)]="query" [ngModelOptions]="{standalone: true}"
+                   [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled" [attr.dir]="direction"
+                   [matAutocomplete]="options" [matAutocompleteConnectedTo]="container" (keydown.backspace)="onBackspace($event)">
+        </div>
+
+        <div matIconSuffix class="fix" *ngIf="suffixChild">
+            <ng-content></ng-content>
+        </div>
+
+
+        <mat-error>{{errorText$ | async}}</mat-error>
+
+    </mat-form-field>
+</div>
+
+<mat-autocomplete #options [autoActiveFirstOption]="true" (optionSelected)="onSelected($event)">
+    <ng-container *ngIf="options$ | async as options">
+
+        <mat-option *ngIf="options.match" [value]="options.match">
+            {{options.match}}
+        </mat-option>
+
+        <mat-option *ngIf="options.query" [value]="options.query">
+            <ngx-icon alias="add"/>
+            <span>Add <i>{{options.query}}</i></span>
+        </mat-option>
+
+        <mat-option *ngFor="let opt of options.options" [value]="opt">
+            {{opt}}
+        </mat-option>
+    </ng-container>
+</mat-autocomplete>
