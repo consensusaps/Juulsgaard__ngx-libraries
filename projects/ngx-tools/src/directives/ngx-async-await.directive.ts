@@ -1,7 +1,7 @@
 import {
   Directive, EmbeddedViewRef, Input, OnChanges, SimpleChanges, TemplateRef, ViewContainerRef
 } from '@angular/core';
-import {mergeWith, Observable, Subscribable} from "rxjs";
+import {mergeWith, Observable} from "rxjs";
 import {
   AsyncObjectMapper, AsyncOrSyncObject, AsyncVal, AsyncValueMapper, isSubscribable, UnwrappedAsyncOrSyncObject,
   UnwrappedAsyncVal
@@ -140,6 +140,6 @@ interface TemplateContext<T> {
   ngxAsyncAwait: MappedValues<T>;
 }
 
-type MappedValues<T> = T extends Subscribable<unknown>|Observable<unknown>|Promise<unknown> ? UnwrappedAsyncVal<T> :
+type MappedValues<T> = T extends AsyncVal<unknown> ? UnwrappedAsyncVal<T> :
   T extends Record<string, unknown> ? UnwrappedAsyncOrSyncObject<T> :
     never;

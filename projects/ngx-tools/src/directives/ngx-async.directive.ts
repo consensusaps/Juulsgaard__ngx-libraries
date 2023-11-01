@@ -1,7 +1,8 @@
 import {Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef} from '@angular/core';
-import {BehaviorSubject, mergeWith, Observable, Subscribable} from "rxjs";
+import {mergeWith, Observable} from "rxjs";
 import {
-  AsyncObjectFallbackMapper, AsyncOrSyncObject, AsyncVal, AsyncValueFallbackMapper, isSubscribable
+  AsyncObjectFallbackMapper, AsyncOrSyncObject, AsyncVal, AsyncValueFallbackMapper, isSubscribable,
+  UnwrappedAsyncOrSyncObject, UnwrappedAsyncVal
 } from "@juulsgaard/rxjs-tools";
 import {Dispose} from "../decorators";
 import {isObject, shallowEquals} from "@juulsgaard/ts-tools";
@@ -70,15 +71,6 @@ interface TemplateContext<T> {
   ngxAsync: MappedValues<T>;
 }
 
-type MappedValues<T> = T extends Subscribable<unknown>|Observable<unknown>|Promise<unknown> ? MappedVal<T> :
-  T extends Record<string, unknown> ? MappedObject<T> :
+type MappedValues<T> = T extends AsyncVal<unknown> ? UnwrappedAsyncVal<T, null> :
+  T extends Record<string, unknown> ? UnwrappedAsyncOrSyncObject<T, null> :
     never;
-
-type MappedObject<T extends Record<string, unknown>> = { [K in keyof T]: MappedVal<T[K]> }
-
-type MappedVal<T> =
-  T extends Subscribable<infer U> ? U | null :
-    T extends Observable<infer U> ? U | null :
-      T extends BehaviorSubject<infer U> ? U :
-        T extends Promise<infer U> ? U | null :
-          T;

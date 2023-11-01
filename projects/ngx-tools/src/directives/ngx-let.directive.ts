@@ -1,8 +1,9 @@
 import {Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef} from '@angular/core';
-import {BehaviorSubject, mergeWith, Observable, Subscribable} from "rxjs";
+import {mergeWith} from "rxjs";
 import {Dispose} from "../decorators";
 import {
-  AsyncOrSyncTuple, AsyncOrSyncVal, AsyncTupleFallbackMapper, AsyncValueFallbackMapper
+  AsyncOrSyncTuple, AsyncOrSyncVal, AsyncTupleFallbackMapper, AsyncValueFallbackMapper, UnwrappedAsyncOrSyncTuple,
+  UnwrappedAsyncOrSyncVal
 } from "@juulsgaard/rxjs-tools";
 import {shallowEquals} from "@juulsgaard/ts-tools";
 
@@ -69,11 +70,5 @@ interface TemplateContext<T> {
   ngxLet: MappedValues<T>;
 }
 
-type MappedValues<T> = T extends unknown[] ? MappedTuple<T> : MappedVal<T>;
-type MappedTuple<T extends unknown[]> = { [K in keyof T]: MappedVal<T[K]> }
-type MappedVal<T> =
-  T extends Subscribable<infer U> ? U | null :
-    T extends Observable<infer U> ? U | null :
-      T extends BehaviorSubject<infer U> ? U :
-        T extends Promise<infer U> ? U | null :
-          T;
+type MappedValues<T> = T extends unknown[] ? UnwrappedAsyncOrSyncTuple<T, null> : UnwrappedAsyncOrSyncVal<T, null>;
+
