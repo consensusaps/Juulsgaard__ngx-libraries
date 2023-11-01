@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-material
 
+## 16.0.36
+
+### Patch Changes
+
+- Fix template change detection
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.15
+
 ## 16.0.35
 
 ### Patch Changes

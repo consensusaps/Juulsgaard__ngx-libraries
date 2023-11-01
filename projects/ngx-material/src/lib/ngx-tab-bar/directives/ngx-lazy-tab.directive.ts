@@ -58,7 +58,8 @@ export class NgxLazyTabDirective extends NgxTabContext implements OnInit, OnDest
     }
 
     if (!show) return;
-    this.viewContainer.createEmbeddedView(this.templateRef);
+    const view = this.viewContainer.createEmbeddedView(this.templateRef);
+    view.detectChanges();
     this.visible = true;
   }
 }

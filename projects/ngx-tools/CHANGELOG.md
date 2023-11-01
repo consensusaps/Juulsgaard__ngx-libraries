@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.15
+
+### Patch Changes
+
+- Fix template change detection
+
 ## 16.1.14
 
 ### Patch Changes
