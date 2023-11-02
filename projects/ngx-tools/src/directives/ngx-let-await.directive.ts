@@ -70,6 +70,7 @@ export class NgxLetAwaitDirective<T> implements OnChanges {
     if (this.elseView) return;
     if (!this.elseTemplate) return;
     this.elseView = this.viewContainer.createEmbeddedView(this.elseTemplate);
+    this.elseView.detectChanges();
   }
   //</editor-fold>
 

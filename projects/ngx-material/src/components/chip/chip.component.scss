@@ -1,8 +1,11 @@
+@use "@juulsgaard/ngx-tools/styles/variables" as *;
+
 :host {
 	display: flex;
 	flex-flow: row;
 	align-items: center;
-	background-color: #DEDEDE;
+	background-color: $foreground-700;
+	color: $text-color;
 	font-size: 16px;
 	border-radius: 1em;
 	min-height: 2em;
