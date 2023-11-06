@@ -5,7 +5,9 @@ import {
   asyncScheduler, BehaviorSubject, combineLatestWith, distinctUntilChanged, map, Observable, skip, throttleTime
 } from "rxjs";
 import {FormNode, isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@juulsgaard/ngx-forms-core";
-import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
+import {
+  harmonicaAnimation, IconDirective, NgxDragEvent, NgxDragModule, NgxDragService, NoClickBubbleDirective
+} from "@juulsgaard/ngx-tools";
 import {ChipComponent} from "@juulsgaard/ngx-material";
 import {
   MatAutocompleteModule, MatAutocompleteSelectedEvent, MatAutocompleteTrigger
@@ -16,14 +18,16 @@ import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import Fuse from "fuse.js";
 import {isString} from "@juulsgaard/ts-tools";
+import {coerceBooleanProperty} from "@angular/cdk/coercion";
 
 @Component({
   selector: 'form-tag-list-input',
   standalone: true,
   imports: [
     CommonModule, ChipComponent, IconDirective, MatAutocompleteModule, FormsModule, MatFormFieldModule,
-    MatInputModule, MatTooltipModule, NoClickBubbleDirective, ChipComponent
+    MatInputModule, MatTooltipModule, NoClickBubbleDirective, ChipComponent, NgxDragModule
   ],
+  providers: [NgxDragService],
   animations: [harmonicaAnimation()],
   templateUrl: './tag-list-input.component.html',
   styleUrls: ['./tag-list-input.component.scss'],
@@ -32,6 +36,7 @@ import {isString} from "@juulsgaard/ts-tools";
 export class TagListInputComponent extends BaseInputComponent<string[]|undefined, string[]> {
 
   @ViewChildren(ChipComponent) chips!: QueryList<ChipComponent>;
+  @Input({transform: coerceBooleanProperty}) canReorder = false;
 
   private query$ = new BehaviorSubject('');
   get query() {return this.query$.value}
@@ -164,6 +169,31 @@ export class TagListInputComponent extends BaseInputComponent<string[]|undefined
     const chip = this.chips.toArray().at(-1);
     if (!chip) return;
     chip.focusRemove();
+  }
+
+  getCanDrop(index: number) {
+    return (context: NgxDragEvent<number>) => context.data !== index;
+  }
+
+  onDrop(event: NgxDragEvent<number>, index: number) {
+    if (index === event.data) return;
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const rightSide = event.clientX > rect.x + rect.width / 2;
+    this.move(event.data, rightSide ? index + 1 : index);
+  }
+
+  private move(from: number, to: number) {
+    if (to === from || to === from + 1) return;
+    const list = [...this.inputValue];
+
+    if (to < from) {
+      list.splice(to, 0, ...list.splice(from, 1));
+    } else {
+      list.splice(to - 1, 0, ...list.splice(from, 1));
+    }
+
+    this.inputValue = list;
   }
 }
 

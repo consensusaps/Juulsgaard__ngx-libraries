@@ -5,6 +5,7 @@
 export * from './lib/future-builder';
 export * from './lib/icon';
 export * from './lib/rendering';
+export * from './lib/ngx-drag';
 
 export * from './services';
 export * from './directives';
