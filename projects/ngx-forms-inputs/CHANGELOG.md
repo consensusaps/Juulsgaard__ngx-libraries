@@ -1,5 +1,14 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.28
+
+### Patch Changes
+
+- Add drag and drop to tag list inputs
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.17
+  - @juulsgaard/ngx-forms@16.0.15
+
 ## 16.0.27
 
 ### Patch Changes

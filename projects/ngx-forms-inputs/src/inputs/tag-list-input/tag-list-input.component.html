@@ -10,7 +10,12 @@
         </mat-label>
 
         <div class="row">
-            <ngx-chip *ngFor="let tag of inputValue$ | async" (removed)="removeTag(tag)" noClickBubble (click)="$event.stopPropagation()" [canRemove]="!readonly">{{tag}}</ngx-chip>
+            <ngx-chip *ngFor="let tag of inputValue$ | async; let i = index" (removed)="removeTag(tag)"
+                      noClickBubble (click)="$event.stopPropagation()" [canRemove]="!readonly"
+                      ngxDrag [dragData]="i" [disableDrag]="!canReorder"
+                      ngxDropArea (ngxDrop)="onDrop($event, i)" [dropPredicate]="getCanDrop(i)">
+                {{tag}}
+            </ngx-chip>
 
             <input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" *ngIf="!readonly" [(ngModel)]="query" [ngModelOptions]="{standalone: true}"
                    [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled" [attr.dir]="direction"

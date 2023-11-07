@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.17
+
+### Patch Changes
+
+- Add NgxDrag
+
 ## 16.1.16
 
 ### Patch Changes
