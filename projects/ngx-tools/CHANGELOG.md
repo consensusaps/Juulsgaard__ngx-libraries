@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.19
+
+### Patch Changes
+
+- Add zIndex to loading spinner
+
 ## 16.1.18
 
 ### Patch Changes
