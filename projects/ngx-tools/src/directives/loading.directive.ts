@@ -17,6 +17,7 @@ export class LoadingDirective implements OnDestroy {
   _loading = false;
   set loading(loading: boolean) {
     if (loading === this._loading) return;
+    this._loading = loading;
     this.element.nativeElement.classList.toggle('loading', loading);
     this.spinner.style.display = loading ? '' : 'none';
   }

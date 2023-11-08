@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.20
+
+### Patch Changes
+
+- Fix loading directive
+
 ## 16.1.19
 
 ### Patch Changes
