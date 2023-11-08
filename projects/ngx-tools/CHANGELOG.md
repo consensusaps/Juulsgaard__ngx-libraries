@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.18
+
+### Patch Changes
+
+- Improve loading spinner
+
 ## 16.1.17
 
 ### Patch Changes

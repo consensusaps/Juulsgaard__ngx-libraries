@@ -12,12 +12,19 @@ import {Subscribable, Unsubscribable} from "rxjs";
 export class LoadingDirective implements OnDestroy {
 
   sub?: Unsubscribable;
+  private readonly spinner: HTMLDivElement;
 
+  _loading = false;
   set loading(loading: boolean) {
+    if (loading === this._loading) return;
     this.element.nativeElement.classList.toggle('loading', loading);
+    this.spinner.style.display = loading ? '' : 'none';
   }
 
   constructor(private element: ElementRef<HTMLElement>) {
+    this.spinner = document.createElement('div');
+    this.spinner.classList.add('ngx-is-loading-spinner');
+    this.element.nativeElement.appendChild(this.spinner);
   }
 
   @Input() set isLoading(state: boolean|Promise<any>|Subscribable<boolean>|undefined|null) {
