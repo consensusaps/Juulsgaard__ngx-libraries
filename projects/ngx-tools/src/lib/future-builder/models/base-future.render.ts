@@ -15,9 +15,8 @@ export abstract class BaseFutureRender<TContext> {
     if (this.embeddedView) {
 
       if (!context) {
-        this.viewContainer.clear();
+        this.embeddedView.destroy();
         this.embeddedView = undefined;
-        this.changes.detectChanges();
         return;
       }
 
@@ -28,6 +27,6 @@ export abstract class BaseFutureRender<TContext> {
 
     if (!context) return;
     this.embeddedView = this.viewContainer.createEmbeddedView(this.templateRef, context);
-    this.changes.detectChanges();
+    this.embeddedView.detectChanges();
   }
 }

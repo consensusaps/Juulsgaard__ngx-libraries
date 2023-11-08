@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.21
+
+### Patch Changes
+
+- Improve Future directive
+
 ## 16.1.20
 
 ### Patch Changes
