@@ -1,5 +1,29 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.21
+
+### Patch Changes
+
+- Improve Future directive
+
+## 16.1.20
+
+### Patch Changes
+
+- Fix loading directive
+
+## 16.1.19
+
+### Patch Changes
+
+- Add zIndex to loading spinner
+
+## 16.1.18
+
+### Patch Changes
+
+- Improve loading spinner
+
 ## 16.1.17
 
 ### Patch Changes

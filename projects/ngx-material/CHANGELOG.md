@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-material
 
+## 16.0.37
+
+### Patch Changes
+
+- Improve icon button focus indicator
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.18
+
 ## 16.0.36
 
 ### Patch Changes
