@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.22
+
+### Patch Changes
+
+- Add route observables to ScopedRouter
+
 ## 16.1.21
 
 ### Patch Changes
