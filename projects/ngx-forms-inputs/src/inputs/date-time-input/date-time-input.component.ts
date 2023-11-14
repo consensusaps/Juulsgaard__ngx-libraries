@@ -17,6 +17,7 @@ import {DatePickerDialogComponent} from "../../components/date-picker-dialog/dat
 import {BehaviorSubject, Subscription} from "rxjs";
 import dayjs, {Dayjs} from "dayjs";
 import utc from "dayjs/plugin/utc";
+import {DayjsHelper} from "../../helpers/dayjs-helper";
 
 dayjs.extend(utc);
 
@@ -61,6 +62,8 @@ export class DateTimeInputComponent extends BaseInputComponent<Date | undefined,
   date: Date|null = null;
 
   textValue$?: BehaviorSubject<string|undefined>;
+
+  private helper = new DayjsHelper();
 
   constructor(private dialog: MatDialog) {
     super();
@@ -151,7 +154,7 @@ export class DateTimeInputComponent extends BaseInputComponent<Date | undefined,
 
   updateTextValue(value: string|undefined) {
     this.textValue$?.next(value);
-    const date = value ? dayjs(value).utc(true) : undefined;
+    const date = value ? this.helper.parseDateTimeStr(value).utc(true) : undefined;
     this.inputError = date && !date.isValid() ? 'Invalid Date/Time Format' : undefined;
     this.inputValue = date?.isValid() ? date : undefined;
   }

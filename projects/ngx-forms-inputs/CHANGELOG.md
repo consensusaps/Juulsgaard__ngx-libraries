@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.31
+
+### Patch Changes
+
+- Improve date time input parsing
+
 ## 16.0.30
 
 ### Patch Changes
