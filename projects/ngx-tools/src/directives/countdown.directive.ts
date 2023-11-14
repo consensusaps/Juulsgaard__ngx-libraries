@@ -13,7 +13,10 @@ const DAY = 24 * HOUR;
 export class CountdownDirective implements OnChanges {
 
   @Input() countdownConfig: CountdownConfig = defaultCountdownConfig ;
-  @Input({required: true, transform: (val: string|Date) => new Date(val)}) countdown!: Date;
+  @Input({required: true}) set countdown(date: Date|string|number) {
+    this.endTime = new Date(date);
+  };
+  endTime!: Date;
 
   @Dispose timeSub?: Subscription;
 
@@ -38,7 +41,7 @@ export class CountdownDirective implements OnChanges {
     this.timeSub?.unsubscribe();
     this.styleIndex = -1;
 
-    const delta = Math.floor((this.countdown.getTime() - Date.now()) / 1000);
+    const delta = Math.floor((this.endTime.getTime() - Date.now()) / 1000);
 
     const dateDelta = delta - this.dateFormatThreshold;
     const dateDelay = dateDelta > 0 ? timer(Math.max(0, dateDelta + 1)) : EMPTY;
@@ -49,7 +52,7 @@ export class CountdownDirective implements OnChanges {
 
     const time$ = concat(dateDelay, timeDelay, interval(500)).pipe(
       startWith(undefined),
-      map(() => this.countdown.getTime() - Date.now()),
+      map(() => this.endTime.getTime() - Date.now()),
       takeWhile(x => x > 0),
       map(x => Math.floor(x / 1000)),
       share()
@@ -81,11 +84,11 @@ export class CountdownDirective implements OnChanges {
   }
 
   private renderDate() {
-    this.element.innerText = formatDate(this.countdown, 'short', this.locale);
+    this.element.innerText = formatDate(this.endTime, 'short', this.locale);
   }
 
   private renderTime() {
-    this.element.innerText = formatDate(this.countdown, 'shortTime', this.locale);
+    this.element.innerText = formatDate(this.endTime, 'shortTime', this.locale);
   }
 
   private renderCountdown([hours, minutes, seconds]: [string|undefined, string, string]) {
