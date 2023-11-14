@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.25
+
+### Patch Changes
+
+- Update icons aliases
+
 ## 16.1.24
 
 ### Patch Changes

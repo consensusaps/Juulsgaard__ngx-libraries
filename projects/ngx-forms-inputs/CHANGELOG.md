@@ -1,5 +1,14 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.29
+
+### Patch Changes
+
+- Add DateTime input
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.25
+  - @juulsgaard/ngx-forms@16.0.15
+
 ## 16.0.28
 
 ### Patch Changes
