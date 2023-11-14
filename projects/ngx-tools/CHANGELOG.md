@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.24
+
+### Patch Changes
+
+- Export countdown directive
+
 ## 16.1.23
 
 ### Patch Changes
