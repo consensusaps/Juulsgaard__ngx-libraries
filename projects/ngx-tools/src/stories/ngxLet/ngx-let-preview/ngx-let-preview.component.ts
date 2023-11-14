@@ -1,16 +1,18 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NgxLetDirective} from "../../../directives/ngx-let.directive";
+import {
+  NgxAsyncAwaitDirective, NgxAsyncDirective, NgxIfDirective, NgxLetAwaitDirective, NgxLetDirective
+} from "../../../directives";
 import {BehaviorSubject, interval, timer} from "rxjs";
-import {NgxLetAwaitDirective} from "../../../directives/ngx-let-await.directive";
 import {filter} from "rxjs/operators";
-import {NgxAsyncDirective} from "../../../directives/ngx-async.directive";
-import {NgxAsyncAwaitDirective} from "../../../directives/ngx-async-await.directive";
 
 @Component({
   selector: 'ngx-ngx-let-preview',
   standalone: true,
-  imports: [CommonModule, NgxLetDirective, NgxLetAwaitDirective, NgxAsyncDirective, NgxAsyncAwaitDirective],
+  imports: [
+    CommonModule, NgxLetDirective, NgxLetAwaitDirective, NgxAsyncDirective, NgxAsyncAwaitDirective,
+    NgxIfDirective
+  ],
   templateUrl: './ngx-let-preview.component.html',
   styleUrls: ['./ngx-let-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -89,10 +89,7 @@ export class NgxLetAwaitDirective<T> implements OnChanges {
       return;
     }
 
-    let emitted = false;
-    const sub = this.valueMapper.value$.subscribe(() => emitted = true);
-    this.valueMapper.update(value);
-    sub.unsubscribe();
+    let emitted = this.valueMapper.update(value);
 
     if (!emitted) {
       this.destroyMain();
@@ -114,10 +111,7 @@ export class NgxLetAwaitDirective<T> implements OnChanges {
       return;
     }
 
-    let emitted = false;
-    const sub = this.tupleMapper.values$.subscribe(() => emitted = true);
-    this.tupleMapper.update(values);
-    sub.unsubscribe();
+    let emitted = this.tupleMapper.update(values);
 
     if (!emitted) {
       this.destroyMain();

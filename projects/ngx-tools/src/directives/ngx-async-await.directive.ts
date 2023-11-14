@@ -91,10 +91,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
       return;
     }
 
-    let emitted = false;
-    const sub = this.valueMapper.value$.subscribe(() => emitted = true);
-    this.valueMapper.update(value);
-    sub.unsubscribe();
+    let emitted =  this.valueMapper.update(value);
 
     if (!emitted) {
       this.destroyMain();
@@ -116,10 +113,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
       return;
     }
 
-    let emitted = false;
-    const sub = this.objectMapper.values$.subscribe(() => emitted = true);
-    this.objectMapper.update(values);
-    sub.unsubscribe();
+    let emitted = this.objectMapper.update(values);
 
     if (!emitted) {
       this.destroyMain();
