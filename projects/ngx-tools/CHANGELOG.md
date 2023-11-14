@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.26
+
+### Patch Changes
+
+- Add classes to countdown
+
 ## 16.1.25
 
 ### Patch Changes
