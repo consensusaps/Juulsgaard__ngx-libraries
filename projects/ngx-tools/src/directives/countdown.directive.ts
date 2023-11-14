@@ -44,6 +44,11 @@ export class CountdownDirective implements OnChanges {
 
     const delta = Math.floor((this.endTime.getTime() - Date.now()) / 1000);
 
+    if (delta <= 0) {
+      this.render(0);
+      return;
+    }
+
     const dateDelta = delta - this.dateFormatThreshold;
     const dateDelay = dateDelta > 0 ? timer(Math.max(0, dateDelta + 1)) : EMPTY;
 
@@ -54,7 +59,7 @@ export class CountdownDirective implements OnChanges {
     const time$ = concat(dateDelay, timeDelay, interval(500)).pipe(
       startWith(undefined),
       map(() => this.endTime.getTime() - Date.now()),
-      takeWhile(x => x > 0),
+      takeWhile(x => x >= 0),
       map(x => Math.floor(x / 1000)),
       distinctUntilChanged(),
       share()

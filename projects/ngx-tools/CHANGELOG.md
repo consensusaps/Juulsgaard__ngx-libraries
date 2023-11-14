@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.27
+
+### Patch Changes
+
+- Countdown show 0 when expired
+
 ## 16.1.26
 
 ### Patch Changes
