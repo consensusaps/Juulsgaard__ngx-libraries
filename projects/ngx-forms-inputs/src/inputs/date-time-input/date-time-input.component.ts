@@ -21,7 +21,7 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
 @Component({
-  selector: 'ngx-date-time-input',
+  selector: 'form-date-time-input',
   standalone: true,
   templateUrl: './date-time-input.component.html',
   styleUrls: ['./date-time-input.component.scss'],

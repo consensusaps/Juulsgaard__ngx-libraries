@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 16.0.30
+
+### Patch Changes
+
+- Fix DateTime input tag
+
 ## 16.0.29
 
 ### Patch Changes
