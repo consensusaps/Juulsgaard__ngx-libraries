@@ -154,3 +154,15 @@ export const MAT_DAYJS_DATE_FORMATS: MatDateFormats = {
     monthYearA11yLabel: 'MMMM YYYY',
   }
 };
+
+export const MAT_DAYJS_DATETIME_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'L LT',
+  },
+  display: {
+    dateInput: 'L LT',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  }
+};

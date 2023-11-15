@@ -44,11 +44,11 @@ export class DateInputComponent extends BaseInputComponent<Date | undefined, Day
   }
 
   postprocessValue(value?: Dayjs): Date | undefined {
-    return value === undefined ? undefined : value.toDate();
+    return value == undefined ? undefined : value.toDate();
   }
 
   preprocessValue(value?: Date): Dayjs | undefined {
-    return value === undefined ? undefined : dayjs(value);
+    return value == undefined ? undefined : dayjs(value);
   }
 
 }

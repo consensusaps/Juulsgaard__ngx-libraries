@@ -9,11 +9,10 @@
                       matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <mat-datepicker-toggle matIconPrefix [for]="picker"/>
-        <mat-datepicker #picker/>
+        <ngx-icon-button matIconPrefix alias="date" noClickBubble (click)="openDatePicker()"/>
 
-        <input type="text" matInput [matDatepicker]="picker" [placeholder]="placeholder ?? label!" [required]="required"
-               [readonly]="readonly" [(ngModel)]="inputValue" [ngModelOptions]="{standalone: true}"
+        <input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required"
+               [readonly]="readonly" [ngModel]="textValue$ | async" (ngModelChange)="updateTextValue($event)" [ngModelOptions]="{standalone: true}"
                [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!"
                #input [disabled]="isDisabled" [attr.dir]="direction">
 
@@ -21,3 +20,5 @@
 
     </mat-form-field>
 </div>
+
+<ngx-mat-timepicker [format]="timeFormat" (timeSet)="pickTime($event)"></ngx-mat-timepicker>

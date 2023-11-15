@@ -1,0 +1,7 @@
+
+<mat-calendar [(selected)]="date"/>
+
+<mat-dialog-actions>
+    <button mat-button matDialogClose>CANCEL</button>
+    <button mat-button color="primary" [disabled]="!date" (click)="select()">OK</button>
+</mat-dialog-actions>

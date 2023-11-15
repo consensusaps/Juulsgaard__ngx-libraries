@@ -1,5 +1,36 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.27
+
+### Patch Changes
+
+- Countdown show 0 when expired
+
+## 16.1.26
+
+### Patch Changes
+
+- Add classes to countdown
+
+## 16.1.25
+
+### Patch Changes
+
+- Update icons aliases
+
+## 16.1.24
+
+### Patch Changes
+
+- Export countdown directive
+
+## 16.1.23
+
+### Patch Changes
+
+- 188c311: Add countdown directive
+- Add ngxIf directive
+
 ## 16.1.22
 
 ### Patch Changes

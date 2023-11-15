@@ -45,7 +45,23 @@
     <p>counted: {{x.counted}}</p>
 </section>
 
+<hr>
+
+<section *ngxIf="counter$ as value; waiting: waiting; else: elseTmp">
+    <p>Counter: {{value}}</p>
+</section>
+
+<hr>
+
+<section *ngxIf="countedToTen$ as value; waiting: waiting; else: elseTmp">
+    <p>Counted to ten: {{value}}</p>
+</section>
+
 
 <ng-template #waiting>
     <p>Waiting...</p>
+</ng-template>
+
+<ng-template #elseTmp>
+    <p>False</p>
 </ng-template>

@@ -8,7 +8,7 @@ export const baseIconAliases = {
   upload: {mat: 'cloud_upload_outline', fa: 'fal fa-cloud-arrow-up'},
   download: {mat: 'cloud_download_outline', fa: 'fal fa-cloud-arrow-down'},
   help: {mat: 'help', fa: 'fas fa-question-circle'},
-  date: {mat: 'calendar_month_outline', fa: 'far fa-calendar'},
+  date: {mat: 'today', fa: 'far fa-calendar-day'},
   time: {mat: 'schedule_outline', fa: 'far fa-clock'},
   reload: {mat: 'refresh', fa: 'far fa-arrow-rotate-right'},
   loading: {mat: 'cached', fa: 'far fa-arrows-rotate'},
