@@ -15,11 +15,16 @@ export class NgxDropAreaDirective<T> {
 
   @Output('ngxDrop') drop = new EventEmitter<NgxDragEvent<T>>;
   @Output('ngxDropHover') dropHover = new EventEmitter<NgxDropContext<T>>;
+  @Input('ngxDropEffect') effect?: 'move'|'link'|'copy';
   @Input() dropPredicate?: (data: NgxDragEvent<T>) => boolean;
+
+  get dropEffect() {return this.effect ?? this.service.effect ?? 'move'}
 
   @Input({transform: coerceBooleanProperty}) disableDrop = false;
 
   removeHoverState?: Subscription;
+
+  constructor(private element: ElementRef<HTMLElement>, private service: NgxDragService) { }
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent) {
@@ -48,8 +53,7 @@ export class NgxDropAreaDirective<T> {
 
     event.preventDefault();
     const canDrop = this.canDrop(event, data);
-
-    event.dataTransfer.dropEffect = canDrop ? 'link' : 'none';
+    event.dataTransfer.dropEffect = canDrop ? this.getDropEffect(event.dataTransfer) : 'none';
 
     if (canDrop) {
       this.removeHoverState?.unsubscribe();
@@ -77,7 +81,10 @@ export class NgxDropAreaDirective<T> {
     return context.allowed;
   }
 
-  constructor(private element: ElementRef<HTMLElement>, private service: NgxDragService) { }
-
+  private getDropEffect(dataTransfer: DataTransfer) {
+    const effect = this.dropEffect;
+    if (effect === 'link' && dataTransfer.effectAllowed === 'copyMove') return 'move';
+    return effect;
+  }
 }
 

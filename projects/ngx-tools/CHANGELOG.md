@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.28
+
+### Patch Changes
+
+- Update drag directives to handle Safari weirdness
+
 ## 16.1.27
 
 ### Patch Changes
