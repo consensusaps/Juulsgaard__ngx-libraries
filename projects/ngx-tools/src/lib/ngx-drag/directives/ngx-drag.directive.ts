@@ -27,6 +27,10 @@ export class NgxDragDirective<T> {
     const context = new NgxDragContext<T>(this.dragData, this.dropText);
     this.dragStart.emit(context);
 
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'all';
+    }
+
     if (context.data === undefined) {
       event.preventDefault();
       return;
