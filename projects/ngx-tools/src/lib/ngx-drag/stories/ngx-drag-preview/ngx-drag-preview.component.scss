@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  flex-flow: row;
+  gap: 10px;
+}
+
+.list {
+  padding: 10px;
+  background-color: rgba(black, 0.1);
+  display: flex;
+  flex-flow: column;
+  width: 300px;
+}
