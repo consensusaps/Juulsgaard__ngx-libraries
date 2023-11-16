@@ -1,0 +1,10 @@
+
+<div class="wrapper">
+    <div class="list">
+        <p *ngFor="let i of source" ngxDrag [dragData]="i">{{i}}</p>
+    </div>
+
+    <div class="list" ngxDropArea (ngxDrop)="onDrop($event)">
+        <p *ngFor="let i of destination">{{i}}</p>
+    </div>
+</div>
