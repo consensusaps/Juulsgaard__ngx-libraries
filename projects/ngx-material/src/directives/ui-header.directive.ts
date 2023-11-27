@@ -1,22 +1,23 @@
-import {ChangeDetectorRef, Directive, HostBinding, inject} from '@angular/core';
+import {ChangeDetectorRef, Directive, HostBinding, inject, OnInit} from '@angular/core';
 import {UIScopeContext} from "../models";
 import {Dispose} from "@juulsgaard/ngx-tools";
 import {Subscription} from "rxjs";
 
 @Directive({selector: '[uiHeader]', standalone: true})
-export class UiHeaderDirective {
+export class UiHeaderDirective implements OnInit {
 
   @HostBinding('class')
   headerClass: string[] = [];
 
   private uiContext = inject(UIScopeContext, {optional: true});
-  @Dispose private sub: Subscription | undefined;
+  @Dispose private sub?: Subscription;
 
-  constructor(changes: ChangeDetectorRef) {
+  constructor(private changes: ChangeDetectorRef) {}
+
+  ngOnInit() {
     this.sub = this.uiContext?.registerHeader(x => {
       this.headerClass = x.classes;
-      changes.detectChanges();
+      this.changes.detectChanges();
     });
   }
-
 }

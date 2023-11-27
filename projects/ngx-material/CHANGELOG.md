@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.2
+
+### Patch Changes
+
+- Fix uiHeader change detection
+
 ## 16.1.1
 
 ### Patch Changes
