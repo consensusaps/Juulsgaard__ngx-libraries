@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.29
+
+### Patch Changes
+
+- Stop time based directives when in background
+
 ## 16.1.28
 
 ### Patch Changes

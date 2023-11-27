@@ -1,5 +1,8 @@
 import {Directive, ElementRef, Input, NgZone, OnDestroy} from '@angular/core';
 import {secondsToTimeAgo} from "../helpers/time-ago";
+import {fromEvent} from "rxjs";
+import {distinctUntilChanged, map} from "rxjs/operators";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Directive({selector: '[timeAgo]', standalone: true})
 export class TimeAgoDirective implements OnDestroy {
@@ -10,21 +13,43 @@ export class TimeAgoDirective implements OnDestroy {
 
   timer?: number;
   date?: Date;
-
-  constructor(private element: ElementRef<HTMLElement>, private zone: NgZone) {
-  }
-
   @Input() set timeAgo(value: Date | string | undefined) {
-
-    clearTimeout(this.timer);
-
     if (!value) {
       this.date = undefined;
       return;
     }
 
     this.date = value instanceof Date ? value : new Date(value);
+    if (document.hidden) return;
+    this.startTimer();
+  }
+
+  constructor(private element: ElementRef<HTMLElement>, private zone: NgZone) {
+    zone.runOutsideAngular(
+      () => fromEvent(document, 'visibilitychange').pipe(
+        map(() => !document.hidden),
+        distinctUntilChanged(),
+        takeUntilDestroyed()
+      ).subscribe(x => this.visibilityChanged(x))
+    );
+  }
+
+  private startTimer() {
+    clearTimeout(this.timer);
+    if (!this.date) return;
     this.zone.runOutsideAngular(() => this.applyValue());
+  }
+
+  private stopTimer() {
+    clearTimeout(this.timer);
+  }
+
+  private visibilityChanged(visible: boolean) {
+    if (visible) {
+      this.startTimer();
+    } else {
+      this.stopTimer();
+    }
   }
 
   applyValue() {
@@ -45,7 +70,7 @@ export class TimeAgoDirective implements OnDestroy {
   }
 
   ngOnDestroy() {
-    clearTimeout(this.timer);
+    this.stopTimer();
   }
 
   private static getSecondsUntilUpdate(seconds: number) {
