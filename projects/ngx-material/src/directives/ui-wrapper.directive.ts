@@ -6,11 +6,12 @@ import {BaseUIScopeContext, UIScopeContext} from "../models/ui-scope";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/overlay";
 
 @Directive({
-  selector: '[wrapContent]',
+  selector: '[uiWrapper],ui-wrapper',
   standalone: true,
-  providers: [{provide: UIScopeContext, useExisting: forwardRef(() => WrapContentDirective)}]
+  providers: [{provide: UIScopeContext, useExisting: forwardRef(() => UiWrapperDirective)}],
+  host: {'[class.ui-wrapper]': 'true'}
 })
-export class WrapContentDirective extends BaseUIScopeContext implements OnInit, OnDestroy {
+export class UiWrapperDirective extends BaseUIScopeContext implements OnInit, OnDestroy {
 
   private sub?: Subscription;
 

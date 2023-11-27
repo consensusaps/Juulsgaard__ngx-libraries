@@ -23,7 +23,8 @@ import {map} from "rxjs/operators";
     TruthyPipe,
     IconDirective
   ],
-  standalone: true
+  standalone: true,
+  host: {'[class.ngx-header]': 'true'}
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 

@@ -3,7 +3,7 @@
   "description": "Utilities for working with Service Workers in Angular",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-service-worker",
-  "version": "16.0.5",
+  "version": "16.1.0",
   "publishConfig": {
     "directory": "../../dist/ngx-service-worker"
   },
@@ -19,7 +19,7 @@
     "@angular/core": "^16.2.7",
     "@angular/material": "^16.2.6",
     "@angular/service-worker": "^16.2.7",
-    "@juulsgaard/ngx-material": "^16.0.37",
+    "@juulsgaard/ngx-material": "^16.1.0",
     "@juulsgaard/ngx-tools": "^16.1.29",
     "typescript": "~5.0.4"
   },
@@ -28,7 +28,7 @@
     "@angular/core": "16.2.7",
     "@angular/material": "16.2.6",
     "@angular/service-worker": "16.2.7",
-    "@juulsgaard/ngx-material": "16.0.37",
+    "@juulsgaard/ngx-material": "16.1.0",
     "@juulsgaard/ngx-tools": "16.1.29"
   },
   "dependencies": {
