@@ -11,6 +11,7 @@ export class NgxDragDirective<T> {
 
   @Input() dragData?: T;
   @Input() dropText?: string;
+  @Input() dropEffect?: 'move'|'link'|'copy';
   @Input({transform: coerceBooleanProperty}) disableDrag = false;
 
   @Output('dragStart') dragStart = new EventEmitter<NgxDragContext<T>>();
@@ -41,7 +42,7 @@ export class NgxDragDirective<T> {
     }
 
     this.active = context.data;
-    this.service.register(context.data);
+    this.service.register(context.data, this.dropEffect);
   }
 
   @HostListener('dragend')

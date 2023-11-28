@@ -1,5 +1,23 @@
 # @juulsgaard/ngx-material
 
+## 16.1.2
+
+### Patch Changes
+
+- Fix uiHeader change detection
+
+## 16.1.1
+
+### Patch Changes
+
+- Export UI Header directive
+
+## 16.1.0
+
+### Minor Changes
+
+- Update UIHeader and UI Wrapper
+
 ## 16.0.37
 
 ### Patch Changes

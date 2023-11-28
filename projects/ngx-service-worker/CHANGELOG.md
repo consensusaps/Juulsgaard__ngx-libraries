@@ -1,5 +1,12 @@
 # @juulsgaard/ngx-service-worker
 
+## 16.1.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @juulsgaard/ngx-material@16.1.0
+
 ## 16.0.5
 
 ### Patch Changes

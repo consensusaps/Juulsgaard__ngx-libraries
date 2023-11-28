@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NgxDragModule} from "../../ngx-drag.module";
 import {NgxDragEvent} from "../../models/ngx-drag-event";
+import {NgxDragContext} from "../../models/ngx-drag-context";
 
 @Component({
   selector: 'ngx-ngx-drag-preview',
@@ -17,9 +18,13 @@ export class NgxDragPreviewComponent {
 
 
   onDrop(event: NgxDragEvent<string>) {
-    console.log(event);
+    console.log('Drop', event);
     const index = this.source.findIndex(x => x === event.data);
     if (index < 0) return;
     this.destination.push(...this.source.splice(index, 1));
+  }
+
+  onStart(event: NgxDragContext<string>) {
+    console.log('Drag start', event);
   }
 }

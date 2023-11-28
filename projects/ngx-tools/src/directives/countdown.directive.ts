@@ -1,9 +1,10 @@
-import {Directive, ElementRef, inject, Input, LOCALE_ID, OnChanges, SimpleChanges} from '@angular/core';
+import {Directive, ElementRef, inject, Input, LOCALE_ID, NgZone, OnChanges, SimpleChanges} from '@angular/core';
 import {objToArr, sortNumDesc} from "@juulsgaard/ts-tools";
-import {concat, EMPTY, interval, share, startWith, Subscription, takeWhile, timer} from "rxjs";
+import {concat, EMPTY, endWith, fromEvent, interval, share, startWith, Subscription, takeWhile, timer} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
 import {Dispose} from "../decorators";
 import {formatDate} from "@angular/common";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
@@ -12,10 +13,12 @@ const DAY = 24 * HOUR;
 @Directive({selector: '[countdown]', standalone: true, host: {'[class.ngx-countdown]': 'true'}})
 export class CountdownDirective implements OnChanges {
 
-  @Input() countdownConfig: CountdownConfig = defaultCountdownConfig ;
-  @Input({required: true}) set countdown(date: Date|string|number) {
+  @Input() countdownConfig: CountdownConfig = defaultCountdownConfig;
+
+  @Input({required: true}) set countdown(date: Date | string | number) {
     this.endTime = new Date(date);
   };
+
   endTime!: Date;
 
   @Dispose timeSub?: Subscription;
@@ -26,23 +29,47 @@ export class CountdownDirective implements OnChanges {
   styleIndex = -1;
   dateFormatThreshold = DAY;
   timeFormatThreshold = HOUR;
-  styleThresholds: {threshold: number, classes: string[] }[] = [];
+  styleThresholds: { threshold: number, classes: string[] }[] = [];
 
-  constructor() {
+  constructor(private zone: NgZone) {
     this.applyConfig();
+
+    zone.runOutsideAngular(
+      () => fromEvent(document, 'visibilitychange').pipe(
+        map(() => !document.hidden),
+        distinctUntilChanged(),
+        takeUntilDestroyed()
+      ).subscribe(x => this.visibilityChanged(x))
+    );
   }
 
+  private visibilityChanged(visible: boolean) {
+    if (visible) {
+      this.startTimer();
+    } else {
+      this.stopTimer();
+    }
+  }
+
+  //<editor-fold desc="Updates">
   ngOnChanges(changes: SimpleChanges) {
 
     if ('countdownConfig' in changes) {
       this.applyConfig();
     }
 
+    if (document.hidden) return;
+    this.zone.runOutsideAngular(() => this.startTimer());
+  }
+
+  private startTimer() {
     this.timeSub?.unsubscribe();
     this.styleIndex = -1;
     this.resetClasses();
 
-    const delta = Math.floor((this.endTime.getTime() - Date.now()) / 1000);
+    const delta = Math.floor((
+      this.endTime.getTime() - Date.now()
+    ) / 1000);
 
     if (delta <= 0) {
       this.render(0);
@@ -59,8 +86,9 @@ export class CountdownDirective implements OnChanges {
     const time$ = concat(dateDelay, timeDelay, interval(500)).pipe(
       startWith(undefined),
       map(() => this.endTime.getTime() - Date.now()),
-      takeWhile(x => x >= 0),
+      takeWhile(x => x > 0),
       map(x => Math.floor(x / 1000)),
+      endWith(0),
       distinctUntilChanged(),
       share()
     );
@@ -68,16 +96,28 @@ export class CountdownDirective implements OnChanges {
     this.timeSub = time$.subscribe(time => this.render(time));
   }
 
+  private stopTimer() {
+    this.timeSub?.unsubscribe();
+  }
+
   private applyConfig() {
     this.dateFormatThreshold = parseTime(this.countdownConfig.dateFormatThreshold);
     this.timeFormatThreshold = parseTime(this.countdownConfig.timeFormatThreshold);
-    this.styleThresholds = objToArr(this.countdownConfig.styleThresholds, (val, key) => ({
-      threshold: parseTime(key),
-      classes: Array.isArray(val) ? val : [val]
-    }));
+    this.styleThresholds = objToArr(
+      this.countdownConfig.styleThresholds,
+      (val, key) => (
+        {
+          threshold: parseTime(key),
+          classes: Array.isArray(val) ? val : [val]
+        }
+      )
+    );
     this.styleThresholds.sort(sortNumDesc(x => x.threshold));
   }
 
+  //</editor-fold>
+
+  //<editor-fold desc="Rendering">
   private render(time: number) {
     if (time > this.dateFormatThreshold) {
       return this.renderDate();
@@ -113,7 +153,7 @@ export class CountdownDirective implements OnChanges {
       this.styleIndex = this.styleThresholds.length - 2;
     }
 
-    let classes: string[]|undefined = undefined;
+    let classes: string[] | undefined = undefined;
 
     for (let i = this.styleIndex + 1; i < this.styleThresholds.length; i++) {
       const item = this.styleThresholds[i]!;
@@ -129,13 +169,16 @@ export class CountdownDirective implements OnChanges {
     this.appliedClasses = this.styleThresholds[this.styleIndex]!.classes;
   }
 
-
-  private renderCountdown([hours, minutes, seconds]: [string|undefined, string, string]) {
-    this.element.innerText = (hours ? `${hours}:` : '') + `${minutes}:` + seconds;
+  private renderCountdown([hours, minutes, seconds]: [string | undefined, string, string]) {
+    this.element.innerText = (
+      hours ? `${hours}:` : ''
+    ) + `${minutes}:` + seconds;
   }
+
+  //</editor-fold>
 }
 
-function parseTime(input: string|number) {
+function parseTime(input: string | number) {
   if (typeof input === 'number') return input;
 
   let segments = input.split(':');
@@ -153,28 +196,28 @@ function parseTime(input: string|number) {
   return time;
 }
 
-function formatTime(time: number): [string|undefined, string, string] {
+function formatTime(time: number): [string | undefined, string, string] {
   let output = new Array(3);
 
   if (time >= HOUR) {
-    output[0] = Math.floor(time/HOUR).toString().padStart(2, '0');
+    output[0] = Math.floor(time / HOUR).toString().padStart(2, '0');
     time = time % HOUR
   } else {
     output[0] = undefined;
   }
 
-  output[1] =  Math.floor(time / MINUTE).toString().padStart(2, '0');
+  output[1] = Math.floor(time / MINUTE).toString().padStart(2, '0');
   time = time % MINUTE;
 
-  output[2] =  Math.floor(time).toString().padStart(2, '0');
+  output[2] = Math.floor(time).toString().padStart(2, '0');
 
-  return output as [string|undefined, string, string];
+  return output as [string | undefined, string, string];
 }
 
 export interface CountdownConfig {
-  dateFormatThreshold: string|number;
-  timeFormatThreshold: string|number;
-  styleThresholds: Record<string|number, string|string[]>
+  dateFormatThreshold: string | number;
+  timeFormatThreshold: string | number;
+  styleThresholds: Record<string | number, string | string[]>
 }
 
 export const defaultCountdownConfig: CountdownConfig = {
