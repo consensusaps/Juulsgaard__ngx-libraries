@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {BaseUIScopeContext, UIScopeContext} from "../models/ui-scope";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/overlay";
 import {IScrollContext, ScrollContext} from "@juulsgaard/ngx-tools";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Directive({
   selector: '[uiWrapper],ui-wrapper',
@@ -21,7 +22,7 @@ export class UiWrapperDirective extends BaseUIScopeContext implements OnInit, On
 
   @HostBinding('class')
   wrapperClass: string[] = [];
-  scrollable = false;
+  scrollable = true;
 
   private context: UIScopeContext;
   cdkScrollable: CdkScrollable;
@@ -38,15 +39,18 @@ export class UiWrapperDirective extends BaseUIScopeContext implements OnInit, On
     this.context = context;
 
     this.cdkScrollable = new CdkScrollable(element, scrollDispatcher, ngZone);
+
+    this.context.hasChildren$.pipe(takeUntilDestroyed()).subscribe(hasChildren => {
+      this.scrollable = !hasChildren;
+      if (!hasChildren) this.scrollDispatcher.register(this.cdkScrollable);
+      else this.scrollDispatcher.deregister(this.cdkScrollable);
+    });
   }
 
   ngOnInit() {
     this.sub = this.context.registerWrapper(x => {
       this.wrapperClass = x.classes;
-      this.scrollable = x.scrollable;
       this.changes.detectChanges();
-      if (x.scrollable) this.scrollDispatcher.register(this.cdkScrollable);
-      else this.scrollDispatcher.deregister(this.cdkScrollable);
     });
   }
 
@@ -54,5 +58,4 @@ export class UiWrapperDirective extends BaseUIScopeContext implements OnInit, On
     this.sub?.unsubscribe();
     this.scrollDispatcher.deregister(this.cdkScrollable);
   }
-
 }

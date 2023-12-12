@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.5
+
+### Patch Changes
+
+- Improve UI Wrapper speed
+
 ## 16.1.4
 
 ### Patch Changes
