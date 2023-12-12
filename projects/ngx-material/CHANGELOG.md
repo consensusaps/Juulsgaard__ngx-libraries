@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.4
+
+### Patch Changes
+
+- Fix ScrollContext important path
+
 ## 16.1.3
 
 ### Patch Changes

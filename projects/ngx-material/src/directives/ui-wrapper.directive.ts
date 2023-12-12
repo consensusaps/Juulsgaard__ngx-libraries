@@ -4,7 +4,7 @@ import {
 import {Subscription} from "rxjs";
 import {BaseUIScopeContext, UIScopeContext} from "../models/ui-scope";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/overlay";
-import {IScrollContext, ScrollContext} from "@juulsgaard/ngx-tools/src/services/scroll-context";
+import {IScrollContext, ScrollContext} from "@juulsgaard/ngx-tools";
 
 @Directive({
   selector: '[uiWrapper],ui-wrapper',
