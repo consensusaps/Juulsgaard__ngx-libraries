@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-material
 
+## 16.1.3
+
+### Patch Changes
+
+- Add ScrollContext
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.30
+
 ## 16.1.2
 
 ### Patch Changes

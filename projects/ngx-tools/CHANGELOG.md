@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.30
+
+### Patch Changes
+
+- Add ScrollContext
+
 ## 16.1.29
 
 ### Patch Changes
