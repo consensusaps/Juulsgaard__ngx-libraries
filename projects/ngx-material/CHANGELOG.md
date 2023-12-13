@@ -1,5 +1,25 @@
 # @juulsgaard/ngx-material
 
+## 16.1.5
+
+### Patch Changes
+
+- Improve UI Wrapper speed
+
+## 16.1.4
+
+### Patch Changes
+
+- Fix ScrollContext important path
+
+## 16.1.3
+
+### Patch Changes
+
+- Add ScrollContext
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.30
+
 ## 16.1.2
 
 ### Patch Changes
