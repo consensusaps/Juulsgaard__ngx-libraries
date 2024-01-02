@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.34
+
+### Patch Changes
+
+- Fix non-negative countdown
+
 ## 16.1.33
 
 ### Patch Changes

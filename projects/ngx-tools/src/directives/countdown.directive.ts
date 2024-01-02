@@ -96,6 +96,7 @@ export class CountdownDirective implements OnChanges {
     ) / 1000);
 
     if (delta <= 0 && !this.config.countNegative) {
+      this.countdownStarted();
       this.render(0);
       return;
     }
