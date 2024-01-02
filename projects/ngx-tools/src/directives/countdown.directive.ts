@@ -1,6 +1,6 @@
 import {Directive, ElementRef, inject, Input, LOCALE_ID, NgZone, OnChanges, SimpleChanges} from '@angular/core';
 import {objToArr, sortNumDesc} from "@juulsgaard/ts-tools";
-import {concat, EMPTY, endWith, fromEvent, interval, share, Subscription, takeWhile, timer} from "rxjs";
+import {concat, EMPTY, endWith, fromEvent, interval, share, startWith, Subscription, takeWhile, timer} from "rxjs";
 import {distinctUntilChanged, filter, map, tap} from "rxjs/operators";
 import {Dispose} from "../decorators";
 import {formatDate} from "@angular/common";
@@ -78,7 +78,7 @@ export class CountdownDirective implements OnChanges {
   //<editor-fold desc="Updates">
   ngOnChanges(changes: SimpleChanges) {
 
-    if ('countdownConfig' in changes) {
+    if ('options' in changes) {
       this.applyConfig();
     }
 
@@ -114,7 +114,8 @@ export class CountdownDirective implements OnChanges {
     );
 
     const interval$ = interval(500).pipe(
-      tap({subscribe: () => this.countdownStarted()})
+      tap({subscribe: () => this.countdownStarted()}),
+      startWith(0)
     );
 
     let delta$ = concat(dateDelay$, timeDelay$, interval$).pipe(
@@ -129,7 +130,7 @@ export class CountdownDirective implements OnChanges {
     }
 
     const time$ = delta$.pipe(
-      map(x => Math.floor(x / 1000)),
+      map(x => Math.round(x / 1000)),
       distinctUntilChanged(),
       share()
     );
@@ -154,6 +155,7 @@ export class CountdownDirective implements OnChanges {
       )
     );
     this.styleThresholds.sort(sortNumDesc(x => x.threshold));
+
     this.padLength = this.config.padNumbers ? 2 : 1;
     this.fillerNum = this.config.padNumbers ? '00' : '0';
 
