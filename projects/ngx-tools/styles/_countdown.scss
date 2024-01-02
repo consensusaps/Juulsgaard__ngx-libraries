@@ -1,0 +1,28 @@
+
+.ngx-countdown {
+  > span {
+    display: none;
+  }
+
+  > .ngx-hours, > .ngx-minutes {
+    &:not(:empty)::after {
+      content: ':';
+    }
+  }
+
+  &.ngx-date, &.ngx-time {
+    > .ngx-date-time {
+      display: inline;
+    }
+  }
+
+  &.ngx-counting {
+    > .ngx-hours, > .ngx-minutes, > .ngx-seconds {
+      display: inline;
+    }
+  }
+
+  &.ngx-negative.ngx-counting > .ngx-negative {
+    display: inline;
+  }
+}

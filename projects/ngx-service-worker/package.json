@@ -20,7 +20,7 @@
     "@angular/material": "^16.2.6",
     "@angular/service-worker": "^16.2.7",
     "@juulsgaard/ngx-material": "^16.1.5",
-    "@juulsgaard/ngx-tools": "^16.1.31",
+    "@juulsgaard/ngx-tools": "^16.1.32",
     "typescript": "~5.0.4"
   },
   "devDependencies": {
@@ -29,7 +29,7 @@
     "@angular/material": "16.2.6",
     "@angular/service-worker": "16.2.7",
     "@juulsgaard/ngx-material": "16.1.5",
-    "@juulsgaard/ngx-tools": "16.1.31"
+    "@juulsgaard/ngx-tools": "16.1.32"
   },
   "dependencies": {
     "tslib": "2.5.0"

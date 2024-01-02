@@ -1,7 +1,7 @@
 {
   "name": "@juulsgaard/ngx-tools",
   "description": "Basic utilities for working with Angular",
-  "version": "16.1.31",
+  "version": "16.1.32",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-tools",
   "publishConfig": {

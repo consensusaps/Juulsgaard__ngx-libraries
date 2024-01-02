@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.32
+
+### Patch Changes
+
+- Improve countdown
+
 ## 16.1.31
 
 ### Patch Changes
