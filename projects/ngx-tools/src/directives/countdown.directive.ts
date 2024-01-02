@@ -13,7 +13,10 @@ const DAY = 24 * HOUR;
 @Directive({selector: '[countdown]', standalone: true, host: {'[class.ngx-countdown]': 'true'}})
 export class CountdownDirective implements OnChanges {
 
-  @Input() countdownConfig: CountdownConfig = defaultCountdownConfig;
+  countdownConfig: CountdownConfig = defaultCountdownConfig
+  @Input({alias: 'countdownConfig'}) set options(options: CountdownOptions) {
+    this.countdownConfig = {...defaultCountdownConfig, ...options};
+  };
 
   @Input({required: true}) set countdown(date: Date | string | number) {
     this.endTime = new Date(date);
@@ -128,7 +131,30 @@ export class CountdownDirective implements OnChanges {
     }
 
     this.applyClasses(time);
-    this.renderCountdown(formatTime(time));
+    this.renderCountdown(this.formatTime(time));
+  }
+
+  private formatTime(time: number): [string | undefined, string | undefined, string] {
+    const padding = this.countdownConfig.padNumbers ? 2 : 1;
+    let output = new Array(3);
+
+    if (time >= HOUR) {
+      output[0] = Math.floor(time / HOUR).toString().padStart(padding, '0');
+      time = time % HOUR
+    } else {
+      output[0] = undefined;
+    }
+
+    if (time >= MINUTE || output[0] !== undefined) {
+      output[1] = Math.floor(time / MINUTE).toString().padStart(padding, '0');
+      time = time % MINUTE;
+    } else {
+      output[1] = undefined;
+    }
+
+    output[2] = Math.floor(time).toString().padStart(padding, '0');
+
+    return output as [string | undefined, string | undefined, string];
   }
 
   private renderDate() {
@@ -169,10 +195,25 @@ export class CountdownDirective implements OnChanges {
     this.appliedClasses = this.styleThresholds[this.styleIndex]!.classes;
   }
 
-  private renderCountdown([hours, minutes, seconds]: [string | undefined, string, string]) {
-    this.element.innerText = (
-      hours ? `${hours}:` : ''
-    ) + `${minutes}:` + seconds;
+  private getText(hours: string|undefined, minutes: string|undefined, seconds: string) {
+    const empty = this.countdownConfig.padNumbers ? '00' : '0';
+
+    switch (this.countdownConfig.display) {
+      case "default":
+        return `${hours ? `${hours}:` : ''}${minutes ?? empty}:${seconds}`
+      case "dynamic":
+        return `${hours ? `${hours}:` : ''}${minutes ? `${minutes}:` : ''}:${seconds}`
+      case "hours":
+        return `${hours ?? empty}:${minutes ?? empty}:${seconds}`
+      case "minutes":
+        return `${minutes ?? empty}:${seconds}`
+      case "seconds":
+        return seconds;
+    }
+  }
+
+  private renderCountdown([hours, minutes, seconds]: [string | undefined, string | undefined, string]) {
+    this.element.innerText = this.getText(hours, minutes, seconds);
   }
 
   //</editor-fold>
@@ -196,28 +237,14 @@ function parseTime(input: string | number) {
   return time;
 }
 
-function formatTime(time: number): [string | undefined, string, string] {
-  let output = new Array(3);
-
-  if (time >= HOUR) {
-    output[0] = Math.floor(time / HOUR).toString().padStart(2, '0');
-    time = time % HOUR
-  } else {
-    output[0] = undefined;
-  }
-
-  output[1] = Math.floor(time / MINUTE).toString().padStart(2, '0');
-  time = time % MINUTE;
-
-  output[2] = Math.floor(time).toString().padStart(2, '0');
-
-  return output as [string | undefined, string, string];
-}
+export type CountdownOptions = Partial<CountdownConfig>;
 
 export interface CountdownConfig {
   dateFormatThreshold: string | number;
   timeFormatThreshold: string | number;
-  styleThresholds: Record<string | number, string | string[]>
+  styleThresholds: Record<string | number, string | string[]>;
+  display: 'default'|'dynamic'|'hours'|'minutes'|'seconds';
+  padNumbers: boolean;
 }
 
 export const defaultCountdownConfig: CountdownConfig = {
@@ -228,5 +255,7 @@ export const defaultCountdownConfig: CountdownConfig = {
     '1:00': 'close',
     '2:00': 'low',
     '10:00': 'medium',
-  }
+  },
+  display: 'default',
+  padNumbers: true
 }
