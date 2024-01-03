@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {TimeAgoDirective} from "../../../directives";
-import {CountdownDirective} from "../../../directives/countdown.directive";
+import {CountdownDirective, CountdownOptions, TimeAgoDirective} from "../../../directives";
 
 @Component({
   selector: 'ngx-time-directive-preview',
@@ -15,5 +14,6 @@ export class TimeDirectivePreviewComponent {
 
   @Input() countdown?: Date;
   @Input() timeAgo?: Date;
+  @Input() options?: CountdownOptions = {countNegative: true};
 
 }

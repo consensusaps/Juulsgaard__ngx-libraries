@@ -1,7 +1,7 @@
 import {Directive, ElementRef, inject, Input, LOCALE_ID, NgZone, OnChanges, SimpleChanges} from '@angular/core';
 import {objToArr, sortNumDesc} from "@juulsgaard/ts-tools";
 import {concat, EMPTY, endWith, fromEvent, interval, share, startWith, Subscription, takeWhile, timer} from "rxjs";
-import {distinctUntilChanged, map} from "rxjs/operators";
+import {distinctUntilChanged, filter, map, tap} from "rxjs/operators";
 import {Dispose} from "../decorators";
 import {formatDate} from "@angular/common";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -13,7 +13,10 @@ const DAY = 24 * HOUR;
 @Directive({selector: '[countdown]', standalone: true, host: {'[class.ngx-countdown]': 'true'}})
 export class CountdownDirective implements OnChanges {
 
-  @Input() countdownConfig: CountdownConfig = defaultCountdownConfig;
+  private config: CountdownConfig = defaultCountdownConfig
+  @Input({alias: 'countdownConfig'}) set options(options: CountdownOptions) {
+    this.config = {...defaultCountdownConfig, ...options};
+  };
 
   @Input({required: true}) set countdown(date: Date | string | number) {
     this.endTime = new Date(date);
@@ -26,13 +29,34 @@ export class CountdownDirective implements OnChanges {
   private element = inject(ElementRef<HTMLElement>).nativeElement;
   private locale = inject(LOCALE_ID);
 
-  styleIndex = -1;
-  dateFormatThreshold = DAY;
-  timeFormatThreshold = HOUR;
-  styleThresholds: { threshold: number, classes: string[] }[] = [];
+  private dateTimeNode = document.createElement('span');
+  private negativeNode = document.createElement('span');
+  private hourNode = document.createElement('span');
+  private minuteNode = document.createElement('span');
+  private secondNode = document.createElement('span');
+
+  private styleIndex = -1;
+  private dateFormatThreshold = DAY;
+  private timeFormatThreshold = HOUR;
+  private styleThresholds: { threshold: number, classes: string[] }[] = [];
+  private padLength = 2;
+  private fillerNum = '00';
+
+  private forceHours = false;
+  private showHours = false;
+  private forceMinutes = false;
+  private showMinutes = false;
 
   constructor(private zone: NgZone) {
     this.applyConfig();
+
+    this.dateTimeNode.classList.add('ngx-date-time');
+    this.negativeNode.classList.add('ngx-negative');
+    this.negativeNode.innerText = '-';
+    this.hourNode.classList.add('ngx-hours');
+    this.minuteNode.classList.add('ngx-minutes');
+    this.secondNode.classList.add('ngx-seconds');
+    this.element.append(this.dateTimeNode, this.negativeNode, this.hourNode, this.minuteNode, this.secondNode);
 
     zone.runOutsideAngular(
       () => fromEvent(document, 'visibilitychange').pipe(
@@ -54,7 +78,7 @@ export class CountdownDirective implements OnChanges {
   //<editor-fold desc="Updates">
   ngOnChanges(changes: SimpleChanges) {
 
-    if ('countdownConfig' in changes) {
+    if ('options' in changes) {
       this.applyConfig();
     }
 
@@ -71,24 +95,43 @@ export class CountdownDirective implements OnChanges {
       this.endTime.getTime() - Date.now()
     ) / 1000);
 
-    if (delta <= 0) {
+    if (delta <= 0 && !this.config.countNegative) {
+      this.countdownStarted();
       this.render(0);
       return;
     }
 
     const dateDelta = delta - this.dateFormatThreshold;
-    const dateDelay = dateDelta > 0 ? timer(Math.max(0, dateDelta + 1)) : EMPTY;
+    const dateDelay$ = dateDelta <= 0 ? EMPTY : timer(Math.max(0, dateDelta + 1)).pipe(
+      tap({subscribe: () => this.renderDate()}),
+      filter(() => false)
+    );
 
     const maxTimeDelay = Math.max(0, this.dateFormatThreshold - this.timeFormatThreshold - 1);
     const timeDelta = Math.min(delta - this.timeFormatThreshold, maxTimeDelay);
-    const timeDelay = timeDelta > 0 ? timer(timeDelta) : EMPTY;
+    const timeDelay$ = timeDelta <= 0 ? EMPTY : timer(timeDelta).pipe(
+      tap({subscribe: () => this.renderTime()}),
+      filter(() => false)
+    );
 
-    const time$ = concat(dateDelay, timeDelay, interval(500)).pipe(
-      startWith(undefined),
-      map(() => this.endTime.getTime() - Date.now()),
-      takeWhile(x => x > 0),
-      map(x => Math.floor(x / 1000)),
-      endWith(0),
+    const interval$ = interval(500).pipe(
+      tap({subscribe: () => this.countdownStarted()}),
+      startWith(0)
+    );
+
+    let delta$ = concat(dateDelay$, timeDelay$, interval$).pipe(
+      map(() => this.endTime.getTime() - Date.now())
+    );
+
+    if (!this.config.countNegative) {
+      delta$ = delta$.pipe(
+        takeWhile(x => x > 0),
+        endWith(0)
+      );
+    }
+
+    const time$ = delta$.pipe(
+      map(x => Math.round(x / 1000)),
       distinctUntilChanged(),
       share()
     );
@@ -101,10 +144,10 @@ export class CountdownDirective implements OnChanges {
   }
 
   private applyConfig() {
-    this.dateFormatThreshold = parseTime(this.countdownConfig.dateFormatThreshold);
-    this.timeFormatThreshold = parseTime(this.countdownConfig.timeFormatThreshold);
+    this.dateFormatThreshold = parseTime(this.config.dateFormatThreshold);
+    this.timeFormatThreshold = parseTime(this.config.timeFormatThreshold);
     this.styleThresholds = objToArr(
-      this.countdownConfig.styleThresholds,
+      this.config.styleThresholds,
       (val, key) => (
         {
           threshold: parseTime(key),
@@ -113,30 +156,76 @@ export class CountdownDirective implements OnChanges {
       )
     );
     this.styleThresholds.sort(sortNumDesc(x => x.threshold));
+
+    this.padLength = this.config.padNumbers ? 2 : 1;
+    this.fillerNum = this.config.padNumbers ? '00' : '0';
+
+    if (this.config.display === "default") {
+      this.showHours = true;
+      this.forceHours = false;
+      this.showMinutes = true;
+      this.forceMinutes = true;
+    } else if (this.config.display === "dynamic") {
+      this.showHours = true;
+      this.forceHours = false;
+      this.showMinutes = true;
+      this.forceMinutes = false;
+    } else {
+      this.showHours = this.config.display === 'hours';
+      this.forceHours = this.showHours;
+      this.showMinutes = this.config.display === 'hours' || this.config.display === 'minutes';
+      this.forceMinutes = this.showMinutes;
+    }
   }
 
   //</editor-fold>
 
   //<editor-fold desc="Rendering">
   private render(time: number) {
-    if (time > this.dateFormatThreshold) {
-      return this.renderDate();
-    }
-
-    if (time > this.timeFormatThreshold) {
-      return this.renderTime();
-    }
-
     this.applyClasses(time);
-    this.renderCountdown(formatTime(time));
+    this.renderCountdown(this.formatTime(time));
+  }
+
+  private formatTime(time: number): [boolean, string | undefined, string | undefined, string] {
+    let output = new Array(4);
+
+    output[0] = time >= 0;
+    time = Math.abs(time);
+
+    if (time >= HOUR) {
+      output[1] = Math.floor(time / HOUR).toString().padStart(this.padLength, '0');
+      time = time % HOUR
+    } else {
+      output[1] = undefined;
+    }
+
+    if (time >= MINUTE || output[1] !== undefined) {
+      output[2] = Math.floor(time / MINUTE).toString().padStart(this.padLength, '0');
+      time = time % MINUTE;
+    } else {
+      output[2] = undefined;
+    }
+
+    output[3] = Math.floor(time).toString().padStart(this.padLength, '0');
+
+    return output as [boolean, string | undefined, string | undefined, string];
   }
 
   private renderDate() {
-    this.element.innerText = formatDate(this.endTime, 'short', this.locale);
+    this.element.classList.remove(['ngx-counting', 'ngx-time']);
+    this.element.classList.add(['ngx-date']);
+    this.dateTimeNode.innerText = formatDate(this.endTime, 'short', this.locale);
   }
 
   private renderTime() {
-    this.element.innerText = formatDate(this.endTime, 'shortTime', this.locale);
+    this.element.classList.remove(['ngx-counting', 'ngx-date']);
+    this.element.classList.add(['ngx-time']);
+    this.dateTimeNode.innerText = formatDate(this.endTime, 'shortTime', this.locale);
+  }
+
+  private countdownStarted() {
+    this.element.classList.remove(['ngx-time', 'ngx-date']);
+    this.element.classList.add(['ngx-counting']);
   }
 
   appliedClasses?: string[];
@@ -169,10 +258,11 @@ export class CountdownDirective implements OnChanges {
     this.appliedClasses = this.styleThresholds[this.styleIndex]!.classes;
   }
 
-  private renderCountdown([hours, minutes, seconds]: [string | undefined, string, string]) {
-    this.element.innerText = (
-      hours ? `${hours}:` : ''
-    ) + `${minutes}:` + seconds;
+  private renderCountdown([positive, hours, minutes, seconds]: [boolean, string | undefined, string | undefined, string]) {
+    this.element.classList.toggle('ngx-negative', !positive);
+    this.hourNode.innerText = !this.showHours ? '' : hours ?? (this.forceHours ? this.fillerNum : '');
+    this.minuteNode.innerText = !this.showMinutes ? '' : minutes ?? (this.forceMinutes ? this.fillerNum : '');
+    this.secondNode.innerText = seconds;
   }
 
   //</editor-fold>
@@ -196,28 +286,15 @@ function parseTime(input: string | number) {
   return time;
 }
 
-function formatTime(time: number): [string | undefined, string, string] {
-  let output = new Array(3);
-
-  if (time >= HOUR) {
-    output[0] = Math.floor(time / HOUR).toString().padStart(2, '0');
-    time = time % HOUR
-  } else {
-    output[0] = undefined;
-  }
-
-  output[1] = Math.floor(time / MINUTE).toString().padStart(2, '0');
-  time = time % MINUTE;
-
-  output[2] = Math.floor(time).toString().padStart(2, '0');
-
-  return output as [string | undefined, string, string];
-}
+export type CountdownOptions = Partial<CountdownConfig>;
 
 export interface CountdownConfig {
   dateFormatThreshold: string | number;
   timeFormatThreshold: string | number;
-  styleThresholds: Record<string | number, string | string[]>
+  styleThresholds: Record<string | number, string | string[]>;
+  display: 'default'|'dynamic'|'hours'|'minutes'|'seconds';
+  padNumbers: boolean;
+  countNegative: boolean;
 }
 
 export const defaultCountdownConfig: CountdownConfig = {
@@ -228,5 +305,8 @@ export const defaultCountdownConfig: CountdownConfig = {
     '1:00': 'close',
     '2:00': 'low',
     '10:00': 'medium',
-  }
+  },
+  display: 'default',
+  padNumbers: true,
+  countNegative: false
 }
