@@ -1,8 +1,6 @@
 
 <div class="background ngx-fade" (click)="onClose()"></div>
 
-<div class="overlay-content ngx-move-up" [style.max-width]="this.maxWidth$ | async" [class.scrollable]="scrollable$ | async">
+<div class="overlay-content ngx-move-up">
     <ngx-render [template]="content"></ngx-render>
 </div>
-
-<ngx-icon class="close ngx-fade" alias="close" *ngIf="canClose$ | truthy" (click)="onClose()"></ngx-icon>

@@ -3,7 +3,7 @@ import {Subscription} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
 import {RenderOverlayComponent} from "../components/render-overlay/render-overlay.component";
 import {OverlayInstance} from "../models/overlay-instance";
-import {BASE_OVERLAY_PROVIDERS, OVERLAY_ANIMATE_IN} from "../models/overlay-tokens";
+import {BASE_OVERLAY_PROVIDERS, CUSTOM_OVERLAY_PROVIDERS, OVERLAY_ANIMATE_IN} from "../models/overlay-tokens";
 import {OverlayContext} from "../models/overlay-context";
 
 @Directive({selector: 'ngx-overlay-outlet'})
@@ -12,7 +12,7 @@ export class OverlayOutletDirective implements OnInit {
   private sub?: Subscription;
   private component?: ComponentRef<RenderOverlayComponent>;
 
-  baseProviders = inject(BASE_OVERLAY_PROVIDERS, {optional: true});
+  baseProviders = inject(BASE_OVERLAY_PROVIDERS, {optional: true}) ?? [];
 
   constructor(
     private viewContainer: ViewContainerRef,
@@ -34,12 +34,16 @@ export class OverlayOutletDirective implements OnInit {
 
     if (!instance) return;
 
+    const parentInjector = instance.injector ?? this.viewContainer.injector;
+    const customProviders = parentInjector.get(CUSTOM_OVERLAY_PROVIDERS, [], {optional: true});
+
     const injector = Injector.create({
-      parent: instance.injector ?? this.viewContainer.injector,
+      parent: parentInjector,
       providers: [
         {provide: OverlayContext, useValue: instance},
         {provide: OVERLAY_ANIMATE_IN, useValue: added},
-        ...(this.baseProviders ?? [])
+        ...this.baseProviders,
+        ...customProviders
       ],
       name: 'Overlay Injector'
     });

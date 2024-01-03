@@ -18,7 +18,6 @@ export class OverlayPreviewComponent {
   @Input() show = true;
   @Input() scrollable = false;
   @Input() content = 'This is the contents of the Overlay';
-  @Input() maxWidth?: number;
 
   @Output() closed = new EventEmitter<void>();
 

@@ -11,7 +11,6 @@ export default {
   },
   argTypes: {
     closed: {action: 'Closed'},
-    maxWidth: {type: 'number'}
   },
   decorators: [
     moduleMetadata({

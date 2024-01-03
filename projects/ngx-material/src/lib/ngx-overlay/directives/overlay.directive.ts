@@ -1,11 +1,17 @@
-import {Directive, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewContainerRef} from '@angular/core';
-import {BehaviorSubject, distinctUntilChanged, Subject, Subscribable, Subscription, Unsubscribable} from "rxjs";
+import {Directive, EventEmitter, inject, Input, OnDestroy, Output, TemplateRef, ViewContainerRef} from '@angular/core';
+import {BehaviorSubject, distinctUntilChanged, Subject, Subscribable, Unsubscribable} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
 
 import {OverlayInstance} from "../models/overlay-instance";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {NgxOverlayDefaults} from "../models/overlay-defaults";
+import {map} from "rxjs/operators";
+import {arrToSet, setToArr} from "@juulsgaard/ts-tools";
 
 @Directive({selector: '[ngxOverlay]'})
 export class OverlayDirective implements OnDestroy {
+
+  private defaults = inject(NgxOverlayDefaults);
 
   private showSub?: Unsubscribable;
   private externalShow$?: Subject<boolean>;
@@ -21,7 +27,9 @@ export class OverlayDirective implements OnDestroy {
       return;
     }
 
-    this.showSub = show.subscribe(this.show$);
+    this.showSub = show.subscribe({
+      next: x => this.show$.next(x)
+    });
 
     if (show instanceof Subject) {
       this.externalShow$ = show;
@@ -39,18 +47,29 @@ export class OverlayDirective implements OnDestroy {
 
   @Output() closed = new EventEmitter<void>();
 
-  maxWidth$ = new BehaviorSubject<number|undefined>(undefined);
+  type$ = new BehaviorSubject<string|undefined>(undefined);
 
-  @Input('ngxOverlayMaxWidth')
-  set overlayMaxWidth(width: number|undefined) {
-    this.maxWidth$.next(width);
+  @Input('ngxOverlayType')
+  set overlayType(type: string|undefined) {
+    this.type$.next(type);
   }
-  @Input('maxWidth')
-  set maxWidth(width: number|undefined) {
-    this.maxWidth$.next(width);
+  @Input('type')
+  set type(type: string|undefined) {
+    this.type$.next(type);
   }
 
-  scrollable$ = new BehaviorSubject(false);
+  styles$ = new BehaviorSubject<string[]>([]);
+
+  @Input('ngxOverlayStyles')
+  set overlayStyles(styles: string[]|string|undefined) {
+    this.styles$.next(Array.isArray(styles) ? styles : styles ? [styles] : []);
+  }
+  @Input('styles')
+  set styles(styles: string[]|string|undefined) {
+    this.styles$.next(Array.isArray(styles) ? styles : styles ? [styles] : []);
+  }
+
+  scrollable$ = new BehaviorSubject<boolean|undefined>(undefined);
 
   @Input('ngxOverlayScrollable')
   set overlayScrollable(scrollable: boolean|undefined) {
@@ -63,7 +82,6 @@ export class OverlayDirective implements OnDestroy {
 
   private canClose$ = new BehaviorSubject(false);
 
-  private sub: Subscription;
   private instance?: OverlayInstance;
 
   constructor(
@@ -71,11 +89,13 @@ export class OverlayDirective implements OnDestroy {
     private viewContainer: ViewContainerRef,
     private manager: OverlayManagerService
   ) {
-    this.sub = this.show$.pipe(distinctUntilChanged()).subscribe(show => this.toggleOverlay(show))
+    this.show$.pipe(
+      takeUntilDestroyed(),
+      distinctUntilChanged()
+    ).subscribe(show => this.toggleOverlay(show))
   }
 
   ngOnDestroy() {
-    this.sub?.unsubscribe();
     this.showSub?.unsubscribe();
     if (this.instance) this.manager.closeOverlay(this.instance);
   }
@@ -86,6 +106,8 @@ export class OverlayDirective implements OnDestroy {
 
   private toggleOverlay(show: boolean) {
 
+    console.log(this.defaults)
+
     if (show) {
       if (this.instance) return;
 
@@ -93,8 +115,9 @@ export class OverlayDirective implements OnDestroy {
         this.viewContainer,
         this.templateRef,
         {
-          maxWidth$: this.maxWidth$,
-          scrollable$: this.scrollable$,
+          type$: this.type$.pipe(map(x => x ?? this.defaults.type)),
+          styles$: this.styles$.pipe(map(x => setToArr(arrToSet([...x, ...this.defaults.styles])))),
+          scrollable$: this.scrollable$.pipe(map(x => x ?? this.defaults.scrollable)),
           canClose$: this.canClose$,
         }
       );
