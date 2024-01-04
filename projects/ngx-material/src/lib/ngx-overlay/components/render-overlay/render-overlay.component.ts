@@ -1,9 +1,10 @@
 import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
 import {overlayAnimation, TemplateRendering} from '@juulsgaard/ngx-tools'
 import {OverlayContext} from "../../models/overlay-context";
 import {OVERLAY_ANIMATE_IN} from "../../models/overlay-tokens";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {pairwise, startWith} from "rxjs";
+import {arrToSet} from "@juulsgaard/ts-tools";
 
 @Component({
   templateUrl: './render-overlay.component.html',
@@ -12,32 +13,54 @@ import {OVERLAY_ANIMATE_IN} from "../../models/overlay-tokens";
   animations: [
     overlayAnimation(),
   ],
-  host: {'[@overlay]': 'animate', '[class.ngx-overlay]': 'true'}
+  host: {'[@overlay]': 'animate', '[class.ngx-overlay]': 'true'},
+  selector: 'ngx-overlay'
 })
 export class RenderOverlayComponent {
 
   content: TemplateRendering;
-  canClose$: Observable<boolean>;
-  scrollable$: Observable<boolean>;
-  maxWidth$: Observable<string>;
-
   animate = inject(OVERLAY_ANIMATE_IN);
+  private element = inject(ElementRef<HTMLElement>).nativeElement;
+  private context = inject(OverlayContext);
 
-  constructor(
-    element: ElementRef<HTMLElement>,
-    private context: OverlayContext
-  ) {
+  constructor() {
 
-    element.nativeElement.style.zIndex = context.zIndex?.toFixed(0) ?? '';
+    this.element.style.zIndex = this.context.zIndex?.toFixed(0) ?? '';
 
-    this.content = context.content;
+    this.content = this.context.content;
 
-    this.canClose$ = context.canClose$;
-    this.scrollable$ = context.scrollable$;
-    this.maxWidth$ = context.maxWidth$.pipe(
-      map(x => x ?? 1600),
-      map(x => `${x}px`)
-    );
+    this.context.canClose$.pipe(
+      takeUntilDestroyed()
+    ).subscribe(canClose => this.element.classList.toggle('closable', canClose));
+
+    this.context.scrollable$.pipe(
+      takeUntilDestroyed()
+    ).subscribe(canScroll => this.element.classList.toggle('scrollable', canScroll));
+
+    this.context.type$.pipe(
+      takeUntilDestroyed(),
+      startWith(undefined),
+      pairwise()
+    ).subscribe(([prev, next]) => {
+      if (prev === next) return;
+      if (prev) this.element.classList.remove(prev);
+      if (next) this.element.classList.add(next);
+    });
+
+    this.context.styles$.pipe(
+      takeUntilDestroyed(),
+      startWith([] as string[]),
+      pairwise()
+    ).subscribe(([prev, next]) => {
+      const old = arrToSet(prev);
+      for (let c of next) {
+        this.element.classList.add(c);
+        old.delete(c);
+      }
+      for (let c of old) {
+        this.element.classList.remove(c);
+      }
+    });
   }
 
   onClose() {

@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.6
+
+### Patch Changes
+
+- Extend overlay
+
 ## 16.1.5
 
 ### Patch Changes
