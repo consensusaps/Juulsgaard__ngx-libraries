@@ -1,5 +1,5 @@
 import {Directive, ElementRef, inject, Input, LOCALE_ID, NgZone, OnChanges, SimpleChanges} from '@angular/core';
-import {objToArr, sortNumDesc} from "@juulsgaard/ts-tools";
+import {objToArr, sortNumDesc, Timespan} from "@juulsgaard/ts-tools";
 import {concat, EMPTY, endWith, fromEvent, interval, share, startWith, Subscription, takeWhile, timer} from "rxjs";
 import {distinctUntilChanged, filter, map, tap} from "rxjs/operators";
 import {Dispose} from "../decorators";
@@ -102,14 +102,14 @@ export class CountdownDirective implements OnChanges {
     }
 
     const dateDelta = delta - this.dateFormatThreshold;
-    const dateDelay$ = dateDelta <= 0 ? EMPTY : timer(Math.max(0, dateDelta + 1)).pipe(
+    const dateDelay$ = dateDelta <= 0 ? EMPTY : timer(Math.max(0, Timespan.seconds(dateDelta + 1))).pipe(
       tap({subscribe: () => this.renderDate()}),
       filter(() => false)
     );
 
     const maxTimeDelay = Math.max(0, this.dateFormatThreshold - this.timeFormatThreshold - 1);
     const timeDelta = Math.min(delta - this.timeFormatThreshold, maxTimeDelay);
-    const timeDelay$ = timeDelta <= 0 ? EMPTY : timer(timeDelta).pipe(
+    const timeDelay$ = timeDelta <= 0 ? EMPTY : timer(Timespan.seconds(timeDelta)).pipe(
       tap({subscribe: () => this.renderTime()}),
       filter(() => false)
     );
