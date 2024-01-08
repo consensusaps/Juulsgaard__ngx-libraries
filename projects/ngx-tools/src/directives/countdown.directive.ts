@@ -212,20 +212,23 @@ export class CountdownDirective implements OnChanges {
   }
 
   private renderDate() {
-    this.element.classList.remove(['ngx-counting', 'ngx-time']);
-    this.element.classList.add(['ngx-date']);
+    this.element.classList.remove('ngx-counting');
+    this.element.classList.remove('ngx-time');
+    this.element.classList.add('ngx-date');
     this.dateTimeNode.innerText = formatDate(this.endTime, 'short', this.locale);
   }
 
   private renderTime() {
-    this.element.classList.remove(['ngx-counting', 'ngx-date']);
-    this.element.classList.add(['ngx-time']);
+    this.element.classList.remove('ngx-counting');
+    this.element.classList.remove('ngx-date');
+    this.element.classList.add('ngx-time');
     this.dateTimeNode.innerText = formatDate(this.endTime, 'shortTime', this.locale);
   }
 
   private countdownStarted() {
-    this.element.classList.remove(['ngx-time', 'ngx-date']);
-    this.element.classList.add(['ngx-counting']);
+    this.element.classList.remove('ngx-time');
+    this.element.classList.remove('ngx-date');
+    this.element.classList.add('ngx-counting');
   }
 
   appliedClasses?: string[];

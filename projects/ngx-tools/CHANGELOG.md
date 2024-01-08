@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.35
+
+### Patch Changes
+
+- Fix countdown class removal
+
 ## 16.1.34
 
 ### Patch Changes
