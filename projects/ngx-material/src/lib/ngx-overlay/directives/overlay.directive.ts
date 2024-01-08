@@ -106,8 +106,6 @@ export class OverlayDirective implements OnDestroy {
 
   private toggleOverlay(show: boolean) {
 
-    console.log(this.defaults)
-
     if (show) {
       if (this.instance) return;
 
