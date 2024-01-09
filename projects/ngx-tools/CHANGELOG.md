@@ -1,5 +1,17 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.36
+
+### Patch Changes
+
+- Fix countdown time / date timings
+
+## 16.1.35
+
+### Patch Changes
+
+- Fix countdown class removal
+
 ## 16.1.34
 
 ### Patch Changes
