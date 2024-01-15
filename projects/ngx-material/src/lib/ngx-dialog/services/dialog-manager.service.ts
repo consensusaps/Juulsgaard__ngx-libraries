@@ -29,6 +29,7 @@ export class DialogManagerService {
       options,
       contentTemplate,
       footerTemplate,
+      injector
     );
     this.scheduler.push(instance);
     return instance;

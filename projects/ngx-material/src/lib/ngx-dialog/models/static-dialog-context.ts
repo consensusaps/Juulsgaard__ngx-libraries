@@ -8,6 +8,7 @@ export interface StaticDialogOptions {
   description: string;
   isHtml: boolean;
   buttons: StaticDialogButton[];
+  canClose: boolean;
 }
 
 export interface StaticDialogButton {
@@ -22,6 +23,7 @@ export abstract class StaticDialogContext implements StaticDialogOptions {
   description: string;
   isHtml: boolean;
   buttons: StaticDialogButton[];
+  canClose: boolean;
 
   protected constructor(options: StaticDialogOptions, public zIndex: number) {
     this.header = options.header;
@@ -29,6 +31,7 @@ export abstract class StaticDialogContext implements StaticDialogOptions {
     this.description = options.description;
     this.isHtml = options.isHtml;
     this.buttons = options.buttons;
+    this.canClose = options.canClose;
   }
 
   abstract close(): void;

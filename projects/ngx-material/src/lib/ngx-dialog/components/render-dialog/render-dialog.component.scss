@@ -19,6 +19,10 @@
   bottom: 0;
   right: 0;
   background-color: rgba(black, 0.4);
+
+  &.can-close {
+    cursor: pointer;
+  }
 }
 
 .popup {

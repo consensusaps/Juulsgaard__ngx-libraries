@@ -7,6 +7,7 @@ interface PopupOptions {
   closeOnBackground?: boolean,
   HtmlContent?: boolean;
   scrollable?: boolean;
+  canClose?: boolean;
 }
 
 interface PopupButton {
@@ -37,6 +38,7 @@ export class DialogService {
         description: content,
         isHtml: options?.HtmlContent ?? false,
         withScroll: options?.scrollable ?? false,
+        canClose: options?.canClose ?? true,
         buttons: buttons.map(btn => (
           {
             text: btn.text,
