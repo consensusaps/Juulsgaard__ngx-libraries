@@ -1,13 +1,15 @@
-import {Injectable} from "@angular/core";
+import {inject, Injectable} from "@angular/core";
 import {ThemePalette} from "@angular/material/core";
 import {DialogManagerService} from "./dialog-manager.service";
 import {StaticDialogInstance, StaticDialogOptions} from "../models/static-dialog-context";
+import {NgxDialogDefaults} from "../models/dialog-defaults";
 
 interface PopupOptions {
-  closeOnBackground?: boolean,
   HtmlContent?: boolean;
   scrollable?: boolean;
   canClose?: boolean;
+  type?: string;
+  styles?: string[];
 }
 
 interface PopupButton {
@@ -20,8 +22,8 @@ interface PopupButton {
 @Injectable({providedIn: 'root'})
 export class DialogService {
 
-  constructor(private manager: DialogManagerService) {
-  }
+  private manager = inject(DialogManagerService);
+  private defaults = inject(NgxDialogDefaults);
 
   public createDialog(
     title: string,
@@ -37,8 +39,10 @@ export class DialogService {
         header: title,
         description: content,
         isHtml: options?.HtmlContent ?? false,
-        withScroll: options?.scrollable ?? false,
-        canClose: options?.canClose ?? true,
+        scrollable: options?.scrollable ?? this.defaults.scrollable,
+        canClose: options?.canClose ?? this.defaults.canClose,
+        type: options?.type ?? this.defaults.type,
+        styles: options?.styles ?? this.defaults.styles,
         buttons: buttons.map(btn => (
           {
             text: btn.text,
@@ -53,8 +57,9 @@ export class DialogService {
       };
 
       instance = this.manager.createStaticDialog(data);
-      if (options?.closeOnBackground) {
-        instance.onClose(() => this.manager.closeDialog(instance));
+
+      if (data.canClose) {
+        instance.close$.subscribe(() => this.manager.closeDialog(instance));
       }
     });
   }

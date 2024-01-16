@@ -1,15 +1,14 @@
 import {Injectable, Injector} from "@angular/core";
-import {Scheduler} from "@juulsgaard/rxjs-tools";
-import {Observable} from "rxjs";
 import {DialogInstance} from "../models/dialog-context";
-import {OverlayService, RenderSource} from "@juulsgaard/ngx-tools";
+import {OverlayService} from "@juulsgaard/ngx-tools";
 import {TemplateDialogInstance, TemplateDialogOptions} from "../models/template-dialog-context";
 import {StaticDialogInstance, StaticDialogOptions} from "../models/static-dialog-context";
+import {ObservableQueue} from "@juulsgaard/rxjs-tools";
 
 @Injectable({providedIn: 'root'})
 export class DialogManagerService {
 
-  scheduler = new Scheduler<DialogInstance>();
+  scheduler = new ObservableQueue<DialogInstance>();
 
   dialog$ = this.scheduler.frontChanges$;
 
@@ -17,18 +16,11 @@ export class DialogManagerService {
 
   }
 
-  createDialog(
-    injector: Injector|undefined,
-    contentTemplate: Observable<RenderSource>|RenderSource,
-    footerTemplate: Observable<RenderSource|undefined>|RenderSource|undefined,
-    options: TemplateDialogOptions,
-  ): TemplateDialogInstance {
+  createDialog(options: TemplateDialogOptions, injector?: Injector): TemplateDialogInstance {
     const token = this.overlayService.pushOverlay();
     const instance = new TemplateDialogInstance(
       token,
       options,
-      contentTemplate,
-      footerTemplate,
       injector
     );
     this.scheduler.push(instance);

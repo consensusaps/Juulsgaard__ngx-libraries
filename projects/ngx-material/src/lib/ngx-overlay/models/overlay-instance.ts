@@ -18,7 +18,7 @@ export class OverlayInstance extends OverlayContext {
     options: OverlayOptions
   ) {
     super(options, token.zIndex);
-    this.token.handleEscape(() => this.close());
+    this.token.escape$.subscribe(() => this.close());
   }
 
   dispose() {

@@ -1,14 +1,14 @@
 import {Injectable, Injector} from '@angular/core';
-import {Scheduler} from "@juulsgaard/rxjs-tools";
 import {OverlayService} from "@juulsgaard/ngx-tools";
 import {NgxSideMenuContext} from "../models/menu-context";
 import {SideMenuOptions} from "../models/side-menu-options";
 import {SideMenuInstance} from "../models/side-menu-instance";
+import {ObservableQueue} from "@juulsgaard/rxjs-tools";
 
 @Injectable({providedIn: "root"})
 export class SideMenuManagerService {
 
-  private scheduler = new Scheduler<SideMenuInstance>();
+  private scheduler = new ObservableQueue<SideMenuInstance>();
 
   menu$ = this.scheduler.frontChanges$;
 

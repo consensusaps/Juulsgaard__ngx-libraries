@@ -1,36 +1,49 @@
-import {Observable, of, ReplaySubject, Subscription} from "rxjs";
+import {Observable, ReplaySubject, Subject, Subscription} from "rxjs";
 import {OverlayToken, Rendering, RenderSource, TemplateRendering} from "@juulsgaard/ngx-tools";
 import {Injector} from "@angular/core";
+import {Disposable} from "@juulsgaard/ts-tools";
 
 export interface TemplateDialogOptions {
+  content$: Observable<RenderSource>,
+  footer$: Observable<RenderSource | undefined>,
   header$: Observable<string>;
-  withScroll$: Observable<boolean>;
+  scrollable$: Observable<boolean>;
   canClose$: Observable<boolean>;
+  type$: Observable<string>;
+  styles$: Observable<string[]>;
 }
 
-export abstract class TemplateDialogContext implements TemplateDialogOptions {
+export abstract class TemplateDialogContext {
 
   header$: Observable<string>;
-  withScroll$: Observable<boolean>;
+  scrollable$: Observable<boolean>;
   canClose$: Observable<boolean>;
-  abstract content$?: Observable<TemplateRendering>;
-  abstract footer$?: Observable<TemplateRendering | undefined>;
+  type$: Observable<string>;
+  styles$: Observable<string[]>;
+
+  abstract content$: Observable<TemplateRendering>;
+  abstract footer$: Observable<TemplateRendering | undefined>;
 
   protected constructor(options: TemplateDialogOptions, public zIndex: number) {
     this.header$ = options.header$;
-    this.withScroll$ = options.withScroll$;
+    this.scrollable$ = options.scrollable$;
     this.canClose$ = options.canClose$;
+    this.type$ = options.type$;
+    this.styles$ = options.styles$;
   }
 
   abstract close(): void;
 }
 
-export class TemplateDialogInstance extends TemplateDialogContext {
+export class TemplateDialogInstance extends TemplateDialogContext implements Disposable {
 
-  _content$ = new ReplaySubject<TemplateRendering>();
-  content$ = this._content$.asObservable();
-  _footer$ = new ReplaySubject<TemplateRendering | undefined>();
-  footer$ = this._footer$.asObservable();
+  private _content$ = new ReplaySubject<TemplateRendering>();
+  readonly content$ = this._content$.asObservable();
+  private _footer$ = new ReplaySubject<TemplateRendering | undefined>();
+  readonly footer$ = this._footer$.asObservable();
+
+  private _close$ = new Subject<void>();
+  readonly close$ = this._close$.asObservable();
 
   private sub = new Subscription();
   private content?: TemplateRendering;
@@ -39,40 +52,28 @@ export class TemplateDialogInstance extends TemplateDialogContext {
   constructor(
     private token: OverlayToken,
     options: TemplateDialogOptions,
-    contentTemplate: Observable<RenderSource> | RenderSource,
-    footerTemplate?: Observable<RenderSource | undefined> | RenderSource,
     public readonly injector?: Injector,
   ) {
     super(options, token.zIndex);
-    this.token.handleEscape(() => this.close());
+    this.token.escape$.subscribe(() => this.close());
 
-    const content$ = contentTemplate instanceof Observable ? contentTemplate : of(contentTemplate);
-    this.sub.add(content$.subscribe(source => {
+    this.sub.add(options.content$.subscribe(source => {
       this.content?.dispose();
       this.content = Rendering.FromSource.Static(source);
       this._content$.next(this.content);
     }));
 
-    if (!footerTemplate) return;
-
-    const footer$ = footerTemplate instanceof Observable ? footerTemplate : of(footerTemplate);
-    this.sub.add(footer$.subscribe(source => {
-
+    this.sub.add(options.footer$.subscribe(source => {
       this.footer?.dispose();
-
-      if (!source) {
-        this._footer$.next(undefined);
-        return;
-      }
-
-      this.footer = Rendering.FromSource.Static(source);
+      this.footer = source ? Rendering.FromSource.Static(source) : undefined;
       this._footer$.next(this.footer);
     }));
   }
 
   dispose() {
-    this.token.dispose();
     this.sub.unsubscribe();
+    this.token.dispose();
+    this._close$.complete();
 
     // Delay until after animation ends
     setTimeout(() => {
@@ -81,14 +82,8 @@ export class TemplateDialogInstance extends TemplateDialogContext {
     }, 200);
   }
 
-  private closeCallback?: () => any;
-
-  onClose(callback: () => any) {
-    this.closeCallback = callback;
-  }
-
   close(): void {
-    this.closeCallback?.();
+    this._close$.next();
   }
 
 }

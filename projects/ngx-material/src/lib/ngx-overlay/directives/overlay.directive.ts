@@ -1,4 +1,6 @@
-import {Directive, EventEmitter, inject, Input, OnDestroy, Output, TemplateRef, ViewContainerRef} from '@angular/core';
+import {
+  booleanAttribute, Directive, EventEmitter, inject, Input, OnDestroy, Output, TemplateRef, ViewContainerRef
+} from '@angular/core';
 import {BehaviorSubject, distinctUntilChanged, Subject, Subscribable, Unsubscribable} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
 
@@ -23,7 +25,7 @@ export class OverlayDirective implements OnDestroy {
 
     if (typeof show === 'boolean') {
       this.show$.next(show);
-      this.check();
+      this.updateCanClose();
       return;
     }
 
@@ -35,14 +37,14 @@ export class OverlayDirective implements OnDestroy {
       this.externalShow$ = show;
     }
 
-    this.check();
+    this.updateCanClose();
   }
 
   private _onClose?: () => any;
   @Input('ngxOverlayClose')
   set closeMethod(onClose: (() => any)|undefined) {
     this._onClose = onClose;
-    this.check();
+    this.updateCanClose();
   };
 
   @Output() closed = new EventEmitter<void>();
@@ -75,9 +77,9 @@ export class OverlayDirective implements OnDestroy {
   set overlayScrollable(scrollable: boolean|undefined) {
     this.scrollable$.next(scrollable ?? false);
   }
-  @Input('scrollable')
-  set scrollable(scrollable: boolean|undefined) {
-    this.scrollable$.next(scrollable ?? false);
+  @Input({alias: 'scrollable', transform: booleanAttribute})
+  set scrollable(scrollable: boolean) {
+    this.scrollable$.next(scrollable);
   }
 
   private canClose$ = new BehaviorSubject(false);
@@ -100,7 +102,7 @@ export class OverlayDirective implements OnDestroy {
     if (this.instance) this.manager.closeOverlay(this.instance);
   }
 
-  check() {
+  updateCanClose() {
     this.canClose$.next(this.closed.observed || !!this._onClose || !!this.externalShow$);
   }
 

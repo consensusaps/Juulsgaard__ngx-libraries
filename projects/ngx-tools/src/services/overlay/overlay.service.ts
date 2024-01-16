@@ -1,47 +1,79 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Scheduler} from "@juulsgaard/rxjs-tools";
+import {Injectable} from '@angular/core';
 import {OverlayToken} from "./overlay.model";
+import {notNull, ObservableQueue} from "@juulsgaard/rxjs-tools";
+import {fromEvent, Observable, share, Subscription} from "rxjs";
+import {filter, map} from "rxjs/operators";
 
 
 @Injectable({providedIn: 'root'})
 export class OverlayService {
 
-  baseOverlayZIndex = 600;
-  scheduler = new Scheduler<OverlayToken>();
+  private static readonly BASE_Z_INDEX = 600;
+  private readonly scheduler = new ObservableQueue<OverlayToken>();
+  private readonly escape$: Observable<OverlayToken>;
+  private readonly subscriptions = new Map<OverlayToken, Subscription>();
 
-  constructor(zone: NgZone) {
+  constructor() {
 
-    this.scheduler.handleUpdates(items => document.documentElement.classList.toggle('no-scroll', !!items.length));
-    this.scheduler.handleItemUpdates((x, i) => x.isTop$.next(i === 0));
+    this.scheduler.empty$.subscribe(empty => document.documentElement.classList.toggle('no-scroll', !empty));
 
-    zone.runOutsideAngular(() => {
-      window.addEventListener('keydown', event => {
-        if (event.code === 'Escape' && !this.scheduler.empty) {
-          zone.run(() => this.scheduler.front?.escape$.next());
-        }
-      });
-    })
+    this.escape$ = fromEvent<KeyboardEvent>(window, 'keydown').pipe(
+      filter(e => e.code === 'Escape'),
+      map(() => this.scheduler.front),
+      notNull(),
+      share()
+    );
   }
 
+  /**
+   * Generate an overlay token that is placed on underneath all existing tokens
+   * @return token - The generated Overlay Token
+   */
   queueOverlay(): OverlayToken {
+    const currentZIndex = this.scheduler.back?.zIndex ?? OverlayService.BASE_Z_INDEX;
+
     const token = new OverlayToken(
-      (this.scheduler.back?.zIndex ?? this.baseOverlayZIndex) - 2,
-      x => this.removeToken(x)
+      currentZIndex - 2,
+      this.escape$
     );
+
+    const sub = token.disposed$.subscribe(() => this.removeToken(token));
+    this.registerToken(token, sub);
     this.scheduler.enqueue(token);
+
     return token;
   }
 
+  /**
+   * Generate an overlay token that is placed on top of all existing tokens
+   * @return token - The generated Overlay Token
+   */
   pushOverlay(): OverlayToken {
+
+    const currentZIndex = this.scheduler.front?.zIndex ?? OverlayService.BASE_Z_INDEX;
+
     const token = new OverlayToken(
-      (this.scheduler.front?.zIndex ?? this.baseOverlayZIndex) + 5,
-      x => this.removeToken(x)
+      currentZIndex + 5,
+      this.escape$
     );
+
+    const sub = token.disposed$.subscribe(() => this.removeToken(token));
+    this.registerToken(token, sub);
+
     this.scheduler.push(token);
     return token;
   }
 
+  private registerToken(token: OverlayToken, subscription: Subscription) {
+    if (this.subscriptions.has(token)) throw Error("The same overlay token can't be registered twice");
+    this.subscriptions.set(token, subscription);
+  }
+
   private removeToken(token: OverlayToken) {
+    const sub = this.subscriptions.get(token);
+    if (!sub) return;
+    sub.unsubscribe();
+    this.subscriptions.delete(token);
     this.scheduler.removeItem(token);
   }
 

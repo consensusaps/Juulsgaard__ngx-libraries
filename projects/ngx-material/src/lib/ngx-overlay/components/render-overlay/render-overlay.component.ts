@@ -20,6 +20,8 @@ export class RenderOverlayComponent {
 
   content: TemplateRendering;
   animate = inject(OVERLAY_ANIMATE_IN);
+
+  private canClose = false;
   private element = inject(ElementRef<HTMLElement>).nativeElement;
   private context = inject(OverlayContext);
 
@@ -31,7 +33,10 @@ export class RenderOverlayComponent {
 
     this.context.canClose$.pipe(
       takeUntilDestroyed()
-    ).subscribe(canClose => this.element.classList.toggle('closable', canClose));
+    ).subscribe(canClose => {
+      this.canClose = canClose;
+      this.element.classList.toggle('closable', canClose)
+    });
 
     this.context.scrollable$.pipe(
       takeUntilDestroyed()
@@ -64,6 +69,7 @@ export class RenderOverlayComponent {
   }
 
   onClose() {
+    if (!this.canClose) return;
     this.context.close();
   }
 }
