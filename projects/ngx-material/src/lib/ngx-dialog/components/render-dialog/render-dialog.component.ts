@@ -17,6 +17,7 @@ export class RenderDialogComponent {
 
   header$: Observable<string>;
   scrollable$: Observable<boolean>;
+  canClose$: Observable<boolean>;
 
   contentTemplate$?: Observable<TemplateRendering>;
   footerTemplate$?: Observable<TemplateRendering|undefined>;
@@ -37,6 +38,7 @@ export class RenderDialogComponent {
     if (this.context instanceof StaticDialogContext) {
       this.header$ = of(this.context.header);
       this.scrollable$ = of(this.context.withScroll);
+      this.canClose$ = of(this.context.canClose);
       this.plainDescription = this.context.isHtml ? undefined : this.context.description;
       this.htmlDescription = this.context.isHtml ? this.context.description : undefined;
       this.buttons = this.context.buttons;
@@ -45,13 +47,14 @@ export class RenderDialogComponent {
 
     this.header$ = this.context.header$;
     this.scrollable$ = this.context.withScroll$;
+    this.canClose$ = this.context.canClose$;
     this.contentTemplate$ = this.context.content$;
     this.footerTemplate$ = this.context.footer$;
   }
 
-  onClose() {
+  onClose(canClose: boolean) {
+    if (!canClose) return;
     this.context.close();
   }
-
 }
 

@@ -1,8 +1,8 @@
-<div class="background ngx-fade" (click)="onClose?.()"></div>
+<div class="background ngx-fade" *ngxAsync="canClose$ as canClose" (click)="onClose(!!canClose)" [class.can-close]="!!canClose"></div>
 
 <div class="popup ngx-move-up" [class.scrollable]="scrollable$ | truthy">
 
-    <div class="header">{{header$ | async}}</div>
+    <div class="header" *ngxIf="header$ as header">{{header}}</div>
 
     <div class="popup-content" *ngIf="plainDescription">
         <p>{{plainDescription}}</p>

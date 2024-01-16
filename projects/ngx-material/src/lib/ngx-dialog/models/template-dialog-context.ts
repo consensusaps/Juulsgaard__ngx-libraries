@@ -5,18 +5,21 @@ import {Injector} from "@angular/core";
 export interface TemplateDialogOptions {
   header$: Observable<string>;
   withScroll$: Observable<boolean>;
+  canClose$: Observable<boolean>;
 }
 
 export abstract class TemplateDialogContext implements TemplateDialogOptions {
 
   header$: Observable<string>;
   withScroll$: Observable<boolean>;
+  canClose$: Observable<boolean>;
   abstract content$?: Observable<TemplateRendering>;
   abstract footer$?: Observable<TemplateRendering | undefined>;
 
   protected constructor(options: TemplateDialogOptions, public zIndex: number) {
     this.header$ = options.header$;
     this.withScroll$ = options.withScroll$;
+    this.canClose$ = options.canClose$;
   }
 
   abstract close(): void;

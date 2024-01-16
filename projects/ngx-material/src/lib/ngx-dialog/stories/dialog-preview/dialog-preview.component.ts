@@ -20,5 +20,6 @@ export class DialogPreviewComponent {
   @Input() show = true;
   @Input() header = 'Header';
   @Input() text = 'Content';
+  @Input() canClose = true;
   @Output() submit = new EventEmitter<void>();
 }

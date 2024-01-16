@@ -1,5 +1,6 @@
 import {
-  ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, ViewChild
+  booleanAttribute, ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Injector, Input, OnDestroy, OnInit,
+  Output, ViewChild
 } from '@angular/core';
 import {DialogFooterDirective} from "../../directives/dialog-footer.directive";
 import {DialogManagerService} from "../../services/dialog-manager.service";
@@ -59,6 +60,11 @@ export class DialogComponent implements OnInit, OnDestroy {
 
   @Output() close = new EventEmitter<void>();
 
+  private canClose$ = new BehaviorSubject(true);
+  @Input({transform: booleanAttribute}) set disableClose(disable: boolean) {
+    this.canClose$.next(!disable);
+  }
+
   private instance?: TemplateDialogInstance;
   private sub?: Subscription;
 
@@ -102,7 +108,8 @@ export class DialogComponent implements OnInit, OnDestroy {
         footer$,
         {
           header$: this.header$,
-          withScroll$: this.withScroll$
+          withScroll$: this.withScroll$,
+          canClose$: this.canClose$
         }
       );
 

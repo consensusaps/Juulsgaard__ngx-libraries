@@ -7,6 +7,7 @@ export default {
   component: DialogPreviewComponent,
   args: {
     show: true,
+    canClose: true,
     header: 'Dialog Showcase',
     text: "This is a simple Dialog popup"
   },

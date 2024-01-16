@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.7
+
+### Patch Changes
+
+- Add options to Dialogue
+
 ## 16.1.6
 
 ### Patch Changes
