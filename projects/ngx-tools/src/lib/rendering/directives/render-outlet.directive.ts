@@ -1,15 +1,17 @@
-import {Directive, ElementRef, Injector, Input, OnChanges, OnDestroy, SimpleChanges} from "@angular/core";
+import {
+  booleanAttribute, Directive, ElementRef, Injector, Input, OnChanges, OnDestroy, SimpleChanges
+} from "@angular/core";
 import {TemplateRendering} from "../models/template-rendering";
 
-@Directive({selector: 'ngx-render', host: {'[style.display]': 'inside ? "" : "hidden"'}})
+@Directive({selector: 'ngx-render', host: {'[style.display]': 'renderInside ? "" : "hidden"'}})
 export class RenderOutletDirective<T> implements OnChanges, OnDestroy {
 
   private template?: TemplateRendering<T>;
   @Input('template') _nextTemplate?: TemplateRendering<T>;
-  @Input() inside?: boolean;
+  @Input({transform: booleanAttribute}) renderInside = false;
 
   @Input() context?: T;
-  @Input() autoDispose: boolean|''|undefined;
+  @Input({transform: booleanAttribute}) autoDispose = false;
 
   constructor(
     private element: ElementRef<HTMLElement>,
@@ -30,7 +32,7 @@ export class RenderOutletDirective<T> implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.autoDispose || this.autoDispose === '') {
+    if (this.autoDispose) {
       this.template?.dispose();
       return;
     }
@@ -42,7 +44,7 @@ export class RenderOutletDirective<T> implements OnChanges, OnDestroy {
     this.template?.detach(this.element.nativeElement);
     this.template = nextTemplate;
 
-    if (this.inside === true) {
+    if (this.renderInside) {
       this.template?.attachInside(this.element.nativeElement, this.injector, this.context);
     } else {
       this.template?.attachAfter(this.element.nativeElement, this.injector, this.context);
