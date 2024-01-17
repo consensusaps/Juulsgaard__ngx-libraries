@@ -1,13 +1,13 @@
 import {Injectable, TemplateRef, ViewContainerRef} from '@angular/core';
-import {Scheduler} from "@juulsgaard/rxjs-tools";
 import {OverlayService} from "@juulsgaard/ngx-tools";
 import {OverlayInstance} from "../models/overlay-instance";
 import {OverlayOptions} from "../models/overlay-options";
+import {ObservableQueue} from "@juulsgaard/rxjs-tools";
 
 @Injectable({providedIn: 'root'})
 export class OverlayManagerService {
 
-  private scheduler = new Scheduler<OverlayInstance>();
+  private scheduler = new ObservableQueue<OverlayInstance>();
 
   overlay$ = this.scheduler.frontChanges$;
 

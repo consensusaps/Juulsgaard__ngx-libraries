@@ -1,15 +1,19 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Injector, Input, OnDestroy, OnInit,
-  Output, ViewChild
+  booleanAttribute, ChangeDetectionStrategy, Component, ContentChild, EventEmitter, inject, Injector, Input, OnDestroy,
+  OnInit, Output, ViewChild
 } from '@angular/core';
 import {DialogFooterDirective} from "../../directives/dialog-footer.directive";
 import {DialogManagerService} from "../../services/dialog-manager.service";
 import {DialogFooterTemplateDirective} from "../../directives/dialog-footer-template.directive";
 import {DialogContentTemplateDirective} from "../../directives/dialog-content-template.directive";
-import {auditTime, BehaviorSubject, distinctUntilChanged, of, ReplaySubject, Subscription, switchMap} from "rxjs";
+import {
+  auditTime, BehaviorSubject, distinctUntilChanged, Observable, of, ReplaySubject, Subscription, switchMap
+} from "rxjs";
 import {TemplateDialogInstance} from "../../models/template-dialog-context";
 import {map} from "rxjs/operators";
 import {RenderSource, RenderSourceDirective} from "@juulsgaard/ngx-tools";
+import {NgxDialogDefaults} from "../../models/dialog-defaults";
+import {arrToSet, setToArr} from "@juulsgaard/ts-tools";
 
 
 @Component({
@@ -43,15 +47,32 @@ export class DialogComponent implements OnInit, OnDestroy {
   @ViewChild('footer', {static: true, read: RenderSourceDirective})
   footer!: RenderSource;
 
+  private defaults = inject(NgxDialogDefaults);
+
+  private readonly content$: Observable<RenderSource>;
+  private readonly footer$: Observable<RenderSource|undefined>;
+
   header$ = new ReplaySubject<string>(1);
-  withScroll$ = new BehaviorSubject(false);
+  scrollable$ = new BehaviorSubject(false);
+  type$ = new BehaviorSubject<string|undefined>(undefined);
+  styles$ = new BehaviorSubject<string[]>([]);
 
   @Input() set header(header: string) {
     this.header$.next(header);
   }
 
-  @Input() set withScroll(withScroll: boolean) {
-    this.withScroll$.next(withScroll);
+  @Input({transform: booleanAttribute}) set scrollable(scrollable: boolean) {
+    this.scrollable$.next(scrollable);
+  }
+
+  @Input()
+  set type(type: string|undefined) {
+    this.type$.next(type);
+  }
+
+  @Input()
+  set styles(styles: string[]|string|undefined) {
+    this.styles$.next(Array.isArray(styles) ? styles : styles ? [styles] : []);
   }
 
   private show$ = new BehaviorSubject(true);
@@ -67,20 +88,19 @@ export class DialogComponent implements OnInit, OnDestroy {
 
   private instance?: TemplateDialogInstance;
   private sub?: Subscription;
+  private instanceSub?: Subscription;
 
-  constructor(private injector: Injector, private manager: DialogManagerService) {
+  private injector = inject(Injector);
+  private manager = inject(DialogManagerService);
 
-  }
-
-  ngOnInit() {
-
-    const content$ = this.contentTemplate$.pipe(
+  constructor() {
+    this.content$ = this.contentTemplate$.pipe(
       map(template => template ?? this.content),
       auditTime(0), // Move to next cycle so changes don't clash with Change Detection
       distinctUntilChanged()
     );
 
-    const footer$ = this.footerTemplate$.pipe(
+    this.footer$ = this.footerTemplate$.pipe(
       switchMap(
         template => template
           ? of(template)
@@ -91,37 +111,44 @@ export class DialogComponent implements OnInit, OnDestroy {
       auditTime(0), // Move to next cycle so changes don't clash with Change Detection
       distinctUntilChanged()
     );
+  }
 
+  ngOnInit() {
     this.sub = this.show$.pipe(
       distinctUntilChanged()
-    ).subscribe(show => {
+    ).subscribe(show => this.toggleDialog(show));
+  }
 
-      if (this.instance) {
-        this.manager.closeDialog(this.instance);
-      }
+  private toggleDialog(show: boolean) {
+    if (this.instance) {
+      this.manager.closeDialog(this.instance);
+      this.instanceSub?.unsubscribe();
+    }
 
-      if (!show) return;
+    if (!show) return;
 
-      this.instance = this.manager.createDialog(
-        this.injector,
-        content$,
-        footer$,
-        {
-          header$: this.header$,
-          withScroll$: this.withScroll$,
-          canClose$: this.canClose$
-        }
-      );
+    this.instance = this.manager.createDialog(
+      {
+        content$: this.content$,
+        footer$: this.footer$,
+        header$: this.header$,
+        scrollable$: this.scrollable$,
+        canClose$: this.canClose$,
+        type$: this.type$.pipe(map(x => x ?? this.defaults.type)),
+        styles$: this.styles$.pipe(map(x => setToArr(arrToSet([...x, ...this.defaults.styles])))),
+      },
+      this.injector
+    );
 
-      this.instance.onClose(() => {
-        this.close.emit();
-        this.showChange.emit(false);
-      });
+    this.instanceSub = this.instance.close$.subscribe(() => {
+      this.close.emit();
+      this.showChange.emit(false);
     });
   }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+    this.instanceSub?.unsubscribe();
     if (!this.instance) return;
     this.manager.closeDialog(this.instance);
   }

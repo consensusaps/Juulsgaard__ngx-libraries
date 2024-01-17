@@ -13,8 +13,18 @@ export abstract class TemplateRendering<T = any> {
   private rendering?: RenderingState;
   protected context?: T;
 
+  /**
+   * Render the Rendering
+   * @param injector - Optionally override the injector used when rendering
+   * @return view - Returns the ViewRef to the rendered template
+   */
   protected abstract render(injector?: Injector): EmbeddedViewRef<T>;
 
+  /**
+   * Get or create the ViewRef to the rendered template
+   * @param injector - Optionally override the injector used when rendering
+   * @return view - the ViewRef to the rendered template
+   */
   private getView(injector: Injector | undefined): EmbeddedViewRef<T> {
     if (this.view) return this.view;
     this.view = this.render(injector);
@@ -23,6 +33,12 @@ export abstract class TemplateRendering<T = any> {
     return this.view;
   }
 
+  /**
+   * Get the root nodes of the rendered template
+   * @param anchor - The current anchor
+   * @param injector - Optionally override the injector used when rendering
+   * @return nodes - The root nodes of the rendered template
+   */
   private getNodes(anchor: Element, injector: Injector | undefined): Node[] {
 
     if (this.rendering?.anchor === anchor) {
@@ -124,7 +140,7 @@ export class ConstantTemplateRendering<T> extends TemplateRendering<T> {
   constructor(
     private readonly viewContainer: ViewContainerRef,
     private readonly template: TemplateRef<T>,
-    private readonly data: T
+    data: T
   ) {
     super();
     this.context = data;
@@ -179,6 +195,13 @@ export class ObservableTemplateRendering<T> extends TemplateRendering<T> {
 }
 
 export module Rendering {
+
+  /**
+   * Create a rendering context for a template with no data
+   * @param viewContainer - The contextual view container
+   * @param template - The static template
+   * @constructor
+   */
   export function Static(
     viewContainer: ViewContainerRef,
     template: TemplateRef<void>
@@ -186,6 +209,13 @@ export module Rendering {
     return new StaticTemplateRendering(viewContainer, template);
   }
 
+  /**
+   * Create a rendering context for a template with static data
+   * @param viewContainer - The contextual view container
+   * @param template - The template accepting the static data
+   * @param data - The static data
+   * @constructor
+   */
   export function Constant<T>(
     viewContainer: ViewContainerRef,
     template: TemplateRef<T>,
@@ -194,6 +224,12 @@ export module Rendering {
     return new ConstantTemplateRendering(viewContainer, template, data);
   }
 
+  /**
+   * Create a rendering context for a template with data
+   * @param viewContainer - The contextual view container
+   * @param template - The typed template
+   * @constructor
+   */
   export function Typed<T>(
     viewContainer: ViewContainerRef,
     template: TemplateRef<T>
@@ -201,6 +237,13 @@ export module Rendering {
     return new TypedTemplateRendering(viewContainer, template);
   }
 
+  /**
+   * Create a rendering context for a template with data from an observable
+   * @param viewContainer - The contextual view container
+   * @param template - The template rendering the data
+   * @param data$ - The data observable
+   * @constructor
+   */
   export function Observable<T>(
     viewContainer: ViewContainerRef,
     template: TemplateRef<T>,
@@ -211,18 +254,40 @@ export module Rendering {
 
   export module FromSource {
 
+    /**
+     * Create a rendering context for a render source with no data
+     * @param source - The render source
+     * @constructor
+     */
     export function Static(source: RenderSource) {
       return Rendering.Static(source.viewContainer, source.template);
     }
 
+    /**
+     * Create a rendering context for a render source with static data
+     * @param source - The render source
+     * @param data - The static data
+     * @constructor
+     */
     export function Constant<T>(source: RenderSource<T>, data: T) {
       return Rendering.Constant<T>(source.viewContainer, source.template, data);
     }
 
+    /**
+     * Create a rendering context for a render source with data
+     * @param source - The render source
+     * @constructor
+     */
     export function Typed<T>(source: RenderSource<T>) {
       return Rendering.Typed<T>(source.viewContainer, source.template);
     }
 
+    /**
+     * Create a rendering context for a render source with data from an observable
+     * @param source - The render source
+     * @param data$ - The data observable
+     * @constructor
+     */
     export function Observable<T>(source: RenderSource<T>, data$: Observable<T>) {
       return Rendering.Observable<T>(source.viewContainer, source.template, data$);
     }

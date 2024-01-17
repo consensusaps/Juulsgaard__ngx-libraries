@@ -1,6 +1,6 @@
-<div class="background ngx-fade" *ngxAsync="canClose$ as canClose" (click)="onClose(!!canClose)" [class.can-close]="!!canClose"></div>
+<div class="background ngx-fade" (click)="onClose()"></div>
 
-<div class="popup ngx-move-up" [class.scrollable]="scrollable$ | truthy">
+<div class="popup ngx-move-up">
 
     <div class="header" *ngxIf="header$ as header">{{header}}</div>
 
@@ -10,7 +10,7 @@
 
     <div class="popup-content" *ngIf="htmlDescription" [innerHTML]="htmlDescription"></div>
 
-    <div class="popup-content" *ngIf="contentTemplate$ | async as template">
+    <div class="popup-content" *ngxIf="contentTemplate$ as template">
         <ngx-render [template]="template"></ngx-render>
     </div>
 
@@ -20,7 +20,7 @@
         </button>
     </div>
 
-    <div class="footer" *ngIf="footerTemplate$ | async as template">
+    <div class="footer" *ngxIf="footerTemplate$ as template">
         <ngx-render [template]="template"></ngx-render>
     </div>
 </div>

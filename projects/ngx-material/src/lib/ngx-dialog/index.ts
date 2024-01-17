@@ -8,6 +8,7 @@ export * from './directives/dialog-content-template.directive';
 export * from './directives/dialog-footer-template.directive';
 
 export * from './models/dialog-context';
+export * from './models/dialog-defaults';
 export * from "./models/template-dialog-context";
 export* from "./models/static-dialog-context";
 
