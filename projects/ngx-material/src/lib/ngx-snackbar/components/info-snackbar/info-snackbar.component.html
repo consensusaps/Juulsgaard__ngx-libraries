@@ -1,0 +1,10 @@
+
+<div class="band"></div>
+
+<div class="column">
+    <p *ngIf="data.title" class="title">{{ data.title }}</p>
+
+    <p class="message-text">{{ data.message }}</p>
+</div>
+
+<ngx-icon-button class="dismiss" alias="close" (click)="dismiss()"/>

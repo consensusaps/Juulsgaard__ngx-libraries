@@ -1,6 +1,5 @@
 import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {SnackbarPreviewComponent} from "./snackbar-preview/snackbar-preview.component";
-import {NgxSnackbarModule} from "../ngx-snackbar.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 export default {
@@ -9,7 +8,7 @@ export default {
   render: (args) => ({props: args}),
   decorators: [
     moduleMetadata({
-      imports: [NgxSnackbarModule, BrowserAnimationsModule]
+      imports: [BrowserAnimationsModule]
     })
   ]
 } satisfies Meta;

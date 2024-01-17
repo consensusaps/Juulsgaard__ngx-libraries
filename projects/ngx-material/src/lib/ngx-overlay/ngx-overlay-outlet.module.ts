@@ -4,6 +4,7 @@ import {RenderOverlayComponent} from "./components/render-overlay/render-overlay
 import {BASE_OVERLAY_PROVIDERS} from "./models/overlay-tokens";
 import {IconDirective, NgxRenderingModule, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {AsyncPipe, NgIf} from "@angular/common";
+import {OverlayManagerService} from "./services/overlay-manager.service";
 
 @NgModule({
   imports: [
@@ -22,6 +23,13 @@ export class NgxOverlayOutletModule {
     return {
       ngModule: NgxOverlayOutletModule,
       providers: [{provide: BASE_OVERLAY_PROVIDERS, useValue: providers}]
+    }
+  }
+
+  public static AsIsolatedScope(...providers: StaticProvider[]): ModuleWithProviders<NgxOverlayOutletModule> {
+    return {
+      ngModule: NgxOverlayOutletModule,
+      providers: [{provide: BASE_OVERLAY_PROVIDERS, useValue: providers}, OverlayManagerService]
     }
   }
 }

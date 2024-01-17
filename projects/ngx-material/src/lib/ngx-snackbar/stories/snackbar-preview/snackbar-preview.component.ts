@@ -1,11 +1,12 @@
 import {Component, inject} from '@angular/core';
 import {SnackbarService} from "../../services/snackbar.service";
 import {MatButtonModule} from "@angular/material/button";
+import {SnackbarOutletModule} from "../../snackbar-outlet.module";
 
 @Component({
   selector: 'ngx-snackbar-preview',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, SnackbarOutletModule],
   templateUrl: './snackbar-preview.component.html',
   styleUrls: ['./snackbar-preview.component.css']
 })

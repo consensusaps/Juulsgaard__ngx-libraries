@@ -13,7 +13,7 @@
     "@angular/router": "^16.2.7",
     "@juulsgaard/ngx-tools": "^16.1.36",
     "@juulsgaard/ngx-material": "^16.1.7",
-    "@juulsgaard/rxjs-tools": "^1.4.1",
+    "@juulsgaard/rxjs-tools": "^1.4.4",
     "@juulsgaard/ts-tools": "^1.4.3",
     "@juulsgaard/data-sources": "^1.11.7",
     "fuse.js": "^6.6.2",
@@ -27,7 +27,7 @@
     "@angular/router": "16.2.7",
     "@juulsgaard/ngx-tools": "16.1.36",
     "@juulsgaard/ngx-material": "16.1.7",
-    "@juulsgaard/rxjs-tools": "1.4.1",
+    "@juulsgaard/rxjs-tools": "1.4.4",
     "@juulsgaard/ts-tools": "1.4.3",
     "@juulsgaard/data-sources": "1.11.7",
     "fuse.js": "6.6.2"
