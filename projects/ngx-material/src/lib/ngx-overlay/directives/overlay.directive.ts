@@ -122,7 +122,7 @@ export class OverlayDirective implements OnDestroy {
         }
       );
 
-      this.instance.onClose(() => this.closeOverlay());
+      this.instance.close$.subscribe(() => this.closeOverlay());
       return;
     }
 

@@ -1,51 +1,50 @@
 import {Injectable} from '@angular/core';
-import {ErrorSnackComponent} from "../components/error-snack/error-snack.component";
-import {PlainSnackComponent} from "../components/plain-snack/plain-snack.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarSiloService} from "./snackbar-silo.service";
+import {InfoSnackbarComponent} from "../components/info-snackbar/info-snackbar.component";
 
-@Injectable()
-export class SnackbarService {
+@Injectable({providedIn: 'root'})
+export class SnackbarService extends SnackbarSiloService {
 
-    constructor(private snackBar: MatSnackBar) {
+    constructor() {
+        super({
+            cssClass: 'ngx-info-silo'
+        });
     }
 
     success(message: string, title?: string) {
-        this.snackBar.openFromComponent(PlainSnackComponent, {
+        this.createSnackbar(InfoSnackbarComponent, {
             duration: 5000,
             data: {message, title: title},
-            horizontalPosition: 'left',
-            verticalPosition: 'bottom',
-            panelClass: 'success'
+            styles: ['ngx-success'],
+            dismissable: true
         });
     }
 
     info(message: string, title?: string) {
-        this.snackBar.openFromComponent(PlainSnackComponent, {
+        this.createSnackbar(InfoSnackbarComponent, {
             duration: 5000,
             data: {message, title: title},
-            horizontalPosition: 'left',
-            verticalPosition: 'bottom',
-            panelClass: 'info'
+            styles: ['ngx-info'],
+            dismissable: true
         });
     }
 
     warning(message: string, title?: string) {
-        this.snackBar.openFromComponent(PlainSnackComponent, {
+        this.createSnackbar(InfoSnackbarComponent, {
             duration: 5000,
             data: {message, title: title},
-            horizontalPosition: 'left',
-            verticalPosition: 'bottom',
-            panelClass: 'warning'
+            styles: ['ngx-warning'],
+            dismissable: true
         });
     }
 
     error(message: string, title?: string, data?: {[prop: string]: string|undefined}) {
-        this.snackBar.openFromComponent(ErrorSnackComponent, {
-            duration: 10000,
+        // TODO: Use Error component
+        this.createSnackbar(InfoSnackbarComponent, {
+            duration: 5000,
             data: {message, title: title, ...data},
-            horizontalPosition: 'left',
-            verticalPosition: 'bottom',
-            panelClass: 'error'
+            styles: ['ngx-error'],
+            dismissable: true
         });
     }
 

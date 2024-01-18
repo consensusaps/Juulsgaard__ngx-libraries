@@ -2,10 +2,14 @@ import {OverlayToken, Rendering} from "@juulsgaard/ngx-tools";
 import {TemplateRef, ViewContainerRef} from "@angular/core";
 import {OverlayOptions} from "./overlay-options";
 import {OverlayContext} from "./overlay-context";
+import {Subject} from "rxjs";
 
 export class OverlayInstance extends OverlayContext {
 
-  content = Rendering.Static(this.viewContainer, this.template);
+  readonly content = Rendering.Static(this.viewContainer, this.template);
+
+  private _close$ = new Subject<void>();
+  readonly close$ = this._close$.asObservable();
 
   get injector() {
     return this.viewContainer.injector
@@ -23,19 +27,14 @@ export class OverlayInstance extends OverlayContext {
 
   dispose() {
     this.token.dispose();
+    this._close$.complete();
 
     // Delay until after animation ends
     setTimeout(() => this.content?.dispose(), 200);
   }
 
-  private closeCallback?: () => any;
-
-  onClose(callback: () => any) {
-    this.closeCallback = callback;
-  }
-
   close(): void {
-    this.closeCallback?.();
+    this._close$.next();
   }
 
 }
