@@ -1,0 +1,17 @@
+
+.ngx-snackbar-silo {
+  position: fixed;
+}
+
+.ngx-snackbar-silo {
+  &.ngx-info-silo {
+    left: 0;
+    bottom: 0;
+    padding: 10px;
+
+    .ngx-snackbar-base {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+}

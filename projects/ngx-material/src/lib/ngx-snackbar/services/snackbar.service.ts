@@ -7,7 +7,10 @@ export class SnackbarService extends SnackbarSiloService {
 
     constructor() {
         super({
-            cssClass: 'ngx-info-silo'
+            type: 'ngx-info-silo',
+            maxElements: 2,
+            order: 'default',
+            showNewest: true
         });
     }
 

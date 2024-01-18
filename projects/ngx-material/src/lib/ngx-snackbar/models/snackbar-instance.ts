@@ -24,7 +24,7 @@ export class SnackbarInstance<T> extends SnackbarContext<T> implements Disposabl
     this._dismiss$.complete();
   }
 
-  render(viewContainer: ViewContainerRef) {
+  render(viewContainer: ViewContainerRef, index: number) {
 
     const parentInjector = this.injector ?? viewContainer.injector;
     const injector = Injector.create({
@@ -34,7 +34,7 @@ export class SnackbarInstance<T> extends SnackbarContext<T> implements Disposabl
       ],
       name: 'Snackbar Injector'
     });
-    return  viewContainer.createComponent(this.component, {injector});
+    return  viewContainer.createComponent(this.component, {injector, index});
   }
 
   constructor(

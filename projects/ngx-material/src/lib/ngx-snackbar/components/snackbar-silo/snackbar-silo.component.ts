@@ -17,7 +17,7 @@ export class SnackbarSiloComponent implements OnInit {
 
   constructor() {
     this.element.classList.add('ngx-snackbar-silo');
-    this.element.classList.add(this.silo.cssClass);
+    this.element.classList.add(this.silo.type);
   }
 
   ngOnInit() {
@@ -29,38 +29,30 @@ export class SnackbarSiloComponent implements OnInit {
   snackbars = new Map<SnackbarInstance<unknown>, ComponentRef<SnackbarBaseComponent<unknown>>>;
   private updateView(snackbars: SnackbarInstance<unknown>[]) {
 
-    const old = new Set(this.snackbars.keys());
-
-    // Add new snackbars
-    for (let instance of snackbars) {
-      if (old.has(instance)) {
-        old.delete(instance);
-        continue;
-      }
-
-      const component = instance.render(this.viewContainer);
-      this.snackbars.set(instance, component);
-    }
+    const toRemove = new Set(this.snackbars.keys());
+    snackbars.forEach(x => toRemove.delete(x));
 
     // Remove old snackbars
-    for (let oldInstance of old) {
+    for (let oldInstance of toRemove) {
       const component = this.snackbars.get(oldInstance);
       if (!component) continue;
       component.destroy();
       this.snackbars.delete(oldInstance);
     }
 
-    // Reorder snackbars into the correct order
+    // Add / move snackbars
     for (let i = 0; i < snackbars.length; i++) {
 
       const instance = snackbars[i]!;
+      const component = this.snackbars.get(instance);
 
-      const component = this.snackbars.get(instance)
-      if (!component) continue;
+      if (!component) {
+        this.snackbars.set(instance, instance.render(this.viewContainer, i));
+        continue;
+      }
 
       const index = this.viewContainer.indexOf(component.hostView);
       if (index < 0 || index === i) continue;
-
       this.viewContainer.move(component.hostView, i);
     }
   }

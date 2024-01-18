@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {OverlayToken} from "./overlay.model";
-import {notNull, ObservableQueue} from "@juulsgaard/rxjs-tools";
+import {notNull, ObservableStack} from "@juulsgaard/rxjs-tools";
 import {fromEvent, Observable, share, Subscription} from "rxjs";
 import {filter, map} from "rxjs/operators";
 
@@ -9,7 +9,7 @@ import {filter, map} from "rxjs/operators";
 export class OverlayService {
 
   private static readonly BASE_Z_INDEX = 600;
-  private readonly scheduler = new ObservableQueue<OverlayToken>();
+  private readonly scheduler = new ObservableStack<OverlayToken>();
   private readonly escape$: Observable<OverlayToken>;
   private readonly subscriptions = new Map<OverlayToken, Subscription>();
 
@@ -19,7 +19,7 @@ export class OverlayService {
 
     this.escape$ = fromEvent<KeyboardEvent>(window, 'keydown').pipe(
       filter(e => e.code === 'Escape'),
-      map(() => this.scheduler.front),
+      map(() => this.scheduler.top),
       notNull(),
       share()
     );
@@ -30,7 +30,7 @@ export class OverlayService {
    * @return token - The generated Overlay Token
    */
   queueOverlay(): OverlayToken {
-    const currentZIndex = this.scheduler.back?.zIndex ?? OverlayService.BASE_Z_INDEX;
+    const currentZIndex = this.scheduler.bottom?.zIndex ?? OverlayService.BASE_Z_INDEX;
 
     const token = new OverlayToken(
       currentZIndex - 2,
@@ -39,7 +39,7 @@ export class OverlayService {
 
     const sub = token.disposed$.subscribe(() => this.removeToken(token));
     this.registerToken(token, sub);
-    this.scheduler.enqueue(token);
+    this.scheduler.addToBottom(token);
 
     return token;
   }
@@ -50,7 +50,7 @@ export class OverlayService {
    */
   pushOverlay(): OverlayToken {
 
-    const currentZIndex = this.scheduler.front?.zIndex ?? OverlayService.BASE_Z_INDEX;
+    const currentZIndex = this.scheduler.top?.zIndex ?? OverlayService.BASE_Z_INDEX;
 
     const token = new OverlayToken(
       currentZIndex + 5,
