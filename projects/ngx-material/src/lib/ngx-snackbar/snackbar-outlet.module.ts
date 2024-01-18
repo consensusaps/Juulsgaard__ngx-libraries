@@ -10,11 +10,11 @@ import {SnackbarOutletDirective} from "./directives";
   declarations: [SnackbarOutletDirective],
   providers: [],
 })
-export class SnackbarOutletModule {
+export class NgxSnackbarOutletModule {
 
-  public static AsIsolatedScope(): ModuleWithProviders<SnackbarOutletModule> {
+  public static AsIsolatedScope(): ModuleWithProviders<NgxSnackbarOutletModule> {
     return {
-      ngModule: SnackbarOutletModule,
+      ngModule: NgxSnackbarOutletModule,
       providers: [SnackbarManagerService, SnackbarService]
     }
   }

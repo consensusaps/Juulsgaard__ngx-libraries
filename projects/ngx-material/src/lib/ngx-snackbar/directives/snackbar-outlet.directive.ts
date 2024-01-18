@@ -1,10 +1,10 @@
 import {ComponentRef, Directive, inject, Injector, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
-import {SnackbarManagerService} from "../services/snackbar-manager.service";
+import {SnackbarManagerService} from "../services";
 import {Subscription} from "rxjs";
-import {SnackbarSilo} from "../models/snackbar-silo";
+import {SnackbarSilo} from "../models";
 import {SnackbarSiloComponent} from "../components/snackbar-silo/snackbar-silo.component";
 
-@Directive({selector: 'snackbar-outlet'})
+@Directive({selector: 'ngx-snackbar-outlet'})
 export class SnackbarOutletDirective implements OnDestroy, OnInit {
 
   private manager = inject(SnackbarManagerService);

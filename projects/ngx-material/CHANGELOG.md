@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.9
+
+### Patch Changes
+
+- Update snackbar names / styles
+
 ## 16.1.8
 
 ### Patch Changes

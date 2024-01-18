@@ -1,12 +1,11 @@
 import {
   Component, ComponentRef, DestroyRef, ElementRef, inject, OnInit, ViewChild, ViewContainerRef
 } from '@angular/core';
-import {SnackbarSilo} from "../../models/snackbar-silo";
+import {SnackbarInstance, SnackbarSilo} from "../../models";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {SnackbarInstance} from "../../models/snackbar-instance";
 import {SnackbarBaseComponent} from "../snackbar-base.component";
 
-@Component({selector: 'snackbar-silo', template: '<ng-container #render/>'})
+@Component({selector: 'ngx-snackbar-silo', template: '<ng-container #render/>'})
 export class SnackbarSiloComponent implements OnInit {
 
   private element = inject(ElementRef<HTMLElement>).nativeElement;
@@ -27,6 +26,7 @@ export class SnackbarSiloComponent implements OnInit {
   }
 
   snackbars = new Map<SnackbarInstance<unknown>, ComponentRef<SnackbarBaseComponent<unknown>>>;
+
   private updateView(snackbars: SnackbarInstance<unknown>[]) {
 
     const toRemove = new Set(this.snackbars.keys());

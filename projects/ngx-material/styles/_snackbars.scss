@@ -1,10 +1,11 @@
 @use "@juulsgaard/ngx-tools/styles/variables" as *;
 
-.ngx-snackbar-silo {
+ngx-snackbar-silo {
   position: fixed;
+  z-index: 1000;
 }
 
-.ngx-snackbar-silo {
+ngx-snackbar-silo {
   &.ngx-info-silo {
     left: 0;
     bottom: 0;
