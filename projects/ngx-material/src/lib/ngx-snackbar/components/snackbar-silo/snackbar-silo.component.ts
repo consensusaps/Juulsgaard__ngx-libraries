@@ -4,7 +4,7 @@ import {
 import {SnackbarSilo} from "../../models/snackbar-silo";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SnackbarInstance} from "../../models/snackbar-instance";
-import {SnackbarBaseComponent} from "../../models/snackbar-base.component";
+import {SnackbarBaseComponent} from "../snackbar-base.component";
 
 @Component({selector: 'snackbar-silo', template: '<ng-container #render/>'})
 export class SnackbarSiloComponent implements OnInit {
@@ -36,6 +36,8 @@ export class SnackbarSiloComponent implements OnInit {
     for (let oldInstance of toRemove) {
       const component = this.snackbars.get(oldInstance);
       if (!component) continue;
+      const element = component.location.nativeElement as HTMLElement;
+      element.classList.add('removed');
       component.destroy();
       this.snackbars.delete(oldInstance);
     }

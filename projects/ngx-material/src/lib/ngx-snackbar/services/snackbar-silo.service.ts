@@ -1,7 +1,7 @@
 import {DestroyRef, inject, Injectable, Type} from '@angular/core';
 import {SnackbarSilo, SnackbarSiloOptions} from "../models/snackbar-silo";
 import {SnackbarManagerService} from "./snackbar-manager.service";
-import {SnackbarBaseComponent} from "../models/snackbar-base.component";
+import {SnackbarBaseComponent} from "../components/snackbar-base.component";
 import {SnackbarInstance} from "../models/snackbar-instance";
 import {SnackbarOptions} from "../models/snackbar-options";
 

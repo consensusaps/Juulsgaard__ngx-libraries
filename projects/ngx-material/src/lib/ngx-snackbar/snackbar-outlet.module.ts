@@ -1,7 +1,6 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
-import {SnackbarManagerService} from "./services/snackbar-manager.service";
-import {SnackbarOutletDirective} from "./directives/snackbar-outlet.directive";
-import {SnackbarService} from "./services/snackbar.service";
+import {SnackbarManagerService, SnackbarService} from "./services";
+import {SnackbarOutletDirective} from "./directives";
 
 @NgModule({
   imports: [],
