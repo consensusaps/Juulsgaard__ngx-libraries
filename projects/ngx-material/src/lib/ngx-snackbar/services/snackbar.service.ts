@@ -7,7 +7,10 @@ export class SnackbarService extends SnackbarSiloService {
 
     constructor() {
         super({
-            cssClass: 'ngx-info-silo'
+            type: 'ngx-info-silo',
+            maxElements: 2,
+            order: 'default',
+            showNewest: true
         });
     }
 
@@ -16,7 +19,9 @@ export class SnackbarService extends SnackbarSiloService {
             duration: 5000,
             data: {message, title: title},
             styles: ['ngx-success'],
-            dismissable: true
+            dismissable: true,
+            swipeable: true,
+            showTimer: true
         });
     }
 
@@ -25,26 +30,31 @@ export class SnackbarService extends SnackbarSiloService {
             duration: 5000,
             data: {message, title: title},
             styles: ['ngx-info'],
-            dismissable: true
+            dismissable: true,
+            swipeable: true,
+            showTimer: true
         });
     }
 
     warning(message: string, title?: string) {
         this.createSnackbar(InfoSnackbarComponent, {
-            duration: 5000,
+            duration: 8000,
             data: {message, title: title},
             styles: ['ngx-warning'],
-            dismissable: true
+            dismissable: true,
+            swipeable: true,
+            showTimer: true
         });
     }
 
     error(message: string, title?: string, data?: {[prop: string]: string|undefined}) {
-        // TODO: Use Error component
         this.createSnackbar(InfoSnackbarComponent, {
-            duration: 5000,
-            data: {message, title: title, ...data},
+            duration: 20000,
+            data: {message, title: title, data},
             styles: ['ngx-error'],
-            dismissable: true
+            dismissable: true,
+            swipeable: true,
+            showTimer: true
         });
     }
 

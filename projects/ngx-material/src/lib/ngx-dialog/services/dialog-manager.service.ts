@@ -3,14 +3,14 @@ import {DialogInstance} from "../models/dialog-context";
 import {OverlayService} from "@juulsgaard/ngx-tools";
 import {TemplateDialogInstance, TemplateDialogOptions} from "../models/template-dialog-context";
 import {StaticDialogInstance, StaticDialogOptions} from "../models/static-dialog-context";
-import {ObservableQueue} from "@juulsgaard/rxjs-tools";
+import {ObservableStack} from "@juulsgaard/rxjs-tools";
 
 @Injectable({providedIn: 'root'})
 export class DialogManagerService {
 
-  scheduler = new ObservableQueue<DialogInstance>();
+  scheduler = new ObservableStack<DialogInstance>();
 
-  dialog$ = this.scheduler.frontChanges$;
+  dialog$ = this.scheduler.topDelta$;
 
   constructor(private overlayService: OverlayService) {
 

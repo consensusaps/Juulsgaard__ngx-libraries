@@ -1,5 +1,22 @@
 # @juulsgaard/ngx-material
 
+## 16.1.9
+
+### Patch Changes
+
+- Update snackbar names / styles
+
+## 16.1.8
+
+### Patch Changes
+
+- e8059b4: Updated dialog implementation and added overidable defaults
+- Added new snackbars
+- Updated dependencies
+- Updated dependencies [1e94a0c]
+- Updated dependencies [e8059b4]
+  - @juulsgaard/ngx-tools@16.1.37
+
 ## 16.1.7
 
 ### Patch Changes

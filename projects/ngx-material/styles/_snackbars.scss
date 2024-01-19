@@ -1,0 +1,31 @@
+@use "@juulsgaard/ngx-tools/styles/variables" as *;
+
+ngx-snackbar-silo {
+  position: fixed;
+  z-index: 1000;
+}
+
+ngx-snackbar-silo {
+  &.ngx-info-silo {
+    left: 0;
+    bottom: 0;
+    padding: 16px;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 600px;
+
+    .ngx-snackbar-base {
+      margin-top: 16px;
+    }
+
+    @media (max-width: $small-max), (max-height: $small-max) {
+      padding: 8px;
+
+      .ngx-snackbar-base {
+        margin-top: 8px;
+      }
+    }
+  }
+}

@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.37
+
+### Patch Changes
+
+- Add snackbar animation
+- 1e94a0c: Update NgxRendering
+- e8059b4: Update to use ObservableQueue
+
 ## 16.1.36
 
 ### Patch Changes

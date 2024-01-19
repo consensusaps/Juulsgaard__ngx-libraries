@@ -3,14 +3,14 @@ import {OverlayService} from "@juulsgaard/ngx-tools";
 import {NgxSideMenuContext} from "../models/menu-context";
 import {SideMenuOptions} from "../models/side-menu-options";
 import {SideMenuInstance} from "../models/side-menu-instance";
-import {ObservableQueue} from "@juulsgaard/rxjs-tools";
+import {ObservableStack} from "@juulsgaard/rxjs-tools";
 
 @Injectable({providedIn: "root"})
 export class SideMenuManagerService {
 
-  private scheduler = new ObservableQueue<SideMenuInstance>();
+  private scheduler = new ObservableStack<SideMenuInstance>();
 
-  menu$ = this.scheduler.frontChanges$;
+  menu$ = this.scheduler.topDelta$;
 
   constructor(private overlayService: OverlayService) {
   }

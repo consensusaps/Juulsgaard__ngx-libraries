@@ -1,7 +1,6 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
-import {SnackbarManagerService} from "./services/snackbar-manager.service";
-import {SnackbarOutletDirective} from "./directives/snackbar-outlet.directive";
-import {SnackbarService} from "./services/snackbar.service";
+import {SnackbarManagerService, SnackbarService} from "./services";
+import {SnackbarOutletDirective} from "./directives";
 
 @NgModule({
   imports: [],
@@ -11,11 +10,11 @@ import {SnackbarService} from "./services/snackbar.service";
   declarations: [SnackbarOutletDirective],
   providers: [],
 })
-export class SnackbarOutletModule {
+export class NgxSnackbarOutletModule {
 
-  public static AsIsolatedScope(): ModuleWithProviders<SnackbarOutletModule> {
+  public static AsIsolatedScope(): ModuleWithProviders<NgxSnackbarOutletModule> {
     return {
-      ngModule: SnackbarOutletModule,
+      ngModule: NgxSnackbarOutletModule,
       providers: [SnackbarManagerService, SnackbarService]
     }
   }

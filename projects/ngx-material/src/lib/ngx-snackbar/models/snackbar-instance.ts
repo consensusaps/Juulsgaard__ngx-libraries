@@ -3,7 +3,7 @@ import {Disposable} from "@juulsgaard/ts-tools";
 import {Subject, takeUntil, timer} from "rxjs";
 import {Injector, Type, ViewContainerRef} from "@angular/core";
 import {SnackbarOptions} from "./snackbar-options";
-import {SnackbarBaseComponent} from "./snackbar-base.component";
+import {SnackbarBaseComponent} from "../components/snackbar-base.component";
 
 export class SnackbarInstance<T> extends SnackbarContext<T> implements Disposable {
 
@@ -24,7 +24,7 @@ export class SnackbarInstance<T> extends SnackbarContext<T> implements Disposabl
     this._dismiss$.complete();
   }
 
-  render(viewContainer: ViewContainerRef) {
+  render(viewContainer: ViewContainerRef, index: number) {
 
     const parentInjector = this.injector ?? viewContainer.injector;
     const injector = Injector.create({
@@ -34,7 +34,7 @@ export class SnackbarInstance<T> extends SnackbarContext<T> implements Disposabl
       ],
       name: 'Snackbar Injector'
     });
-    return  viewContainer.createComponent(this.component, {injector});
+    return  viewContainer.createComponent(this.component, {injector, index});
   }
 
   constructor(
