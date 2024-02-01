@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.10
+
+### Patch Changes
+
+- Fix snackbar timer
+
 ## 16.1.9
 
 ### Patch Changes
