@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.38
+
+### Patch Changes
+
+- Animate notification padding
+
 ## 16.1.37
 
 ### Patch Changes
