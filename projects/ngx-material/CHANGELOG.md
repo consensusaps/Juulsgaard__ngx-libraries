@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.11
+
+### Patch Changes
+
+- Export base snakcbar component
+
 ## 16.1.10
 
 ### Patch Changes
