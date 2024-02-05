@@ -1,7 +1,7 @@
 import {DestroyRef, Directive, ElementRef, HostBinding, inject, ViewChild} from "@angular/core";
-import {SnackbarContext} from "../models/snackbar-context";
+import {SnackbarContext} from "../models";
 import {PointerEvent} from "react";
-import {fromEvent, merge} from "rxjs";
+import {fromEvent, merge, Subject} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Directive()
@@ -13,12 +13,20 @@ export abstract class SnackbarBaseComponent<T> {
   protected readonly dismissable = this.context.dismissable;
   protected readonly destroyed = inject(DestroyRef);
 
+  private readonly _click$ = new Subject<void>();
+  protected readonly click$ = this._click$.asObservable();
+
   protected constructor() {
     this.element.classList.add('ngx-snackbar-base');
     this.element.classList.add(...this.context.styles);
 
     if (this.context.swipeable) this.registerGestures();
+    else this.registerClick();
+
     if (this.context.showTimer && this.context.duration) this.startTimer();
+    else this.removeTimer();
+
+    this.destroyed.onDestroy(() => this._click$.complete());
   }
 
   //<editor-fold desc="Touch gestures">
@@ -46,6 +54,12 @@ export abstract class SnackbarBaseComponent<T> {
     ).subscribe(e => this.touchEnd(e));
   }
 
+  private registerClick() {
+    fromEvent<MouseEvent>(this.element, 'click').pipe(
+      takeUntilDestroyed()
+    ).subscribe(() => this._click$.next())
+  }
+
   private touchBegin(event: PointerEvent<HTMLElement>) {
     if (this.swipeDismissed !== 'none') return;
     if (this.gestureStart) return;
@@ -67,15 +81,21 @@ export abstract class SnackbarBaseComponent<T> {
   }
 
   private touchEnd(event: PointerEvent<HTMLElement>) {
+    if (!this.gestureStart) return;
     if (!this.gestureStart?.match(event)) return;
     const delta = this.gestureStart.distance(event);
     const fraction = Math.abs(delta.x) / (this.elementWidth || 100);
 
+    const age = this.gestureStart.age();
     this.gestureStart = undefined;
 
     if (fraction <= 0.1) {
       this.element.style.transform = '';
       this.element.style.opacity = '';
+
+      if (age <= 500 && event.type !== 'pointerleave') {
+        this._click$.next();
+      }
       return;
     }
 
@@ -96,11 +116,17 @@ export abstract class SnackbarBaseComponent<T> {
     });
   }
 
+  private removeTimer() {
+    setTimeout(() => {
+      if (!this.timerElement) return;
+      this.timerElement.nativeElement.style.display = 'none';
+    });
+  }
+
   dismiss() {
     if (!this.dismissable) return;
     this.context.dismiss();
   }
-
 }
 
 class TouchPoint {
@@ -121,5 +147,9 @@ class TouchPoint {
 
   distance(event: PointerEvent<HTMLElement>) {
     return {x: event.clientX - this.x, y: event.clientY - this.y}
+  }
+
+  age() {
+    return Date.now() - this.start;
   }
 }

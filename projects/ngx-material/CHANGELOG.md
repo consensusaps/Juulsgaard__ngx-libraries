@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.12
+
+### Patch Changes
+
+- Add tap detection to snackbars
+
 ## 16.1.11
 
 ### Patch Changes
