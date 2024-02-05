@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.13
+
+### Patch Changes
+
+- Make snackbar silos not intercept pointer events
+
 ## 16.1.12
 
 ### Patch Changes
