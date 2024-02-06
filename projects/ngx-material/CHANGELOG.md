@@ -1,5 +1,29 @@
 # @juulsgaard/ngx-material
 
+## 16.1.13
+
+### Patch Changes
+
+- Make snackbar silos not intercept pointer events
+
+## 16.1.12
+
+### Patch Changes
+
+- Add tap detection to snackbars
+
+## 16.1.11
+
+### Patch Changes
+
+- Export base snakcbar component
+
+## 16.1.10
+
+### Patch Changes
+
+- Fix snackbar timer
+
 ## 16.1.9
 
 ### Patch Changes
