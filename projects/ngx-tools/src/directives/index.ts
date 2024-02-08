@@ -13,3 +13,4 @@ export * from './ngx-async.directive'
 export * from './ngx-async-await.directive'
 export * from './countdown.directive'
 export * from './ngx-if.directive'
+export * from "./ngx-if-not.directive";
