@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.39
+
+### Patch Changes
+
+- Add ngxIfNot directive
+
 ## 16.1.38
 
 ### Patch Changes
