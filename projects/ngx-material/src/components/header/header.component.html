@@ -4,6 +4,9 @@
 
 <ngx-icon alias="burger" class="menu" *ngIf="(showMenu$ | truthy) && !back.observed && !close.observed" matRipple (click)="openMenu()"/>
 
-<p class="title" *ngIf="heading">{{heading}}</p>
+<div class="column">
+    <p class="title" *ngIf="heading">{{heading}}</p>
+    <p class="sub-title" *ngIf="subHeading">{{subHeading}}</p>
+</div>
 
 <ng-content></ng-content>

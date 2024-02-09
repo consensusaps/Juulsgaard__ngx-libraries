@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.14
+
+### Patch Changes
+
+- Add sub title to headers
+
 ## 16.1.13
 
 ### Patch Changes
