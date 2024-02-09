@@ -1,13 +1,6 @@
 @use "@juulsgaard/ngx-tools/styles/variables" as *;
 
 //Icons in buttons
-.mat-mdc-button-base {
-
-  .mdc-button__label {
-
-  }
-}
-
 .mat-mdc-button-base .mdc-button__label, .mat-mdc-menu-item .mdc-list-item__primary-text {
   > *, & {
     vertical-align: middle;

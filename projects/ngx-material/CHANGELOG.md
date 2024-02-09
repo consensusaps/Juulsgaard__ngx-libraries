@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-material
 
+## 16.1.16
+
+### Patch Changes
+
+- Improve CSS specificity for icon and buttons
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.40
+
 ## 16.1.15
 
 ### Patch Changes
