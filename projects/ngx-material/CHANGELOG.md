@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.17
+
+### Patch Changes
+
+- Improve button styles
+
 ## 16.1.16
 
 ### Patch Changes

@@ -47,7 +47,15 @@
   .ngx-icon {
     display: block;
     font-size: inherit;
+
+    &.font-awesome {
+      display: flex;
+    }
   }
+}
+
+a.ngx-icon-button-base {
+  text-decoration: none;
 }
 
 .ngx-icon-button {
