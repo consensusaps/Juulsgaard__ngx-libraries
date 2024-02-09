@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 16.1.15
+
+### Patch Changes
+
+- Lower style specificity for headers
+
 ## 16.1.14
 
 ### Patch Changes

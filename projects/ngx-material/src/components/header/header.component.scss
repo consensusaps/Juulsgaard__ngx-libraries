@@ -14,25 +14,25 @@
 
 .column {
   flex-shrink: 1;
+}
 
-  .title {
-    font-weight: 500;
-    font-size: 1em;
-    color: $text-color;
-  }
+.title {
+  font-weight: 500;
+  font-size: 1em;
+  color: $text-color;
+}
 
-  .sub-title {
-    margin-top: 0.1em;
-    font-size: 0.8em;
-    color: $text-color-400;
-  }
+.sub-title {
+  margin-top: 0.1em;
+  font-size: 0.8em;
+  color: $text-color-400;
+}
 
-  .title, .sub-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2;
-  }
+.title, .sub-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .ngx-icon {
