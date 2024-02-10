@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 16.1.40
+
+### Patch Changes
+
+- Improve CSS specificity for icon and buttons
+
 ## 16.1.39
 
 ### Patch Changes

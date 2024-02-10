@@ -1,15 +1,15 @@
 
 <div class="container">
-    <ngx-header heading="Main" (back)="noop()"></ngx-header>
+    <ngx-header heading="Main" subHeading="Sub heading" (back)="noop()"></ngx-header>
 
-    <div wrapContent>
-        <ngx-header heading="Sub"></ngx-header>
+    <div uiWrapper>
+        <ngx-header heading="Sub" subHeading="Sub heading"></ngx-header>
 
-        <div wrapContent>
-            <div wrapContent>
-                <ngx-header heading="Sub"></ngx-header>
-                <div wrapContent>
-                    <ngx-header heading="Sub"></ngx-header>
+        <div uiWrapper>
+            <div uiWrapper>
+                <ngx-header heading="Sub" subHeading="Sub heading"></ngx-header>
+                <div uiWrapper>
+                    <ngx-header heading="Sub" subHeading="Sub heading"></ngx-header>
                     <div class="very-large"></div>
                 </div>
             </div>
@@ -19,11 +19,11 @@
 
 <div class="container">
     <ngx-header heading="Main" (close)="noop()"></ngx-header>
-    <div wrapContent>
+    <div uiWrapper>
         <ngx-tab-bar>
             <div ngxTab="first">
                 <ngx-header heading="Sub"></ngx-header>
-                <div wrapContent>
+                <div uiWrapper>
                     <ngx-header heading="Sub"></ngx-header>
                     <div class="very-large"></div>
                 </div>
@@ -35,7 +35,7 @@
 
 <div class="container">
     <ngx-header heading="Main" (close)="noop()"></ngx-header>
-    <div wrapContent>
+    <div uiWrapper>
         <ngx-tab-bar>
             <div ngxTab="first">
                 <ngx-header heading="Sub"></ngx-header>

@@ -29,6 +29,7 @@ import {map} from "rxjs/operators";
 export class HeaderComponent implements OnInit, OnDestroy {
 
   @Input() heading?: string;
+  @Input() subHeading?: string;
   @Output() back = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
   @Input() hideClose = false;

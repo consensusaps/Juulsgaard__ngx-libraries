@@ -1,5 +1,31 @@
 # @juulsgaard/ngx-material
 
+## 16.1.17
+
+### Patch Changes
+
+- Improve button styles
+
+## 16.1.16
+
+### Patch Changes
+
+- Improve CSS specificity for icon and buttons
+- Updated dependencies
+  - @juulsgaard/ngx-tools@16.1.40
+
+## 16.1.15
+
+### Patch Changes
+
+- Lower style specificity for headers
+
+## 16.1.14
+
+### Patch Changes
+
+- Add sub title to headers
+
 ## 16.1.13
 
 ### Patch Changes
