@@ -1,53 +1,34 @@
-import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
-import {BehaviorSubject, Subscribable, Unsubscribable} from "rxjs";
-import {Future} from "@juulsgaard/rxjs-tools";
+import {Directive, inject, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {EMPTY, Observable, of, Subscribable, switchMap} from "rxjs";
+import {cache, Future} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
+import {toObservable} from "@angular/core/rxjs-interop";
+import {distinctUntilChanged} from "rxjs/operators";
 
 @Directive({
   selector: '[future]'
 })
-export class FutureDirective<T> implements OnDestroy {
+export class FutureDirective<T> {
 
-  private futureSub?: Unsubscribable;
-  private _future$ = new BehaviorSubject<Future<T>|undefined>(undefined);
-
-  @Input() set future(future: Subscribable<Future<T>|undefined>|Future<T>|undefined) {
-
-    this.futureSub?.unsubscribe();
-
-    if (future === undefined) {
-      this.emitFuture(undefined);
-      return;
+  future = input.required({
+    transform: (future: Subscribable<Future<T>|undefined>|Future<T>|undefined|null): Observable<Future<T>|undefined> => {
+      if (future == null) return EMPTY;
+      if (future instanceof Future) return of(future);
+      return new Observable(subscriber => future.subscribe(subscriber));
     }
+  });
 
-    if (future instanceof Future) {
-      this.emitFuture(future);
-      return;
-    }
-
-    this.futureSub = future.subscribe({next: f => this.emitFuture(f)});
-  };
-
-  constructor(
-    private templateRef: TemplateRef<TemplateContext<T>>,
-    private viewContainer: ViewContainerRef,
-    private changes: ChangeDetectorRef
-  ) {
-    this.viewContainer.createEmbeddedView(
-      this.templateRef,
-      {future: new FutureSwitch<T>(this._future$)}
+  constructor() {
+    const futures$ = toObservable(this.future).pipe(
+      switchMap(x => x),
+      distinctUntilChanged(),
+      cache()
     );
-  }
 
-  ngOnDestroy() {
-    this.futureSub?.unsubscribe();
-    this._future$.complete();
-  }
-
-  emitFuture(future: Future<T>|undefined) {
-    if (this._future$.value === future) return;
-    this._future$.next(future);
-    this.changes.detectChanges();
+    inject(ViewContainerRef).createEmbeddedView(
+      inject(TemplateRef<TemplateContext<T>>),
+      {future: new FutureSwitch<T>(futures$)}
+    );
   }
 
   static ngTemplateContextGuard<T>(

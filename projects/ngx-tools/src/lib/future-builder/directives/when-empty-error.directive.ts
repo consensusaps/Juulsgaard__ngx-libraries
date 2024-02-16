@@ -1,19 +1,13 @@
-import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
-import {Subject, Subscription, switchMap} from "rxjs";
-import {map} from "rxjs/operators";
+import {ChangeDetectorRef, Directive, effect, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {switchMap} from "rxjs";
 import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
+import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 
 @Directive({selector: '[whenEmptyError]'})
-export class WhenEmptyErrorDirective<T> extends BaseFutureRender<TemplateContext<T>> implements OnDestroy {
+export class WhenEmptyErrorDirective<T> extends BaseFutureRender<TemplateContext<T>> {
 
-  sub: Subscription;
-  states$ = new Subject<FutureSwitch<T>>();
-
-  @Input('whenEmptyError')
-  set state(state: FutureSwitch<T>) {
-    this.states$.next(state);
-  }
+  state = input.required<FutureSwitch<T>>({alias: 'whenEmptyError'});
 
   constructor(
     templateRef: TemplateRef<TemplateContext<T>>,
@@ -22,14 +16,15 @@ export class WhenEmptyErrorDirective<T> extends BaseFutureRender<TemplateContext
   ) {
     super(templateRef, viewContainer, changes);
 
-    this.sub = this.states$.pipe(
-      switchMap(x => x.emptyError$),
-      map(x => x ? {whenEmptyError: x.error} as TemplateContext<T> : undefined)
-    ).subscribe(c => this.updateView(c));
-  }
+    const state$ = toObservable(this.state).pipe(switchMap(x => x.emptyError$));
+    const state = toSignal(state$);
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+    effect(() => {
+      const x = state();
+      if (!x) return this.updateView(undefined);
+
+      this.updateView({whenEmptyError: x.error});
+    });
   }
 
   static ngTemplateContextGuard<T>(
