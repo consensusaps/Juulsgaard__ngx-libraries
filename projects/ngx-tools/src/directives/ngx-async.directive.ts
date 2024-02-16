@@ -1,5 +1,5 @@
 import {Directive, effect, EmbeddedViewRef, input, TemplateRef, ViewContainerRef} from '@angular/core';
-import {mergeWith, Observable} from "rxjs";
+import {EMPTY, mergeWith, Observable} from "rxjs";
 import {
   AsyncObject, AsyncObjectFallbackMapper, AsyncVal, AsyncValueFallbackMapper, isSubscribable, UnwrappedAsyncObject,
   UnwrappedAsyncVal
@@ -8,8 +8,10 @@ import {Dispose} from "../decorators";
 import {isObject, shallowEquals} from "@juulsgaard/ts-tools";
 import {toSignal} from "@angular/core/rxjs-interop";
 
+type InputVal = AsyncVal<unknown>|AsyncObject<Record<string, unknown>>|undefined|null;
+
 @Directive({selector: '[ngxAsync]', standalone: true})
-export class NgxAsyncDirective<T extends AsyncVal<unknown>|AsyncObject<Record<string, unknown>>> {
+export class NgxAsyncDirective<T extends InputVal> {
 
   values = input.required<T>({alias: 'ngxAsync'});
 
@@ -22,7 +24,8 @@ export class NgxAsyncDirective<T extends AsyncVal<unknown>|AsyncObject<Record<st
 
     effect(() => {
       const values = this.values();
-      if (values instanceof Promise) this.updateSingle(values);
+      if (values == null) this.updateSingle(EMPTY);
+      else if (values instanceof Promise) this.updateSingle(values);
       else if (values instanceof Observable || isSubscribable(values)) this.updateSingle(values);
       else if (isObject(values)) this.updateObject(values);
     });
@@ -68,7 +71,7 @@ export class NgxAsyncDirective<T extends AsyncVal<unknown>|AsyncObject<Record<st
     this.objectMapper.update(values);
   }
 
-  static ngTemplateContextGuard<T extends AsyncVal<unknown>|AsyncObject<Record<string, unknown>>>(
+  static ngTemplateContextGuard<T extends InputVal>(
     directive: NgxAsyncDirective<T>,
     context: unknown
   ): context is TemplateContext<T> {
@@ -81,6 +84,7 @@ interface TemplateContext<T> {
   ngxAsync: MappedValues<T>;
 }
 
-type MappedValues<T> = T extends AsyncVal<unknown> ? UnwrappedAsyncVal<T, null> :
+type MappedValues<T> = T extends null|undefined ? null :
+  T extends AsyncVal<unknown> ? UnwrappedAsyncVal<T, null> :
   T extends Record<string, AsyncVal<unknown>> ? UnwrappedAsyncObject<T, null> :
     never;

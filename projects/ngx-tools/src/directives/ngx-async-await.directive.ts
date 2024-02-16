@@ -1,5 +1,5 @@
 import {Directive, effect, EmbeddedViewRef, input, TemplateRef, ViewContainerRef} from '@angular/core';
-import {mergeWith, Observable} from "rxjs";
+import {EMPTY, mergeWith, Observable} from "rxjs";
 import {
   AsyncObject, AsyncObjectMapper, AsyncOrSyncObject, AsyncVal, AsyncValueMapper, isSubscribable, UnwrappedAsyncObject,
   UnwrappedAsyncVal
@@ -8,11 +8,13 @@ import {Dispose} from "../decorators";
 import {isObject, shallowEquals} from "@juulsgaard/ts-tools";
 import {toSignal} from "@angular/core/rxjs-interop";
 
+type InputVal = AsyncVal<unknown> | AsyncObject<Record<string, unknown>> | undefined | null;
+
 @Directive({selector: '[ngxAsyncAwait]', standalone: true})
-export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncObject<Record<string, unknown>>> {
+export class NgxAsyncAwaitDirective<T extends InputVal> {
 
   values = input.required<T>({alias: 'ngxAsyncAwait'});
-  elseTemplate = input<TemplateRef<void>|undefined>(undefined, {alias: 'ngxAsyncAwaitElse'});
+  elseTemplate = input<TemplateRef<void> | undefined>(undefined, {alias: 'ngxAsyncAwaitElse'});
 
   private view?: EmbeddedViewRef<TemplateContext<T>>;
   private elseView?: EmbeddedViewRef<void>;
@@ -24,7 +26,8 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncObject<Reco
 
     effect(() => {
       const values = this.values();
-      if (values instanceof Promise) this.updateSingle(values);
+      if (values == null) this.updateSingle(EMPTY)
+      else if (values instanceof Promise) this.updateSingle(values);
       else if (values instanceof Observable || isSubscribable(values)) this.updateSingle(values);
       else if (isObject(values)) this.updateObject(values);
     });
@@ -36,7 +39,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncObject<Reco
       }
     });
 
-    const value = toSignal( this.valueMapper.value$.pipe(mergeWith(this.objectMapper.values$)));
+    const value = toSignal(this.valueMapper.value$.pipe(mergeWith(this.objectMapper.values$)));
 
     effect(() => {
       this.destroyElse();
@@ -75,6 +78,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncObject<Reco
     this.elseView = this.viewContainer.createEmbeddedView(elseTmpl);
     this.elseView.detectChanges();
   }
+
   //</editor-fold>
 
   private oldVal?: AsyncVal<unknown>;
@@ -92,7 +96,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncObject<Reco
       return;
     }
 
-    let emitted =  this.valueMapper.update(value);
+    let emitted = this.valueMapper.update(value);
 
     if (!emitted) {
       this.destroyMain();
@@ -102,6 +106,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncObject<Reco
 
   private oldObject?: AsyncOrSyncObject<Record<string, unknown>>;
   @Dispose private objectMapper = new AsyncObjectMapper<Record<string, unknown>>();
+
   updateObject(values: AsyncOrSyncObject<Record<string, unknown>>) {
     this.valueMapper.reset();
     this.oldVal = undefined;
@@ -122,7 +127,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncObject<Reco
     }
   }
 
-  static ngTemplateContextGuard<T extends AsyncVal<unknown>|AsyncObject<Record<string, unknown>>>(
+  static ngTemplateContextGuard<T extends InputVal>(
     directive: NgxAsyncAwaitDirective<T>,
     context: unknown
   ): context is TemplateContext<T> {
@@ -135,6 +140,7 @@ interface TemplateContext<T> {
   ngxAsyncAwait: MappedValues<T>;
 }
 
-type MappedValues<T> = T extends AsyncVal<unknown> ? UnwrappedAsyncVal<T> :
-  T extends Record<string, AsyncVal<unknown>> ? UnwrappedAsyncObject<T> :
-    never;
+type MappedValues<T> = T extends null | undefined ? never :
+  T extends AsyncVal<unknown> ? UnwrappedAsyncVal<T> :
+    T extends Record<string, AsyncVal<unknown>> ? UnwrappedAsyncObject<T> :
+      never;
