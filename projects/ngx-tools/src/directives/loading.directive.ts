@@ -1,5 +1,7 @@
-import {Directive, ElementRef, Input, OnDestroy} from '@angular/core';
-import {Subscribable, Unsubscribable} from "rxjs";
+import {Directive, ElementRef, input} from '@angular/core';
+import {BehaviorSubject, Observable, of, Subscribable, switchMap} from "rxjs";
+import {distinctUntilChanged} from "rxjs/operators";
+import {toObservable} from "@angular/core/rxjs-interop";
 
 
 @Directive({
@@ -9,49 +11,42 @@ import {Subscribable, Unsubscribable} from "rxjs";
   },
   standalone: true
 })
-export class LoadingDirective implements OnDestroy {
+export class LoadingDirective {
 
-  sub?: Unsubscribable;
   private readonly spinner: HTMLDivElement;
 
-  _loading = false;
-  set loading(loading: boolean) {
-    if (loading === this._loading) return;
-    this._loading = loading;
-    this.element.nativeElement.classList.toggle('loading', loading);
-    this.spinner.style.display = loading ? '' : 'none';
-  }
+  isLoading = input.required({
+    transform: (state: boolean|''|Promise<unknown>|Subscribable<boolean>|undefined|null): Observable<boolean> => {
+      if (state === '' || state === true) return of(true);
+      if (state == null || state === false) return of(false);
+
+      if (state instanceof Promise) {
+        const subject = new BehaviorSubject(true);
+        state.finally(() => {
+          subject.next(false);
+          subject.complete();
+        });
+        return subject;
+      }
+
+      return new Observable<boolean>(subscriber => state.subscribe(subscriber));
+    }
+  });
 
   constructor(private element: ElementRef<HTMLElement>) {
     this.spinner = document.createElement('div');
     this.spinner.classList.add('ngx-is-loading-spinner');
     this.element.nativeElement.appendChild(this.spinner);
+    this.setLoading(false);
+
+    toObservable(this.isLoading).pipe(
+      switchMap(x => x),
+      distinctUntilChanged()
+    ).subscribe(loading => this.setLoading(loading));
   }
 
-  @Input() set isLoading(state: boolean|Promise<any>|Subscribable<boolean>|undefined|null) {
-
-    if (state == null || state === false) {
-      this.loading = false;
-      return;
-    }
-
-    if (state === true) {
-      this.loading = true;
-      return;
-    }
-
-    if (state instanceof Promise) {
-      this.loading = true;
-      state.finally(() => this.loading = false);
-      return;
-    }
-
-    this.sub?.unsubscribe();
-    this.sub = state.subscribe({next: x => this.loading = x});
-    return;
-  };
-
-  ngOnDestroy() {
-    this.sub?.unsubscribe();
+  private setLoading(loading: boolean) {
+    this.element.nativeElement.classList.toggle('loading', loading);
+    this.spinner.style.display = loading ? '' : 'none';
   }
 }

@@ -1,38 +1,38 @@
-import {AfterViewInit, Directive, ElementRef, EventEmitter, NgZone, OnDestroy, Output} from '@angular/core';
-import {fromEvent, Subscription} from "rxjs";
+import {Directive, ElementRef, EventEmitter, inject, NgZone, Output} from '@angular/core';
+import {fromEvent, merge} from "rxjs";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Directive({selector: '[tap]', standalone: true})
-export class TapDirective implements OnDestroy, AfterViewInit {
+export class TapDirective {
 
   @Output() tap = new EventEmitter<PointerEvent>();
 
-  subs = new Subscription();
-  pointer = new Map<number, number>();
+  private pointer = new Map<number, number>();
 
-  constructor(private element: ElementRef<HTMLElement>, private zone: NgZone) {
+  private element = inject(ElementRef<HTMLElement>).nativeElement;
+  private zone = inject(NgZone);
 
-  }
+  constructor() {
+    const start$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointerdown');
+    const end$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointerup');
+    const cancel$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointercancel');
+    const left$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointerleave');
 
-  ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
-      const start$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointerdown');
-      const end$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointerup');
+      start$.pipe(takeUntilDestroyed())
+        .subscribe(e => this.pointer.set(e.pointerId, Date.now()));
 
-      this.subs.add(start$.subscribe(e => this.pointer.set(e.pointerId, Date.now())));
-
-      this.subs.add(end$.subscribe(e => {
+      end$.pipe(takeUntilDestroyed()).subscribe(e => {
         const start = this.pointer.get(e.pointerId);
         if (!start) return;
         this.pointer.delete(e.pointerId);
         if (Date.now() - start < 200) {
           this.zone.run(() => this.tap.emit());
         }
-      }));
-    })
-  }
+      });
 
-  ngOnDestroy() {
-    this.subs.unsubscribe();
+      merge(cancel$, left$).pipe(takeUntilDestroyed())
+        .subscribe(e => this.pointer.delete(e.pointerId));
+    });
   }
-
 }

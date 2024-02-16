@@ -1,4 +1,4 @@
-import {DestroyRef, Directive, ElementRef, HostListener, inject, Input} from '@angular/core';
+import {DestroyRef, Directive, ElementRef, HostListener, inject, input} from '@angular/core';
 import {Subscription} from "rxjs";
 import {IdManagerService} from "../services";
 
@@ -10,16 +10,17 @@ export class WithIdDirective {
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
-    if (!this.id) return;
+    const id = this.id();
+    if (!id) return;
     if (!this.canCopy) return;
 
     event.stopImmediatePropagation();
-    this.service?.copyId(this.id);
+    this.service?.copyId(id);
     return false;
   }
 
   sub: Subscription;
-  @Input('withId') id?: string;
+  id = input.required<string|undefined>();
 
   canCopy = false;
 

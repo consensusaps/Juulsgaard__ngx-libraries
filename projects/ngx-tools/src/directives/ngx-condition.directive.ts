@@ -1,35 +1,38 @@
 import {AsyncOrSyncVal, AsyncValueMapper, UnwrappedAsyncOrSyncVal} from "@juulsgaard/rxjs-tools";
-import {Directive, EmbeddedViewRef, OnChanges, SimpleChanges, TemplateRef, ViewContainerRef} from "@angular/core";
+import {
+  Directive, effect, EmbeddedViewRef, OnChanges, SimpleChanges, TemplateRef, ViewContainerRef
+} from "@angular/core";
 import {Dispose} from "../decorators";
-import {distinctUntilChanged} from "rxjs/operators";
-import {TruthyTypesOf} from "rxjs";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Directive()
-export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>> implements OnChanges {
+export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, TContext> implements OnChanges {
   abstract value: T;
   abstract elseTemplate?: TemplateRef<void>;
   abstract waitingTemplate?: TemplateRef<void>;
 
-  private view?: EmbeddedViewRef<NgxConditionTemplateContext<T>>;
+  private view?: EmbeddedViewRef<TContext>;
   private elseView?: EmbeddedViewRef<void>;
   private waitingView?: EmbeddedViewRef<void>;
 
   private state: 'waiting' | 'else' | 'value' = 'waiting';
 
-  @Dispose private valueMapper = new AsyncValueMapper<unknown>();
+  @Dispose private valueMapper = new AsyncValueMapper<any>();
 
   constructor(
-    private templateRef: TemplateRef<NgxConditionTemplateContext<T>>,
+    private templateRef: TemplateRef<TContext>,
     private viewContainer: ViewContainerRef
   ) {
-    this.valueMapper.value$.pipe(
-      distinctUntilChanged()
-    ).subscribe(x => {
+    const value = toSignal<UnwrappedAsyncOrSyncVal<T>>(this.valueMapper.value$);
+
+    effect(() => {
       this.destroyWaiting();
 
-      if (this.shouldRender(x)) {
+      const context = this.buildContext(value() as UnwrappedAsyncOrSyncVal<T>);
+
+      if (context) {
         this.destroyElse();
-        this.renderMain(x as TruthyTypesOf<UnwrappedAsyncOrSyncVal<T>>);
+        this.renderMain(context);
         this.state = 'value';
       } else {
         this.destroyMain();
@@ -39,7 +42,7 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>> i
     });
   }
 
-  abstract shouldRender(value: unknown): boolean;
+  abstract buildContext(value: UnwrappedAsyncOrSyncVal<T>): TContext|undefined;
 
   //<editor-fold desc="Value Updates">
   ngOnChanges(changes: SimpleChanges) {
@@ -90,12 +93,13 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>> i
     this.view = undefined;
   }
 
-  renderMain(context: TruthyTypesOf<UnwrappedAsyncOrSyncVal<T>>) {
+  renderMain(context: TContext) {
+
     if (!this.view) {
-      this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxIf: context});
+      this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
       this.view.markForCheck();
     } else {
-      this.view.context = {ngxIf: context};
+      this.view.context = context;
       this.view.markForCheck();
     }
   }
@@ -129,6 +133,3 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>> i
   //</editor-fold>
 }
 
-export interface NgxConditionTemplateContext<T> {
-  ngxIf: TruthyTypesOf<UnwrappedAsyncOrSyncVal<T>>;
-}

@@ -1,19 +1,9 @@
-import {Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef} from '@angular/core';
-import {mergeWith} from "rxjs";
-import {Dispose} from "../decorators";
-import {
-  AsyncOrSyncTuple, AsyncOrSyncVal, AsyncTupleFallbackMapper, AsyncValueFallbackMapper, UnwrappedAsyncOrSyncTuple,
-  UnwrappedAsyncOrSyncVal
-} from "@juulsgaard/rxjs-tools";
-import {shallowEquals} from "@juulsgaard/ts-tools";
+import {Directive, effect, EmbeddedViewRef, input, TemplateRef, ViewContainerRef} from '@angular/core';
 
 @Directive({selector: '[ngxLet]', standalone: true})
 export class NgxLetDirective<T> {
 
-  @Input({required: true, alias: 'ngxLet'}) set values(values: T) {
-    if (Array.isArray(values)) this.updateArray(values);
-    else this.updateSingle(values);
-  }
+  value = input.required<T>({alias: 'ngxLet'});
 
   private view?: EmbeddedViewRef<TemplateContext<T>>;
 
@@ -21,40 +11,15 @@ export class NgxLetDirective<T> {
     private templateRef: TemplateRef<TemplateContext<T>>,
     private viewContainer: ViewContainerRef
   ) {
-    this.valueMapper.value$.pipe(mergeWith(this.tupleMapper.values$)).subscribe(x => {
+    effect(() => {
       if (!this.view) {
-        this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxLet: x as MappedValues<T>});
+        this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxLet: this.value()});
         this.view.markForCheck();
       } else {
-        this.view.context = {ngxLet: x as MappedValues<T>};
+        this.view.context = {ngxLet: this.value()};
         this.view.markForCheck();
       }
-    })
-  }
-
-  private oldVal?: AsyncOrSyncVal<unknown>;
-  @Dispose private valueMapper = new AsyncValueFallbackMapper<unknown, null>(null);
-
-  updateSingle(value: AsyncOrSyncVal<unknown>) {
-    this.tupleMapper.reset();
-    this.oldTuple = undefined;
-
-    if (this.oldVal === value) return;
-    this.oldVal = value;
-
-    this.valueMapper.update(value);
-  }
-
-  private oldTuple?: AsyncOrSyncTuple<unknown[]>;
-  @Dispose private tupleMapper = new AsyncTupleFallbackMapper<unknown[], null>(null);
-  updateArray(values: AsyncOrSyncTuple<unknown[]>) {
-    this.valueMapper.reset();
-    this.oldVal = undefined;
-
-    if (this.oldTuple && shallowEquals(this.oldTuple, values)) return;
-    this.oldTuple = values;
-
-    this.tupleMapper.update(values);
+    });
   }
 
   static ngTemplateContextGuard<T>(
@@ -67,8 +32,6 @@ export class NgxLetDirective<T> {
 }
 
 interface TemplateContext<T> {
-  ngxLet: MappedValues<T>;
+  ngxLet: T;
 }
-
-type MappedValues<T> = T extends unknown[] ? UnwrappedAsyncOrSyncTuple<T, null> : UnwrappedAsyncOrSyncVal<T, null>;
 
