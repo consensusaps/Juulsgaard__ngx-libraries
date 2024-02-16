@@ -14,7 +14,8 @@ const DAY = 24 * HOUR;
 export class CountdownDirective implements OnChanges {
 
   private config: CountdownConfig = defaultCountdownConfig
-  @Input({alias: 'countdownConfig'}) set options(options: CountdownOptions) {
+  @Input({alias: 'countdownConfig'}) set options(options: CountdownOptions|undefined) {
+    options ??= {};
     this.config = {...defaultCountdownConfig, ...options};
   };
 

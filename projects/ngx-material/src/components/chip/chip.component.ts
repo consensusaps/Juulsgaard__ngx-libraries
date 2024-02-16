@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import tinycolor from "tinycolor2";
 import {IconButtonComponent} from "../icon-button/icon-button.component";
 import {NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
+import {mostReadable, TinyColor} from "@ctrl/tinycolor";
 
 @Component({
   selector: 'ngx-chip',
@@ -25,8 +25,8 @@ export class ChipComponent {
     }
 
     this.element.nativeElement.style.backgroundColor = color;
-    const col = tinycolor(color);
-    const text = tinycolor.mostReadable(col.darken(10), ['#FFFFFFDD', '#000000DD']);
+    const col = new TinyColor(color);
+    const text = mostReadable(col.darken(10), ['#FFFFFFDD', '#000000DD']) ?? new TinyColor('#FFFFFFDD');
     this.element.nativeElement.style.color = text.toHex8String();
   }
 
