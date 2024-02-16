@@ -1,9 +1,0 @@
-@use "src/styles/variables" as *;
-
-.ngx-nav-list {
-  display: flex;
-  flex-flow: column;
-  flex-grow: 1;
-  background-color: $foreground-dark;
-  transition: background-color 100ms linear;
-}
