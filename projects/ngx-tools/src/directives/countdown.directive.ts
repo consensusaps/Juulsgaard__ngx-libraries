@@ -1,4 +1,4 @@
-import {Directive, ElementRef, inject, Input, LOCALE_ID, NgZone, OnChanges, SimpleChanges} from '@angular/core';
+import {Directive, effect, ElementRef, inject, input, LOCALE_ID, NgZone} from '@angular/core';
 import {objToArr, sortNumDesc, Timespan} from "@juulsgaard/ts-tools";
 import {concat, EMPTY, endWith, fromEvent, interval, share, startWith, Subscription, takeWhile, timer} from "rxjs";
 import {distinctUntilChanged, filter, map, tap} from "rxjs/operators";
@@ -11,17 +11,16 @@ const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
 @Directive({selector: '[countdown]', standalone: true, host: {'[class.ngx-countdown]': 'true'}})
-export class CountdownDirective implements OnChanges {
+export class CountdownDirective {
 
-  private config: CountdownConfig = defaultCountdownConfig
-  @Input({alias: 'countdownConfig'}) set options(options: CountdownOptions|undefined) {
-    options ??= {};
-    this.config = {...defaultCountdownConfig, ...options};
-  };
+  config = input(defaultCountdownConfig, {
+    alias: 'countdownConfig',
+    transform: (options: CountdownOptions|undefined) => ({...defaultCountdownConfig, ...(options ?? {})})
+  });
 
-  @Input({required: true}) set countdown(date: Date | string | number) {
-    this.endTime = new Date(date);
-  };
+  countdown = input.required({
+    transform: (date: Date | string | number) => new Date(date)
+  });
 
   endTime!: Date;
 
@@ -66,6 +65,9 @@ export class CountdownDirective implements OnChanges {
         takeUntilDestroyed()
       ).subscribe(x => this.visibilityChanged(x))
     );
+
+    effect(() => this.applyConfig());
+    effect(() => this.zone.runOutsideAngular(() => this.startTimer()));
   }
 
   private visibilityChanged(visible: boolean) {
@@ -77,15 +79,6 @@ export class CountdownDirective implements OnChanges {
   }
 
   //<editor-fold desc="Updates">
-  ngOnChanges(changes: SimpleChanges) {
-
-    if ('options' in changes) {
-      this.applyConfig();
-    }
-
-    if (document.hidden) return;
-    this.zone.runOutsideAngular(() => this.startTimer());
-  }
 
   private startTimer() {
     this.timeSub?.unsubscribe();
@@ -96,7 +89,7 @@ export class CountdownDirective implements OnChanges {
       this.endTime.getTime() - Date.now()
     ) / 1000);
 
-    if (delta <= 0 && !this.config.countNegative) {
+    if (delta <= 0 && !this.config().countNegative) {
       this.countdownStarted();
       this.render(0);
       return;
@@ -124,7 +117,7 @@ export class CountdownDirective implements OnChanges {
       map(() => this.endTime.getTime() - Date.now())
     );
 
-    if (!this.config.countNegative) {
+    if (!this.config().countNegative) {
       delta$ = delta$.pipe(
         takeWhile(x => x > 0),
         endWith(0)
@@ -145,10 +138,12 @@ export class CountdownDirective implements OnChanges {
   }
 
   private applyConfig() {
-    this.dateFormatThreshold = parseTime(this.config.dateFormatThreshold);
-    this.timeFormatThreshold = parseTime(this.config.timeFormatThreshold);
+    const config = this.config();
+
+    this.dateFormatThreshold = parseTime(config.dateFormatThreshold);
+    this.timeFormatThreshold = parseTime(config.timeFormatThreshold);
     this.styleThresholds = objToArr(
-      this.config.styleThresholds,
+      config.styleThresholds,
       (val, key) => (
         {
           threshold: parseTime(key),
@@ -158,23 +153,23 @@ export class CountdownDirective implements OnChanges {
     );
     this.styleThresholds.sort(sortNumDesc(x => x.threshold));
 
-    this.padLength = this.config.padNumbers ? 2 : 1;
-    this.fillerNum = this.config.padNumbers ? '00' : '0';
+    this.padLength = config.padNumbers ? 2 : 1;
+    this.fillerNum = config.padNumbers ? '00' : '0';
 
-    if (this.config.display === "default") {
+    if (config.display === "default") {
       this.showHours = true;
       this.forceHours = false;
       this.showMinutes = true;
       this.forceMinutes = true;
-    } else if (this.config.display === "dynamic") {
+    } else if (config.display === "dynamic") {
       this.showHours = true;
       this.forceHours = false;
       this.showMinutes = true;
       this.forceMinutes = false;
     } else {
-      this.showHours = this.config.display === 'hours';
+      this.showHours = config.display === 'hours';
       this.forceHours = this.showHours;
-      this.showMinutes = this.config.display === 'hours' || this.config.display === 'minutes';
+      this.showMinutes = config.display === 'hours' || config.display === 'minutes';
       this.forceMinutes = this.showMinutes;
     }
   }
