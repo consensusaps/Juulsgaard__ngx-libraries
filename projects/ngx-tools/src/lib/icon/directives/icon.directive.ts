@@ -1,71 +1,64 @@
-import {Directive, ElementRef, HostBinding, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {computed, Directive, effect, ElementRef, HostBinding, inject, input} from '@angular/core';
 import {IconData} from "../models/icon-models";
 import {IconService} from "../services/icon.service";
 import {IconProviders} from "../models/icon-providers";
 import {BaseIconAliases} from "../models/icon-aliases";
+import {isString} from "@juulsgaard/ts-tools";
 
 @Directive({
   selector: 'ngx-icon',
   standalone: true,
   host: {'[class.ngx-icon]': 'true'}
 })
-export class IconDirective implements OnChanges {
+export class IconDirective {
 
   @HostBinding('class') classes: string[] = ['empty'];
 
-  @Input() provider?: IconProviders;
-  @Input() icon?: string;
-  @Input() alias?: string|BaseIconAliases;
+  provider = input<IconProviders>();
+  icon = input<string>();
+  alias = input<string | BaseIconAliases>();
 
-  @Input() set size(size: number|string|undefined) {
-    this.element.nativeElement.style.fontSize = size != undefined ? (typeof size === 'string' ? size : `${size}px`) : '';
+  size = input('', {
+    transform: (size: number | string | undefined | null) => {
+      if (size == null) return '';
+      if (isString(size)) return size;
+      return `${size}px`;
+    }
+  });
+
+  padding = input(null, {
+    transform: (padding: number | string | undefined | null) => {
+      if (padding == null) return null;
+      if (isString(padding)) return padding;
+      return `${padding}px`;
+    }
+  });
+
+  private element = inject(ElementRef<HTMLElement>).nativeElement;
+  private service = inject(IconService);
+
+  constructor() {
+    effect(() => {
+      this.element.style.fontSize = this.size();
+    });
+
+    effect(() => {
+      this.element.style.setProperty('--padding', this.padding());
+    });
+
+    const icon = computed(() => this.getIcon());
+
+    effect(() => this.applyIcon(icon()));
   }
 
-  @Input() set padding(padding: number|string|undefined) {
-    this.element.nativeElement.style.setProperty(
-      '--padding',
-      padding ? (typeof padding === 'string' ? padding : `${padding}px`) : null
-    );
-  }
+  getIcon(): IconData | undefined {
+    const icon = this.icon();
+    if (icon) return this.service.parseIcon(icon, this.provider());
 
-  private lastIcon?: string;
+    const alias = this.alias();
+    if (alias) return this.service.parseAlias(alias, this.provider());
 
-  constructor(private element: ElementRef<HTMLElement>, private service: IconService) {
-
-  }
-
-  getIcon(): IconData|undefined {
-    if (this.icon) return this.service.parseIcon(this.icon, this.provider);
-    if (this.alias) return this.service.parseAlias(this.alias, this.provider);
     return undefined;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-
-    if (changes['icon'] || changes['alias']) {
-
-      // Get new icon
-      const icon = this.getIcon();
-
-      // Return if no changes
-      if (icon === this.lastIcon && !changes['provider']) return;
-
-      // Apply change
-      this.applyIcon(icon);
-      return;
-    }
-
-    if (changes['provider']) {
-
-      // Return if not using alias while currently empty
-      if ((this.icon || !this.alias) && !this.lastIcon) return;
-
-      // Calculate new icon
-      const icon = this.getIcon();
-
-      // Apply change
-      this.applyIcon(icon);
-    }
   }
 
   applyIcon(data?: IconData) {
