@@ -1,4 +1,4 @@
-import {Directive, ElementRef, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, HostListener, input, Input, Output} from '@angular/core';
 import {coerceBooleanProperty} from "@angular/cdk/coercion";
 import {Subscription, timer} from "rxjs";
 import {NgxDropContext} from "../models/ngx-drop-context";
@@ -15,10 +15,11 @@ export class NgxDropAreaDirective<T> {
 
   @Output('ngxDrop') drop = new EventEmitter<NgxDragEvent<T>>;
   @Output('ngxDropHover') dropHover = new EventEmitter<NgxDropContext<T>>;
-  @Input('ngxDropEffect') effect?: 'move'|'link'|'copy';
-  @Input() dropPredicate?: (data: NgxDragEvent<T>) => boolean;
 
-  get dropEffect() {return this.effect ?? this.service.effect ?? 'move'}
+  effect = input<'move'|'link'|'copy'>();
+  dropPredicate = input<(data: NgxDragEvent<T>) => boolean>();
+
+  get dropEffect() {return this.effect() ?? this.service.effect ?? 'move'}
 
   @Input({transform: coerceBooleanProperty}) disableDrop = false;
 
@@ -75,7 +76,7 @@ export class NgxDropAreaDirective<T> {
     const dragEvent = event as NgxDragEvent<T>;
     dragEvent.data = data;
 
-    const context = new NgxDropContext<T>(data, this.dropPredicate?.(dragEvent) ?? true);
+    const context = new NgxDropContext<T>(data, this.dropPredicate()?.(dragEvent) ?? true);
     this.dropHover.emit(context);
 
     return context.allowed;

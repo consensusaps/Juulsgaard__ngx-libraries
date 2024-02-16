@@ -1,5 +1,6 @@
-import {Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output} from '@angular/core';
-import {coerceBooleanProperty} from "@angular/cdk/coercion";
+import {
+  booleanAttribute, Directive, ElementRef, EventEmitter, HostBinding, HostListener, input, Output
+} from '@angular/core';
 import {NgxDragContext} from "../models/ngx-drag-context";
 import {NgxDragService} from "../services/ngx-drag.service";
 
@@ -9,10 +10,10 @@ import {NgxDragService} from "../services/ngx-drag.service";
 })
 export class NgxDragDirective<T> {
 
-  @Input() dragData?: T;
-  @Input() dropText?: string;
-  @Input() dropEffect?: 'move'|'link'|'copy';
-  @Input({transform: coerceBooleanProperty}) disableDrag = false;
+  dragData = input<T>();
+  dropText = input<string>();
+  dropEffect = input<'move'|'link'|'copy'>();
+  disableDrag = input(false, {transform: booleanAttribute});
 
   @Output('dragStart') dragStart = new EventEmitter<NgxDragContext<T>>();
 
@@ -20,12 +21,12 @@ export class NgxDragDirective<T> {
 
   @HostListener('dragstart', ['$event'])
   onDragStart(event: DragEvent) {
-    if (this.disableDrag) {
+    if (this.disableDrag()) {
       event.preventDefault();
       return;
     }
 
-    const context = new NgxDragContext<T>(this.dragData, this.dropText);
+    const context = new NgxDragContext<T>(this.dragData(), this.dropText());
     this.dragStart.emit(context);
 
     if (event.dataTransfer) {
@@ -42,7 +43,7 @@ export class NgxDragDirective<T> {
     }
 
     this.active = context.data;
-    this.service.register(context.data, this.dropEffect);
+    this.service.register(context.data, this.dropEffect());
   }
 
   @HostListener('dragend')
@@ -52,7 +53,7 @@ export class NgxDragDirective<T> {
   }
 
   @HostBinding('attr.draggable')
-  get draggable() {return this.disableDrag ? 'false' : 'true'}
+  get draggable() {return this.disableDrag() ? 'false' : 'true'}
 
 
   constructor(element: ElementRef<HTMLElement>, private service: NgxDragService) {
