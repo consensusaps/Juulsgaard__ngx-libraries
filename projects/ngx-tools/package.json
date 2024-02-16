@@ -38,21 +38,21 @@
     "storybook": "ng run ngx-tools:storybook"
   },
   "peerDependencies": {
-    "@angular/common": "^16.2.7",
-    "@angular/core": "^16.2.7",
-    "@angular/animations": "^16.2.7",
-    "@juulsgaard/rxjs-tools": "^1.4.6",
-    "tinycolor2": "^1.6.0",
-    "typescript": "~5.0.4"
+    "@angular/common": "^17.2.1",
+    "@angular/core": "^17.2.1",
+    "@angular/animations": "^17.2.1",
+    "@ctrl/tinycolor": "^4.0.3",
+    "@juulsgaard/rxjs-tools": "^1.5.1",
+    "typescript": "~5.3.3"
   },
   "devDependencies": {
-    "@angular/common": "16.2.7",
-    "@angular/core": "16.2.7",
-    "@angular/animations": "16.2.7",
-    "@juulsgaard/rxjs-tools": "1.4.6",
-    "tinycolor2": "1.6.0"
+    "@angular/common": "17.2.1",
+    "@angular/core": "17.2.1",
+    "@angular/animations": "17.2.1",
+    "@ctrl/tinycolor": "4.0.3",
+    "@juulsgaard/rxjs-tools": "1.5.1"
   },
   "dependencies": {
-    "tslib": "2.5.0"
+    "tslib": "2.6.2"
   }
 }

@@ -35,9 +35,6 @@
       ],
       "@juulsgaard/ngx-forms-inputs": [
         "dist/ngx-forms-inputs"
-      ],
-      "@juulsgaard/ngx-navigation": [
-        "dist/ngx-navigation"
       ]
     },
     "lib": [
