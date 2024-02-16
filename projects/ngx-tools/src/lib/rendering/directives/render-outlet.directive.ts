@@ -1,53 +1,51 @@
-import {
-  booleanAttribute, Directive, ElementRef, Injector, Input, OnChanges, OnDestroy, SimpleChanges
-} from "@angular/core";
+import {booleanAttribute, Directive, effect, ElementRef, inject, Injector, input, OnDestroy} from "@angular/core";
 import {TemplateRendering} from "../models/template-rendering";
 
 @Directive({selector: 'ngx-render', host: {'[style.display]': 'renderInside ? "" : "hidden"'}})
-export class RenderOutletDirective<T> implements OnChanges, OnDestroy {
+export class RenderOutletDirective<T> implements OnDestroy {
 
-  private template?: TemplateRendering<T>;
-  @Input('template') _nextTemplate?: TemplateRendering<T>;
-  @Input({transform: booleanAttribute}) renderInside = false;
+  template = input<TemplateRendering<T>|undefined>(undefined, {alias: 'template'});
+  renderInside = input(false, {transform: booleanAttribute});
 
-  @Input() context?: T;
-  @Input({transform: booleanAttribute}) autoDispose = false;
+  context = input<T>();
+  autoDispose = input(false, {transform: booleanAttribute});
 
-  constructor(
-    private element: ElementRef<HTMLElement>,
-    private injector: Injector
-  ) {
-  }
+  private element = inject(ElementRef<HTMLElement>).nativeElement;
+  private injector = inject(Injector);
 
-  ngOnChanges(changes: SimpleChanges) {
-
-    if (changes['_nextTemplate']) {
-      this.render(this._nextTemplate);
-      return;
-    }
-
-    if (changes['context']) {
-      this.template?.updateContext(this.context);
-    }
+  constructor() {
+    effect(() => this.update());
   }
 
   ngOnDestroy() {
-    if (this.autoDispose) {
-      this.template?.dispose();
+    if (this.autoDispose()) {
+      this._template?.dispose();
       return;
     }
 
-    this.template?.anchorRemoved(this.element.nativeElement);
+    this._template?.anchorRemoved(this.element);
   }
 
-  render(nextTemplate?: TemplateRendering) {
-    this.template?.detach(this.element.nativeElement);
-    this.template = nextTemplate;
+  _template?: TemplateRendering<T>;
 
-    if (this.renderInside) {
-      this.template?.attachInside(this.element.nativeElement, this.injector, this.context);
-    } else {
-      this.template?.attachAfter(this.element.nativeElement, this.injector, this.context);
+  update() {
+    const template = this.template();
+
+    if (template == null) {
+      this._template?.detach(this.element);
+      this._template = undefined;
+      return;
     }
+
+    const inside = this.renderInside();
+    const context = this.context();
+
+    if (inside) {
+      this._template?.attachInside(this.element, this.injector, context);
+    } else {
+      this._template?.attachAfter(this.element, this.injector, context);
+    }
+
+    this._template?.updateContext(context);
   }
 }

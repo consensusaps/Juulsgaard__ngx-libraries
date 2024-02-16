@@ -82,6 +82,7 @@ export abstract class TemplateRendering<T = any> {
     if (!context) return;
     this.context = context;
     if (!this.view) return;
+    if (this.view.context === context) return;
     this.view.context = context;
     this.view.detectChanges();
   }
