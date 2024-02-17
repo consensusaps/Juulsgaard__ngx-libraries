@@ -21,7 +21,7 @@
 
 <hr>
 
-<section *ngxAsyncAwait="{delay: delay$, counted: countedToTen$} as x; else waiting">
+<section *ngxAsyncAwait="{delay: delay$, counted: aboveTen$} as x; else waiting">
     <p>Waited</p>
     <p>delay: {{x.delay}}</p>
     <p>counted: {{x.counted}}</p>
@@ -37,6 +37,12 @@
 
 <section *ngxIf="countedToTen$ as value; waiting: waiting; else: elseTmp">
     <p>Counted to ten: {{value}}</p>
+</section>
+
+<hr>
+
+<section *ngxIfNot="countedToTen$; else: elseTmp">
+    <p>Not counted to ten</p>
 </section>
 
 

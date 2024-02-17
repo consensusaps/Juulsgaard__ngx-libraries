@@ -22,8 +22,6 @@ export class CountdownDirective {
     transform: (date: Date | string | number) => new Date(date)
   });
 
-  endTime!: Date;
-
   @Dispose timeSub?: Subscription;
 
   private element = inject(ElementRef<HTMLElement>).nativeElement;
@@ -85,11 +83,14 @@ export class CountdownDirective {
     this.styleIndex = -1;
     this.resetClasses();
 
+    const endTime = this.countdown();
+    const config = this.config();
+
     const delta = Math.floor((
-      this.endTime.getTime() - Date.now()
+      endTime.getTime() - Date.now()
     ) / 1000);
 
-    if (delta <= 0 && !this.config().countNegative) {
+    if (delta <= 0 && !config.countNegative) {
       this.countdownStarted();
       this.render(0);
       return;
@@ -114,10 +115,10 @@ export class CountdownDirective {
     );
 
     let delta$ = concat(dateDelay$, timeDelay$, interval$).pipe(
-      map(() => this.endTime.getTime() - Date.now())
+      map(() => endTime.getTime() - Date.now())
     );
 
-    if (!this.config().countNegative) {
+    if (!config.countNegative) {
       delta$ = delta$.pipe(
         takeWhile(x => x > 0),
         endWith(0)
@@ -211,14 +212,14 @@ export class CountdownDirective {
     this.element.classList.remove('ngx-counting');
     this.element.classList.remove('ngx-time');
     this.element.classList.add('ngx-date');
-    this.dateTimeNode.innerText = formatDate(this.endTime, 'short', this.locale);
+    this.dateTimeNode.innerText = formatDate(this.countdown(), 'short', this.locale);
   }
 
   private renderTime() {
     this.element.classList.remove('ngx-counting');
     this.element.classList.remove('ngx-date');
     this.element.classList.add('ngx-time');
-    this.dateTimeNode.innerText = formatDate(this.endTime, 'shortTime', this.locale);
+    this.dateTimeNode.innerText = formatDate(this.countdown(), 'shortTime', this.locale);
   }
 
   private countdownStarted() {
