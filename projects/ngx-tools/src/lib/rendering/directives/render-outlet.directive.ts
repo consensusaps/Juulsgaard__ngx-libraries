@@ -1,14 +1,15 @@
-import {booleanAttribute, Directive, effect, ElementRef, inject, Injector, input, OnDestroy} from "@angular/core";
+import {
+  booleanAttribute, Directive, effect, ElementRef, inject, Injector, input, InputSignal, InputSignalWithTransform,
+  OnDestroy, signal, Signal
+} from "@angular/core";
 import {TemplateRendering} from "../models/template-rendering";
 
-@Directive({selector: 'ngx-render', host: {'[style.display]': 'renderInside() ? "" : "hidden"'}})
-export class RenderOutletDirective<T extends {}> implements OnDestroy {
-
-  template = input<TemplateRendering<T>|undefined>(undefined, {alias: 'template'});
-  renderInside = input(false, {transform: booleanAttribute});
-
-  context = input<T>();
-  autoDispose = input(false, {transform: booleanAttribute});
+@Directive()
+export abstract class BaseRenderDirective<T extends {}> implements OnDestroy {
+  abstract template: Signal<TemplateRendering<T> | undefined>;
+  abstract renderInside: Signal<boolean>;
+  abstract context: Signal<T | undefined>;
+  abstract autoDispose: Signal<boolean>;
 
   private element = inject(ElementRef<HTMLElement>).nativeElement;
   private injector = inject(Injector);
@@ -48,4 +49,23 @@ export class RenderOutletDirective<T extends {}> implements OnDestroy {
 
     this._template?.updateContext(context);
   }
+}
+
+@Directive({selector: 'ngx-render', host: {'[style.display]': 'renderInside() ? "" : "hidden"'}})
+export class RenderOutletDirective<T extends {}> extends BaseRenderDirective<T> {
+
+  template: InputSignal<TemplateRendering<T> | undefined> = input<TemplateRendering<T>>();
+  renderInside: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+
+  context: InputSignal<T | undefined> = input<T>();
+  autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+}
+
+@Directive({selector: '[ngxRender]'})
+export class TemplateRenderDirective<T extends {}> extends BaseRenderDirective<T> {
+
+  template: InputSignal<TemplateRendering<T> | undefined> = input<TemplateRendering<T>|undefined>(undefined, {alias: 'ngxRender'});
+  context: InputSignal<T | undefined> = input<T>();
+  autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  renderInside = signal(true);
 }

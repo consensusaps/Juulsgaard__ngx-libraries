@@ -5,6 +5,5 @@ import {Directive} from '@angular/core';
   host: {'[class.ngx-list-suffix]': 'true'}
 })
 export class NgxListSuffixDirective {
-  constructor() {
-  }
+
 }

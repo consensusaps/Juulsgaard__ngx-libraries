@@ -6,10 +6,13 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatBadgeModule} from "@angular/material/badge";
 import {SideMenuTabDirective} from "./directives/side-menu-tab.directive";
 import {IconButtonComponent} from "../../components";
-import {FalsyPipe, TruthyPipe} from "@juulsgaard/ngx-tools";
+import {FalsyPipe, NgxRenderingModule, TruthyPipe} from "@juulsgaard/ngx-tools";
 
 @NgModule({
-  imports: [CommonModule, MatTooltipModule, MatBadgeModule, IconButtonComponent, TruthyPipe, FalsyPipe],
+  imports: [
+    CommonModule, MatTooltipModule, MatBadgeModule, IconButtonComponent, TruthyPipe, FalsyPipe,
+    NgxRenderingModule
+  ],
   declarations: [
     SideMenuComponent,
     SideMenuTabComponent,

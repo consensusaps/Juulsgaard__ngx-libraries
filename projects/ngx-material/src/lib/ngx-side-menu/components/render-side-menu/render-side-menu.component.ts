@@ -1,8 +1,7 @@
-import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, inject, Signal} from '@angular/core';
 import {SIDE_MENU_ANIMATE_IN} from "../../models/menu-tokens";
 import {sideMenuAnimation} from "@juulsgaard/ngx-tools";
 import {NgxSideMenuTabContext} from "../../models/menu-tab-context";
-import {Observable} from "rxjs";
 import {RenderTab} from "../../models/render-tab";
 import {SideMenuRenderContext} from "../../models/side-menu-render-context";
 
@@ -17,25 +16,23 @@ export class RenderSideMenuComponent {
 
   animate = inject(SIDE_MENU_ANIMATE_IN);
 
-  readonly tab$: Observable<RenderTab|undefined>;
-  readonly tabs$: Observable<NgxSideMenuTabContext[]>;
-  readonly showButtons$: Observable<boolean>;
+  readonly tab: Signal<RenderTab|undefined>;
+  readonly tabs: Signal<NgxSideMenuTabContext[]>;
+  readonly showButtons: Signal<boolean>;
 
   constructor(
     element: ElementRef<HTMLElement>,
     private context: SideMenuRenderContext
   ) {
     element.nativeElement.style.zIndex = context.zIndex?.toFixed(0) ?? '';
-    this.tab$ = context.tab$;
-    this.tabs$ = context.tabs$;
-    this.showButtons$ = context.showButtons$;
+    this.tab = context.tab;
+    this.tabs = context.tabs;
+    this.showButtons = context.showButtons;
   }
 
   onClose() {
     this.context.close();
   }
-
-  protected readonly close = close;
 
   toggleTab(tab: NgxSideMenuTabContext) {
     this.context.toggleTab(tab);

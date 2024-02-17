@@ -1,5 +1,6 @@
-import {Signal, signal} from "@angular/core";
+import {effect, Injector, Signal, signal} from "@angular/core";
 import {BehaviorSubject, Subject} from "rxjs";
+import {Disposable} from "@juulsgaard/ts-tools";
 
 
 /**
@@ -20,4 +21,19 @@ export function subjectToSignal<T>(subject: Subject<T>, initial?: T): Signal<T> 
   const sig = signal(init);
   subject.subscribe(val => sig.set(val));
   return sig;
+}
+
+/**
+ * Create an effect that disposes of old values when a new one is emitted.
+ * It will also dispose the last value on destroy
+ * @param signal - The signal to monitor
+ * @param injector - An optional injector for when used outside constructor context
+ */
+export function handleDisposableSignal(signal: Signal<Disposable|undefined>, injector?: Injector) {
+  let old: Disposable|undefined;
+  effect((dispose) => {
+    old?.dispose();
+    old = signal();
+    dispose(() => old?.dispose());
+  }, {injector: injector});
 }

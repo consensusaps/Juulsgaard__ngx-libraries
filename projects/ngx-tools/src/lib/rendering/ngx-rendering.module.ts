@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
-import {RenderOutletDirective} from "./directives/render-outlet.directive";
+import {RenderOutletDirective, TemplateRenderDirective} from "./directives/render-outlet.directive";
 import {RenderSourceDirective} from "./directives/render-source.directive";
 
 @NgModule({
-  declarations: [RenderOutletDirective, RenderSourceDirective],
-  exports: [RenderOutletDirective, RenderSourceDirective],
+  declarations: [RenderOutletDirective, TemplateRenderDirective, RenderSourceDirective],
+  exports: [RenderOutletDirective, TemplateRenderDirective, RenderSourceDirective],
 })
 export class NgxRenderingModule {
 }

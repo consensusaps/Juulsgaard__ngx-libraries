@@ -8,8 +8,8 @@ export class RenderTab implements Disposable {
   content: TemplateRendering;
 
   constructor(tab: NgxSideMenuTabContext) {
-    this.name = tab.name;
-    this.content = Rendering.Static(tab.viewContainer, tab.templateRef);
+    this.name = tab.name();
+    this.content = Rendering.FromSource.Static(tab.source());
   }
 
   dispose() {

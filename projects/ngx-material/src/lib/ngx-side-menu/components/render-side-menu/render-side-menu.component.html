@@ -4,27 +4,23 @@
 
     <div class="head">
         <ngx-icon-button class="close" alias="close" (click)="onClose()"/>
-        <ng-container *ngIf="tab$ | async as t">
+
+        <ng-container *ngIf="tab() as t">
             <p *ngIf="t.name">{{t.name}}</p>
         </ng-container>
-        <ng-container *ngIf="showButtons$ | truthy">
-            <ng-container *ngIf="tabs$ | async as tabs">
-                <ng-container *ngFor="let tab of tabs">
-                    <div class="btn" *ngIf="tab.icon"
-                         [matBadge]="(tab.badge$ | async) ?? ''"
-                         [matBadgeHidden]="tab.badge$ | falsy"
-                         [matBadgeColor]="(tab.badgeColor$ | async) ?? 'accent'">
 
-                        <ngx-raised-icon-button
-                                [active]="tab.isOpen$ | truthy"
-                                [icon]="(tab.icon$ | async) ?? undefined"
-                                [matTooltip]="(tab.name$ | async) ?? ''"
-                                (click)="toggleTab(tab)"/>
-                    </div>
-                </ng-container>
+        <ng-container *ngIf="showButtons()">
+            <ng-container *ngFor="let tab of tabs()">
+                <div class="btn" *ngIf="!tab.hidden() && tab.icon()" [matBadge]="tab.badge() ?? ''"
+                     [matBadgeHidden]="!tab.badge()" [matBadgeColor]="tab.badgeColor() ?? 'accent'">
+
+                    <ngx-raised-icon-button [active]="tab.isOpen()" [icon]="tab.icon()"
+                            [matTooltip]="tab.name() ?? ''" (click)="toggleTab(tab)"/>
+
+                </div>
             </ng-container>
         </ng-container>
     </div>
 
-    <ngx-render [template]="t.content" *ngIf="tab$ | async as t"/>
+    <ngx-render [template]="t.content" *ngIf="tab() as t"/>
 </div>

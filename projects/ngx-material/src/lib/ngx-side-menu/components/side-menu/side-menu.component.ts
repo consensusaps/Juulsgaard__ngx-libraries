@@ -1,14 +1,11 @@
 import {
-  AfterContentInit, ChangeDetectionStrategy, Component, ContentChildren, EventEmitter, forwardRef, Injector, Input,
-  OnDestroy, Output, QueryList
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, contentChildren, effect, forwardRef, inject, Injector,
+  input, model, OnDestroy, Signal
 } from '@angular/core';
 import {NgxSideMenuTabContext} from "../../models/menu-tab-context";
-import {map} from "rxjs/operators";
-import {auditTime, distinctUntilChanged, firstValueFrom, merge, startWith, Subscription, switchMap} from "rxjs";
-import {cache} from "@juulsgaard/rxjs-tools";
 import {NgxSideMenuContext} from "../../models/menu-context";
-import {SideMenuManagerService} from "../../services/side-menu-manager.service";
 import {SideMenuInstance} from "../../models/side-menu-instance";
+import {SideMenuManagerService} from "../../services/side-menu-manager.service";
 
 @Component({
   selector: 'ngx-side-menu',
@@ -17,90 +14,77 @@ import {SideMenuInstance} from "../../models/side-menu-instance";
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: NgxSideMenuContext, useExisting: forwardRef(() => SideMenuComponent)}]
 })
-export class SideMenuComponent extends NgxSideMenuContext implements AfterContentInit, OnDestroy {
+export class SideMenuComponent extends NgxSideMenuContext implements OnDestroy {
 
-  @ContentChildren(NgxSideMenuTabContext, {descendants: false})
-  private children?: QueryList<NgxSideMenuTabContext>;
+  private menuManager = inject(SideMenuManagerService);
+  private injector = inject(Injector);
 
-  @Input({alias: 'show'}) set showData(show: boolean) {
-    this.setShow(show);
-  }
-  @Output() showChange = new EventEmitter<boolean>();
+  children = contentChildren(NgxSideMenuTabContext, {descendants: false});
+  tabs = computed(() => {
+    let tabs = this.children();
+    return tabs.filter(t => !t.disabled());
+  });
 
-  @Input({alias: 'active'}) set activeData(show: string|undefined) {
-    this.setShow(show);
-  }
-  @Output() activeChange = new EventEmitter<string|undefined>();
+  show = model(false);
+  active = model<string|undefined>(undefined);
+  showButtons = input(false, {transform: booleanAttribute});
+  tab: Signal<NgxSideMenuTabContext|undefined>;
 
-  @Input() set buttons(show: boolean) {
-    this.setShowButtons(show);
-  }
+  private instance?: SideMenuInstance;
 
-  sub = new Subscription();
-  instance?: SideMenuInstance;
-
-  constructor(private menuManager: SideMenuManagerService, private injector: Injector) {
+  constructor() {
     super();
-  }
 
-  ngAfterContentInit() {
-    if (!this.children) return;
+    this.tab = computed(() => {
+      const tabs = this.tabs();
+      if (tabs.length <= 0) return undefined;
 
-    const children$ = this.children.changes.pipe(
-      map(() => this.children?.toArray() ?? []),
-      startWith(this.children.toArray()),
-      cache()
-    );
+      const active = this.active();
 
-    // Re-run the logic every time the tabs change
-    this.sub.add(children$.subscribe(x => this.setTabs(x)));
-
-    // Re-run logic if any of the tabs change state
-    const childChanges$ = children$.pipe(
-      switchMap(children => merge(...children.map(x => x.changes$))),
-      auditTime(0)
-    );
-
-    this.sub.add(childChanges$.subscribe(
-      () => this.setTabs(this.children?.toArray() ?? [])
-    ));
-
-    const hasTab$ = this.tab$.pipe(
-      map(x => !!x),
-      distinctUntilChanged()
-    );
-
-    this.sub.add(hasTab$.subscribe(show => {
-      if (!show) {
-        if (this.instance) this.menuManager.closeMenu(this.instance);
-      } else {
-        this.instance = this.menuManager.createMenu(this, {}, this.injector);
+      if (active != null) {
+        const tab = tabs.find(x => x.id() === active);
+        if (tab) return tab;
       }
-    }));
+
+      if (this.show()) {
+        return tabs.at(0);
+      }
+
+      return undefined;
+    });
+
+    const hasTabs = computed(() => this.tabs().length > 0);
+
+    effect(() => {
+      if (hasTabs()) {
+        if (this.instance) return;
+        this.instance = this.menuManager.createMenu(this, {}, this.injector);
+        return;
+      }
+
+      if (!this.instance) return;
+      this.menuManager.closeMenu(this.instance);
+    });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
-    if (this.instance) this.menuManager.closeMenu(this.instance);
-  }
-
-  private changeState(state: string|boolean|undefined) {
-    this.setShow(state);
-    this.showChange.emit(!!state);
-    if (state === true) return;
-    this.activeChange.emit(state === false ? undefined : state);
+    if (!this.instance) return;
+    this.menuManager.closeMenu(this.instance);
   }
 
   async toggleTab(tab: NgxSideMenuTabContext) {
-    const activeTab = await firstValueFrom(this.tab$);
-    this.changeState(tab === activeTab ? undefined : tab.id);
+    const id = tab.id();
+    this.active.update(x => x === id ? undefined : id);
+    this.show.set(false);
   }
 
   override openTab(slug: string) {
-    this.changeState(slug);
+    this.active.set(slug);
+    this.show.set(false);
   }
 
   override close() {
-    this.changeState(false);
+    this.active.set(undefined);
+    this.show.set(false);
   }
 }

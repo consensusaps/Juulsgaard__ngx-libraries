@@ -1,31 +1,19 @@
 import {Disposable} from "@juulsgaard/ts-tools";
-import {Observable} from "rxjs";
 import {RenderTab} from "./render-tab";
 import {NgxSideMenuContext} from "./menu-context";
 import {SideMenuOptions} from "./side-menu-options";
-import {OverlayToken} from "@juulsgaard/ngx-tools";
-import {Injector} from "@angular/core";
-import {map} from "rxjs/operators";
-import {cache, disposable} from "@juulsgaard/rxjs-tools";
+import {handleDisposableSignal, OverlayToken} from "@juulsgaard/ngx-tools";
+import {computed, Injector, Signal} from "@angular/core";
 import {NgxSideMenuTabContext} from "./menu-tab-context";
 
 import {SideMenuRenderContext} from "./side-menu-render-context";
 
 export class SideMenuInstance extends SideMenuRenderContext implements Disposable {
 
-  get zIndex() {
-    return this.token.zIndex
-  }
-
-  get tabs$() {
-    return this.context.tabs$
-  };
-
-  get showButtons$() {
-    return this.context.showButtons$
-  };
-
-  readonly tab$: Observable<RenderTab | undefined>;
+  override zIndex: number;
+  override tabs: Signal<NgxSideMenuTabContext[]>;
+  override showButtons: Signal<boolean>;
+  override tab: Signal<RenderTab | undefined>;
 
   constructor(
     private context: NgxSideMenuContext,
@@ -35,18 +23,24 @@ export class SideMenuInstance extends SideMenuRenderContext implements Disposabl
   ) {
     super(options);
 
-    this.tab$ = this.context.tab$.pipe(
-      map(x => x ? new RenderTab(x) : undefined),
-      disposable(),
-      cache()
-    );
+    this.zIndex = token.zIndex;
+    this.tabs = this.context.tabs;
+    this.showButtons = this.context.showButtons;
+
+    this.tab = computed(() => {
+      const tab = this.context.tab();
+      if (!tab) return undefined;
+      return new RenderTab(tab);
+    });
+
+    handleDisposableSignal(this.tab);
   }
 
   override close() {
     this.context.close();
   }
 
-  toggleTab(tab: NgxSideMenuTabContext): void {
+  override toggleTab(tab: NgxSideMenuTabContext): void {
     this.context.toggleTab(tab);
   }
 
