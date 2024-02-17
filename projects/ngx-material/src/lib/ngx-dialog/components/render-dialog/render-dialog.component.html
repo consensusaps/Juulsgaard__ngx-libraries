@@ -2,7 +2,7 @@
 
 <div class="popup ngx-move-up">
 
-    <div class="header" *ngxIf="header$ as header">{{header}}</div>
+    <div class="header" *ngIf="header() as header">{{header}}</div>
 
     <div class="popup-content" *ngIf="plainDescription">
         <p>{{plainDescription}}</p>
@@ -10,7 +10,7 @@
 
     <div class="popup-content" *ngIf="htmlDescription" [innerHTML]="htmlDescription"></div>
 
-    <div class="popup-content" *ngxIf="contentTemplate$ as template">
+    <div class="popup-content" *ngIf="contentTemplate() as template">
         <ngx-render [template]="template"></ngx-render>
     </div>
 
@@ -20,7 +20,7 @@
         </button>
     </div>
 
-    <div class="footer" *ngxIf="footerTemplate$ as template">
+    <div class="footer" *ngIf="footerTemplate() as template">
         <ngx-render [template]="template"></ngx-render>
     </div>
 </div>
