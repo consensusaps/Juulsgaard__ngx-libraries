@@ -1,5 +1,6 @@
 import {
-  computed, Directive, effect, EventEmitter, inject, input, OnDestroy, Output, TemplateRef, ViewContainerRef
+  booleanAttribute, computed, Directive, effect, EventEmitter, inject, input, model, OnDestroy, Output, TemplateRef,
+  ViewContainerRef
 } from '@angular/core';
 import {Observable, of, Subscribable, switchMap} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
@@ -17,7 +18,14 @@ export class OverlayDirective implements OnDestroy {
   private viewContainer = inject(ViewContainerRef);
   private manager = inject(OverlayManagerService);
 
-  show = input.required({
+  static ngTemplateGuard_show(
+    dir: OverlayDirective,
+    value: boolean,
+  ): value is true {
+    return true;
+  }
+
+  showIn = input.required({
     alias: 'ngxOverlay',
     transform: (show: boolean | '' | Subscribable<boolean> | undefined | null) => {
       if (show === true || show === '') return of(true);
@@ -26,13 +34,16 @@ export class OverlayDirective implements OnDestroy {
     }
   });
 
+  show = model(true);
+
   @Output() closed = new EventEmitter<void>();
-  closeMethod = input<(() => void) | undefined>(undefined, {alias: 'ngxOverlayClose'});
-  canClose = computed(() => this.closed.observed || !!this.closeMethod())
+  //TODO: Replace with `show.observed` when possible
+  allowClose = input(false, {transform: booleanAttribute});
+  canClose = computed(() => this.closed.observed || this.allowClose())
 
   private closeOverlay() {
     this.closed.emit();
-    this.closeMethod()?.()
+    if (this.allowClose()) this.show.set(false);
   }
 
   type = input<string>();
@@ -50,8 +61,9 @@ export class OverlayDirective implements OnDestroy {
   private instance?: OverlayInstance;
 
   constructor() {
-    const show$ = toObservable(this.show).pipe(switchMap(x => x));
-    const show = toSignal(show$, {requireSync: true});
+    const show$ = toObservable(this.showIn).pipe(switchMap(x => x));
+    const _show = toSignal(show$, {initialValue: false});
+    const show = computed(() => _show() && this.show());
     effect(() => this.toggleOverlay(show()));
   }
 

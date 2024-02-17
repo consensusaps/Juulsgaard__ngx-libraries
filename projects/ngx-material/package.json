@@ -32,7 +32,7 @@
     "@angular/material": "^17.2.0",
     "@ctrl/tinycolor": "^4.0.3",
     "@juulsgaard/ngx-tools": "^16.1.40",
-    "@juulsgaard/rxjs-tools": "^1.5.1",
+    "@juulsgaard/rxjs-tools": "^1.5.2",
     "@juulsgaard/ts-tools": "^1.5.2",
     "typescript": "~5.3.3"
   },
@@ -43,7 +43,7 @@
     "@angular/material": "17.2.0",
     "@ctrl/tinycolor": "4.0.3",
     "@juulsgaard/ngx-tools": "16.1.40",
-    "@juulsgaard/rxjs-tools": "1.5.1",
+    "@juulsgaard/rxjs-tools": "1.5.2",
     "@juulsgaard/ts-tools": "1.5.2"
   },
   "dependencies": {

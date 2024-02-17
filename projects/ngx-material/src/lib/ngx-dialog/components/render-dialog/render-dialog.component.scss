@@ -69,6 +69,10 @@
       justify-content: flex-end;
       flex-shrink: 0;
 
+      &:empty {
+        display: none;
+      }
+
       button:not(:first-child) {
         margin-left: 8px;
       }

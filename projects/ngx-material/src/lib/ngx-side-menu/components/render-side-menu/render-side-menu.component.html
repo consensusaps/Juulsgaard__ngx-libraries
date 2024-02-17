@@ -11,7 +11,7 @@
 
         <ng-container *ngIf="showButtons()">
             <ng-container *ngFor="let tab of tabs()">
-                <div class="btn" *ngIf="!tab.hidden() && tab.icon()" [matBadge]="tab.badge() ?? ''"
+                <div class="btn" *ngIf="!tab.hide() && tab.icon()" [matBadge]="tab.badge() ?? ''"
                      [matBadgeHidden]="!tab.badge()" [matBadgeColor]="tab.badgeColor() ?? 'accent'">
 
                     <ngx-raised-icon-button [active]="tab.isOpen()" [icon]="tab.icon()"

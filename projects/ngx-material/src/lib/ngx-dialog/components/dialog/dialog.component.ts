@@ -2,7 +2,6 @@ import {
   booleanAttribute, ChangeDetectionStrategy, Component, computed, contentChild, effect, EventEmitter, inject, Injector,
   input, model, OnDestroy, Output, viewChild
 } from '@angular/core';
-import {DialogFooterDirective} from "../../directives/dialog-footer.directive";
 import {DialogManagerService} from "../../services/dialog-manager.service";
 import {DialogFooterTemplateDirective} from "../../directives/dialog-footer-template.directive";
 import {DialogContentTemplateDirective} from "../../directives/dialog-content-template.directive";
@@ -27,7 +26,6 @@ export class DialogComponent implements OnDestroy {
 
   private contentTemplate = contentChild(DialogContentTemplateDirective);
   private footerTemplate = contentChild(DialogFooterTemplateDirective);
-  private footerElement = contentChild(DialogFooterDirective);
 
   private content = viewChild.required('content', {read: RenderSourceDirective});
   private footer = viewChild.required('footer', {read: RenderSourceDirective});
@@ -42,7 +40,7 @@ export class DialogComponent implements OnDestroy {
     }
   );
 
-  show = model(false);
+  show = model(true);
 
   disableClose = input(false, {transform: booleanAttribute});
   canClose = computed(() => !this.disableClose());
@@ -66,12 +64,7 @@ export class DialogComponent implements OnDestroy {
     this.instance = this.manager.createDialog(
       {
         content: computed(() => this.contentTemplate() ?? this.content()),
-        footer: computed(() => {
-          const template = this.footerTemplate();
-          if (template) return template;
-          if (this.footerElement()) this.footer();
-          return undefined;
-        }),
+        footer: computed(() => this.footerTemplate() ?? this.footer()),
         header: this.header,
         scrollable: this.scrollable,
         canClose: this.canClose,

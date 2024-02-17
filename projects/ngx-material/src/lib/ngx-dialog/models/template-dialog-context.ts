@@ -56,13 +56,15 @@ export class TemplateDialogInstance extends TemplateDialogContext implements Dis
     this.content = computed(() => {
       this._content?.dispose();
       const source = options.content();
-      return Rendering.FromSource.Static(source);
+      this._content = Rendering.FromSource.Static(source);
+      return this._content;
     });
 
     this.footer = computed(() => {
       this._footer?.dispose();
       const source = options.footer();
-      return source && Rendering.FromSource.Static(source);
+      this._footer = source && Rendering.FromSource.Static(source);
+      return this._footer;
     });
   }
 
@@ -70,11 +72,14 @@ export class TemplateDialogInstance extends TemplateDialogContext implements Dis
     this.token.dispose();
     this._close$.complete();
 
+    this._content?.detachChangeRef();
+    this._footer?.detachChangeRef();
+
     // Delay until after animation ends
     setTimeout(() => {
-      this.content()?.dispose();
-      this.footer()?.dispose();
-    }, 200);
+      this._content?.dispose();
+      this._footer?.dispose();
+    }, 400);
   }
 
   close(): void {

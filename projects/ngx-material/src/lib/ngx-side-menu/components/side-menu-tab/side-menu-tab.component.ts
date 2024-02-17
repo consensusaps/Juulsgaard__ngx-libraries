@@ -12,14 +12,14 @@ import {RenderSourceDirective} from "@juulsgaard/ngx-tools";
 })
 export class SideMenuTabComponent extends NgxSideMenuTabContext {
 
-  id = input.required<string>();
+  slug = input.required<string>();
   name = input<string>();
   icon = input<string>();
   badge = input<string>();
   badgeColor = input<ThemePalette>();
 
   disabled = input(false, {transform: booleanAttribute});
-  hidden = input(false, {transform: booleanAttribute});
+  hide = input(false, {transform: booleanAttribute});
 
   source = viewChild.required('source', {read: RenderSourceDirective});
 }

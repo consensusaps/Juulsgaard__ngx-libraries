@@ -12,7 +12,7 @@ import {isString} from "@juulsgaard/ts-tools";
     IconDirective
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {'[role]': '"button"', '[class.active]': 'active'}
+  host: {'[role]': '"button"', '[class.active]': 'active()'}
 })
 export class IconButtonComponent extends BaseButton {
 

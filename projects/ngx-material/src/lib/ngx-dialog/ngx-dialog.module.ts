@@ -4,6 +4,7 @@ import {DialogFooterDirective} from "./directives/dialog-footer.directive";
 import {DialogContentTemplateDirective} from "./directives/dialog-content-template.directive";
 import {DialogFooterTemplateDirective} from "./directives/dialog-footer-template.directive";
 import {NgxRenderingModule} from "@juulsgaard/ngx-tools";
+import {DialogDirective} from "./directives/dialog.directive";
 
 
 @NgModule({
@@ -11,13 +12,15 @@ import {NgxRenderingModule} from "@juulsgaard/ngx-tools";
     DialogComponent,
     DialogFooterDirective,
     DialogContentTemplateDirective,
-    DialogFooterTemplateDirective
+    DialogFooterTemplateDirective,
+    DialogDirective,
   ],
   exports: [
     DialogComponent,
     DialogFooterDirective,
     DialogContentTemplateDirective,
     DialogFooterTemplateDirective,
+    DialogDirective,
   ],
   imports: [
     NgxRenderingModule

@@ -2,10 +2,15 @@ import {EmbeddedViewRef, Injector, TemplateRef, ViewContainerRef} from "@angular
 import {RenderSource} from "./render-source";
 import {Observable, skip} from "rxjs";
 import {latestValueFromOrDefault} from "@juulsgaard/rxjs-tools";
+import {arrToSet, setToArr} from "@juulsgaard/ts-tools";
 
 interface RenderingState {
-  nodes: Node[];
-  anchor: Element;
+  nodes: RenderNode[];
+}
+
+interface RenderNode {
+  node: Node;
+  anchor?: Element;
 }
 
 export abstract class TemplateRendering<T extends {} = {}> {
@@ -35,21 +40,56 @@ export abstract class TemplateRendering<T extends {} = {}> {
     return this.view;
   }
 
+  private populateNodes(anchor: Element, injector: Injector | undefined, filter?: (node: Node) => boolean): Node[] {
+
+    const view = this.getView(injector);
+    this.rendering = {nodes: []};
+
+    const nodes: Node[] = [];
+    for (let node of view.rootNodes as Node[]) {
+      if (!filter || filter(node)) {
+        this.rendering.nodes.push({node, anchor});
+        nodes.push(node);
+        continue;
+      }
+
+      node.parentNode?.removeChild(node);
+      this.rendering.nodes.push({node, anchor: undefined});
+    }
+
+    return nodes;
+  }
+
   /**
    * Get the root nodes of the rendered template
    * @param anchor - The current anchor
    * @param injector - Optionally override the injector used when rendering
+   * @param filter - Optional filter for which nodes to return
    * @return nodes - The root nodes of the rendered template
    */
-  private getNodes(anchor: Element, injector: Injector | undefined): Node[] {
+  private getNodes(anchor: Element, injector: Injector | undefined, filter?: (node: Node) => boolean): Node[] {
 
-    if (this.rendering?.anchor === anchor) {
-      return this.rendering.nodes;
+    if (!this.rendering) return this.populateNodes(anchor, injector, filter);
+
+    if (!filter) {
+      this.rendering.nodes.forEach(x => x.anchor = anchor);
+      return this.rendering.nodes.map(x => x.node);
     }
 
-    const view = this.getView(injector);
-    this.rendering = {anchor, nodes: view.rootNodes};
-    return this.rendering.nodes;
+    // Get and update all matching nodes
+    const nodes = arrToSet(this.rendering.nodes.filter(x => filter(x.node)));
+    nodes.forEach(x => x.anchor = anchor);
+
+    // Remove all non-matching nodes
+    this.rendering.nodes
+      .filter(x => !nodes.has(x))
+      .filter(x => x.anchor == anchor)
+      .forEach(node => {
+        node.node.parentNode?.removeChild(node.node);
+        node.anchor = undefined;
+      });
+
+    return setToArr(nodes, x => x.node);
   }
 
   /**
@@ -57,10 +97,11 @@ export abstract class TemplateRendering<T extends {} = {}> {
    * @param anchor - The HTML Anchor
    * @param injector - A specific injector to use
    * @param context - Optionally define a starting context
+   * @param filter - Optional filter for which nodes to attach
    */
-  attachAfter(anchor: Element, injector: Injector|undefined, context?: T|null) {
+  attachAfter(anchor: Element, injector: Injector|undefined, context?: T|null, filter?: (node: Node) => boolean) {
     this.setContext(context);
-    const nodes = this.getNodes(anchor, injector);
+    const nodes = this.getNodes(anchor, injector, filter);
     anchor.after(...nodes);
   };
 
@@ -69,10 +110,11 @@ export abstract class TemplateRendering<T extends {} = {}> {
    * @param anchor - The HTML Anchor
    * @param injector - A specific injector to use
    * @param context - Optionally define a starting context
+   * @param filter - Optional filter for which nodes to attach
    */
-  attachInside(anchor: Element, injector: Injector|undefined, context?: T|null) {
+  attachInside(anchor: Element, injector: Injector|undefined, context?: T|null, filter?: (node: Node) => boolean) {
     this.setContext(context);
-    const nodes = this.getNodes(anchor, injector);
+    const nodes = this.getNodes(anchor, injector, filter);
     anchor.append(...nodes);
   };
 
@@ -117,10 +159,14 @@ export abstract class TemplateRendering<T extends {} = {}> {
    * @param element - The anchor to remove the template from
    */
   detach(element: Element) {
-    if (this.rendering && element !== this.rendering.anchor) return;
+    if (!this.rendering) return;
 
-    this.rendering?.nodes.forEach(node => node.parentNode?.removeChild(node));
-    this.rendering = undefined;
+    this.rendering.nodes
+      .filter(x => x.anchor === element)
+      .forEach(node => {
+        node.node.parentNode?.removeChild(node.node);
+        node.anchor = undefined;
+      });
   }
 
   /**
@@ -128,8 +174,9 @@ export abstract class TemplateRendering<T extends {} = {}> {
    * @param element - The anchor that was destroyed
    */
   anchorRemoved(element: Element) {
-    if (this.rendering && element !== this.rendering.anchor) return;
-    this.rendering = undefined;
+    this.rendering?.nodes
+      .filter(x => x.anchor === element)
+      .forEach(node => node.anchor = undefined);
   }
 
   /**
@@ -139,13 +186,17 @@ export abstract class TemplateRendering<T extends {} = {}> {
     this.view?.destroy();
   }
 
+  detachChangeRef() {
+    this.view?.detach();
+  }
+
   private reset() {
     this.view = undefined;
     this.rendering = undefined;
   }
 }
 
-export class StaticTemplateRendering extends TemplateRendering<{}> {
+export class StaticTemplateRendering extends TemplateRendering {
 
   constructor(
     private readonly viewContainer: ViewContainerRef,

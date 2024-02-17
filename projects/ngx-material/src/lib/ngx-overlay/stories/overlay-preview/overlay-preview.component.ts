@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, model, Output} from '@angular/core';
 import {NgxOverlayModule} from "../../ngx-overlay.module";
 import {MatButtonModule} from "@angular/material/button";
 import {NgxOverlayOutletModule} from "../../ngx-overlay-outlet.module";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'ngx-overlay-preview',
@@ -9,13 +10,14 @@ import {NgxOverlayOutletModule} from "../../ngx-overlay-outlet.module";
   imports: [
     NgxOverlayModule,
     MatButtonModule,
-    NgxOverlayOutletModule
+    NgxOverlayOutletModule,
+    NgIf
   ],
   templateUrl: './overlay-preview.component.html',
   styleUrls: ['./overlay-preview.component.css']
 })
 export class OverlayPreviewComponent {
-  @Input() show = true;
+  show = model(true);
   @Input() scrollable = false;
   @Input() content = 'This is the contents of the Overlay';
 
@@ -23,6 +25,6 @@ export class OverlayPreviewComponent {
 
   close() {
     this.closed.emit();
-    this.show = false;
+    this.show.set(false);
   }
 }

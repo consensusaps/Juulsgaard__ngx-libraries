@@ -35,7 +35,7 @@
     "@ctrl/tinycolor": "4.0.3",
     "@juulsgaard/data-sources": "1.12.0",
     "@juulsgaard/ngx-forms-core": "17.0.0",
-    "@juulsgaard/rxjs-tools": "1.5.1",
+    "@juulsgaard/rxjs-tools": "1.5.2",
     "@juulsgaard/ts-tools": "1.5.2",
     "dayjs": "1.11.10",
     "fuse.js": "7.0.0",

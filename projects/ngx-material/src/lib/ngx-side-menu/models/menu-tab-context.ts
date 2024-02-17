@@ -7,21 +7,21 @@ export abstract class NgxSideMenuTabContext {
 
   private context = inject(NgxSideMenuContext);
 
-  abstract id: Signal<string>;
+  abstract slug: Signal<string>;
   abstract name: Signal<string|undefined>;
   abstract icon: Signal<string|undefined>;
   abstract badge: Signal<string|undefined>;
   abstract badgeColor: Signal<ThemePalette|undefined>;
 
   abstract disabled: Signal<boolean>;
-  abstract hidden: Signal<boolean>;
+  abstract hide: Signal<boolean>;
 
   abstract source: Signal<RenderSource>;
 
   isOpen = computed(() => this.context.tab() === this);
 
   open() {
-    this.context.openTab(this.id());
+    this.context.openTab(this.slug());
   }
 
   openTab(tab: string) {

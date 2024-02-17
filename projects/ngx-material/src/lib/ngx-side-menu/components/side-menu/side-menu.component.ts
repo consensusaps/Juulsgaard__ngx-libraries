@@ -42,7 +42,7 @@ export class SideMenuComponent extends NgxSideMenuContext implements OnDestroy {
       const active = this.active();
 
       if (active != null) {
-        const tab = tabs.find(x => x.id() === active);
+        const tab = tabs.find(x => x.slug() === active);
         if (tab) return tab;
       }
 
@@ -53,10 +53,11 @@ export class SideMenuComponent extends NgxSideMenuContext implements OnDestroy {
       return undefined;
     });
 
-    const hasTabs = computed(() => this.tabs().length > 0);
+    const hasTab = computed(() => this.tab() != null);
 
     effect(() => {
-      if (hasTabs()) {
+
+      if (hasTab()) {
         if (this.instance) return;
         this.instance = this.menuManager.createMenu(this, {}, this.injector);
         return;
@@ -64,6 +65,7 @@ export class SideMenuComponent extends NgxSideMenuContext implements OnDestroy {
 
       if (!this.instance) return;
       this.menuManager.closeMenu(this.instance);
+      this.instance = undefined;
     });
   }
 
@@ -73,7 +75,7 @@ export class SideMenuComponent extends NgxSideMenuContext implements OnDestroy {
   }
 
   async toggleTab(tab: NgxSideMenuTabContext) {
-    const id = tab.id();
+    const id = tab.slug();
     this.active.update(x => x === id ? undefined : id);
     this.show.set(false);
   }

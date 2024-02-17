@@ -2384,10 +2384,10 @@
   resolved "https://registry.yarnpkg.com/@juulsgaard/rxjs-tools/-/rxjs-tools-1.5.1.tgz#6394ed7d3c51ddd23c40b55d11e698ac35e6148b"
   integrity sha512-JOc+A4V/Nbh2kS68zteGkS6XXPHJLIIY2fCErZQ0v6It2bnU9/8v4YK5yoq2BbDXOOQpKXzJ3UnSNsh1ppBG3A==
 
-"@juulsgaard/ts-tools@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@juulsgaard/ts-tools/-/ts-tools-1.5.1.tgz#98d983bc82d4d102983ce6bfeb867e50dd3e98d8"
-  integrity sha512-GMu+tzIj6O13W7Kl4jrrJPcHgRWie73XIorpTNmowLs7YKk7y/pyYLZ2iLorB4Fs3IPWx8IYpY7bhtZOPm4Tvw==
+"@juulsgaard/rxjs-tools@1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@juulsgaard/rxjs-tools/-/rxjs-tools-1.5.2.tgz#c2e65c5d7e5ab50ad8effedacd6d4ba7e95e6b32"
+  integrity sha512-7OcVW3XYYCOjkdtB5CEOv+xI9ewAUrmUpi03Bx+FnO3DJAKj7CzKiEO8jqONmLoNdXj43rsmfOL0AAbEj1jA8A==
 
 "@juulsgaard/ts-tools@1.5.2":
   version "1.5.2"

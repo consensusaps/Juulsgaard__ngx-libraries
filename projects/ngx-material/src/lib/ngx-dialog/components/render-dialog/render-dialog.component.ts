@@ -96,5 +96,8 @@ export class RenderDialogComponent {
     if (!this.canClose) return;
     this.context.close();
   }
+
+  getFooters = (node: Node) => (node instanceof Element) && node.hasAttribute('dialogFooter');
+  getNonFooters = (node: Node) => !this.getFooters(node);
 }
 

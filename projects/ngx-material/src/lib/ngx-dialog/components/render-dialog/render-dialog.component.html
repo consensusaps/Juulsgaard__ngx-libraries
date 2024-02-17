@@ -10,9 +10,7 @@
 
     <div class="popup-content" *ngIf="htmlDescription" [innerHTML]="htmlDescription"></div>
 
-    <div class="popup-content" *ngIf="contentTemplate() as template">
-        <ngx-render [template]="template"></ngx-render>
-    </div>
+    <div class="popup-content" *ngIf="contentTemplate() as template" [ngxRender]="template" [filter]="getNonFooters"></div>
 
     <div class="footer" *ngIf="buttons">
         <button mat-button *ngFor="let btn of buttons" (click)="btn.callback()" [color]="btn.color">
@@ -20,7 +18,9 @@
         </button>
     </div>
 
-    <div class="footer" *ngIf="footerTemplate() as template">
-        <ngx-render [template]="template"></ngx-render>
-    </div>
+    <div class="footer" *ngIf="footerTemplate() as template; else: contentFooter" [ngxRender]="template"></div>
+
+    <ng-template #contentFooter>
+        <div class="footer" *ngIf="contentTemplate() as template" [ngxRender]="template" [filter]="getFooters"></div>
+    </ng-template>
 </div>

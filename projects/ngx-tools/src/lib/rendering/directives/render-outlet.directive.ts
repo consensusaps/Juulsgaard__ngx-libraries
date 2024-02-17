@@ -10,6 +10,7 @@ export abstract class BaseRenderDirective<T extends {}> implements OnDestroy {
   abstract renderInside: Signal<boolean>;
   abstract context: Signal<T | undefined>;
   abstract autoDispose: Signal<boolean>;
+  abstract filter: Signal<((node: Node) => boolean)|undefined>;
 
   private element = inject(ElementRef<HTMLElement>).nativeElement;
   private injector = inject(Injector);
@@ -38,13 +39,15 @@ export abstract class BaseRenderDirective<T extends {}> implements OnDestroy {
       return;
     }
 
+    this._template = template;
     const inside = this.renderInside();
     const context = this.context();
+    const filter = this.filter()
 
     if (inside) {
-      this._template?.attachInside(this.element, this.injector, context);
+      this._template.attachInside(this.element, this.injector, context, filter);
     } else {
-      this._template?.attachAfter(this.element, this.injector, context);
+      this._template.attachAfter(this.element, this.injector, context, filter);
     }
 
     this._template?.updateContext(context);
@@ -59,6 +62,8 @@ export class RenderOutletDirective<T extends {}> extends BaseRenderDirective<T> 
 
   context: InputSignal<T | undefined> = input<T>();
   autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+
+  filter = input<(node: Node) => boolean>();
 }
 
 @Directive({selector: '[ngxRender]'})
@@ -66,6 +71,9 @@ export class TemplateRenderDirective<T extends {}> extends BaseRenderDirective<T
 
   template: InputSignal<TemplateRendering<T> | undefined> = input<TemplateRendering<T>|undefined>(undefined, {alias: 'ngxRender'});
   context: InputSignal<T | undefined> = input<T>();
+
   autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
   renderInside = signal(true);
+
+  filter = input<(node: Node) => boolean>();
 }

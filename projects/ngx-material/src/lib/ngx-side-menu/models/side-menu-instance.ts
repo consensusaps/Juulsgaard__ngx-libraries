@@ -2,7 +2,7 @@ import {Disposable} from "@juulsgaard/ts-tools";
 import {RenderTab} from "./render-tab";
 import {NgxSideMenuContext} from "./menu-context";
 import {SideMenuOptions} from "./side-menu-options";
-import {handleDisposableSignal, OverlayToken} from "@juulsgaard/ngx-tools";
+import {OverlayToken} from "@juulsgaard/ngx-tools";
 import {computed, Injector, Signal} from "@angular/core";
 import {NgxSideMenuTabContext} from "./menu-tab-context";
 
@@ -13,6 +13,8 @@ export class SideMenuInstance extends SideMenuRenderContext implements Disposabl
   override zIndex: number;
   override tabs: Signal<NgxSideMenuTabContext[]>;
   override showButtons: Signal<boolean>;
+
+  private _tab?: RenderTab;
   override tab: Signal<RenderTab | undefined>;
 
   constructor(
@@ -28,12 +30,11 @@ export class SideMenuInstance extends SideMenuRenderContext implements Disposabl
     this.showButtons = this.context.showButtons;
 
     this.tab = computed(() => {
+      this._tab?.dispose();
       const tab = this.context.tab();
-      if (!tab) return undefined;
-      return new RenderTab(tab);
+      this._tab = tab ? new RenderTab(tab) : undefined;
+      return this._tab;
     });
-
-    handleDisposableSignal(this.tab);
   }
 
   override close() {
@@ -46,5 +47,6 @@ export class SideMenuInstance extends SideMenuRenderContext implements Disposabl
 
   dispose(): void {
     this.token.dispose();
+    this._tab?.dispose();
   }
 }
