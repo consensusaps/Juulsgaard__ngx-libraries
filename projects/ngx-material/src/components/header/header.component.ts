@@ -1,15 +1,16 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostBinding, inject, Input, OnDestroy, OnInit,
-  Output
+  booleanAttribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostBinding, inject, input,
+  OnDestroy, OnInit, Output, signal, Signal
 } from '@angular/core';
 import {MatRippleModule} from "@angular/material/core";
 import {NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {Observable, of, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {IconDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {UIScopeContext} from "../../models";
 import {SidebarService} from "../../services";
 import {map} from "rxjs/operators";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'ngx-header',
@@ -28,16 +29,17 @@ import {map} from "rxjs/operators";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  @Input() heading?: string;
-  @Input() subHeading?: string;
   @Output() back = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
-  @Input() hideClose = false;
+
+  heading = input<string>();
+  subHeading = input<string>();
+  hideClose = input(false, {transform: booleanAttribute});
 
   @HostBinding('class')
   headerClass: string[] = [];
 
-  showMenu$: Observable<boolean>;
+  showMenu: Signal<boolean>;
 
   private sub?: Subscription;
   private sidebarService = inject(SidebarService, {optional: true});
@@ -46,10 +48,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private changes: ChangeDetectorRef
   ) {
-    if (this.sidebarService) {
-      this.showMenu$ = this.uiContext?.header$.pipe(map(x => x.showMenu)) ?? of(true);
+    if (this.sidebarService && this.uiContext) {
+      this.showMenu = toSignal(this.uiContext.header$.pipe(map(x => x.showMenu)), {initialValue: false});
     } else {
-      this.showMenu$ = of(false);
+      this.showMenu = signal(false);
     }
   }
 

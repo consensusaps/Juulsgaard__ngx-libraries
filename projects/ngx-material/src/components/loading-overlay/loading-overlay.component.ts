@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @Component({
@@ -10,11 +10,11 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   imports: [
     MatProgressSpinnerModule
   ],
-  host: {'[class]': 'type'}
+  host: {'[class]': 'type()'}
 })
 export class LoadingOverlayComponent {
 
-  @Input() type: 'content'|'fixed'|'absolute' = 'fixed';
+  type = input<'content'|'fixed'|'absolute'>('fixed');
 
   constructor() { }
 
