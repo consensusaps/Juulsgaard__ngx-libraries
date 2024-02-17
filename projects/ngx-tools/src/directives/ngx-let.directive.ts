@@ -1,9 +1,9 @@
-import {Directive, effect, EmbeddedViewRef, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Directive, effect, EmbeddedViewRef, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
 
 @Directive({selector: '[ngxLet]', standalone: true})
 export class NgxLetDirective<T> {
 
-  value = input.required<T>({alias: 'ngxLet'});
+  value: InputSignal<T> = input.required<T>({alias: 'ngxLet'});
 
   private view?: EmbeddedViewRef<TemplateContext<T>>;
 

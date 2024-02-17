@@ -1,24 +1,26 @@
 import {EmbeddedViewRef, Injector, TemplateRef, ViewContainerRef} from "@angular/core";
 import {RenderSource} from "./render-source";
-import {Observable, skip, take} from "rxjs";
+import {Observable, skip} from "rxjs";
+import {latestValueFromOrDefault} from "@juulsgaard/rxjs-tools";
 
 interface RenderingState {
   nodes: Node[];
   anchor: Element;
 }
 
-export abstract class TemplateRendering<T = any> {
+export abstract class TemplateRendering<T extends {} = {}> {
 
   private view?: EmbeddedViewRef<T>;
   private rendering?: RenderingState;
-  protected context?: T;
+  private context?: T;
 
   /**
    * Render the Rendering
    * @param injector - Optionally override the injector used when rendering
+   * @param context - The context for the template
    * @return view - Returns the ViewRef to the rendered template
    */
-  protected abstract render(injector?: Injector): EmbeddedViewRef<T>;
+  protected abstract render(injector: Injector|undefined, context: T|undefined): EmbeddedViewRef<T>;
 
   /**
    * Get or create the ViewRef to the rendered template
@@ -27,7 +29,7 @@ export abstract class TemplateRendering<T = any> {
    */
   private getView(injector: Injector | undefined): EmbeddedViewRef<T> {
     if (this.view) return this.view;
-    this.view = this.render(injector);
+    this.view = this.render(injector, this.context);
     this.view.detectChanges();
     this.view.onDestroy(() => this.reset());
     return this.view;
@@ -56,8 +58,8 @@ export abstract class TemplateRendering<T = any> {
    * @param injector - A specific injector to use
    * @param context - Optionally define a starting context
    */
-  attachAfter(anchor: Element, injector?: Injector, context?: T) {
-    if (context) this.context = context;
+  attachAfter(anchor: Element, injector: Injector|undefined, context?: T|null) {
+    this.setContext(context);
     const nodes = this.getNodes(anchor, injector);
     anchor.after(...nodes);
   };
@@ -68,22 +70,44 @@ export abstract class TemplateRendering<T = any> {
    * @param injector - A specific injector to use
    * @param context - Optionally define a starting context
    */
-  attachInside(anchor: Element, injector?: Injector, context?: T) {
-    if (context) this.context = context;
+  attachInside(anchor: Element, injector: Injector|undefined, context?: T|null) {
+    this.setContext(context);
     const nodes = this.getNodes(anchor, injector);
     anchor.append(...nodes);
   };
 
   /**
+   * Coalesce and set the current context
+   * @param context - undefined = don't change, null = clear
+   * @return state - undefined = no change, null = cleared
+   */
+  protected setContext(context: T|null|undefined): T|null|undefined {
+
+    if (context === undefined) return undefined;
+
+    if (context === null) {
+      if (this.context == null) return undefined;
+      this.context = undefined;
+      return null;
+    }
+
+    if (this.context === context) return undefined;
+    this.context = context;
+    return this.context;
+  }
+
+  /**
    * Send new data to the template
    * @param context - New template context
    */
-  updateContext(context?: T) {
-    if (!context) return;
-    this.context = context;
+  updateContext(context: T|null|undefined) {
+    const ctx = this.setContext(context);
+    if (ctx == null) return;
+
     if (!this.view) return;
-    if (this.view.context === context) return;
-    this.view.context = context;
+    if (this.view.context === ctx) return;
+
+    Object.assign(this.view.context, ctx);
     this.view.detectChanges();
   }
 
@@ -121,22 +145,22 @@ export abstract class TemplateRendering<T = any> {
   }
 }
 
-export class StaticTemplateRendering extends TemplateRendering<void> {
+export class StaticTemplateRendering extends TemplateRendering<{}> {
 
   constructor(
     private readonly viewContainer: ViewContainerRef,
-    private readonly template: TemplateRef<void>
+    private readonly template: TemplateRef<{}>
   ) {
     super();
   }
 
-  protected render(injector?: Injector): EmbeddedViewRef<void> {
-    return this.viewContainer.createEmbeddedView(this.template, undefined, {injector});
+  protected render(injector: Injector|undefined): EmbeddedViewRef<{}> {
+    return this.viewContainer.createEmbeddedView(this.template, {}, {injector});
   }
 
 }
 
-export class ConstantTemplateRendering<T> extends TemplateRendering<T> {
+export class ConstantTemplateRendering<T extends {}> extends TemplateRendering<T> {
 
   constructor(
     private readonly viewContainer: ViewContainerRef,
@@ -144,16 +168,17 @@ export class ConstantTemplateRendering<T> extends TemplateRendering<T> {
     data: T
   ) {
     super();
-    this.context = data;
+    this.setContext(data);
   }
 
-  protected render(injector?: Injector): EmbeddedViewRef<T> {
-    return this.viewContainer.createEmbeddedView(this.template, this.context, {injector});
+  protected render(injector: Injector|undefined, context: T|undefined): EmbeddedViewRef<T> {
+    if (context == null) throw Error("Template cannot be rendered without a context");
+    return this.viewContainer.createEmbeddedView(this.template, context, {injector});
   }
 
 }
 
-export class TypedTemplateRendering<T> extends TemplateRendering<T> {
+export class TypedTemplateRendering<T extends {}> extends TemplateRendering<T> {
 
   constructor(
     private readonly viewContainer: ViewContainerRef,
@@ -162,13 +187,14 @@ export class TypedTemplateRendering<T> extends TemplateRendering<T> {
     super();
   }
 
-  protected render(injector?: Injector): EmbeddedViewRef<T> {
-    return this.viewContainer.createEmbeddedView(this.template, this.context, {injector});
+  protected render(injector: Injector|undefined, context: T): EmbeddedViewRef<T> {
+    if (context == null) throw Error("Template cannot be rendered without a context");
+    return this.viewContainer.createEmbeddedView(this.template, context, {injector});
   }
 
 }
 
-export class ObservableTemplateRendering<T> extends TemplateRendering<T> {
+export class ObservableTemplateRendering<T extends {}> extends TemplateRendering<T> {
 
   constructor(
     private readonly viewContainer: ViewContainerRef,
@@ -178,17 +204,22 @@ export class ObservableTemplateRendering<T> extends TemplateRendering<T> {
     super();
   }
 
-  protected render(injector?: Injector): EmbeddedViewRef<T> {
+  protected render(injector: Injector|undefined, context: T|undefined): EmbeddedViewRef<T> {
 
-    let hasValue = false;
-    this.data$.pipe(take(1)).subscribe(data => {
-      hasValue = true;
-      this.context = data;
-    }).unsubscribe();
+    const latestContext = latestValueFromOrDefault(this.data$);
+    if (latestContext != null) {
+      this.setContext(latestContext);
+      context = latestContext;
+    }
 
-    const view = this.viewContainer.createEmbeddedView(this.template, this.context, {injector});
+    if (context == null) throw Error("Template cannot be rendered without a context");
 
-    const sub = this.data$.pipe(skip(hasValue ? 1 : 0)).subscribe(data => this.updateContext(data));
+    const view = this.viewContainer.createEmbeddedView(this.template, context, {injector});
+
+    const sub = this.data$.pipe(
+      skip(latestContext == null ? 0 : 1)
+    ).subscribe(data => this.updateContext(data));
+
     view.onDestroy(() => sub.unsubscribe());
 
     return view;
@@ -205,9 +236,9 @@ export module Rendering {
    */
   export function Static(
     viewContainer: ViewContainerRef,
-    template: TemplateRef<void>
+    template: TemplateRef<{}>|TemplateRef<void>
   ) {
-    return new StaticTemplateRendering(viewContainer, template);
+    return new StaticTemplateRendering(viewContainer, template as TemplateRef<{}>);
   }
 
   /**
@@ -217,7 +248,7 @@ export module Rendering {
    * @param data - The static data
    * @constructor
    */
-  export function Constant<T>(
+  export function Constant<T extends {}>(
     viewContainer: ViewContainerRef,
     template: TemplateRef<T>,
     data: T
@@ -231,7 +262,7 @@ export module Rendering {
    * @param template - The typed template
    * @constructor
    */
-  export function Typed<T>(
+  export function Typed<T extends {}>(
     viewContainer: ViewContainerRef,
     template: TemplateRef<T>
   ) {
@@ -245,7 +276,7 @@ export module Rendering {
    * @param data$ - The data observable
    * @constructor
    */
-  export function Observable<T>(
+  export function Observable<T extends {}>(
     viewContainer: ViewContainerRef,
     template: TemplateRef<T>,
     data$: Observable<T>
@@ -270,7 +301,7 @@ export module Rendering {
      * @param data - The static data
      * @constructor
      */
-    export function Constant<T>(source: RenderSource<T>, data: T) {
+    export function Constant<T extends {}>(source: RenderSource<T>, data: T) {
       return Rendering.Constant<T>(source.viewContainer, source.template, data);
     }
 
@@ -279,7 +310,7 @@ export module Rendering {
      * @param source - The render source
      * @constructor
      */
-    export function Typed<T>(source: RenderSource<T>) {
+    export function Typed<T extends {}>(source: RenderSource<T>) {
       return Rendering.Typed<T>(source.viewContainer, source.template);
     }
 
@@ -289,7 +320,7 @@ export module Rendering {
      * @param data$ - The data observable
      * @constructor
      */
-    export function Observable<T>(source: RenderSource<T>, data$: Observable<T>) {
+    export function Observable<T extends {}>(source: RenderSource<T>, data$: Observable<T>) {
       return Rendering.Observable<T>(source.viewContainer, source.template, data$);
     }
 

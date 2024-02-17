@@ -1,5 +1,4 @@
-import {inject, NgZone, Provider, Type} from "@angular/core";
-import {BehaviorSubject} from "rxjs";
+import {inject, NgZone, Provider, signal, Type} from "@angular/core";
 import {Clipboard} from "@angular/cdk/clipboard";
 
 export abstract class IdManagerService {
@@ -8,7 +7,8 @@ export abstract class IdManagerService {
     return {provide: IdManagerService, useClass: service};
   }
 
-  public idCopyMode$ = new BehaviorSubject<boolean>(false);
+  private _idCopyMode = signal(false);
+  readonly idCopyMode = this._idCopyMode.asReadonly();
 
   private clipboard = inject(Clipboard);
 
@@ -18,22 +18,22 @@ export abstract class IdManagerService {
     zone.runOutsideAngular(() => {
       window.addEventListener('keydown', event => {
 
-        if (this.idCopyMode$.value) {
+        if (this._idCopyMode()) {
           if (event.key !== 'Escape') return;
-          if (!this.idCopyMode$.value) return;
-          zone.run(() => this.idCopyMode$.next(false));
+          if (!this._idCopyMode()) return;
+          zone.run(() => this._idCopyMode.set(false));
           return;
         }
 
         if (event.ctrlKey && event.shiftKey && event.key === 'f') {
-          if (this.idCopyMode$.value) return;
-          zone.run(() => this.idCopyMode$.next(true));
+          if (this._idCopyMode()) return;
+          zone.run(() => this._idCopyMode.set(true));
           return;
         }
 
         if (event.altKey && event.key === 'c') {
-          if (this.idCopyMode$.value) return;
-          zone.run(() => this.idCopyMode$.next(true));
+          if (this._idCopyMode()) return;
+          zone.run(() => this._idCopyMode.set(true));
           return;
         }
       });
@@ -43,11 +43,11 @@ export abstract class IdManagerService {
   copyId(id: string) {
     this.clipboard.copy(id);
     this.onCopied();
-    this.idCopyMode$.next(false);
+    this._idCopyMode.set(false);
   }
 
-  toggle() {
-    this.idCopyMode$.next(!this.idCopyMode$.value);
+  toggle(state?: boolean) {
+    this._idCopyMode.update(x => state ?? !x);
   }
 
   protected abstract onCopied(): void;

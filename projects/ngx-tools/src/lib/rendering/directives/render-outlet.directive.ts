@@ -1,8 +1,8 @@
 import {booleanAttribute, Directive, effect, ElementRef, inject, Injector, input, OnDestroy} from "@angular/core";
 import {TemplateRendering} from "../models/template-rendering";
 
-@Directive({selector: 'ngx-render', host: {'[style.display]': 'renderInside ? "" : "hidden"'}})
-export class RenderOutletDirective<T> implements OnDestroy {
+@Directive({selector: 'ngx-render', host: {'[style.display]': 'renderInside() ? "" : "hidden"'}})
+export class RenderOutletDirective<T extends {}> implements OnDestroy {
 
   template = input<TemplateRendering<T>|undefined>(undefined, {alias: 'template'});
   renderInside = input(false, {transform: booleanAttribute});

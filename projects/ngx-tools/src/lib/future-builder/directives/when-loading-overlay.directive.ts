@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, effect, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Directive, effect, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
 import {switchMap} from "rxjs";
 import {FutureLoading} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
@@ -8,7 +8,7 @@ import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 @Directive({selector: '[whenLoadingOverlay]'})
 export class WhenLoadingOverlayDirective<T> extends BaseFutureRender<TemplateContext<T>> {
 
-  state = input.required<FutureSwitch<T>>({alias: 'whenLoadingOverlay'});
+  state: InputSignal<FutureSwitch<T>> = input.required<FutureSwitch<T>>({alias: 'whenLoadingOverlay'});
 
   constructor(
     templateRef: TemplateRef<TemplateContext<T>>,

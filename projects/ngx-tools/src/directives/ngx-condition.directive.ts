@@ -6,7 +6,7 @@ import {Dispose} from "../decorators";
 import {toSignal} from "@angular/core/rxjs-interop";
 
 @Directive()
-export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, TContext> implements OnChanges {
+export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, TContext extends {}> implements OnChanges {
   abstract value: T;
   abstract elseTemplate?: TemplateRef<void>;
   abstract waitingTemplate?: TemplateRef<void>;
@@ -99,7 +99,7 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
       this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
       this.view.markForCheck();
     } else {
-      this.view.context = context;
+      Object.assign(this.view.context, context);
       this.view.markForCheck();
     }
   }

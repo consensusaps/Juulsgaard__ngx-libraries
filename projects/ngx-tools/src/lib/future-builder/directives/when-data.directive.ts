@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, effect, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Directive, effect, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
 import {switchMap} from "rxjs";
 import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
@@ -7,7 +7,7 @@ import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 @Directive({selector: '[whenData]'})
 export class WhenDataDirective<T> extends BaseFutureRender<TemplateContext<T>> {
 
-  state = input.required<FutureSwitch<T>>({alias: 'whenData'})
+  state: InputSignal<FutureSwitch<T>> = input.required<FutureSwitch<T>>({alias: 'whenData'})
 
   constructor(
     templateRef: TemplateRef<TemplateContext<T>>,

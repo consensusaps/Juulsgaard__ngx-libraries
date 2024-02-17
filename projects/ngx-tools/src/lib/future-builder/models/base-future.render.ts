@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, EmbeddedViewRef, TemplateRef, ViewContainerRef} from "@angular/core";
 
-export abstract class BaseFutureRender<TContext> {
+export abstract class BaseFutureRender<TContext extends {}> {
 
   protected constructor(
     protected templateRef: TemplateRef<TContext>,
@@ -20,7 +20,7 @@ export abstract class BaseFutureRender<TContext> {
         return;
       }
 
-      this.embeddedView.context = context;
+      Object.assign(this.embeddedView.context, context);
       this.embeddedView.detectChanges();
       return;
     }

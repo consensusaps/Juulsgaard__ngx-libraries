@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, effect, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Directive, effect, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
 import {switchMap} from "rxjs";
 import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
@@ -7,7 +7,7 @@ import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 @Directive({selector: '[whenErrorOverlay]'})
 export class WhenErrorOverlayDirective<T> extends BaseFutureRender<TemplateContext<T>> {
 
-  state = input.required<FutureSwitch<T>>({alias: 'whenErrorOverlay'});
+  state: InputSignal<FutureSwitch<T>> = input.required<FutureSwitch<T>>({alias: 'whenErrorOverlay'});
 
   constructor(
     templateRef: TemplateRef<TemplateContext<T>>,

@@ -62,16 +62,16 @@ export class IconDirective {
   }
 
   applyIcon(data?: IconData) {
-
+    console.log(data);
     if (!data) {
       this.classes = ['empty'];
       return;
     }
 
     this.classes = [data.providerClass, ...data.classes ?? []];
-    this.element.nativeElement.innerText = data.text ?? '';
+    this.element.innerText = data.text ?? '';
     if (data.scale) this.classes.push('scaled');
-    this.element.nativeElement.style.setProperty('--scale', data.scale?.toString() ?? null);
+    this.element.style.setProperty('--scale', data.scale?.toString() ?? null);
   }
 }
 

@@ -1,7 +1,6 @@
 
-<section *ngxLet="counter$ as counter">
-    <p>Count: {{counter}}</p>
-    <button (click)="count()">+ 1</button>
+<section *ngxLet="'Lorem Ipsum' as counter">
+    <p>Text: {{counter}}</p>
 </section>
 
 <hr>
@@ -13,28 +12,11 @@
 
 <hr>
 
-<section *ngxLet="[counter$, timer$] as vars">
-    <p>Count: {{vars[0]}}</p>
-    <button (click)="count()">+ 1</button>
-    <br>
-    <p>Timer: {{vars[1]}}</p>
-</section>
-
-<hr>
-
 <section *ngxAsync="{counter: counter$, timer: timer$} as vars">
     <p>Count: {{vars.counter}}</p>
     <button (click)="count()">+ 1</button>
     <br>
     <p>Timer: {{vars.timer}}</p>
-</section>
-
-<hr>
-
-<section *ngxLetAwait="[delay$, countedToTen$] as x; else waiting">
-    <p>Waited</p>
-    <p>delay: {{x[0]}}</p>
-    <p>counted: {{x[1]}}</p>
 </section>
 
 <hr>

@@ -1,4 +1,4 @@
-import {Directive, inject, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Directive, inject, input, InputSignalWithTransform, TemplateRef, ViewContainerRef} from '@angular/core';
 import {EMPTY, Observable, of, Subscribable, switchMap} from "rxjs";
 import {cache, Future} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
@@ -10,7 +10,11 @@ import {distinctUntilChanged} from "rxjs/operators";
 })
 export class FutureDirective<T> {
 
-  future = input.required({
+  // Explicit type to hold Webstorm evaluate ngTemplateContextGuard
+  future: InputSignalWithTransform<
+    Observable<Future<T> | undefined>,
+    Subscribable<Future<T> | undefined> | Future<T> | undefined | null
+  > = input.required({
     transform: (future: Subscribable<Future<T>|undefined>|Future<T>|undefined|null): Observable<Future<T>|undefined> => {
       if (future == null) return EMPTY;
       if (future instanceof Future) return of(future);

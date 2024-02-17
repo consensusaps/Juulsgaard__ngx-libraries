@@ -1,4 +1,4 @@
-import {Directive, effect, EmbeddedViewRef, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Directive, effect, EmbeddedViewRef, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
 import {EMPTY, mergeWith, Observable} from "rxjs";
 import {
   AsyncObject, AsyncObjectMapper, AsyncOrSyncObject, AsyncVal, AsyncValueMapper, isSubscribable, UnwrappedAsyncObject,
@@ -6,14 +6,15 @@ import {
 } from "@juulsgaard/rxjs-tools";
 import {Dispose} from "../decorators";
 import {isObject, shallowEquals} from "@juulsgaard/ts-tools";
-import {toSignal} from "@angular/core/rxjs-interop";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {distinctUntilChanged} from "rxjs/operators";
 
 type InputVal = AsyncVal<unknown> | AsyncObject<Record<string, unknown>> | undefined | null;
 
 @Directive({selector: '[ngxAsyncAwait]', standalone: true})
 export class NgxAsyncAwaitDirective<T extends InputVal> {
 
-  values = input.required<T>({alias: 'ngxAsyncAwait'});
+  values: InputSignal<T> = input.required<T>({alias: 'ngxAsyncAwait'});
   elseTemplate = input<TemplateRef<void> | undefined>(undefined, {alias: 'ngxAsyncAwaitElse'});
 
   private view?: EmbeddedViewRef<TemplateContext<T>>;
@@ -30,7 +31,7 @@ export class NgxAsyncAwaitDirective<T extends InputVal> {
       else if (values instanceof Promise) this.updateSingle(values);
       else if (values instanceof Observable || isSubscribable(values)) this.updateSingle(values);
       else if (isObject(values)) this.updateObject(values);
-    });
+    }, {allowSignalWrites: true});
 
     effect(() => {
       this.destroyElse();
@@ -39,11 +40,13 @@ export class NgxAsyncAwaitDirective<T extends InputVal> {
       }
     });
 
-    const value = toSignal(this.valueMapper.value$.pipe(mergeWith(this.objectMapper.values$)));
-
-    effect(() => {
+    this.valueMapper.value$.pipe(
+      mergeWith(this.objectMapper.values$),
+      distinctUntilChanged(),
+      takeUntilDestroyed()
+    ).subscribe(value => {
       this.destroyElse();
-      this.renderMain(value() as MappedValues<T>);
+      this.renderMain(value as MappedValues<T>);
     });
   }
 
@@ -54,13 +57,12 @@ export class NgxAsyncAwaitDirective<T extends InputVal> {
     this.view = undefined;
   }
 
-  renderMain(context: MappedValues<T>) {
-
+  renderMain(values: MappedValues<T>) {
     if (!this.view) {
-      this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxAsyncAwait: context});
+      this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxAsyncAwait: values});
       this.view.markForCheck();
     } else {
-      this.view.context = {ngxAsyncAwait: context};
+      this.view.context.ngxAsyncAwait = values;
       this.view.markForCheck();
     }
   }
@@ -76,7 +78,7 @@ export class NgxAsyncAwaitDirective<T extends InputVal> {
     const elseTmpl = this.elseTemplate();
     if (!elseTmpl) return;
     this.elseView = this.viewContainer.createEmbeddedView(elseTmpl);
-    this.elseView.detectChanges();
+    this.elseView.markForCheck();
   }
 
   //</editor-fold>

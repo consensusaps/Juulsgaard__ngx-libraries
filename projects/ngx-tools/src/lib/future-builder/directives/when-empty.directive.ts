@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, effect, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Directive, effect, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
 import {switchMap} from "rxjs/operators";
 import {FutureError, FutureLoading} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
@@ -8,7 +8,7 @@ import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 @Directive({selector: '[whenEmpty]'})
 export class WhenEmptyDirective<T> extends BaseFutureRender<TemplateContext> {
 
-  state = input.required<FutureSwitch<T>>({alias: 'whenEmpty'})
+  state: InputSignal<FutureSwitch<T>> = input.required<FutureSwitch<T>>({alias: 'whenEmpty'})
 
   constructor(
     templateRef: TemplateRef<TemplateContext>,

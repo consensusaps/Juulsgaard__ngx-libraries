@@ -1,4 +1,4 @@
-import {Directive, effect, EmbeddedViewRef, input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Directive, effect, EmbeddedViewRef, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
 import {EMPTY, mergeWith, Observable} from "rxjs";
 import {
   AsyncObject, AsyncObjectFallbackMapper, AsyncVal, AsyncValueFallbackMapper, isSubscribable, UnwrappedAsyncObject,
@@ -6,14 +6,15 @@ import {
 } from "@juulsgaard/rxjs-tools";
 import {Dispose} from "../decorators";
 import {isObject, shallowEquals} from "@juulsgaard/ts-tools";
-import {toSignal} from "@angular/core/rxjs-interop";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {distinctUntilChanged} from "rxjs/operators";
 
 type InputVal = AsyncVal<unknown>|AsyncObject<Record<string, unknown>>|undefined|null;
 
 @Directive({selector: '[ngxAsync]', standalone: true})
 export class NgxAsyncDirective<T extends InputVal> {
 
-  values = input.required<T>({alias: 'ngxAsync'});
+  values: InputSignal<T> = input.required<T>({alias: 'ngxAsync'});
 
   private view?: EmbeddedViewRef<TemplateContext<T>>;
 
@@ -28,19 +29,23 @@ export class NgxAsyncDirective<T extends InputVal> {
       else if (values instanceof Promise) this.updateSingle(values);
       else if (values instanceof Observable || isSubscribable(values)) this.updateSingle(values);
       else if (isObject(values)) this.updateObject(values);
-    });
+    }, {allowSignalWrites: true});
 
-    const value = toSignal(this.valueMapper.value$.pipe(mergeWith(this.objectMapper.values$)));
+    this.valueMapper.value$.pipe(
+      mergeWith(this.objectMapper.values$),
+      distinctUntilChanged(),
+      takeUntilDestroyed()
+    ).subscribe(value => this.render(value as MappedValues<T>));
+  }
 
-    effect(() => {
-      if (!this.view) {
-        this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxAsync: value() as MappedValues<T>});
-        this.view.markForCheck();
-      } else {
-        this.view.context = {ngxAsync: value() as MappedValues<T>};
-        this.view.markForCheck();
-      }
-    });
+  private render(value: MappedValues<T>) {
+    if (!this.view) {
+      this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxAsync: value as MappedValues<T>});
+      this.view.markForCheck();
+    } else {
+      this.view.context.ngxAsync = value;
+      this.view.markForCheck();
+    }
   }
 
   private oldVal?: AsyncVal<unknown>;
