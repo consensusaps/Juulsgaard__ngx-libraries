@@ -5,22 +5,25 @@
     <div class="head">
         <ngx-icon-button class="close" alias="close" (click)="onClose()"/>
 
-        <ng-container *ngIf="tab() as t">
+        @if (tab(); as t) {
             <p *ngIf="t.name">{{t.name}}</p>
-        </ng-container>
+        }
 
-        <ng-container *ngIf="showButtons()">
-            <ng-container *ngFor="let tab of tabs()">
-                <div class="btn" *ngIf="!tab.hide() && tab.icon()" [matBadge]="tab.badge() ?? ''"
-                     [matBadgeHidden]="!tab.badge()" [matBadgeColor]="tab.badgeColor() ?? 'accent'">
+        @if (showButtons()) {
+            @for (tab of tabs(); track tab) {
+                @if(!tab.hide() && tab.icon()) {
 
-                    <ngx-raised-icon-button [active]="tab.isOpen()" [icon]="tab.icon()"
-                            [matTooltip]="tab.name() ?? ''" (click)="toggleTab(tab)"/>
+                    <div class="btn" [matBadge]="tab.badge() ?? ''" [matBadgeHidden]="!tab.badge()"
+                         [matBadgeColor]="tab.badgeColor() ?? 'accent'">
 
-                </div>
-            </ng-container>
-        </ng-container>
+                        <ngx-raised-icon-button [active]="tab.isOpen()" [icon]="tab.icon()"
+                                                [matTooltip]="tab.name() ?? ''" (click)="toggleTab(tab)"/>
+
+                    </div>
+                }
+            }
+        }
     </div>
 
-    <ngx-render [template]="t.content" *ngIf="tab() as t"/>
+    <ngx-render *ngIf="tab() as t" [template]="t.content"/>
 </div>

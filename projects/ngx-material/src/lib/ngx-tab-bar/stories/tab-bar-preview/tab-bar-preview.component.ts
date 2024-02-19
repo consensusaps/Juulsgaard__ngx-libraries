@@ -10,5 +10,10 @@ import {NgxNavTabBarModule} from "../../ngx-nav-tab-bar.module";
   styleUrls: ['./tab-bar-preview.component.css']
 })
 export class TabBarPreviewComponent {
-  @Output() slugChange = new EventEmitter<string|null>();
+  @Output() slugChange = new EventEmitter<string|undefined>();
+
+  onChange(slug: string|undefined) {
+    console.log(slug);
+    this.slugChange.emit(slug)
+  }
 }

@@ -1,65 +1,47 @@
-import {Directive, forwardRef, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from "@angular/core";
-import {NgxTabBarContext, NgxTabContext} from "../services";
-import {Subscription} from "rxjs";
+import {
+  booleanAttribute, computed, Directive, effect, EmbeddedViewRef, forwardRef, inject, input, TemplateRef,
+  ViewContainerRef
+} from "@angular/core";
+import {NgxTabContext} from "../services";
 import {UIScopeContext} from "../../../models";
-import {TabPanelUIScopeContext} from "../services/tab-panel-ui-scope.context";
+import {titleCase} from "@juulsgaard/ts-tools";
 
 @Directive({
   selector: '[ngxLazyTab]',
   providers: [
     {provide: NgxTabContext, useExisting: forwardRef(() => NgxLazyTabDirective)},
-    {provide: UIScopeContext, useExisting: TabPanelUIScopeContext}
+    UIScopeContext.ProvideChild()
   ]
 })
-export class NgxLazyTabDirective extends NgxTabContext implements OnInit, OnDestroy {
+export class NgxLazyTabDirective extends NgxTabContext {
 
-  @Input('ngxLazyTab') id!: string;
-  @Input('ngxLazyTabName') tabName?: string;
+  private templateRef = inject(TemplateRef<void>);
+  private viewContainer = inject(ViewContainerRef);
 
-  get name() {
-    return this.tabName ?? this.id
+  slug = input.required<string>({alias: 'ngxLazyTab'});
+  tabName = input<string|undefined>(undefined, {alias: 'ngxLazyTabName'});
+  name = computed(() => this.tabName() ?? titleCase(this.slug()));
+
+  disabled = input(false, {transform: booleanAttribute, alias: 'ngxLazyTabDisabled'});
+  hide = input(false, {transform: booleanAttribute, alias: 'ngxLazyTabHide'});
+
+  constructor() {
+    super();
+    effect(() => this.updateView(this.isOpen()));
   }
 
-  @Input('ngxLazyTabDisabled') set disabled(disabled: boolean) {
-    this._disabled$.next(disabled);
-  }
-
-  @Input('ngxLazyTabHide') set hide(hide: boolean) {
-    this._hidden$.next(hide);
-  }
-
-  private sub?: Subscription;
-  private visible = false;
-
-  constructor(
-    context: NgxTabBarContext,
-    private templateRef: TemplateRef<void>,
-    private viewContainer: ViewContainerRef
-  ) {
-    super(context);
-  }
-
-  ngOnInit() {
-    this.sub = this.isOpen$.subscribe(c => this.updateView(c));
-  }
-
-  ngOnDestroy() {
-    this.sub?.unsubscribe();
-  }
-
+  view?: EmbeddedViewRef<void>;
   private updateView(show: boolean) {
 
-    if (this.visible) {
+    if (this.view) {
       if (show) return;
-
-      this.viewContainer.clear();
-      this.visible = false;
+      this.view.destroy();
+      this.view = undefined;
       return;
     }
 
     if (!show) return;
-    const view = this.viewContainer.createEmbeddedView(this.templateRef);
-    view.detectChanges();
-    this.visible = true;
+    this.view = this.viewContainer.createEmbeddedView(this.templateRef);
+    this.view.detectChanges();
   }
 }

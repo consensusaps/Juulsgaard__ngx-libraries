@@ -1,9 +1,10 @@
-import {inject, Injectable, InjectionToken, Provider} from '@angular/core';
-import {auditTime, BehaviorSubject, combineLatestWith, Observable, of, Subscription} from "rxjs";
-import {map} from "rxjs/operators";
-import {cache, persistentCache, subscribed} from "@juulsgaard/rxjs-tools";
+import {
+  assertInInjectionContext, computed, DestroyRef, forwardRef, inject, Injectable, InjectionToken, Injector, Provider,
+  signal, Signal, Type
+} from '@angular/core';
+import {signalSet} from "@juulsgaard/ngx-tools";
 
-@Injectable()
+@Injectable({providedIn: 'root', useClass: forwardRef(() => RootUIScopeContext)})
 export abstract class UIScopeContext {
 
   public static Provide(config: UIScopeConfig): Provider[] {
@@ -13,140 +14,120 @@ export abstract class UIScopeContext {
     ];
   }
 
-  readonly abstract hasHeader$: Observable<boolean>;
-  readonly abstract hasHeader: boolean;
-  readonly abstract hasChildren$: Observable<boolean>;
-  readonly abstract hasChildren: boolean;
-  readonly abstract hasWrapper$: Observable<boolean>;
-  readonly abstract hasWrapper: boolean;
+  public static ProvideChild(context?: Type<UIScopeContext>): Provider[] {
+    return [
+      {provide: UIScopeContext, useClass: context ?? ChildUIScopeContext}
+    ];
+  }
 
-  readonly abstract wrapper$: Observable<WrapperData>;
-  abstract registerWrapper$(): Observable<WrapperData>;
-  abstract registerWrapper(apply: (wrapper: WrapperData) => void): Subscription;
-
-  readonly abstract header$: Observable<HeaderData>;
-  abstract registerHeader$(): Observable<HeaderData>;
-  abstract registerHeader(apply: (wrapper: HeaderData) => void): Subscription;
-
-  readonly abstract childScope$: Observable<UIScope>;
-  readonly abstract passiveChildScope$: Observable<UIScope>;
-
-  readonly abstract scope$: Observable<UIScope>;
-}
-
-export class BaseUIScopeContext extends UIScopeContext {
+  readonly abstract wrapper: Signal<WrapperData>;
+  readonly abstract header: Signal<HeaderData>;
+  readonly abstract scope: Signal<UIScope>;
+  readonly abstract childScope: Signal<UIScope>;
+  readonly abstract tabScope: Signal<UIScope>;
 
   //<editor-fold desc="Header">
-  readonly header$: Observable<HeaderData>;
-  private readonly _header$: Observable<HeaderData>;
+  private readonly headers = signalSet<unknown>();
+  readonly hasHeader = computed(() => this.headers.size() > 0);
 
-  private readonly _hasHeader$ = new BehaviorSubject(false);
-  readonly hasHeader$ = this._hasHeader$.asObservable();
-  get hasHeader() {return this._hasHeader$.value}
+  registerHeader(injector?: Injector) {
+    if (!injector) assertInInjectionContext(this.registerHeader);
+    const destroy = injector?.get(DestroyRef) ?? inject(DestroyRef);
+    const added = this.headers.add(destroy);
+    if (added) destroy.onDestroy(() => this.headers.delete(destroy));
+    return this.header;
+  }
   //</editor-fold>
 
   //<editor-fold desc="Wrapper">
-  readonly wrapper$: Observable<WrapperData>;
-  private readonly _wrapper$: Observable<WrapperData>;
+  private readonly wrappers = signalSet<unknown>();
+  readonly hasWrapper = computed(() => this.wrappers.size() > 0);
 
-  private readonly _hasWrapper$ = new BehaviorSubject(false);
-  readonly hasWrapper$ = this._hasWrapper$.asObservable();
-  get hasWrapper() {return this._hasWrapper$.value}
+  registerWrapper(injector?: Injector) {
+    if (!injector) assertInInjectionContext(this.registerWrapper);
+    const destroy = injector?.get(DestroyRef) ?? inject(DestroyRef);
+    const added = this.wrappers.add(destroy);
+    if (added) destroy.onDestroy(() => this.wrappers.delete(destroy));
+    return this.wrapper;
+  }
   //</editor-fold>
 
   //<editor-fold desc="Children">
-  readonly childScope$: Observable<UIScope>;
-  readonly passiveChildScope$: Observable<UIScope>;
+  private readonly _children = signalSet<UIScopeContext>()
+  readonly hasChildren = computed(() => this._children.size() > 0);
 
-  private readonly _hasChildren$ = new BehaviorSubject(false);
-  readonly hasChildren$ = this._hasChildren$.asObservable();
-  get hasChildren() {return this._hasChildren$.value}
+  readonly hasActiveChildren: Signal<boolean> = computed(
+    () => this._children.array().some(x => x.active())
+  )
+  readonly active: Signal<boolean> = computed(() => this.hasWrapper() || this.hasActiveChildren());
   //</editor-fold>
 
-  readonly scope$: Observable<UIScope>
+  registerChild(context: UIScopeContext) {
+    assertInInjectionContext(this.registerChild);
+    const destroy = inject(DestroyRef);
+    const added = this._children.add(context);
+    if (added) destroy.onDestroy(() => this._children.delete(context));
+  }
+}
 
-  constructor(scope$: UIScopeContext);
-  constructor(scope$: Observable<UIScope>, passiveScope$?: Observable<UIScope>);
-  constructor(_scope$: Observable<UIScope>|UIScopeContext, _passiveScope$?: Observable<UIScope>) {
+interface BaseUIScopeContextOptions {
+  tabScope: boolean;
+}
+
+export abstract class BaseUIScopeContext extends UIScopeContext {
+
+  readonly header: Signal<HeaderData>;
+  readonly wrapper: Signal<WrapperData>;
+  readonly scope: Signal<UIScope>;
+  readonly childScope: Signal<UIScope>;
+  readonly tabScope: Signal<UIScope>;
+
+  protected constructor(scope: UIScope);
+  protected constructor(parent: UIScopeContext, options?: BaseUIScopeContextOptions);
+  protected constructor(param: UIScopeContext|UIScope, options?: BaseUIScopeContextOptions) {
     super();
 
-    this.scope$ = _scope$ instanceof UIScopeContext
-      ? _scope$.childScope$
-      : _scope$;
+    const parent = param instanceof UIScopeContext ? param : undefined;
+    parent?.registerChild(this);
 
-    const passiveScope$ = _scope$ instanceof UIScopeContext
-      ? _scope$.passiveChildScope$
-      : _passiveScope$ ?? _scope$;
+    this.scope = param instanceof UIScopeContext
+      ? options?.tabScope ? param.tabScope : param.childScope
+      : signal(param);
 
-    //<editor-fold desc="Children">
-    this.passiveChildScope$ = passiveScope$.pipe(
-      combineLatestWith(this.hasHeader$),
-      map(([scope, hasHeader]) => hasHeader ? scope.child ?? scope : scope),
-      cache()
-    );
+    this.childScope = computed(() => {
+      const scope = this.scope();
+      if (this.hasHeader()) return this.scope().child ?? scope;
+      return scope;
+    });
 
-    this.childScope$ = this.scope$.pipe(
-      combineLatestWith(this.hasHeader$),
-      map(([scope, hasHeader]) => hasHeader ? scope.child ?? scope : scope),
-      subscribed(this._hasChildren$),
-      cache()
-    );
-    //</editor-fold>
+    this.tabScope = computed(() => {
+      const scope = this.childScope();
+      return scope?.tabScope ?? scope;
+    });
 
-    //<editor-fold desc="Wrapper">
-    this.wrapper$ = this.scope$.pipe(
-      combineLatestWith(this.hasChildren$, this.hasHeader$),
-      map(
-        ([scope,  hasChildren, hasHeader]) => ({
-          classes: [
-            'ngx-ui-scope',
-            hasChildren ? 'has-children' : 'no-children',
-            hasHeader ? `${scope.class}-content` : 'no-header'
-          ],
-          scrollable: !hasChildren
-        })
-      ),
-      auditTime(0),
-      cache()
-    );
+    this.wrapper = computed(() => {
+      const scope = this.scope();
+      const hasHeader = this.hasHeader();
+      const hasChildren = this.hasActiveChildren();
 
-    this._wrapper$ = this.wrapper$.pipe(
-      subscribed(this._hasWrapper$),
-      persistentCache(0)
-    );
-    //</editor-fold>
+      return {
+        classes: [
+          'ngx-ui-scope',
+          hasChildren ? 'has-children' : 'no-children',
+          hasHeader ? `${scope.class}-content` : 'no-header'
+        ],
+        scrollable: !hasChildren
+      }
+    });
 
-    //<editor-fold desc="Header">
+    this.header = computed(() => {
+      const scope = this.scope();
 
-    this.header$ = passiveScope$.pipe(
-      map(x => ({
-        classes: [`${x.class}-header`, 'ngx-ui-header'],
-        showMenu: !!x.showMenu
-      })),
-      cache()
-    );
-
-    this._header$ = this.header$.pipe(
-      subscribed(this._hasHeader$),
-      persistentCache(0)
-    );
-    //</editor-fold>
-  }
-
-  override registerHeader(apply: (wrapper: HeaderData) => void): Subscription {
-    return this._header$.subscribe(apply);
-  }
-
-  registerHeader$() {
-    return this._header$;
-  }
-
-  override registerWrapper(apply: (wrapper: WrapperData) => void): Subscription {
-    return this._wrapper$.subscribe(apply);
-  }
-
-  registerWrapper$() {
-    return this._wrapper$;
+      return {
+        classes: [`${scope.class}-header`, 'ngx-ui-header'],
+        showMenu: !!scope.showMenu
+      };
+    });
   }
 }
 
@@ -154,24 +135,35 @@ export class BaseUIScopeContext extends UIScopeContext {
 export class RootUIScopeContext extends BaseUIScopeContext {
 
   constructor() {
-    super(of(inject(UI_SCOPE_CONFIG).default));
+    super(inject(UI_SCOPE_CONFIG).default);
   }
 
 }
 
-const UI_SCOPE_CONFIG = new InjectionToken<UIScopeConfig>('Config for UI Scope');
+@Injectable()
+export class ChildUIScopeContext extends BaseUIScopeContext {
+  constructor() {
+    super(inject(UIScopeContext, {skipSelf: true}));
+  }
+}
+
+const UI_SCOPE_CONFIG = new InjectionToken<UIScopeConfig>(
+  'Config for UI Scope',
+  {
+    providedIn: 'root',
+    factory: () => ({default: {class: 'ngx-default'}})
+  }
+);
 
 export interface UIScopeConfig {
   readonly default: UIScope;
 }
 
-type UITabScope = UIScope & {readonly child: UIScope};
-
 export interface UIScope {
   readonly class: string;
   readonly showMenu?: boolean;
   readonly child?: UIScope;
-  readonly tabScope?: UITabScope;
+  readonly tabScope?: UIScope;
 }
 
 interface WrapperData {

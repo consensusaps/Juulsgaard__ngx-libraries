@@ -1,4 +1,3 @@
-
 <div class="container">
     <ngx-header heading="Main" subHeading="Sub heading" (back)="noop()"></ngx-header>
 
@@ -19,18 +18,15 @@
 
 <div class="container">
     <ngx-header heading="Main" (close)="noop()"></ngx-header>
-    <div uiWrapper>
-        <ngx-tab-bar>
-            <div ngxTab="first">
+    <ngx-tab-bar>
+        <div ngxTab="first">
+            <ngx-header heading="Sub"></ngx-header>
+            <div uiWrapper>
                 <ngx-header heading="Sub"></ngx-header>
-                <div uiWrapper>
-                    <ngx-header heading="Sub"></ngx-header>
-                    <div class="very-large"></div>
-                </div>
+                <div class="very-large"></div>
             </div>
-        </ngx-tab-bar>
-    </div>
-
+        </div>
+    </ngx-tab-bar>
 </div>
 
 <div class="container">
@@ -39,7 +35,9 @@
         <ngx-tab-bar>
             <div ngxTab="first">
                 <ngx-header heading="Sub"></ngx-header>
-                <div class="very-large"></div>
+                <ui-wrapper>
+                    <div class="very-large"></div>
+                </ui-wrapper>
             </div>
         </ngx-tab-bar>
     </div>

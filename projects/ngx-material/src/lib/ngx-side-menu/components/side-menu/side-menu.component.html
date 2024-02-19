@@ -1,13 +1,15 @@
-<ng-container *ngIf="showButtons()">
-    <ng-container *ngFor="let tab of tabs()">
 
-        <div class="btn" *ngIf="tab.icon() && !tab.hide()" [matBadge]="tab.badge() ?? ''"
-             [matBadgeHidden]="!tab.badge()" [matBadgeColor]="tab.badgeColor() ?? 'accent'">
+@if (showButtons()) {
+    @for (tab of tabs(); track tab) {
+        @if(!tab.hide() && tab.icon()) {
 
-            <ngx-raised-icon-button [active]="tab.isOpen()" [icon]="tab.icon()"
-                    [matTooltip]="tab.name() ?? ''" (click)="toggleTab(tab)"/>
+            <div class="btn" [matBadge]="tab.badge() ?? ''" [matBadgeHidden]="!tab.badge()"
+                 [matBadgeColor]="tab.badgeColor() ?? 'accent'">
 
-        </div>
+                <ngx-raised-icon-button [active]="tab.isOpen()" [icon]="tab.icon()"
+                                        [matTooltip]="tab.name() ?? ''" (click)="toggleTab(tab)"/>
 
-    </ng-container>
-</ng-container>
+            </div>
+        }
+    }
+}

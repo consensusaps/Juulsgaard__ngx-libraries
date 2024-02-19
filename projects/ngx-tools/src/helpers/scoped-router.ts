@@ -1,5 +1,5 @@
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from "@angular/router";
-import {inject} from "@angular/core";
+import {assertInInjectionContext, inject, Injector} from "@angular/core";
 import {Observable, startWith} from "rxjs";
 import {filter, map} from "rxjs/operators";
 import {cache} from "@juulsgaard/rxjs-tools";
@@ -11,29 +11,31 @@ import {RouteState} from "./route-state";
  */
 export class ScopedRouter extends RouteState {
 
-  private _router = inject(Router);
-  private _route = inject(ActivatedRoute);
-
   private _cachedRoute?: ActivatedRoute;
+
   get route() {
 
     if (this._cachedRoute) return this._cachedRoute;
 
-    if (this.depth >= 0) return this.getChildRoute(this.depth);
+    if (this._depth >= 0) return this.getChildRoute(this._depth);
 
-    const route = this.getParentRoute(Math.abs(this.depth));
+    const route = this.getParentRoute(Math.abs(this._depth));
     this._cachedRoute = route;
     return route;
   }
 
   route$: Observable<ActivatedRoute>;
 
-  /**
-   * @param depth - Target a relative scope. positive numbers for child routes, and negative for parent routes
-   */
-  constructor(private depth = 0) {
+  /** @internal */
+  constructor(
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private _depth: number,
+  ) {
     super();
-    if (depth === 0) this._cachedRoute = this._route;
+
+    if (_depth === 0) this._cachedRoute = this._route;
+
     this.init(this._router);
 
     this.route$ = this._router.events.pipe(
@@ -77,5 +79,68 @@ export class ScopedRouter extends RouteState {
 
     return route;
   }
+
   //</editor-fold>
+}
+
+interface ScopedRouterOptions {
+  /** An injector for when using outside an injection context */
+  injector?: Injector;
+  /** Manually pass the route to use */
+  route?: ActivatedRoute;
+  /** Manually pass the router to use */
+  router?: Router;
+}
+interface ScopedRouterOptionsExtended extends ScopedRouterOptions {
+  /** The depth relative to the active route to use.
+   Positive numbers for child routes, and negative for parent routes.*/
+  depth?: number;
+}
+
+/**
+ * Create a Scoped Router
+ * @param depth - The depth relative to the active route to use.
+ * Positive numbers for child routes, and negative for parent routes.
+ * @param options - Optional settings for injection
+ * @constructor
+ */
+export function scopedRouter(depth?: number, options?: ScopedRouterOptions): ScopedRouter;
+/**
+ * Create a Scoped Router
+ * @param options - Options
+ */
+export function scopedRouter(options: ScopedRouterOptionsExtended): ScopedRouter;
+export function scopedRouter(
+  param?: number | ScopedRouterOptionsExtended,
+  _options?: ScopedRouterOptions
+): ScopedRouter {
+
+  const options: ScopedRouterOptionsExtended|undefined = typeof param === 'number' ? _options : param;
+  const injector = options?.injector;
+  const requiresInjection = !options?.route || !options.router;
+
+  if (requiresInjection && !injector) assertInInjectionContext(scopedRouter);
+
+  const router = options?.router ?? injector?.get(Router) ?? inject(Router);
+  const route = options?.route ?? injector?.get(ActivatedRoute) ?? inject(ActivatedRoute);
+
+  const depth = typeof param === 'number' ? param : options?.depth ?? 0;
+
+  return new ScopedRouter(router, route, depth);
+}
+
+export function scopedRouterAttribute(
+  router: Router,
+  fallbackRoute?: ActivatedRoute
+): (nav: boolean|''|ActivatedRoute|ScopedRouter|undefined|null) => ScopedRouter|undefined {
+  return (nav: boolean|''|ActivatedRoute|ScopedRouter|undefined|null) => {
+    if (nav === '' || nav === true) {
+      if (!fallbackRoute) return undefined;
+      return scopedRouter({router: router, route: fallbackRoute});
+    }
+
+    if (nav == null || nav === false) return undefined;
+    if (nav instanceof ScopedRouter) return nav;
+    return scopedRouter({router: router, route: nav});
+  }
 }

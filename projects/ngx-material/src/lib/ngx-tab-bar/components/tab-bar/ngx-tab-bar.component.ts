@@ -1,17 +1,14 @@
 import {
-  AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, forwardRef,
-  HostBinding, inject, Input, OnDestroy, OnInit, Output, QueryList
+  ChangeDetectionStrategy, Component, computed, contentChildren, effect, forwardRef, inject, input, model, signal,
+  Signal
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {auditTime, merge, Observable, startWith, Subscription, switchMap} from "rxjs";
-import {map} from "rxjs/operators";
-import {cache} from "@juulsgaard/rxjs-tools";
 import {NgxTabBarContext, NgxTabContext} from "../../services";
-import {RouteService} from "@juulsgaard/ngx-tools";
+import {scopedRouterAttribute} from "@juulsgaard/ngx-tools";
 import {INavTab} from "../../models/nav-tab.interface";
-import {TabPanelUIScopeContext} from "../../services/tab-panel-ui-scope.context";
-import {TabBarUIScopeContext} from "../../services/tab-bar-ui-scope.context";
 import {UIScopeContext} from "../../../../models";
+import {toSignal} from "@angular/core/rxjs-interop";
+import {TabBarUIScopeContext} from "../../services/tab-bar-ui-scope.context";
 
 @Component({
   selector: 'ngx-tab-bar',
@@ -19,141 +16,110 @@ import {UIScopeContext} from "../../../../models";
   styleUrls: ['./ngx-tab-bar.component.scss'],
   providers: [
     {provide: NgxTabBarContext, useExisting: forwardRef(() => NgxTabBarComponent)},
-    TabBarUIScopeContext,
-    TabPanelUIScopeContext
+    {provide: UIScopeContext, useClass: TabBarUIScopeContext}
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {'[class]': 'wrapperClass()'}
 })
-export class NgxTabBarComponent extends NgxTabBarContext implements OnInit, AfterContentInit, OnDestroy {
+export class NgxTabBarComponent extends NgxTabBarContext {
 
-  @ContentChildren(NgxTabContext, {descendants: false})
-  private children?: QueryList<NgxTabContext>;
+  private router = inject(Router);
+  private readonly route = inject(ActivatedRoute, {optional: true}) ?? undefined;
 
-  private readonly sub = new Subscription();
+  children = contentChildren(NgxTabContext, {descendants: false});
+  tabs = computed(() => {
+    let tabs = this.children();
+    return tabs.filter(t => !t.disabled());
+  });
+  tab: Signal<NgxTabContext|undefined>;
 
-  @Input() fragmentNav = false;
-  @Input() urlNav?: string;
-  @Input() relativeTo?: ActivatedRoute|null;
+  fragmentNav = input(undefined, {
+    transform: scopedRouterAttribute(this.router, this.route)
+  });
 
-  @Input('active') set _active(active: boolean | undefined) {
-    this.setActive(active ?? true);
-  }
+  routeNav = input(undefined, {
+    transform: scopedRouterAttribute(this.router, this.route)
+  });
 
-  @Input() set slug(slug: string | null) {
-    this.setSlug(slug ?? undefined)
-  }
+  protected relativeTo = computed(() => this.routeNav()?.route ?? this.fragmentNav()?.route);
 
-  @Output() slugChange = new EventEmitter<string | null>();
+  active = input(true);
 
-  @HostBinding('class')
-  wrapperClass: string[] = [];
+  slug = model<string>();
 
-  panelClass$: Observable<string[]>;
-  headerClass$: Observable<string[]>;
+  wrapperClass: Signal<string[]>;
 
-  private readonly context = inject(UIScopeContext, {skipSelf: true, optional: true});
-  private readonly tabContext = inject(TabBarUIScopeContext, {self: true});
-  readonly route = inject(ActivatedRoute, {optional: true});
-
-  constructor(
-    private router: Router,
-    private routeService: RouteService,
-    private changes: ChangeDetectorRef
-  ) {
+  constructor() {
     super();
 
-    this.tabContext = inject(TabBarUIScopeContext, {self: true});
-    this.headerClass$ = this.tabContext.registerHeader$().pipe(map(x => x.classes));
-    this.panelClass$ = this.tabContext.registerWrapper$().pipe(map(x => x.classes));
-  }
+    const context = inject(UIScopeContext, {skipSelf: true});
+    const wrapper = context.registerWrapper();
+    this.wrapperClass = computed(() => wrapper().classes);
 
-  ngOnInit() {
+    this.tab = computed(() => {
+      const tabs = this.tabs();
+      if (tabs.length <= 0) return undefined;
 
-    if (this.context) {
-      this.sub.add(this.context.registerWrapper(x => {
-        this.wrapperClass = x.classes;
-        this.changes.detectChanges();
-      }));
-    }
+      const slug = this.slug();
+      const tab = slug == null ? undefined :
+        tabs.find(x => x.slug() === slug);
 
-    this.sub.add(this.slug$.subscribe(this.slugChange));
+      return tab ?? this.children().at(0);
+    });
 
-    if (this.route) {
-      if (this.fragmentNav) {
-        this.sub.add(
-          this.route.fragment.subscribe(x => this.setSlug(x ?? undefined))
-        );
-      }
+    const fragment = this.route ? toSignal(this.route.fragment) : signal(undefined);
 
-      if (this.urlNav) {
-        this.sub.add(
-          this.routeService.params$.subscribe(params => this.setSlug(this.urlNav && params.get(this.urlNav)))
-        );
-      }
-    }
-  }
+    const routeSlug = computed(() => {
+      const urlRouter = this.routeNav();
+      if (urlRouter) return urlRouter.urlSignal().at(0);
 
-  ngAfterContentInit() {
-    if (!this.children) return;
+      if (this.fragmentNav()) return fragment() ?? undefined;
 
-    const children$ = this.children.changes.pipe(
-      map(() => this.children?.toArray() ?? []),
-      startWith(this.children.toArray()),
-      cache()
-    );
+      return null;
+    });
 
-    // Re-run the logic every time the tabs change
-    this.sub.add(children$.subscribe(x => this.setTabs(x)));
-
-    // Re-run logic if any of the tabs change state
-    const childChanges$ = children$.pipe(
-      switchMap(children => merge(...children.map(x => x.changes$))),
-      auditTime(0)
-    );
-
-    this.sub.add(childChanges$.subscribe(
-      () => this.setTabs(this.children?.toArray() ?? [])
-    ));
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+    effect(() => {
+      const slug = routeSlug();
+      if (slug === null) return;
+      this.slug.set(slug);
+    }, {allowSignalWrites: true});
   }
 
   override async openTab(slug: string) {
 
-    if (this.fragmentNav) {
-      await this.router.navigate([], {fragment: slug, relativeTo: this.relativeTo ?? this.route, replaceUrl: true});
+    const fragmentRouter = this.fragmentNav();
+    if (fragmentRouter) {
+      await fragmentRouter.navigate([], {fragment: slug});
       return;
     }
 
-    if (this.urlNav) {
-      await this.router.navigate([slug ?? '.'], {relativeTo: this.relativeTo ?? this.route, replaceUrl: true});
+    const urlRouter = this.routeNav();
+    if (urlRouter) {
+      await urlRouter.navigate([slug ?? '.']);
       return;
     }
 
-    this.setSlug(slug);
+    this.slug.set(slug);
   }
 
   async clickTab(tab: INavTab) {
-    if (!this.active) return;
-    if (tab.isDisabled) return;
-    if (tab.isHidden) return;
+    if (!this.active()) return;
+    if (tab.disabled()) return;
+    if (tab.hide()) return;
+    if (this.routeNav()) return;
+    if (this.fragmentNav()) return;
 
-    if (this.urlNav) return;
-    if (this.fragmentNav) return;
-
-    await this.openTab(tab.id);
+    await this.openTab(tab.slug());
   }
 
   getRouterLink(tab: INavTab): string[] | undefined {
-    if (this.urlNav) return [tab.id];
-    if (this.fragmentNav) return [];
+    if (this.routeNav()) return [tab.slug()];
+    if (this.fragmentNav()) return [];
     return undefined;
   }
 
   getFragment(tab: INavTab): string | undefined {
-    if (this.fragmentNav) return tab.id;
+    if (this.fragmentNav()) return tab.slug();
     return undefined;
   }
 }
