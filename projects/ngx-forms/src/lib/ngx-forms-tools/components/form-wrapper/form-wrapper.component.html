@@ -3,12 +3,12 @@
 </ng-template>
 
 <form (ngSubmit)="submit.emit()">
-    <fieldset *ngIf="fieldset" [disabled]="readonly$ | truthy">
-        <ng-container *ngTemplateOutlet="content"></ng-container>
-    </fieldset>
-
-    <ng-container *ngIf="!fieldset">
-        <ng-container *ngTemplateOutlet="content"></ng-container>
-    </ng-container>
+    @if (fieldset()) {
+        <fieldset [disabled]="readonly()">
+            <ng-container *ngTemplateOutlet="content"/>
+        </fieldset>
+    } @else {
+        <ng-container *ngTemplateOutlet="content"/>
+    }
 </form>
 

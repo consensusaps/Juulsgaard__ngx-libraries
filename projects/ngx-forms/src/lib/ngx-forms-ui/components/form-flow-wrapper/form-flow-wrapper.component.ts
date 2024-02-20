@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'form-flow-wrapper',
@@ -7,12 +7,12 @@ import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@ang
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[style.grid-template-columns]': `'repeat(auto-fit, minmax(' + minWidth + 'px, 1fr))'`
+    '[style.grid-template-columns]': `'repeat(auto-fit, minmax(' + minWidth() + 'px, 1fr))'`
   }
 })
 export class FormFlowWrapperComponent {
 
-  @Input() minWidth = 200;
+  minWidth = input(200);
 
   constructor() { }
 

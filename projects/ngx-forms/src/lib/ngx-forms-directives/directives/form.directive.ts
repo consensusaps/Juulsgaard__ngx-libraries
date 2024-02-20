@@ -1,5 +1,5 @@
 import {
-  Directive, EmbeddedViewRef, forwardRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignalWithTransform, TemplateRef, ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormRoot, isFormRoot, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
@@ -11,10 +11,18 @@ import {AnyControlFormRoot, isFormRoot, SmartFormUnion} from "@juulsgaard/ngx-fo
     useExisting: forwardRef(() => FormDirective)
   }]
 })
-export class FormDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
+export class FormDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
 
-  @Input('ngxForm') form?: AnyControlFormRoot<TControls>|{form: AnyControlFormRoot<TControls>};
-  @Input('ngxFormWhen') show?: boolean;
+  // Explicit types for IDE type checking
+  form: InputSignalWithTransform<
+    AnyControlFormRoot<TControls>,
+    AnyControlFormRoot<TControls> | { form: AnyControlFormRoot<TControls> }
+  > = input.required({
+    alias: 'ngxForm',
+    transform: (form: AnyControlFormRoot<TControls>|{form: AnyControlFormRoot<TControls>}) => isFormRoot(form) ? form : form.form
+  });
+
+  show = input(true, {alias: 'ngxFormWhen'});
 
   view?: EmbeddedViewRef<FormDirectiveContext<TControls>>
 
@@ -23,35 +31,28 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
     private viewContainer: ViewContainerRef
   ) {
     super();
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes['form'] && !changes['show']) return;
+    effect(() => {
+      if (!this.show()) {
+        this.view?.destroy();
+        this.view = undefined;
+        return;
+      }
 
-    this.view?.destroy();
+      if (!this.view) {
+        const context = {ngxForm: this.form().controlsSignal()};
+        this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
+        this.view.detectChanges();
+        return;
+      }
 
-    if (this.show === false) return;
-    if (!this.form) return;
-    const form = isFormRoot(this.form) ? this.form : this.form.form;
-
-    const context = new FormDirectiveContext(form);
-    const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-    const sub = form.controls$.subscribe(controls => {
-      context.ngxForm = controls;
-      view?.detectChanges();
+      this.view.context.ngxForm = this.form().controlsSignal();
+      this.view.detectChanges();
     });
-    view.onDestroy(() => sub.unsubscribe());
-
-    this.view = view;
-  }
-
-  ngOnDestroy() {
-    this.view?.destroy();
   }
 
   get control() {
-    if (!this.form) return null;
-    return isFormRoot(this.form) ? this.form : this.form.form;
+    return this.form();
   }
 
   static ngTemplateContextGuard<TControls extends Record<string, SmartFormUnion>>(
@@ -62,11 +63,6 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
   }
 }
 
-class FormDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
-
+interface FormDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
   ngxForm: TControls;
-
-  constructor(form: AnyControlFormRoot<TControls>) {
-    this.ngxForm = form.controls;
-  }
 }

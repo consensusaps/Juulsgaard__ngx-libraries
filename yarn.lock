@@ -2374,15 +2374,10 @@
   resolved "https://registry.yarnpkg.com/@juulsgaard/data-sources/-/data-sources-1.12.0.tgz#c5b3c097f2f1f1f8cd3e2f7e34a5534e8299a344"
   integrity sha512-9sEq43l2BL0howxMrDHP/E02WzmUP2CtHf6yHTHJeW9LATwp3fzWurFxVPM/4sRLgOU5OtVfJ0Q5iJQBOsF9cQ==
 
-"@juulsgaard/ngx-forms-core@17.0.0":
-  version "17.0.0"
-  resolved "https://registry.yarnpkg.com/@juulsgaard/ngx-forms-core/-/ngx-forms-core-17.0.0.tgz#f10488476220664ff5312b24c7ea3d29986cbe36"
-  integrity sha512-/4vB761EnAmWLt6MUlU/ZbzR4h6L8U34x6YVP1gt2WFL7yHXO9lh4ABbMQC8ebCm6Na6QHb7AKRU79v4MLG7jg==
-
-"@juulsgaard/rxjs-tools@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@juulsgaard/rxjs-tools/-/rxjs-tools-1.5.1.tgz#6394ed7d3c51ddd23c40b55d11e698ac35e6148b"
-  integrity sha512-JOc+A4V/Nbh2kS68zteGkS6XXPHJLIIY2fCErZQ0v6It2bnU9/8v4YK5yoq2BbDXOOQpKXzJ3UnSNsh1ppBG3A==
+"@juulsgaard/ngx-forms-core@17.0.1":
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/@juulsgaard/ngx-forms-core/-/ngx-forms-core-17.0.1.tgz#b131dfb32168f483bd24595e45dffc997620a6ee"
+  integrity sha512-8qOt7djZobE+M+GBnaW0/c0Rjp2ysC/OTRxJaADRi6CiMFgdljFJ7RopTtoDe4WMSNhoUDQh0cLM7yj+sK0x0w==
 
 "@juulsgaard/rxjs-tools@1.5.2":
   version "1.5.2"

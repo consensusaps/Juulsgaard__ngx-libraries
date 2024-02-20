@@ -1,92 +1,77 @@
-import {Directive, Input} from "@angular/core";
+import {booleanAttribute, computed, Directive, input, InputSignal, Signal} from "@angular/core";
 import {BaseInputComponent} from "./base-input-component";
 import {getSelectorFn, isString, MapFunc, Selection} from "@juulsgaard/ts-tools";
-import {FormNode, isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@juulsgaard/ngx-forms-core";
-import {BehaviorSubject, skip} from "rxjs";
+import {isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@juulsgaard/ngx-forms-core";
+import {of, startWith, switchMap} from "rxjs";
+import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 
 @Directive()
-export abstract class BaseSelectInputComponent<TVal, TInputVal, TItem> extends BaseInputComponent<TVal, TInputVal> {
+export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInputComponent<TIn, TVal> {
 
-  private hasExternalItems = false;
+  protected selectControl: Signal<SingleSelectNode<unknown, TItem> | MultiSelectNode<TIn, TItem> | undefined> = computed(
+    () => {
+      const control = this.control();
+      if (control && isFormSelectNode(control)) return control as SingleSelectNode<TIn, TItem> | MultiSelectNode<TIn, TItem>;
+      return undefined
+    });
 
-  @Input('items') set itemsData(items: TItem[]|null|undefined) {
-    if (!items) return;
-    this.hasExternalItems = true;
-    this.items = items;
-  }
+  private selectItems$ = toObservable(this.selectControl).pipe(
+    switchMap(x => x?.items$.pipe(startWith(undefined)) ?? of(undefined))
+  );
+  private selectItems = toSignal(this.selectItems$);
+  readonly itemsIn: InputSignal<TItem[] | undefined> = input<TItem[] | undefined>(undefined, {alias: 'items'});
+  protected items = computed(() => this.itemsIn() ?? this.selectItems() ?? []);
 
-  protected _items$ = new BehaviorSubject<TItem[]>([]);
+  protected empty = computed(() => this.items().length <= 0);
 
-  items$ = this._items$.asObservable();
-  get items(): TItem[] {return this._items$.value};
-  set items(items: TItem[]) {this._items$.next(items)}
+  readonly hideEmptyIn = input(false, {transform: booleanAttribute, alias: 'hideEmpty'});
+  protected hideEmpty = computed(() => this.selectControl()?.hideWhenEmpty || this.hideEmptyIn());
+  protected hidden = computed(() => this.hideEmpty() && this.empty());
 
-  get hidden() {
-    return this.hideEmpty && this.items.length <= 0;
-  }
+  readonly multipleIn = input(false, {transform: booleanAttribute, alias: 'multiple'});
+  protected multiple = computed(() => this.selectControl()?.multiple ?? this.multipleIn());
 
-  getValue: MapFunc<TItem, TVal> = (x: any) => x as TVal;
-  @Input() set bindValue(binding: string | Selection<TItem, TVal>) {
-    // Typeless for backwards compatibility
-    if (isString(binding)) {
-      this.getValue = (x: any) => x[binding];
-      return;
+  readonly clearableIn = input(false, {transform: booleanAttribute, alias: 'clearable'});
+  protected clearable = computed(() => this.selectControl()?.clearable || this.clearableIn());
+
+  //<editor-fold desc="Bindings">
+  readonly bindValue = input(
+    (x: TItem) => x as unknown as TIn,
+    {
+      transform: (binding: string | Selection<TItem, TIn> | undefined | null): MapFunc<TItem, TIn> => {
+        // Typeless for backwards compatibility
+        if (binding == null) return (x: TItem) => x as unknown as TIn;
+        if (isString(binding)) return (x: any) => x[binding];
+        return getSelectorFn(binding);
+      }
     }
+  );
+  protected getValue = computed(() => this.selectControl()?.bindValue ?? this.bindValue());
 
-    this.getValue = getSelectorFn(binding);
-  };
-
-
-  getLabel: MapFunc<TItem, string> = x => String(x);
-  @Input() set bindLabel(binding: string | Selection<TItem, string> | undefined) {
-    // Typeless for backwards compatibility
-    if (isString(binding)) {
-      this.getLabel = (x: any) => x[binding];
-      return;
+  readonly bindLabel = input(
+    (x: TItem) => String(x),
+    {
+      transform: (binding: string | Selection<TItem, string> | undefined | null) => {
+        if (binding == null) return (x: TItem) => String(x);
+        // Typeless for backwards compatibility
+        if (isString(binding)) return (x: any) => x[binding];
+        return getSelectorFn(binding);
+      }
     }
+  );
 
-    this.getLabel = binding ? getSelectorFn(binding) : x => String(x);
-  };
+  protected getLabel = computed(() => this.selectControl()?.bindLabel ?? this.bindLabel());
 
-
-  private _getOption?: MapFunc<TItem, string>;
-  @Input() set bindOption(binding: string | Selection<TItem, string> | undefined) {
-    // Typeless for backwards compatibility
-    if (isString(binding)) {
-      this._getOption = (x: any) => x[binding];
-      return;
+  readonly bindOption = input(undefined, {
+    transform: (binding: string | Selection<TItem, string> | undefined | null): MapFunc<TItem, string>|undefined => {
+      if (binding == null) return undefined;
+      // Typeless for backwards compatibility
+      if (isString(binding)) return (x: any) => x[binding];
+      return getSelectorFn(binding);
     }
+  })
 
-    this._getOption = binding ? getSelectorFn(binding) : undefined;
-  };
-  get getOption() {return this._getOption ?? this.getLabel}
-
-  @Input() multiple = false;
-
-  @Input() clearable = true;
-  @Input() hideEmpty = false;
-
-  override loadFormNode(n: FormNode<TVal>) {
-    super.loadFormNode(n);
-
-    if (!isFormSelectNode(n)) return;
-    const node = n as SingleSelectNode<TVal, TItem>|MultiSelectNode<TVal, TItem>;
-
-    if (node.bindLabel) this.bindLabel = node.bindLabel;
-    if (node.bindValue) this.bindValue = node.bindValue;
-    if (node.bindOption) this.bindOption = node.bindOption;
-
-    this.multiple = node.multiple ?? this.multiple;
-    this.clearable = this.clearable ?? node.clearable;
-    this.hideEmpty = this.hideEmpty ?? node.hideWhenEmpty;
-
-    if (node.items$) {
-      this.subscriptions.add(
-        node.items$.pipe(
-          skip(this.hasExternalItems ? 1 : 0)
-        ).subscribe(x => this.items = x)
-      );
-    }
-  }
+  protected getOption = computed(() => this.selectControl()?.bindOption ?? this.bindOption() ?? this.getLabel());
+  //</editor-fold>
 
 }
