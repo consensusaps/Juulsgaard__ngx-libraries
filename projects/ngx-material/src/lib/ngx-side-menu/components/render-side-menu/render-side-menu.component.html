@@ -3,7 +3,6 @@
 <div class="menu ngx-move-in">
 
     <div class="head">
-        <ngx-icon-button class="close" alias="close" (click)="onClose()"/>
 
         @if (tab(); as t) {
             <p *ngIf="t.name">{{t.name}}</p>
@@ -23,6 +22,8 @@
                 }
             }
         }
+
+        <ngx-icon-button class="close" alias="close" *ngIf="!showButtons()" (click)="onClose()"/>
     </div>
 
     <ngx-render *ngIf="tab() as t" [template]="t.content"/>

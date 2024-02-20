@@ -7,6 +7,7 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {SideMenuTabDirective} from "./directives/side-menu-tab.directive";
 import {IconButtonComponent} from "../../components";
 import {FalsyPipe, NgxRenderingModule, TruthyPipe} from "@juulsgaard/ngx-tools";
+import {MonoSideMenuComponent} from "./components/mono-side-menu/mono-side-menu.component";
 
 @NgModule({
   imports: [
@@ -15,11 +16,13 @@ import {FalsyPipe, NgxRenderingModule, TruthyPipe} from "@juulsgaard/ngx-tools";
   ],
   declarations: [
     SideMenuComponent,
+    MonoSideMenuComponent,
     SideMenuTabComponent,
     SideMenuTabDirective,
   ],
   exports: [
     SideMenuComponent,
+    MonoSideMenuComponent,
     SideMenuTabDirective,
     SideMenuTabComponent
   ],

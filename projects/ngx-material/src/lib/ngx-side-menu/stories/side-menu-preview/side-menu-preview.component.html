@@ -1,7 +1,7 @@
 
 <ngx-side-menu-outlet/>
 
-<ngx-side-menu (showChange)="showChanged.emit($event)" [show]="show" showButtons>
+<ngx-side-menu (activeChange)="slugChanged.emit($event)" [active]="slug" showButtons>
     <ng-template ngxMenuTab="filter" name="Filter" icon="done">
         Filter tab
     </ng-template>
@@ -18,3 +18,11 @@
         Hidden
     </ngx-side-menu-tab>
 </ngx-side-menu>
+
+<hr>
+
+<ngx-mono-side-menu (showChange)="showChanged.emit($event)" [show]="show" showButtons>
+    <ng-template ngxMenuTab="mono" name="Mono" icon="done">
+        Mono Sidepanel
+    </ng-template>
+</ngx-mono-side-menu>

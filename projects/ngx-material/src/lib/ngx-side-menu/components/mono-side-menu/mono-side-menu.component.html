@@ -1,0 +1,14 @@
+
+@if (showInlineButtons()) {
+    @if (tabs().at(0); as tab) {
+        @if (!tab.hide()) {
+            <div class="btn" [matBadge]="tab.badge() ?? ''" [matBadgeHidden]="!tab.badge()"
+                 [matBadgeColor]="tab.badgeColor() ?? 'accent'">
+
+                <ngx-raised-icon-button [active]="tab.isOpen()" [icon]="tab.icon()"
+                                        [matTooltip]="tab.name() ?? ''" (click)="toggleTab(tab)"/>
+
+            </div>
+        }
+    }
+}
