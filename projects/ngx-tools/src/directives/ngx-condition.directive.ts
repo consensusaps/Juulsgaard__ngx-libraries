@@ -29,12 +29,12 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
   ) {
 
     effect(() => {
-      let emitted = this.valueMapper.update(value);
+      let emitted = this.valueMapper.update(this.value());
       this.waiting.set(!emitted);
     }, {allowSignalWrites: true});
 
     const value$ = this.valueMapper.value$.pipe(
-      tap(x => this.waiting.set(false))
+      tap(() => this.waiting.set(false))
     );
     const value = toSignal<UnwrappedAsyncOrSyncVal<T>>(value$);
 
@@ -47,6 +47,7 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
       }
 
       this.destroyWaiting();
+      console.log(value());
       const context = this.buildContext(value() as UnwrappedAsyncOrSyncVal<T>);
 
       if (context) {

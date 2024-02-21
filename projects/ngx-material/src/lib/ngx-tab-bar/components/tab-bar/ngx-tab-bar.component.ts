@@ -35,14 +35,14 @@ export class NgxTabBarComponent extends NgxTabBarContext {
 
   readonly fragmentNav: InputSignalWithTransform<
     ScopedRouter | undefined,
-    boolean | '' | ActivatedRoute | ScopedRouter | undefined | null
+    boolean | '' | number | ActivatedRoute | ScopedRouter | undefined | null
   > = input(undefined, {
     transform: scopedRouterAttribute(this.router, this.route)
   });
 
   readonly routeNav: InputSignalWithTransform<
     ScopedRouter | undefined,
-    boolean | '' | ActivatedRoute | ScopedRouter | undefined | null
+    boolean | '' | number | ActivatedRoute | ScopedRouter | undefined | null
   > = input(undefined, {
     transform: scopedRouterAttribute(this.router, this.route)
   });
