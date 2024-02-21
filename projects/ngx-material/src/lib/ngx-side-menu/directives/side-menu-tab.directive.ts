@@ -1,5 +1,6 @@
 import {
-  booleanAttribute, Directive, forwardRef, inject, input, signal, TemplateRef, ViewContainerRef
+  booleanAttribute, Directive, forwardRef, inject, input, InputSignal, InputSignalWithTransform, signal, TemplateRef,
+  ViewContainerRef
 } from '@angular/core';
 import {NgxSideMenuTabContext} from "../models/menu-tab-context";
 import {ThemePalette} from "@angular/material/core";
@@ -11,13 +12,13 @@ import {RenderSource} from "@juulsgaard/ngx-tools";
 })
 export class SideMenuTabDirective extends NgxSideMenuTabContext implements RenderSource {
 
-  slug = input.required<string>({alias: 'ngxMenuTab'});
+  slug: InputSignal<string> = input.required<string>({alias: 'ngxMenuTab'});
   name = input<string>();
   icon = input<string>();
   badge = input<string>();
   badgeColor = input<ThemePalette>();
 
-  disabled = input(false, {transform: booleanAttribute});
+  disabled: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
   hide = input(false, {transform: booleanAttribute});
 
   source = signal(this);

@@ -5,3 +5,5 @@
 export * from './lib/ngx-forms-directives'
 export * from './lib/ngx-forms-ui'
 export * from './lib/ngx-forms-tools'
+export * from './services'
+export * from './directives'

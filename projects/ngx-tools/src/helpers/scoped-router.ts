@@ -132,11 +132,15 @@ export function scopedRouter(
 export function scopedRouterAttribute(
   router: Router,
   fallbackRoute?: ActivatedRoute
-): (nav: boolean|''|ActivatedRoute|ScopedRouter|undefined|null) => ScopedRouter|undefined {
-  return (nav: boolean|''|ActivatedRoute|ScopedRouter|undefined|null) => {
+): (nav: boolean|''|number|ActivatedRoute|ScopedRouter|undefined|null) => ScopedRouter|undefined {
+  return (nav: boolean|''|number|ActivatedRoute|ScopedRouter|undefined|null) => {
     if (nav === '' || nav === true) {
       if (!fallbackRoute) return undefined;
       return scopedRouter({router: router, route: fallbackRoute});
+    }
+
+    if (typeof nav === 'number') {
+      return scopedRouter(nav, {router: router, route: fallbackRoute})
     }
 
     if (nav == null || nav === false) return undefined;

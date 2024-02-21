@@ -20,7 +20,7 @@ export class WithIdDirective {
     return false;
   }
 
-  id = input.required<string|undefined>();
+  id = input.required<string|undefined>({alias: 'withId'});
 
   private readonly service = inject(IdManagerService, {optional: true});
 

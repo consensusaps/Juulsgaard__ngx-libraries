@@ -48,7 +48,6 @@ export class MatSelectInputComponent<TItem, TVal extends any | any[]> extends Ba
   }
 
   preprocessValue(value: ArrOrNullable<TVal> | undefined) {
-    const multiple = this.multiple ? this.multiple() : false;
     if (!value) return this.multiple() ? [] as TVal : undefined;
     if (this.multiple()) {
       return Array.isArray(value) ? value : [value] as TVal;

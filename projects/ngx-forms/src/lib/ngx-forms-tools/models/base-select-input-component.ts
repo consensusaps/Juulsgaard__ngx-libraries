@@ -35,6 +35,9 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
   readonly clearableIn = input(false, {transform: booleanAttribute, alias: 'clearable'});
   protected clearable = computed(() => this.selectControl()?.clearable || this.clearableIn());
 
+  readonly selectGroupsIn = input(false, {transform: booleanAttribute});
+  protected selectGroups = computed(() => this.selectControl()?.selectGroups || this.selectGroupsIn());
+
   constructor() {
     super();
     this._value.set(this.preprocessValue(undefined));
@@ -102,6 +105,26 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
 
   protected getOption: Signal<MapFunc<TItem, string>> = computed(() => this.controlBindOption() ?? this.bindOption() ?? this.getLabel());
   //</editor-fold>
+
+  readonly groupByIn = input(undefined, {
+    alias: 'groupBy',
+    transform: (grouping: string | Selection<TItem, string> | undefined | null): MapFunc<TItem, string> | undefined => {
+      if (grouping == null) return undefined;
+      // Typeless for backwards compatibility
+      if (isString(grouping)) return (x: any) => x[grouping];
+      return getSelectorFn(grouping);
+    }
+  });
+
+  private controlGroupBy: Signal<MapFunc<TItem, string>|undefined> = computed(() => {
+    const control = this.selectControl();
+    if (!control?.groupProp) return undefined;
+    const grouping = control.groupProp;
+    if (isString(grouping)) return (x: any) => x[grouping];
+    return grouping;
+  });
+
+  protected groupBy: Signal<MapFunc<TItem, string>|undefined> = computed(() => this.controlGroupBy() ?? this.groupByIn());
 
   override getInitialValue(): TVal {
     return undefined as TVal;
