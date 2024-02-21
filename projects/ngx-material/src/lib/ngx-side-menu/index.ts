@@ -5,3 +5,4 @@ export * from './directives/side-menu-outlet.directive';
 export * from './models/side-menu-options';
 export * from './components/side-menu-tab/side-menu-tab.component';
 export * from './components/side-menu/side-menu.component';
+export * from './components/mono-side-menu/mono-side-menu.component';

@@ -17,7 +17,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     @HostBinding('class.ngx-form-input') private baseClass = true;
 
     protected inputElementRef: Signal<ElementRef<HTMLElement|HTMLTextAreaElement|HTMLInputElement>|undefined> =
-      viewChild('input', {read: ElementRef<HTMLElement|HTMLTextAreaElement|HTMLInputElement>});
+      viewChild('input', {read: ElementRef});
 
     /** The main input element */
     protected inputElement: Signal<HTMLElement|HTMLTextAreaElement|HTMLInputElement|undefined> =

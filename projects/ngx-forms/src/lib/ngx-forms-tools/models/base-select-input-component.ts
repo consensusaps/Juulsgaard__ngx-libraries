@@ -35,7 +35,7 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
   readonly clearableIn = input(false, {transform: booleanAttribute, alias: 'clearable'});
   protected clearable = computed(() => this.selectControl()?.clearable || this.clearableIn());
 
-  //<editor-fold desc="Bindings">
+  //<editor-fold desc="Value Mapping">
   readonly bindValue = input(
     (x: TItem) => x as unknown as TIn,
     {
@@ -47,12 +47,21 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
       }
     }
   );
-  protected getValue = computed(() => this.selectControl()?.bindValue ?? this.bindValue());
 
+  private controlBindValue = computed(() => {
+    const control = this.selectControl();
+    if (!control) return undefined;
+    return getSelectorFn(control.bindValue);
+  });
+
+  protected getValue: Signal<MapFunc<TItem, TIn>> = computed(() => this.controlBindValue() ?? this.bindValue());
+  //</editor-fold>
+
+  //<editor-fold desc="Label Mapping">
   readonly bindLabel = input(
     (x: TItem) => String(x),
     {
-      transform: (binding: string | Selection<TItem, string> | undefined | null) => {
+      transform: (binding: string | Selection<TItem, string> | undefined | null): MapFunc<TItem, string> => {
         if (binding == null) return (x: TItem) => String(x);
         // Typeless for backwards compatibility
         if (isString(binding)) return (x: any) => x[binding];
@@ -61,8 +70,16 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
     }
   );
 
-  protected getLabel = computed(() => this.selectControl()?.bindLabel ?? this.bindLabel());
+  private controlBindLabel = computed(() => {
+    const control = this.selectControl();
+    if (!control?.bindLabel) return undefined;
+    return getSelectorFn(control.bindLabel);
+  });
 
+  protected getLabel: Signal<MapFunc<TItem, string>> = computed(() => this.controlBindLabel() ?? this.bindLabel());
+  //</editor-fold>
+
+  //<editor-fold desc="Option Mapping">
   readonly bindOption = input(undefined, {
     transform: (binding: string | Selection<TItem, string> | undefined | null): MapFunc<TItem, string> | undefined => {
       if (binding == null) return undefined;
@@ -70,9 +87,15 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
       if (isString(binding)) return (x: any) => x[binding];
       return getSelectorFn(binding);
     }
-  })
+  });
 
-  protected getOption = computed(() => this.selectControl()?.bindOption ?? this.bindOption() ?? this.getLabel());
+  private controlBindOption = computed(() => {
+    const control = this.selectControl();
+    if (!control?.bindOption) return undefined;
+    return getSelectorFn(control.bindOption);
+  });
+
+  protected getOption: Signal<MapFunc<TItem, string>> = computed(() => this.controlBindOption() ?? this.bindOption() ?? this.getLabel());
   //</editor-fold>
 
 }
