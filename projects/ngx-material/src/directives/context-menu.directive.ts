@@ -1,4 +1,6 @@
-import {booleanAttribute, Directive, HostListener, input, NgZone, OnDestroy} from '@angular/core';
+import {
+  booleanAttribute, Directive, HostListener, input, InputSignal, InputSignalWithTransform, NgZone, OnDestroy
+} from '@angular/core';
 import {fromEvent, merge, Subscription} from "rxjs";
 import {filter, first, map, tap} from "rxjs/operators";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -6,10 +8,10 @@ import {MatMenuTrigger} from "@angular/material/menu";
 @Directive({selector: '[contextMenu]', standalone: true})
 export class ContextMenuDirective implements OnDestroy {
 
-  trigger = input<MatMenuTrigger|undefined>(undefined, {alias: 'contextMenu'});
-  element = input<HTMLElement|undefined>(undefined, {alias: 'triggerElement'});
-  data = input<unknown|undefined>(undefined, {alias: 'menuData'});
-  disableMenu = input(false, {transform: booleanAttribute});
+  readonly trigger: InputSignal<MatMenuTrigger | undefined> = input<MatMenuTrigger|undefined>(undefined, {alias: 'contextMenu'});
+  readonly element: InputSignal<HTMLElement | undefined> = input<HTMLElement|undefined>(undefined, {alias: 'triggerElement'});
+  readonly data: InputSignal<unknown | undefined> = input<unknown|undefined>(undefined, {alias: 'menuData'});
+  readonly disableMenu: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
   sub?: Subscription;
 

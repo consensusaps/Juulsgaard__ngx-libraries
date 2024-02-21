@@ -1,10 +1,10 @@
 import {
-  ChangeDetectionStrategy, Component, computed, contentChildren, effect, forwardRef, inject, input, model, signal,
-  Signal
+  ChangeDetectionStrategy, Component, computed, contentChildren, effect, forwardRef, inject, input, InputSignal,
+  InputSignalWithTransform, model, ModelSignal, signal, Signal
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgxTabBarContext, NgxTabContext} from "../../services";
-import {scopedRouterAttribute} from "@juulsgaard/ngx-tools";
+import {ScopedRouter, scopedRouterAttribute} from "@juulsgaard/ngx-tools";
 import {INavTab} from "../../models/nav-tab.interface";
 import {UIScopeContext} from "../../../../models";
 import {toSignal} from "@angular/core/rxjs-interop";
@@ -26,28 +26,34 @@ export class NgxTabBarComponent extends NgxTabBarContext {
   private router = inject(Router);
   private readonly route = inject(ActivatedRoute, {optional: true}) ?? undefined;
 
-  children = contentChildren(NgxTabContext, {descendants: false});
-  tabs = computed(() => {
+  readonly children = contentChildren(NgxTabContext, {descendants: false});
+  readonly tabs = computed(() => {
     let tabs = this.children();
     return tabs.filter(t => !t.disabled());
   });
-  tab: Signal<NgxTabContext|undefined>;
+  readonly tab: Signal<NgxTabContext|undefined>;
 
-  fragmentNav = input(undefined, {
+  readonly fragmentNav: InputSignalWithTransform<
+    ScopedRouter | undefined,
+    boolean | '' | ActivatedRoute | ScopedRouter | undefined | null
+  > = input(undefined, {
     transform: scopedRouterAttribute(this.router, this.route)
   });
 
-  routeNav = input(undefined, {
+  readonly routeNav: InputSignalWithTransform<
+    ScopedRouter | undefined,
+    boolean | '' | ActivatedRoute | ScopedRouter | undefined | null
+  > = input(undefined, {
     transform: scopedRouterAttribute(this.router, this.route)
   });
 
   protected relativeTo = computed(() => this.routeNav()?.route ?? this.fragmentNav()?.route);
 
-  active = input(true);
+  readonly active: InputSignal<boolean> = input(true);
 
-  slug = model<string>();
+  readonly slug: ModelSignal<string | undefined> = model<string>();
 
-  wrapperClass: Signal<string[]>;
+  readonly wrapperClass: Signal<string[]>;
 
   constructor() {
     super();

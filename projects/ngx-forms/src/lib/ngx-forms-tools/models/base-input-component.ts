@@ -1,6 +1,6 @@
 import {
-    booleanAttribute, computed, Directive, effect, ElementRef, HostBinding, inject, input, InputSignal,
-    InputSignalWithTransform, model, ModelSignal, OnInit, Signal, signal, viewChild, viewChildren, WritableSignal
+  booleanAttribute, computed, Directive, effect, ElementRef, HostBinding, inject, input, InputSignal,
+  InputSignalWithTransform, model, ModelSignal, OnInit, Signal, signal, viewChild, viewChildren, WritableSignal
 } from "@angular/core";
 import {EMPTY, Observable, OperatorFunction, Subject, Subscribable, Subscription, switchMap} from "rxjs";
 import {NgModel} from "@angular/forms";
@@ -26,8 +26,8 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     private ngModels = viewChildren(NgModel);
 
     //<editor-fold desc="Required">
-    readonly requiredIn = input(false, {transform: booleanAttribute});
-    readonly hideRequired = input(false, {transform: booleanAttribute});
+    readonly requiredIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+    readonly hideRequired: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
     protected required = computed(() => {
         if (this.hideRequired()) return false;
         if (this.requiredIn()) return true;
@@ -102,12 +102,12 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     //</editor-fold>
 
     //<editor-fold desc="Disabled">
-    readonly disabledIn = input(false, {transform: booleanAttribute, alias: 'disabled'});
+    readonly disabledIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'disabled'});
     /** Marks that the input should be shown as disabled */
     protected disabled = computed(() => this.control()?.disabledSignal() || this.disabledIn());
 
     /** Disable hiding the input when it's disabled */
-    readonly showDisabledIn = input(false, {transform: booleanAttribute, alias: 'showDisabled'});
+    readonly showDisabledIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'showDisabled'});
     protected showDisabled = computed(() => this.control()?.showDisabledField || this.showDisabledIn());
 
     /** Marks whether the input should be displayed or not */
@@ -120,7 +120,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     //<editor-fold desc="Readonly">
     private formScope = inject(FormContext, {optional: true});
 
-    readonly readonlyIn = input(false, {transform: booleanAttribute, alias: 'readonly'});
+    readonly readonlyIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'readonly'});
     protected readonly = computed(() => {
         if (this.readonlyIn()) return true;
         if (this.formScope && this.formScope.readonly()) return true;
@@ -136,35 +136,35 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     //<editor-fold desc="Configuration">
 
     /** The input label */
-    readonly labelIn = input<string|undefined>(undefined, {alias: 'label'});
+    readonly labelIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'label'});
     protected label = computed(() => this.labelIn() ?? this.control()?.label);
 
     /** A placeholder text, if not set the label will be used */
-    readonly placeholderIn = input<string|undefined>(undefined, {alias: 'placeholder'});
+    readonly placeholderIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'placeholder'});
     protected placeholder = computed(() => this.placeholderIn() ?? this.label() ?? '');
 
     /** Input to tell the browser what type of autocomplete the input should use */
-    readonly autocompleteIn = input<string|undefined>(undefined, {alias: 'autocomplete'});
+    readonly autocompleteIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'autocomplete'});
     protected autocomplete = computed(() => this.autocompleteIn() ?? this.control()?.autocomplete);
 
     /** Focus the input when it's first created */
-    readonly autofocusIn = input(false, {transform: booleanAttribute, alias: 'autofocus'});
+    readonly autofocusIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'autofocus'});
     protected autofocus = computed(() => this.autocompleteIn() || this.control()?.autoFocus);
 
     /** Add a tooltip with additional information about the input */
-    readonly tooltipIn = input<string|undefined>(undefined, {alias: 'tooltip'});
+    readonly tooltipIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'tooltip'});
     protected tooltip = computed(() => this.tooltipIn() ?? this.control()?.tooltip);
 
     /** Set the theme color for the input */
-    readonly colorIn = input<ThemePalette>('primary', {alias: 'color'});
+    readonly colorIn: InputSignal<ThemePalette> = input<ThemePalette>('primary', {alias: 'color'});
     protected color = computed(() => this.colorIn());
 
     /** Change the material input style */
-    readonly appearanceIn = input<MatFormFieldAppearance>('outline', {alias: 'appearance'});
+    readonly appearanceIn: InputSignal<MatFormFieldAppearance> = input<MatFormFieldAppearance>('outline', {alias: 'appearance'});
     protected appearance = computed(() => this.appearanceIn());
 
     /** Hide the required asterisk */
-    readonly directionIn = input<'ltr'|'rtl'|'auto'|undefined>(undefined, {alias: 'direction'});
+    readonly directionIn: InputSignal<"ltr" | "rtl" | "auto" | undefined> = input<'ltr'|'rtl'|'auto'|undefined>(undefined, {alias: 'direction'});
     protected direction = computed(() => this.directionIn());
     //</editor-fold>
 

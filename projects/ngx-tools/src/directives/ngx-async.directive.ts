@@ -14,7 +14,7 @@ type InputVal = AsyncVal<unknown>|AsyncObject<Record<string, unknown>>|undefined
 @Directive({selector: '[ngxAsync]', standalone: true})
 export class NgxAsyncDirective<T extends InputVal> {
 
-  values: InputSignal<T> = input.required<T>({alias: 'ngxAsync'});
+  readonly values: InputSignal<T> = input.required<T>({alias: 'ngxAsync'});
 
   private view?: EmbeddedViewRef<TemplateContext<T>>;
 

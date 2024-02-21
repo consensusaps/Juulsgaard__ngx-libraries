@@ -1,4 +1,4 @@
-import {Directive, effect, ElementRef, input, NgZone, OnDestroy, Signal} from '@angular/core';
+import {Directive, effect, ElementRef, input, InputSignalWithTransform, NgZone, OnDestroy, Signal} from '@angular/core';
 import {secondsToTimeAgo} from "../helpers/time-ago";
 import {fromEvent} from "rxjs";
 import {map} from "rxjs/operators";
@@ -13,8 +13,8 @@ export class TimeAgoDirective implements OnDestroy {
 
   timer?: number;
 
-  hidden: Signal<boolean>;
-  date = input.required({
+  readonly hidden: Signal<boolean>;
+  readonly date: InputSignalWithTransform<undefined | Date, Date | string | undefined> = input.required({
     alias: 'timeAgo',
     transform: (value: Date | string | undefined) => {
       if (!value) return undefined;

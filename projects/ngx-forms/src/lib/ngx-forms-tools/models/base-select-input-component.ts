@@ -1,4 +1,6 @@
-import {booleanAttribute, computed, Directive, input, InputSignal, Signal} from "@angular/core";
+import {
+  booleanAttribute, computed, Directive, input, InputSignal, InputSignalWithTransform, Signal
+} from "@angular/core";
 import {BaseInputComponent} from "./base-input-component";
 import {getSelectorFn, isString, MapFunc, Selection} from "@juulsgaard/ts-tools";
 import {isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@juulsgaard/ngx-forms-core";
@@ -25,17 +27,17 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
 
   protected empty = computed(() => this.items().length <= 0);
 
-  readonly hideEmptyIn = input(false, {transform: booleanAttribute, alias: 'hideEmpty'});
+  readonly hideEmptyIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'hideEmpty'});
   protected hideEmpty = computed(() => this.selectControl()?.hideWhenEmpty || this.hideEmptyIn());
   protected hidden = computed(() => this.hideEmpty() && this.empty());
 
-  readonly multipleIn = input(false, {transform: booleanAttribute, alias: 'multiple'});
+  readonly multipleIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'multiple'});
   protected multiple = computed(() => this.selectControl()?.multiple ?? this.multipleIn());
 
-  readonly clearableIn = input(false, {transform: booleanAttribute, alias: 'clearable'});
+  readonly clearableIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'clearable'});
   protected clearable = computed(() => this.selectControl()?.clearable || this.clearableIn());
 
-  readonly selectGroupsIn = input(false, {transform: booleanAttribute});
+  readonly selectGroupsIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
   protected selectGroups = computed(() => this.selectControl()?.selectGroups || this.selectGroupsIn());
 
   constructor() {
@@ -44,7 +46,10 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
   }
 
   //<editor-fold desc="Value Mapping">
-  readonly bindValue = input(
+  readonly bindValue: InputSignalWithTransform<
+    MapFunc<TItem, TIn>,
+    string | Selection<TItem, TIn> | undefined | null
+  > = input(
     (x: TItem) => x as unknown as TIn,
     {
       transform: (binding: string | Selection<TItem, TIn> | undefined | null): MapFunc<TItem, TIn> => {
@@ -66,7 +71,10 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
   //</editor-fold>
 
   //<editor-fold desc="Label Mapping">
-  readonly bindLabel = input(
+  readonly bindLabel: InputSignalWithTransform<
+    MapFunc<TItem, string>,
+    string | Selection<TItem, string> | undefined | null
+  > = input(
     (x: TItem) => String(x),
     {
       transform: (binding: string | Selection<TItem, string> | undefined | null): MapFunc<TItem, string> => {
@@ -88,7 +96,10 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
   //</editor-fold>
 
   //<editor-fold desc="Option Mapping">
-  readonly bindOption = input(undefined, {
+  readonly bindOption: InputSignalWithTransform<
+    MapFunc<TItem, string> | undefined,
+    string | Selection<TItem, string> | undefined | null
+  > = input(undefined, {
     transform: (binding: string | Selection<TItem, string> | undefined | null): MapFunc<TItem, string> | undefined => {
       if (binding == null) return undefined;
       // Typeless for backwards compatibility
@@ -106,7 +117,10 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
   protected getOption: Signal<MapFunc<TItem, string>> = computed(() => this.controlBindOption() ?? this.bindOption() ?? this.getLabel());
   //</editor-fold>
 
-  readonly groupByIn = input(undefined, {
+  readonly groupByIn: InputSignalWithTransform<
+    MapFunc<TItem, string> | undefined,
+    string | Selection<TItem, string> | undefined | null
+  > = input(undefined, {
     alias: 'groupBy',
     transform: (grouping: string | Selection<TItem, string> | undefined | null): MapFunc<TItem, string> | undefined => {
       if (grouping == null) return undefined;

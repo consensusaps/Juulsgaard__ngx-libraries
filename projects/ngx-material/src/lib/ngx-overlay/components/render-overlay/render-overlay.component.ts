@@ -18,7 +18,7 @@ import {arrToSet} from "@juulsgaard/ts-tools";
 })
 export class RenderOverlayComponent {
 
-  content: TemplateRendering;
+  readonly content: TemplateRendering;
   animate = inject(OVERLAY_ANIMATE_IN);
 
   private canClose = false;

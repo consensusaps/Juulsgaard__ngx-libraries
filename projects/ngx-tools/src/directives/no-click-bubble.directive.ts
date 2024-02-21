@@ -1,4 +1,4 @@
-import {booleanAttribute, Directive, HostListener, input} from '@angular/core';
+import {booleanAttribute, Directive, HostListener, input, InputSignalWithTransform} from '@angular/core';
 
 
 @Directive({
@@ -9,7 +9,7 @@ export class NoClickBubbleDirective {
 
   constructor() { }
 
-  noClickBubble = input.required({transform: booleanAttribute});
+  readonly noClickBubble: InputSignalWithTransform<boolean, unknown> = input.required({transform: booleanAttribute});
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {

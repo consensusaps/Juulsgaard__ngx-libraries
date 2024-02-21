@@ -11,9 +11,9 @@ export class ServiceWorkerAlertComponent {
 
   private swService = inject(ServiceWorkerService);
 
-  hideDialog = signal(false);
-  showDialog = computed(() => !this.hideDialog() && this.swService.updateReady());
-  brokenState = this.swService.brokenState;
+  readonly hideDialog = signal(false);
+  readonly showDialog = computed(() => !this.hideDialog() && this.swService.updateReady());
+  readonly brokenState = this.swService.brokenState;
 
   async updateApp() {
     await this.swService.updateApp();

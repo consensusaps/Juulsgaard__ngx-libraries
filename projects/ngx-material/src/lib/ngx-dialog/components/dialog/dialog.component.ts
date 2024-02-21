@@ -1,6 +1,6 @@
 import {
   booleanAttribute, ChangeDetectionStrategy, Component, computed, contentChild, effect, EventEmitter, inject, Injector,
-  input, model, OnDestroy, Output, viewChild
+  input, InputSignal, InputSignalWithTransform, model, ModelSignal, OnDestroy, Output, viewChild
 } from '@angular/core';
 import {DialogManagerService} from "../../services/dialog-manager.service";
 import {DialogFooterTemplateDirective} from "../../directives/dialog-footer-template.directive";
@@ -30,20 +30,20 @@ export class DialogComponent implements OnDestroy {
   private content = viewChild.required('content', {read: RenderSourceDirective});
   private footer = viewChild.required('footer', {read: RenderSourceDirective});
 
-  header = input<string>();
-  scrollable = input(false, {transform: booleanAttribute});
-  type = input<string>();
-  styles = input(
+  readonly header: InputSignal<string | undefined> = input<string>();
+  readonly scrollable: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly type: InputSignal<string | undefined> = input<string>();
+  readonly styles: InputSignalWithTransform<string[], string[] | string | undefined> = input(
     [] as string[],
     {
       transform: (styles: string[]|string|undefined) => Array.isArray(styles) ? styles : styles ? [styles] : []
     }
   );
 
-  show = model(true);
+  readonly show: ModelSignal<boolean> = model(true);
 
-  disableClose = input(false, {transform: booleanAttribute});
-  canClose = computed(() => !this.disableClose());
+  readonly disableClose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly canClose = computed(() => !this.disableClose());
   @Output() close = new EventEmitter<void>();
 
   private instance?: TemplateDialogInstance;

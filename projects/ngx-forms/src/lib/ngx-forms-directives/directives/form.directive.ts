@@ -1,5 +1,6 @@
 import {
-  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignalWithTransform, TemplateRef, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, InputSignalWithTransform, TemplateRef,
+  ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormRoot, isFormRoot, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
@@ -22,7 +23,7 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
     transform: (form: AnyControlFormRoot<TControls>|{form: AnyControlFormRoot<TControls>}) => isFormRoot(form) ? form : form.form
   });
 
-  show = input(true, {alias: 'ngxFormWhen'});
+  readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormWhen'});
 
   view?: EmbeddedViewRef<FormDirectiveContext<TControls>>
 

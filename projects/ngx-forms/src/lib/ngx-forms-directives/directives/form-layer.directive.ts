@@ -13,8 +13,8 @@ import {AnyControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
 })
 export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
 
-  layer: InputSignal<AnyControlFormLayer<TControls>> = input.required({alias: 'ngxFormLayer'});
-  show = input(true, {alias: 'ngxFormLayerWhen'});
+  readonly layer: InputSignal<AnyControlFormLayer<TControls>> = input.required({alias: 'ngxFormLayer'});
+  readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormLayerWhen'});
 
   view?: EmbeddedViewRef<FormLayerDirectiveContext<TControls>>;
 

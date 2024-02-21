@@ -12,16 +12,16 @@ import {RenderSource} from "@juulsgaard/ngx-tools";
 })
 export class SideMenuTabDirective extends NgxSideMenuTabContext implements RenderSource {
 
-  slug: InputSignal<string> = input.required<string>({alias: 'ngxMenuTab'});
-  name = input<string>();
-  icon = input<string>();
-  badge = input<string>();
-  badgeColor = input<ThemePalette>();
+  readonly slug: InputSignal<string> = input.required<string>({alias: 'ngxMenuTab'});
+  readonly name: InputSignal<string | undefined> = input<string>();
+  readonly icon: InputSignal<string | undefined> = input<string>();
+  readonly badge: InputSignal<string | undefined> = input<string>();
+  readonly badgeColor: InputSignal<ThemePalette | undefined> = input<ThemePalette>();
 
-  disabled: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
-  hide = input(false, {transform: booleanAttribute});
+  readonly disabled: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly hide: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  source = signal(this);
+  readonly source = signal(this);
 
   readonly template = inject(TemplateRef<{}>);
   readonly viewContainer = inject(ViewContainerRef);

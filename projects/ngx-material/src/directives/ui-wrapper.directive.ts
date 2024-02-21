@@ -14,9 +14,9 @@ import {IScrollContext, ScrollContext} from "@juulsgaard/ngx-tools";
 })
 export class UiWrapperDirective implements OnDestroy, IScrollContext {
 
-  wrapperClass: Signal<string[]>;
+  readonly wrapperClass: Signal<string[]>;
 
-  scrollable: Signal<boolean>;
+  readonly scrollable: Signal<boolean>;
   cdkScrollable: CdkScrollable;
 
   scrollDispatcher = inject(ScrollDispatcher);

@@ -1,4 +1,7 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, effect, ElementRef, inject, input} from '@angular/core';
+import {
+  booleanAttribute, ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, InputSignal,
+  InputSignalWithTransform
+} from '@angular/core';
 import {BaseAnchor} from "../../models/base-button";
 import {BaseIconAliases, IconDirective, IconProviders} from "@juulsgaard/ngx-tools";
 import {isString} from "@juulsgaard/ts-tools";
@@ -16,13 +19,13 @@ import {isString} from "@juulsgaard/ts-tools";
 })
 export class IconAnchorComponent extends BaseAnchor {
 
-  active = input(false, {transform: booleanAttribute});
+  readonly active: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  provider = input<IconProviders>();
-  icon = input<string>();
-  alias = input<string | BaseIconAliases>();
+  readonly provider: InputSignal<IconProviders| undefined> = input<IconProviders>();
+  readonly icon: InputSignal<string | undefined> = input<string>();
+  readonly alias: InputSignal<string | BaseIconAliases | undefined> = input<string | BaseIconAliases>();
 
-  size = input('', {
+  readonly size: InputSignalWithTransform<string, number | string | undefined | null> = input('', {
     transform: (size: number | string | undefined | null) => {
       if (size == null) return '';
       if (isString(size)) return size;
@@ -30,7 +33,7 @@ export class IconAnchorComponent extends BaseAnchor {
     }
   });
 
-  padding = input(null, {
+  readonly padding: InputSignalWithTransform<string | null, number | string | undefined | null> = input(null, {
     transform: (padding: number | string | undefined | null) => {
       if (padding == null) return null;
       if (isString(padding)) return padding;

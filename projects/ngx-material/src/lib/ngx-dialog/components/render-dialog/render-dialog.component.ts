@@ -18,11 +18,11 @@ import {arrToSet} from "@juulsgaard/ts-tools";
 })
 export class RenderDialogComponent {
 
-  header: Signal<string|undefined>;
+  readonly header: Signal<string|undefined>;
   canClose = false;
 
-  contentTemplate: Signal<TemplateRendering|undefined>;
-  footerTemplate: Signal<TemplateRendering|undefined>;
+  readonly contentTemplate: Signal<TemplateRendering|undefined>;
+  readonly footerTemplate: Signal<TemplateRendering|undefined>;
 
   htmlDescription?: string;
   plainDescription?: string;

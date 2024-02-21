@@ -1,4 +1,4 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, input, InputSignalWithTransform} from '@angular/core';
 
 @Component({
   selector: 'ngx-list-item, a[ngx-list-item]',
@@ -9,6 +9,6 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, input} from '@angu
 })
 export class NgxListItemComponent {
 
-  active = input(false, {transform: booleanAttribute});
+  readonly active: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
 }

@@ -1,5 +1,6 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, computed, EventEmitter, inject, input, Output, Signal
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, EventEmitter, inject, input, InputSignal,
+  InputSignalWithTransform, Output, Signal
 } from '@angular/core';
 import {MatRippleModule} from "@angular/material/core";
 import {NgIf} from "@angular/common";
@@ -28,13 +29,13 @@ export class HeaderComponent {
   @Output() back = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
 
-  heading = input<string>();
-  subHeading = input<string>();
-  hideClose = input(false, {transform: booleanAttribute});
-  hideBack = input(false, {transform: booleanAttribute});
+  readonly heading: InputSignal<string | undefined> = input<string>();
+  readonly subHeading: InputSignal<string | undefined> = input<string>();
+  readonly hideClose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly hideBack: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  headerClass: Signal<string[]>;
-  showMenu: Signal<boolean>;
+  readonly headerClass: Signal<string[]>;
+  readonly showMenu: Signal<boolean>;
 
   private sidebarService = inject(SidebarService, {optional: true});
   private uiContext = inject(UIScopeContext, {optional: true});

@@ -4,7 +4,7 @@ import {UIScopeContext} from "../models";
 @Directive({selector: '[uiHeader]', standalone: true, host: {'[class]': 'headerClass()'}})
 export class UiHeaderDirective {
 
-  headerClass: Signal<string[]>;
+  readonly headerClass: Signal<string[]>;
 
   private uiContext = inject(UIScopeContext, {optional: true});
 

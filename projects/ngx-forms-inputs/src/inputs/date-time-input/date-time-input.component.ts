@@ -59,7 +59,7 @@ export class DateTimeInputComponent extends BaseInputComponent<Date | undefined,
   private locale = inject(LOCALE_ID);
   private helper = new DayjsHelper();
 
-  timePicker = viewChild.required(NgxMatTimepickerComponent);
+  readonly timePicker = viewChild.required(NgxMatTimepickerComponent);
 
   timeFormat: 12 | 24;
 

@@ -1,4 +1,4 @@
-import {Directive, ElementRef, EventEmitter, HostListener, input, Output} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, HostListener, input, InputSignal, Output} from '@angular/core';
 
 
 @Directive({ selector: '[fileDrop]', standalone: true })
@@ -9,7 +9,7 @@ export class FileDropDirective {
   constructor(private element: ElementRef<HTMLElement>) { }
 
   @Output() fileDrop = new EventEmitter<DragEvent>();
-  fileDropDisable = input(false);
+  readonly fileDropDisable: InputSignal<boolean> = input(false);
 
   @HostListener('dragover', ['$event']) onDragOver(event: Event) {
     if (this.fileDropDisable()) return;

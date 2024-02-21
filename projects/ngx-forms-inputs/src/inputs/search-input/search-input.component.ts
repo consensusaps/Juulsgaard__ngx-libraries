@@ -1,5 +1,6 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, HostListener, input, NgZone, Output
+  booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, HostListener, input, InputSignalWithTransform,
+  NgZone, Output
 } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
@@ -48,7 +49,7 @@ export class SearchInputComponent extends BaseInputComponent<string, string> {
     this.inputElement()?.blur();
   }
 
-  globalFocus = input(false, {transform: booleanAttribute});
+  readonly globalFocus: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
   constructor(zone: NgZone) {
     super();

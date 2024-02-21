@@ -1,4 +1,7 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, forwardRef, input, viewChild} from '@angular/core';
+import {
+  booleanAttribute, ChangeDetectionStrategy, Component, forwardRef, input, InputSignal, InputSignalWithTransform,
+  viewChild
+} from '@angular/core';
 import {NgxSideMenuTabContext} from "../../models/menu-tab-context";
 import {ThemePalette} from "@angular/material/core";
 import {RenderSourceDirective} from "@juulsgaard/ngx-tools";
@@ -12,14 +15,14 @@ import {RenderSourceDirective} from "@juulsgaard/ngx-tools";
 })
 export class SideMenuTabComponent extends NgxSideMenuTabContext {
 
-  slug = input.required<string>();
-  name = input<string>();
-  icon = input<string>();
-  badge = input<string>();
-  badgeColor = input<ThemePalette>();
+  readonly slug: InputSignal<string> = input.required<string>();
+  readonly name: InputSignal<string | undefined> = input<string>();
+  readonly icon: InputSignal<string | undefined> = input<string>();
+  readonly badge: InputSignal<string | undefined> = input<string>();
+  readonly badgeColor: InputSignal<ThemePalette | undefined> = input<ThemePalette>();
 
-  disabled = input(false, {transform: booleanAttribute});
-  hide = input(false, {transform: booleanAttribute});
+  readonly disabled: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly hide: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  source = viewChild.required('source', {read: RenderSourceDirective});
+  readonly source = viewChild.required('source', {read: RenderSourceDirective});
 }

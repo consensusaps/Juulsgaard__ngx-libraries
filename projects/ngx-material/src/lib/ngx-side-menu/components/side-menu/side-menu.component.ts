@@ -1,5 +1,6 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, computed, contentChildren, forwardRef, input, model, Signal
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, contentChildren, forwardRef, input,
+  InputSignalWithTransform, model, ModelSignal, Signal
 } from '@angular/core';
 import {NgxSideMenuTabContext} from "../../models/menu-tab-context";
 import {NgxSideMenuContext} from "../../models/menu-context";
@@ -13,15 +14,15 @@ import {NgxSideMenuContext} from "../../models/menu-context";
 })
 export class SideMenuComponent extends NgxSideMenuContext {
 
-  children = contentChildren(NgxSideMenuTabContext, {descendants: false});
-  tabs = computed(() => {
+  readonly children = contentChildren(NgxSideMenuTabContext, {descendants: false});
+  readonly tabs = computed(() => {
     let tabs = this.children();
     return tabs.filter(t => !t.disabled());
   });
 
-  active = model<string|undefined>(undefined);
-  showButtons = input(false, {transform: booleanAttribute});
-  tab: Signal<NgxSideMenuTabContext|undefined>;
+  readonly active: ModelSignal<string | undefined> = model<string|undefined>(undefined);
+  readonly showButtons: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly tab: Signal<NgxSideMenuTabContext|undefined>;
 
   constructor() {
     super();

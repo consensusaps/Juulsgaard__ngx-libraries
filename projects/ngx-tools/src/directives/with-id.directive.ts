@@ -1,4 +1,4 @@
-import {Directive, effect, ElementRef, HostListener, inject, input} from '@angular/core';
+import {Directive, effect, ElementRef, HostListener, inject, input, InputSignal} from '@angular/core';
 import {IdManagerService} from "../services";
 
 @Directive({
@@ -20,7 +20,7 @@ export class WithIdDirective {
     return false;
   }
 
-  id = input.required<string|undefined>({alias: 'withId'});
+  readonly id: InputSignal<string | undefined> = input.required<string|undefined>({alias: 'withId'});
 
   private readonly service = inject(IdManagerService, {optional: true});
 

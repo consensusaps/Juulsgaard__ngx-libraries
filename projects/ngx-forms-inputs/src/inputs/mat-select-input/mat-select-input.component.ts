@@ -31,7 +31,7 @@ type ArrOrNullable<T> = T extends any[] ? T : T | undefined;
 })
 export class MatSelectInputComponent<TItem, TVal extends any | any[]> extends BaseSelectInputComponent<ArrOrNullable<TVal>, ArrOrNullable<TVal>, TItem> {
 
-  canClear = computed(() => this.clearable() && (this.multiple() || !this.required()));
+  readonly canClear = computed(() => this.clearable() && (this.multiple() || !this.required()));
 
   trackBy = (_index: number, item: TItem) => this.getValue()(item);
 

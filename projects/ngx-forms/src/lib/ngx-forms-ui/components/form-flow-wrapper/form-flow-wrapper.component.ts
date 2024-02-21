@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, InputSignal, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'form-flow-wrapper',
@@ -12,7 +12,7 @@ import {ChangeDetectionStrategy, Component, input, ViewEncapsulation} from '@ang
 })
 export class FormFlowWrapperComponent {
 
-  minWidth = input(200);
+  readonly minWidth: InputSignal<number> = input(200);
 
   constructor() { }
 

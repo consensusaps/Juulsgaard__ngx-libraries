@@ -3,7 +3,7 @@ import {Directive, effect, EmbeddedViewRef, input, InputSignal, TemplateRef, Vie
 @Directive({selector: '[ngxLet]', standalone: true})
 export class NgxLetDirective<T> {
 
-  value: InputSignal<T> = input.required<T>({alias: 'ngxLet'});
+  readonly value: InputSignal<T> = input.required<T>({alias: 'ngxLet'});
 
   private view?: EmbeddedViewRef<TemplateContext<T>>;
 

@@ -1,5 +1,6 @@
 import {
-  booleanAttribute, Directive, ElementRef, EventEmitter, HostBinding, HostListener, input, Output
+  booleanAttribute, Directive, ElementRef, EventEmitter, HostBinding, HostListener, input, InputSignal,
+  InputSignalWithTransform, Output
 } from '@angular/core';
 import {NgxDragContext} from "../models/ngx-drag-context";
 import {NgxDragService} from "../services/ngx-drag.service";
@@ -10,10 +11,10 @@ import {NgxDragService} from "../services/ngx-drag.service";
 })
 export class NgxDragDirective<T> {
 
-  dragData = input<T>();
-  dropText = input<string>();
-  dropEffect = input<'move'|'link'|'copy'>();
-  disableDrag = input(false, {transform: booleanAttribute});
+  readonly dragData: InputSignal<T | undefined> = input<T>();
+  readonly dropText: InputSignal<string | undefined> = input<string>();
+  readonly dropEffect: InputSignal<"move" | "link" | "copy" | undefined> = input<'move'|'link'|'copy'>();
+  readonly disableDrag: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
   @Output('dragStart') dragStart = new EventEmitter<NgxDragContext<T>>();
 

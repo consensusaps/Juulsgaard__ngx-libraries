@@ -1,4 +1,6 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {
+  booleanAttribute, ChangeDetectionStrategy, Component, input, InputSignal, InputSignalWithTransform
+} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@juulsgaard/ngx-tools';
@@ -29,8 +31,8 @@ import {NgxColorsColor, NgxColorsModule} from "ngx-colors";
 })
 export class ColorInputComponent extends BaseInputComponent<string | undefined, string> {
 
-  withAlpha = input(false, {transform: booleanAttribute});
-  palette= input<string[] | NgxColorsColor[]>(colors);
+  readonly withAlpha: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly palette: InputSignal<string[] | NgxColorsColor[]> = input<string[] | NgxColorsColor[]>(colors);
 
   constructor() {
     super();

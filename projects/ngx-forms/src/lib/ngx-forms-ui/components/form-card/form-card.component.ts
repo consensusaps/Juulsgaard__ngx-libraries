@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, InputSignal, ViewEncapsulation} from '@angular/core';
 
 
 @Component({
@@ -10,7 +10,7 @@ import {ChangeDetectionStrategy, Component, input, ViewEncapsulation} from '@ang
 })
 export class FormCardComponent {
 
-  icon = input<string>();
+  readonly icon: InputSignal<string | undefined> = input<string>();
 
   constructor() { }
 

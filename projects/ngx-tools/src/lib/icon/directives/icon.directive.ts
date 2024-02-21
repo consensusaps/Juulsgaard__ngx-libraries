@@ -1,4 +1,6 @@
-import {computed, Directive, effect, ElementRef, inject, input, signal} from '@angular/core';
+import {
+  computed, Directive, effect, ElementRef, inject, input, InputSignal, InputSignalWithTransform, signal
+} from '@angular/core';
 import {IconData} from "../models/icon-models";
 import {IconService} from "../services/icon.service";
 import {IconProviders} from "../models/icon-providers";
@@ -12,13 +14,13 @@ import {isString} from "@juulsgaard/ts-tools";
 })
 export class IconDirective {
 
-  classes = signal(['empty']);
+  readonly classes = signal(['empty']);
 
-  provider = input<IconProviders>();
-  icon = input<string>();
-  alias = input<string | BaseIconAliases>();
+  readonly provider: InputSignal<IconProviders | undefined> = input<IconProviders>();
+  readonly icon: InputSignal<string | undefined> = input<string>();
+  readonly alias: InputSignal<string | BaseIconAliases | undefined> = input<string | BaseIconAliases>();
 
-  size = input('', {
+  readonly size: InputSignalWithTransform<string, number | string | undefined | null> = input('', {
     transform: (size: number | string | undefined | null) => {
       if (size == null) return '';
       if (isString(size)) return size;
@@ -26,7 +28,7 @@ export class IconDirective {
     }
   });
 
-  padding = input(null, {
+  readonly padding: InputSignalWithTransform<string | null, number | string | undefined | null> = input(null, {
     transform: (padding: number | string | undefined | null) => {
       if (padding == null) return null;
       if (isString(padding)) return padding;

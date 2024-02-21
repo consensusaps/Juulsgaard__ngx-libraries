@@ -1,6 +1,6 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, computed, contentChildren, forwardRef, input, model, signal,
-  Signal
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, contentChildren, forwardRef, input,
+  InputSignalWithTransform, model, ModelSignal, signal, Signal
 } from '@angular/core';
 import {NgxSideMenuTabContext} from "../../models/menu-tab-context";
 import {NgxSideMenuContext} from "../../models/menu-context";
@@ -13,16 +13,18 @@ import {NgxSideMenuContext} from "../../models/menu-context";
   providers: [{provide: NgxSideMenuContext, useExisting: forwardRef(() => MonoSideMenuComponent)}]
 })
 export class MonoSideMenuComponent extends NgxSideMenuContext {
-  children = contentChildren(NgxSideMenuTabContext, {descendants: false});
-  tabs = computed(() => {
+  readonly children = contentChildren(NgxSideMenuTabContext, {descendants: false});
+  readonly tabs = computed(() => {
     let tabs = this.children();
     return tabs.filter(t => !t.disabled()).slice(0, 1);
   });
 
-  show = model(false);
-  showInlineButtons = input(false, {transform: booleanAttribute, alias: 'showButtons'});
-  showButtons = signal(false);
-  tab: Signal<NgxSideMenuTabContext|undefined>;
+  readonly show: ModelSignal<boolean> = model(false);
+  readonly showInlineButtons: InputSignalWithTransform<boolean, unknown> = input(false, {
+    transform: booleanAttribute, alias: 'showButtons'
+  });
+  readonly showButtons = signal(false);
+  readonly tab: Signal<NgxSideMenuTabContext | undefined>;
 
   constructor() {
     super();
@@ -40,7 +42,7 @@ export class MonoSideMenuComponent extends NgxSideMenuContext {
   }
 
   override openTab(_slug: string) {
-   this.show.set(true);
+    this.show.set(true);
   }
 
   override close() {

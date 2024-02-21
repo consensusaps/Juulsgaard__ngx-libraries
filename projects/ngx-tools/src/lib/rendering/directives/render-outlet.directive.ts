@@ -57,23 +57,23 @@ export abstract class BaseRenderDirective<T extends {}> implements OnDestroy {
 @Directive({selector: 'ngx-render', host: {'[style.display]': 'renderInside() ? "" : "hidden"'}})
 export class RenderOutletDirective<T extends {}> extends BaseRenderDirective<T> {
 
-  template: InputSignal<TemplateRendering<T> | undefined> = input<TemplateRendering<T>>();
-  renderInside: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly template: InputSignal<TemplateRendering<T> | undefined> = input<TemplateRendering<T>>();
+  readonly renderInside: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  context: InputSignal<T | undefined> = input<T>();
-  autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly context: InputSignal<T | undefined> = input<T>();
+  readonly autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  filter = input<(node: Node) => boolean>();
+  readonly filter: InputSignal<((node: Node) => boolean) | undefined> = input<(node: Node) => boolean>();
 }
 
 @Directive({selector: '[ngxRender]'})
 export class TemplateRenderDirective<T extends {}> extends BaseRenderDirective<T> {
 
-  template: InputSignal<TemplateRendering<T> | undefined> = input<TemplateRendering<T>|undefined>(undefined, {alias: 'ngxRender'});
-  context: InputSignal<T | undefined> = input<T>();
+  readonly template: InputSignal<TemplateRendering<T> | undefined> = input<TemplateRendering<T>|undefined>(undefined, {alias: 'ngxRender'});
+  readonly context: InputSignal<T | undefined> = input<T>();
 
-  autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
-  renderInside = signal(true);
+  readonly autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly renderInside = signal(true);
 
-  filter = input<(node: Node) => boolean>();
+  readonly filter: InputSignal<((node: Node) => boolean) | undefined> = input<(node: Node) => boolean>();
 }

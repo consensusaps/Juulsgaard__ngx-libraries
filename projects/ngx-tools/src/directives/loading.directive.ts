@@ -1,4 +1,4 @@
-import {Directive, ElementRef, input} from '@angular/core';
+import {Directive, ElementRef, input, InputSignalWithTransform} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subscribable, switchMap} from "rxjs";
 import {distinctUntilChanged} from "rxjs/operators";
 import {toObservable} from "@angular/core/rxjs-interop";
@@ -15,7 +15,10 @@ export class LoadingDirective {
 
   private readonly spinner: HTMLDivElement;
 
-  isLoading = input.required({
+  readonly isLoading: InputSignalWithTransform<
+    Observable<boolean>,
+    boolean | "" | Promise<unknown> | Subscribable<boolean> | undefined | null
+  > = input.required({
     transform: (state: boolean|''|Promise<unknown>|Subscribable<boolean>|undefined|null): Observable<boolean> => {
       if (state === '' || state === true) return of(true);
       if (state == null || state === false) return of(false);

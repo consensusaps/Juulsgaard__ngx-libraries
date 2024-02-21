@@ -1,4 +1,4 @@
-import {Directive, effect, ElementRef, inject, input, LOCALE_ID, NgZone} from '@angular/core';
+import {Directive, effect, ElementRef, inject, input, InputSignalWithTransform, LOCALE_ID, NgZone} from '@angular/core';
 import {objToArr, sortNumDesc, Timespan} from "@juulsgaard/ts-tools";
 import {concat, EMPTY, endWith, fromEvent, interval, share, startWith, Subscription, takeWhile, timer} from "rxjs";
 import {distinctUntilChanged, filter, map, tap} from "rxjs/operators";
@@ -13,12 +13,12 @@ const DAY = 24 * HOUR;
 @Directive({selector: '[countdown]', standalone: true, host: {'[class.ngx-countdown]': 'true'}})
 export class CountdownDirective {
 
-  config = input(defaultCountdownConfig, {
+  readonly config: InputSignalWithTransform<CountdownConfig, CountdownOptions | undefined> = input(defaultCountdownConfig, {
     alias: 'countdownConfig',
     transform: (options: CountdownOptions|undefined) => ({...defaultCountdownConfig, ...(options ?? {})})
   });
 
-  countdown = input.required({
+  readonly countdown: InputSignalWithTransform<Date, Date | string | number> = input.required({
     transform: (date: Date | string | number) => new Date(date)
   });
 

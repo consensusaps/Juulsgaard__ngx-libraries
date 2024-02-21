@@ -1,5 +1,6 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, computed, input, Signal, signal, viewChild, viewChildren
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, input, InputSignal, InputSignalWithTransform, Signal,
+  signal, viewChild, viewChildren
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BaseInputComponent} from "@juulsgaard/ngx-forms";
@@ -37,12 +38,12 @@ export class TagListInputComponent extends BaseInputComponent<string[], string[]
 
   declare inputElement: Signal<HTMLInputElement|undefined>;
 
-  chips = viewChildren(ChipComponent);
-  canReorder = input(false, {transform: booleanAttribute});
+  readonly chips = viewChildren(ChipComponent);
+  readonly canReorder: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  query = signal('');
+  readonly query = signal('');
 
-  floatLabel = computed(() => this.value.length ? 'always' : 'auto');
+  readonly floatLabel = computed(() => this.value.length ? 'always' : 'auto');
 
   private selectControl: Signal<SingleSelectNode<string, unknown> | MultiSelectNode<string, unknown> | undefined> = computed(
     () => {
@@ -65,10 +66,10 @@ export class TagListInputComponent extends BaseInputComponent<string[], string[]
     return items.map(control.bindValue);
   });
 
-  itemsIn = input<string[]|undefined>(undefined, {alias: 'items'});
-  items = computed(() => this.itemsIn() ?? this.mappedControlItems() ?? []);
+  readonly itemsIn: InputSignal<string[] | undefined> = input<string[]|undefined>(undefined, {alias: 'items'});
+  readonly items = computed(() => this.itemsIn() ?? this.mappedControlItems() ?? []);
 
-  options: Signal<Options>;
+  readonly options: Signal<Options>;
 
   constructor() {
     super();
@@ -125,7 +126,7 @@ export class TagListInputComponent extends BaseInputComponent<string[], string[]
     }
   }
 
-  trigger = viewChild(MatAutocompleteTrigger);
+  readonly trigger = viewChild(MatAutocompleteTrigger);
   onSelected(event: MatAutocompleteSelectedEvent) {
     const value = event.option.value;
 

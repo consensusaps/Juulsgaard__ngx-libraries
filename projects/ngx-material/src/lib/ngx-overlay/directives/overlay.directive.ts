@@ -1,6 +1,6 @@
 import {
-  booleanAttribute, computed, Directive, effect, EventEmitter, inject, input, model, OnDestroy, Output, TemplateRef,
-  ViewContainerRef
+  booleanAttribute, computed, Directive, effect, EventEmitter, inject, input, InputSignal, InputSignalWithTransform,
+  model, ModelSignal, OnDestroy, Output, TemplateRef, ViewContainerRef
 } from '@angular/core';
 import {Observable, of, Subscribable, switchMap} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
@@ -25,7 +25,7 @@ export class OverlayDirective implements OnDestroy {
     return true;
   }
 
-  showIn = input.required({
+  readonly showIn: InputSignalWithTransform<Observable<boolean>, boolean | "" | Subscribable<boolean> | undefined | null> = input.required({
     alias: 'ngxOverlay',
     transform: (show: boolean | '' | Subscribable<boolean> | undefined | null) => {
       if (show === true || show === '') return of(true);
@@ -34,23 +34,23 @@ export class OverlayDirective implements OnDestroy {
     }
   });
 
-  show = model(true);
+  readonly show: ModelSignal<boolean> = model(true);
 
   @Output() closed = new EventEmitter<void>();
   //TODO: Replace with `show.observed` when possible
-  allowClose = input(false, {transform: booleanAttribute});
-  canClose = computed(() => this.closed.observed || this.allowClose())
+  readonly allowClose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly canClose = computed(() => this.closed.observed || this.allowClose())
 
   private closeOverlay() {
     this.closed.emit();
     if (this.allowClose()) this.show.set(false);
   }
 
-  type = input<string>();
-  styles = input([] as string[], {
-    transform: styles => Array.isArray(styles) ? styles : styles ? [styles] : []
+  readonly type: InputSignal<string | undefined> = input<string>();
+  readonly styles: InputSignalWithTransform<string[], string[]|string|undefined> = input([] as string[], {
+    transform: (styles: string[]|string|undefined) => Array.isArray(styles) ? styles : styles ? [styles] : []
   });
-  scrollable = input(false, {
+  readonly scrollable: InputSignalWithTransform<boolean | undefined, boolean | "" | undefined | null> = input(false, {
     transform: (scrollable: boolean | '' | undefined | null) => {
       if (scrollable === '') return true;
       if (scrollable == null) return undefined;

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, InputSignal} from '@angular/core';
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {FileDropDirective, FileSizePipe, IconDirective} from "@juulsgaard/ngx-tools";
 import {NgClass, NgIf} from "@angular/common";
@@ -28,7 +28,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 })
 export class FileInputComponent extends BaseInputComponent<File, File | undefined> {
 
-  accept = input('*');
+  readonly accept: InputSignal<string> = input('*');
 
   constructor() {
     super();

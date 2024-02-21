@@ -1,5 +1,6 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, forwardRef, input, Output
+  booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, forwardRef, input, InputSignalWithTransform,
+  Output
 } from '@angular/core';
 import {FormContext} from "../../services/form-context.service";
 import {CommonModule} from "@angular/common";
@@ -23,8 +24,8 @@ export class FormWrapperComponent extends FormContext {
 
   @Output() submit = new EventEmitter<void>();
 
-  readonly fieldset = input(false, {transform: booleanAttribute});
-  readonly readonly = input(false, {transform: booleanAttribute});
+  readonly fieldset: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly readonly: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
   constructor() {
     super();

@@ -1,9 +1,9 @@
-import {Directive, ElementRef, HostListener, input} from '@angular/core';
+import {Directive, ElementRef, HostListener, input, InputSignal} from '@angular/core';
 
 @Directive({selector: 'img[fallbackSrc]', standalone: true})
 export class ImageFallbackDirective {
 
-  fallbackSrc = input<string>();
+  readonly fallbackSrc: InputSignal<string | undefined> = input<string>();
 
   constructor(private element: ElementRef<HTMLImageElement>) {
   }

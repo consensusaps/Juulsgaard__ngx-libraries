@@ -1,5 +1,6 @@
 import {
-  booleanAttribute, Directive, ElementRef, EventEmitter, HostListener, input, NgZone, OnDestroy, Output
+  booleanAttribute, Directive, ElementRef, EventEmitter, HostListener, input, InputSignal, InputSignalWithTransform,
+  NgZone, OnDestroy, Output
 } from '@angular/core';
 import {combineLatest, fromEvent, Observable, startWith, Subscription, timer} from "rxjs";
 import {filter, first, map, tap} from "rxjs/operators";
@@ -17,8 +18,8 @@ export class LongTapDirective implements OnDestroy {
   // Default 5 based on the CDK dragStartThreshold
   private static readonly moveThreshold = 5;
 
-  tapDuration = input(500);
-  longTapDisabled = input(false, {transform: booleanAttribute});
+  readonly tapDuration: InputSignal<number> = input(500);
+  readonly longTapDisabled: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
   @Output() longTap = new EventEmitter<void>();
 
   eventStartPos?: { x: number, y: number };

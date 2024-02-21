@@ -14,8 +14,8 @@ type InputVal = AsyncVal<unknown> | AsyncObject<Record<string, unknown>> | undef
 @Directive({selector: '[ngxAsyncAwait]', standalone: true})
 export class NgxAsyncAwaitDirective<T extends InputVal> {
 
-  values: InputSignal<T> = input.required<T>({alias: 'ngxAsyncAwait'});
-  elseTemplate = input<TemplateRef<void> | undefined>(undefined, {alias: 'ngxAsyncAwaitElse'});
+  readonly values: InputSignal<T> = input.required<T>({alias: 'ngxAsyncAwait'});
+  readonly elseTemplate: InputSignal<TemplateRef<void> | undefined> = input<TemplateRef<void> | undefined>(undefined, {alias: 'ngxAsyncAwaitElse'});
 
   private view?: EmbeddedViewRef<TemplateContext<T>>;
   private elseView?: EmbeddedViewRef<void>;

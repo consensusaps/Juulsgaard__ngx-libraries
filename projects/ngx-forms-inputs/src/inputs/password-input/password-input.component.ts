@@ -33,7 +33,7 @@ import {IconButtonComponent} from "@juulsgaard/ngx-material";
 })
 export class PasswordInputComponent extends BaseInputComponent<string, string> {
 
-  showPassword = signal(false);
+  readonly showPassword = signal(false);
 
   constructor() {
     super();
