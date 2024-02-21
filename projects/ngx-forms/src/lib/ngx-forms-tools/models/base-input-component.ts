@@ -78,7 +78,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     //<editor-fold desc="Value">
 
-    private _value: WritableSignal<TVal>;
+    protected _value: WritableSignal<TVal>;
 
     /** The value representing the internal input state */
     protected get value() {return this._value()}
@@ -172,7 +172,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     protected constructor() {
 
-        this._value = signal(this.preprocessValue(undefined));
+        this._value = signal(this.getInitialValue());
 
         const valueSignals$ = toObservable(this.valueIn$).pipe(mapObservableToSignal());
         const valueSignals = toSignal(valueSignals$, {initialValue: undefined});
@@ -250,6 +250,13 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
      * @param value The value to be processed
      */
     abstract postprocessValue(value: TVal): TIn|undefined;
+
+    /**
+     * Generate an initial value for the internal state
+     */
+    getInitialValue(): TVal {
+        return this.preprocessValue(undefined);
+    }
     //</editor-fold>
 
     /** Handle events dispatched from the FormNode */

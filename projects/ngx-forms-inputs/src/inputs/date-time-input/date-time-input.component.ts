@@ -83,6 +83,10 @@ export class DateTimeInputComponent extends BaseInputComponent<Date | undefined,
     return val;
   }
 
+  override getInitialValue(): Dayjs | undefined {
+    return undefined;
+  }
+
   private datePickerRef?: MatDialogRef<DatePickerDialogComponent, Dayjs>;
   private datePickerSub?: Subscription;
 

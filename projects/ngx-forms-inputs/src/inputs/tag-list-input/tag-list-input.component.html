@@ -15,8 +15,8 @@
 
             @for (tag of value; track tag) {
                 <ngx-chip (removed)="removeTag(tag)"
-                          noClickBubble (click)="$event.stopPropagation()" [canRemove]="!readonly"
-                          ngxDrag [dragData]="$index" [disableDrag]="!canReorder"
+                          noClickBubble (click)="$event.stopPropagation()" [canRemove]="!readonly()"
+                          ngxDrag [dragData]="$index" [disableDrag]="!canReorder()"
                           ngxDropArea (ngxDrop)="onDrop($event, $index)" [dropPredicate]="getCanDrop($index)">
                     {{tag}}
                 </ngx-chip>
@@ -25,8 +25,8 @@
             @if (!readonly()) {
                 <input type="text" matInput [placeholder]="placeholder()" [required]="required()"
                        [(ngModel)]="query" [ngModelOptions]="{standalone: true}"
-                       [autofocus]="autofocus" [errorStateMatcher]="errorMatcher()" #input
-                       [disabled]="disabled()" [attr.dir]="direction"
+                       [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()" #input
+                       [disabled]="disabled()" [attr.dir]="direction()"
                        [matAutocomplete]="optionsTmp" [matAutocompleteConnectedTo]="container"
                        (keydown.backspace)="onBackspace($event)">
             }

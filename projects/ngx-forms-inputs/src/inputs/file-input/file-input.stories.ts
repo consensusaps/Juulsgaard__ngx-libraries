@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FileInputComponent} from "./file-input.component";
 
 export default {
   title: 'Inputs: File',
-  component: FileInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-file-input ${argsToTemplate(args)}/>`
+  }),
   args: {
     label: 'File Input',
     tooltip: 'Tooltip'
@@ -14,10 +16,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, FileInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<FileInputComponent>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

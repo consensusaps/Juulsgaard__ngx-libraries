@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {PasswordInputComponent} from "./password-input.component";
 
 export default {
   title: 'Inputs: Password',
-  component: PasswordInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-password-input ${argsToTemplate(args)}/>`
+  }),
   args: {
     label: 'Password Input',
     tooltip: 'Tooltip'
@@ -14,10 +16,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, PasswordInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<PasswordInputComponent>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatSelectInputComponent} from "./mat-select-input.component";
 
 export default {
   title: 'Inputs: Select',
-  component: MatSelectInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-mat-select clearable ${argsToTemplate(args)}/>`
+  }),
   args: {
     label: 'Mat Select',
     tooltip: 'Tooltip',
@@ -15,10 +17,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, MatSelectInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<MatSelectInputComponent<string, string>>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

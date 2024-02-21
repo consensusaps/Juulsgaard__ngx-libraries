@@ -1,0 +1,7 @@
+
+// Fix issue in ngx-time-picker (last confirmed in version 17.0.3)
+ngx-mat-timepicker-face {
+  .clock-face__number > button.mat-unthemed {
+    background-color: transparent;
+  }
+}

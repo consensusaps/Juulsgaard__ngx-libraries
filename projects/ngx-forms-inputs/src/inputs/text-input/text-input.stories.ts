@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {TextInputComponent} from "./text-input.component";
 
 export default {
   title: 'Inputs: Text',
-  component: TextInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-text-input ${argsToTemplate(args)}/>`
+  }),
   args: {
     label: 'Text Input',
     tooltip: 'Tooltip'
@@ -14,10 +16,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, TextInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<TextInputComponent>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

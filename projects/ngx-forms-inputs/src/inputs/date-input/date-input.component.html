@@ -17,6 +17,10 @@
                [autocomplete]="autocomplete()" [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()"
                #input [disabled]="disabled()" [attr.dir]="direction()">
 
+        <div matIconSuffix class="fix">
+            <ng-content></ng-content>
+        </div>
+
         <mat-error>{{error()}}</mat-error>
 
     </mat-form-field>

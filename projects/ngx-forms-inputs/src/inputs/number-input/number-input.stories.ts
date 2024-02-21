@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NumberInputComponent} from "./number-input.component";
 
 export default {
   title: 'Inputs: Number',
-  component: NumberInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-number-input ${argsToTemplate(args)}/>`
+  }),
   args: {
     label: 'Number Input',
     tooltip: 'Tooltip'
@@ -14,10 +16,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, NumberInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<NumberInputComponent>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

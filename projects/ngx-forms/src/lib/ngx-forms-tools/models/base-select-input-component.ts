@@ -35,6 +35,11 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
   readonly clearableIn = input(false, {transform: booleanAttribute, alias: 'clearable'});
   protected clearable = computed(() => this.selectControl()?.clearable || this.clearableIn());
 
+  constructor() {
+    super();
+    this._value.set(this.preprocessValue(undefined));
+  }
+
   //<editor-fold desc="Value Mapping">
   readonly bindValue = input(
     (x: TItem) => x as unknown as TIn,
@@ -98,4 +103,7 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
   protected getOption: Signal<MapFunc<TItem, string>> = computed(() => this.controlBindOption() ?? this.bindOption() ?? this.getLabel());
   //</editor-fold>
 
+  override getInitialValue(): TVal {
+    return undefined as TVal;
+  }
 }
