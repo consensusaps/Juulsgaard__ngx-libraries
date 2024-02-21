@@ -35,7 +35,7 @@ dayjs.extend(utc);
   ],
   standalone: true
 })
-export class TimeInputComponent extends BaseInputComponent<Date|undefined, string | undefined> {
+export class TimeInputComponent extends BaseInputComponent<Date, string | undefined> {
 
   timeFormat: 12|24;
   locale = inject(LOCALE_ID);
@@ -58,17 +58,18 @@ export class TimeInputComponent extends BaseInputComponent<Date|undefined, strin
     if (!value) return undefined;
     const date = dayjs(`1970-01-01 ${value}`).utc(true)
 
-    this.inputError = !date.isValid() ? 'Invalid Time Format' : undefined;
+    this.inputError.set(!date.isValid() ? 'Invalid Time Format' : undefined);
     if (!date.isValid()) return undefined;
     return date.toDate();
   }
 
   pickTime(time: string) {
-    this.inputValue = time;
+    this.value = time;
   }
 
   openPicker(picker: NgxMatTimepickerComponent) {
-    const date = this.externalValue ? new Date(this.externalValue) : new Date('1970-01-01T12:00:00Z');
+    const externalValue = this.externalValue();
+    const date = externalValue ? new Date(externalValue) : new Date('1970-01-01T12:00:00Z');
     picker.defaultTime = date.toLocaleTimeString(this.locale, {hour: "2-digit", minute: "2-digit", timeZone: 'utc'});
     picker.open();
   }

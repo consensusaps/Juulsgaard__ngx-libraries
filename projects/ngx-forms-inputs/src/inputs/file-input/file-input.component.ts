@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {FileDropDirective, FileSizePipe, IconDirective} from "@juulsgaard/ngx-tools";
 import {NgClass, NgIf} from "@angular/common";
@@ -26,9 +26,9 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   ],
   providers: []
 })
-export class FileInputComponent extends BaseInputComponent<File | undefined, File | undefined> {
+export class FileInputComponent extends BaseInputComponent<File, File | undefined> {
 
-  @Input() accept = '*';
+  accept = input('*');
 
   constructor() {
     super();
@@ -46,7 +46,7 @@ export class FileInputComponent extends BaseInputComponent<File | undefined, Fil
     const file = event.dataTransfer?.files?.[0];
     if (!file) return;
 
-    this.inputValue = file;
+    this.value = file;
   }
 
   selectFile(event: Event) {
@@ -54,7 +54,7 @@ export class FileInputComponent extends BaseInputComponent<File | undefined, Fil
     const file = input.files?.[0];
     if (!file) return;
 
-    this.inputValue = file;
+    this.value = file;
     input.value = '';
   }
 

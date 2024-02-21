@@ -1,51 +1,58 @@
 
-<div class="wrapper" [@harmonica]="show">
+<div class="wrapper" [@harmonica]="show()">
 
-    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" subscriptSizing="dynamic" matAutocompleteOrigin #container="matAutocompleteOrigin" [floatLabel]="(floatLabel$ | async) ?? 'auto'">
+    <mat-form-field [appearance]="appearance()" [hideRequiredMarker]="hideRequired()" [color]="color()"
+                    subscriptSizing="dynamic" matAutocompleteOrigin #container="matAutocompleteOrigin"
+                    [floatLabel]="floatLabel()">
 
-        <mat-label *ngIf="label">
-            {{label}}
-            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!"
+        <mat-label *ngIf="label()">
+            {{label()}}
+            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip() as t" [matTooltip]="t"
                       matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
         <div class="row">
-            <ngx-chip *ngFor="let tag of inputValue$ | async; let i = index" (removed)="removeTag(tag)"
-                      noClickBubble (click)="$event.stopPropagation()" [canRemove]="!readonly"
-                      ngxDrag [dragData]="i" [disableDrag]="!canReorder"
-                      ngxDropArea (ngxDrop)="onDrop($event, i)" [dropPredicate]="getCanDrop(i)">
-                {{tag}}
-            </ngx-chip>
 
-            <input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" *ngIf="!readonly" [(ngModel)]="query" [ngModelOptions]="{standalone: true}"
-                   [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled" [attr.dir]="direction"
-                   [matAutocomplete]="options" [matAutocompleteConnectedTo]="container" (keydown.backspace)="onBackspace($event)">
+            @for (tag of value; track tag) {
+                <ngx-chip (removed)="removeTag(tag)"
+                          noClickBubble (click)="$event.stopPropagation()" [canRemove]="!readonly"
+                          ngxDrag [dragData]="$index" [disableDrag]="!canReorder"
+                          ngxDropArea (ngxDrop)="onDrop($event, $index)" [dropPredicate]="getCanDrop($index)">
+                    {{tag}}
+                </ngx-chip>
+            }
+
+            @if (!readonly()) {
+                <input type="text" matInput [placeholder]="placeholder()" [required]="required()"
+                       [(ngModel)]="query" [ngModelOptions]="{standalone: true}"
+                       [autofocus]="autofocus" [errorStateMatcher]="errorMatcher()" #input
+                       [disabled]="disabled()" [attr.dir]="direction"
+                       [matAutocomplete]="optionsTmp" [matAutocompleteConnectedTo]="container"
+                       (keydown.backspace)="onBackspace($event)">
+            }
+
         </div>
 
-        <div matIconSuffix class="fix" *ngIf="suffixChild">
+        <div matIconSuffix class="fix">
             <ng-content></ng-content>
         </div>
 
 
-        <mat-error>{{errorText$ | async}}</mat-error>
+        <mat-error>{{error()}}</mat-error>
 
     </mat-form-field>
 </div>
 
-<mat-autocomplete #options [autoActiveFirstOption]="true" (optionSelected)="onSelected($event)">
-    <ng-container *ngIf="options$ | async as options">
+<mat-autocomplete #optionsTmp [autoActiveFirstOption]="true" (optionSelected)="onSelected($event)">
 
-        <mat-option *ngIf="options.match" [value]="options.match">
-            {{options.match}}
-        </mat-option>
+    <mat-option *ngIf="options().match as match" [value]="match">{{match}}</mat-option>
 
-        <mat-option *ngIf="options.query" [value]="options.query">
-            <ngx-icon alias="add"/>
-            <span>Add <i>{{options.query}}</i></span>
-        </mat-option>
+    <mat-option *ngIf="options().query as query" [value]="query">
+        <ngx-icon alias="add"/>
+        <span>Add <i>{{query}}</i></span>
+    </mat-option>
 
-        <mat-option *ngFor="let opt of options.options" [value]="opt">
-            {{opt}}
-        </mat-option>
-    </ng-container>
+    @for (opt of options().options; track opt) {
+        <mat-option [value]="opt">{{opt}}</mat-option>
+    }
 </mat-autocomplete>

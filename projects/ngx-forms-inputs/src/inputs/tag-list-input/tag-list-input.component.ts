@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, Input, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, input, Signal, signal, viewChild, viewChildren
+} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BaseInputComponent} from "@juulsgaard/ngx-forms";
+import {of, startWith, switchMap} from "rxjs";
+import {isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@juulsgaard/ngx-forms-core";
 import {
-  asyncScheduler, BehaviorSubject, combineLatestWith, distinctUntilChanged, map, Observable, skip, throttleTime
-} from "rxjs";
-import {FormNode, isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@juulsgaard/ngx-forms-core";
-import {
-  harmonicaAnimation, IconDirective, NgxDragEvent, NgxDragModule, NgxDragService, NoClickBubbleDirective
+  harmonicaAnimation, IconDirective, NgxDragEvent, NgxDragModule, NgxDragService, NoClickBubbleDirective, throttleSignal
 } from "@juulsgaard/ngx-tools";
 import {ChipComponent} from "@juulsgaard/ngx-material";
 import {
@@ -17,8 +17,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import Fuse from "fuse.js";
-import {isString} from "@juulsgaard/ts-tools";
-import {coerceBooleanProperty} from "@angular/cdk/coercion";
+import {arrToSet, isString} from "@juulsgaard/ts-tools";
+import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'form-tag-list-input',
@@ -33,74 +33,73 @@ import {coerceBooleanProperty} from "@angular/cdk/coercion";
   styleUrls: ['./tag-list-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TagListInputComponent extends BaseInputComponent<string[]|undefined, string[]> {
+export class TagListInputComponent extends BaseInputComponent<string[], string[]> {
 
-  @ViewChildren(ChipComponent) chips!: QueryList<ChipComponent>;
-  @Input({transform: coerceBooleanProperty}) canReorder = false;
+  declare inputElement: Signal<HTMLInputElement|undefined>;
 
-  private query$ = new BehaviorSubject('');
-  get query() {return this.query$.value}
-  set query(query: string) {this.query$.next(query)}
+  chips = viewChildren(ChipComponent);
+  canReorder = input(false, {transform: booleanAttribute});
 
-  private hasExternalItems = false;
-  floatLabel$ = this.inputValue$.pipe(
-    map(val => val.length ? 'always' : 'auto')
+  query = signal('');
+
+  floatLabel = computed(() => this.value.length ? 'always' : 'auto');
+
+  private selectControl: Signal<SingleSelectNode<string, unknown> | MultiSelectNode<string, unknown> | undefined> = computed(
+    () => {
+      const control = this.control();
+      if (!control || !isFormSelectNode(control)) return undefined;
+      return control as SingleSelectNode<string, unknown> | MultiSelectNode<string, unknown>;
+    }
   );
 
-  @Input('items') set itemsData(items: string[] | null | undefined) {
-    if (!items) return;
-    this.hasExternalItems = true;
-    this.items = items;
-  }
+  private controlItems$ = toObservable(this.selectControl).pipe(
+    switchMap(x => x?.items$.pipe(startWith(undefined)) ?? of(undefined))
+  );
+  private controlItems = toSignal(this.controlItems$);
 
-  protected _items$ = new BehaviorSubject<string[]>([]);
-  items$ = this._items$.asObservable();
-  options$: Observable<Options>;
+  private mappedControlItems = computed(() => {
+    const control = this.selectControl();
+    if (!control) return undefined;
+    const items = this.controlItems();
+    if (!items) return undefined;
+    return items.map(control.bindValue);
+  });
 
-  get items(): string[] {
-    return this._items$.value
-  };
+  itemsIn = input<string[]|undefined>(undefined, {alias: 'items'});
+  items = computed(() => this.itemsIn() ?? this.mappedControlItems() ?? []);
 
-  set items(items: string[]) {
-    this._items$.next(items)
-  }
+  options: Signal<Options>;
 
   constructor() {
     super();
-    const query$ = this.query$.pipe(
-      throttleTime(500, asyncScheduler, {leading: true, trailing: true}),
-      distinctUntilChanged()
-    );
 
-    const blacklist$ = this.inputValue$.pipe(
-      map(x => new Set(x))
-    );
+    const query = throttleSignal(this.query, 500);
+    const blacklist = computed(() => arrToSet(this.value));
 
-    this.options$ = this.items$.pipe(
-      combineLatestWith(blacklist$),
-      map(([list, blacklist]) => blacklist.size ? list.filter(x => !blacklist.has(x)) : list),
-      combineLatestWith(query$),
-      map(([items, query]): Options => {
-        if (!query.length) {
-          return {
-            options: items
-          };
-        }
+    const searcher = new Fuse<string>([], {includeScore: true, isCaseSensitive: true});
+    const filtered = computed(() => {
+      const _blacklist = blacklist();
+      const items = _blacklist.size ? this.items().filter(x => !_blacklist.has(x)) : this.items();
+      searcher.setCollection(items);
+      return items;
+    });
 
-        const searcher = new Fuse(items, {includeScore: true, isCaseSensitive: true});
-        const result = searcher.search(query);
-        const match = result.find(x => x.score === 0)?.item;
-        const options = match
-          ? result.filter(x => x.item !== match).map(x => x.item)
-          : result.map(x => x.item);
+    this.options = computed(() => {
+      const _query = query();
+      if (!_query.length) return {options: filtered()};
 
-        return {
-          match,
-          query: match ? undefined : query,
-          options
-        }
-      })
-    );
+      const result = searcher.search(_query);
+      const match = result.find(x => x.score === 0)?.item;
+      const options = match
+        ? result.filter(x => x.item !== match).map(x => x.item)
+        : result.map(x => x.item);
+
+      return {
+        match,
+        query: match ? undefined : _query,
+        options
+      }
+    });
   }
 
   postprocessValue(value: string[]): string[] | undefined {
@@ -111,30 +110,14 @@ export class TagListInputComponent extends BaseInputComponent<string[]|undefined
     return value ?? [];
   }
 
-  override loadFormNode(n: FormNode<string[] | undefined>) {
-    super.loadFormNode(n);
-
-    if (!isFormSelectNode(n)) return;
-    if (!n.multiple) return;
-    const node = n as SingleSelectNode<string[], string> | MultiSelectNode<string[], string>;
-
-    if (!node.items$) return;
-
-    this.subscriptions.add(
-      node.items$.pipe(
-        skip(this.hasExternalItems ? 1 : 0)
-      ).subscribe(x => this.items = x)
-    );
-  }
-
   removeTag(tag: string) {
-    const index = this.inputValue.findIndex(x => x === tag);
+    const index = this.value.findIndex(x => x === tag);
     if (index < 0) return;
-    const list = [...this.inputValue];
+    const list = [...this.value];
     list.splice(index, 1);
-    this.inputValue = list;
+    this.value = list;
 
-    const input = this.inputElement?.nativeElement as HTMLInputElement|undefined;
+    const input = this.inputElement();
     if (input) {
       input.focus();
       input.selectionStart = 0;
@@ -142,20 +125,20 @@ export class TagListInputComponent extends BaseInputComponent<string[]|undefined
     }
   }
 
-  @ViewChild(MatAutocompleteTrigger, {static: false}) trigger?: MatAutocompleteTrigger;
+  trigger = viewChild(MatAutocompleteTrigger);
   onSelected(event: MatAutocompleteSelectedEvent) {
     const value = event.option.value;
 
     if (value && isString(value)) {
-      if (!this.inputValue.includes(value)) {
-        this.inputValue = [...this.inputValue, value];
+      if (!this.value.includes(value)) {
+        this.value = [...this.value, value];
       }
     }
 
-    this.query = '';
-    const input = this.inputElement?.nativeElement as HTMLInputElement|undefined;
+    this.query.set('');
+    const input = this.inputElement();
     if (input) input.value = '';
-    setTimeout(() => this.trigger?.openPanel(), 500);
+    setTimeout(() => this.trigger()?.openPanel(), 500);
   }
 
   onBackspace(event: Event) {
@@ -166,7 +149,7 @@ export class TagListInputComponent extends BaseInputComponent<string[]|undefined
     if (input.selectionStart !== input.selectionEnd) return;
     if (input.selectionStart > 0) return;
 
-    const chip = this.chips.toArray().at(-1);
+    const chip = this.chips().at(-1);
     if (!chip) return;
     chip.focusRemove();
   }
@@ -185,7 +168,7 @@ export class TagListInputComponent extends BaseInputComponent<string[]|undefined
 
   private move(from: number, to: number) {
     if (to === from || to === from + 1) return;
-    const list = [...this.inputValue];
+    const list = [...this.value];
 
     if (to < from) {
       list.splice(to, 0, ...list.splice(from, 1));
@@ -193,7 +176,7 @@ export class TagListInputComponent extends BaseInputComponent<string[]|undefined
       list.splice(to - 1, 0, ...list.splice(from, 1));
     }
 
-    this.inputValue = list;
+    this.value = list;
   }
 }
 

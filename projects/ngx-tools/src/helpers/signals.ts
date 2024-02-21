@@ -1,6 +1,7 @@
 import {effect, Injector, Signal, signal} from "@angular/core";
-import {BehaviorSubject, Subject} from "rxjs";
+import {asyncScheduler, BehaviorSubject, Subject, throttleTime} from "rxjs";
 import {Disposable} from "@juulsgaard/ts-tools";
+import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 
 
 /**
@@ -26,14 +27,27 @@ export function subjectToSignal<T>(subject: Subject<T>, initial?: T): Signal<T> 
 /**
  * Create an effect that disposes of old values when a new one is emitted.
  * It will also dispose the last value on destroy
- * @param signal - The signal to monitor
+ * @param sig - The signal to monitor
  * @param injector - An optional injector for when used outside constructor context
  */
-export function handleDisposableSignal(signal: Signal<Disposable|undefined>, injector?: Injector) {
+export function handleDisposableSignal(sig: Signal<Disposable|undefined>, injector?: Injector) {
   let old: Disposable|undefined;
   effect((dispose) => {
     old?.dispose();
-    old = signal();
+    old = sig();
     dispose(() => old?.dispose());
   }, {injector: injector});
+}
+
+/**
+ * Throttles a signal by only emitting new values after the delay has passed
+ * @param sig - The signal to throttle
+ * @param delay - The amount of time to wait between values
+ * @param injector - An optional injector for when used outside constructor context
+ */
+export function throttleSignal<T>(sig: Signal<T>, delay: number, injector?: Injector): Signal<T> {
+  const value$ = toObservable(sig, {injector}).pipe(
+    throttleTime(delay, asyncScheduler, {leading: true, trailing: true})
+  );
+  return toSignal(value$, {initialValue: sig(), injector});
 }

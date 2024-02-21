@@ -1,8 +1,7 @@
 <div class="wrapper" [@harmonica]="show">
-    <mat-slide-toggle [color]="color" [formControl]="control" [labelPosition]="labelPosition"
-                      [class.read-only]="readonly || isDisabled">
+    <mat-slide-toggle [color]="color()" [labelPosition]="labelPosition()" [class.read-only]="readonly() || disabled()"
+                      [(ngModel)]="value">
         {{label}}
-        <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!"
-                  matTooltipTouchGestures="off"/>
+        <ngx-icon class="tooltip" alias="help" *ngIf="tooltip() as t" [matTooltip]="t" matTooltipTouchGestures="off"/>
     </mat-slide-toggle>
 </div>

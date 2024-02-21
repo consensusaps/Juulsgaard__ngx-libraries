@@ -37,17 +37,17 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     {provide: MAT_DATE_FORMATS, useValue: MAT_DAYJS_DATE_FORMATS}
   ]
 })
-export class DateInputComponent extends BaseInputComponent<Date | undefined, Dayjs | undefined> {
+export class DateInputComponent extends BaseInputComponent<Date, Dayjs | undefined> {
 
   constructor() {
     super();
   }
 
-  postprocessValue(value?: Dayjs): Date | undefined {
+  postprocessValue(value: Dayjs|undefined): Date | undefined {
     return value == undefined ? undefined : value.toDate();
   }
 
-  preprocessValue(value?: Date): Dayjs | undefined {
+  preprocessValue(value: Date|undefined): Dayjs | undefined {
     return value == undefined ? undefined : dayjs(value);
   }
 

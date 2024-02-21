@@ -8,19 +8,20 @@ import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 @Directive()
 export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInputComponent<TIn, TVal> {
 
-  protected selectControl: Signal<SingleSelectNode<unknown, TItem> | MultiSelectNode<TIn, TItem> | undefined> = computed(
+  protected selectControl: Signal<SingleSelectNode<TIn, TItem> | MultiSelectNode<TIn, TItem> | undefined> = computed(
     () => {
       const control = this.control();
       if (control && isFormSelectNode(control)) return control as SingleSelectNode<TIn, TItem> | MultiSelectNode<TIn, TItem>;
       return undefined
-    });
+    }
+  );
 
-  private selectItems$ = toObservable(this.selectControl).pipe(
+  private controlItems$ = toObservable(this.selectControl).pipe(
     switchMap(x => x?.items$.pipe(startWith(undefined)) ?? of(undefined))
   );
-  private selectItems = toSignal(this.selectItems$);
+  private controlItems = toSignal(this.controlItems$);
   readonly itemsIn: InputSignal<TItem[] | undefined> = input<TItem[] | undefined>(undefined, {alias: 'items'});
-  protected items = computed(() => this.itemsIn() ?? this.selectItems() ?? []);
+  protected items: Signal<TItem[]> = computed(() => this.itemsIn() ?? this.controlItems() ?? []);
 
   protected empty = computed(() => this.items().length <= 0);
 
@@ -63,7 +64,7 @@ export abstract class BaseSelectInputComponent<TIn, TVal, TItem> extends BaseInp
   protected getLabel = computed(() => this.selectControl()?.bindLabel ?? this.bindLabel());
 
   readonly bindOption = input(undefined, {
-    transform: (binding: string | Selection<TItem, string> | undefined | null): MapFunc<TItem, string>|undefined => {
+    transform: (binding: string | Selection<TItem, string> | undefined | null): MapFunc<TItem, string> | undefined => {
       if (binding == null) return undefined;
       // Typeless for backwards compatibility
       if (isString(binding)) return (x: any) => x[binding];

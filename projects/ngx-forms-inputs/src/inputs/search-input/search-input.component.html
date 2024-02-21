@@ -1,10 +1,11 @@
 
-<mat-form-field appearance="fill" [color]="color" subscriptSizing="dynamic">
+<mat-form-field appearance="fill" [color]="color()" subscriptSizing="dynamic">
 
 	<ngx-icon matIconPrefix class="search" alias="search"/>
 
-	<input type="search" matInput [autofocus]="autofocus" [placeholder]="placeholder ?? label!" [readonly]="readonly" [(ngModel)]="inputValue" [ngModelOptions]="{standalone: true}" #input [attr.dir]="direction">
+	<input type="search" matInput [autofocus]="autofocus()" [placeholder]="placeholder()" [readonly]="readonly()"
+           [(ngModel)]="value" [ngModelOptions]="{standalone: true}" #input [attr.dir]="direction()">
 
-	<ngx-icon-button alias="close" matIconSuffix (click)="inputValue = ''" noClickBubble [disabled]="!inputValue || inputValue.length < 1"/>
+	<ngx-icon-button alias="close" matIconSuffix (click)="value = ''" noClickBubble [disabled]="value.length < 1"/>
 
 </mat-form-field>

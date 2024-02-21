@@ -1,18 +1,21 @@
 
-<div class="drop" (fileDrop)="dropFile($event)" [fileDropDisable]="readonly" [class.empty]="!inputValue">
-    <p class="name" *ngIf="label">
-        {{label}}
-        <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!"
+<div class="drop" (fileDrop)="dropFile($event)" [fileDropDisable]="readonly()" [class.empty]="!value">
+    <p class="name" *ngIf="label()">
+        {{label()}}
+        <ngx-icon class="tooltip" alias="help" *ngIf="tooltip() as t" [matTooltip]="t"
                   matTooltipPosition="above" matTooltipTouchGestures="off"/>
     </p>
-    <ngx-icon [alias]="readonly ? 'download' : 'upload'" [size]="40"></ngx-icon>
-    <button mat-button (click)="fileInput.click()" *ngIf="!readonly">Browse Files</button>
-    <p class="file-name" *ngIf="inputValue">{{inputValue.name}}</p>
-    <p class="file-size" *ngIf="inputValue">{{inputValue.size | fileSize}}</p>
+
+    <ngx-icon [alias]="readonly() ? 'download' : 'upload'" [size]="40"/>
+    <button mat-button (click)="fileInput.click()" *ngIf="!readonly()">Browse Files</button>
+    @if (value) {
+        <p class="file-name">{{value.name}}</p>
+        <p class="file-size">{{value.size | fileSize}}</p>
+    }
 </div>
 
 <div class="actions">
-    <button mat-stroked-button color="warn" (click)="inputValue = undefined" *ngIf="!readonly" [disabled]="!inputValue">Clear</button>
+    <button mat-stroked-button color="warn" (click)="value = undefined" *ngIf="!readonly()" [disabled]="!value">Clear</button>
 </div>
 
-<input type="file" (change)="selectFile($event)" #fileInput [accept]="accept">
+<input type="file" (change)="selectFile($event)" #fileInput [accept]="accept()">

@@ -16,8 +16,12 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     @HostBinding('class.ngx-form-input') private baseClass = true;
 
+    protected inputElementRef: Signal<ElementRef<HTMLElement|HTMLTextAreaElement|HTMLInputElement>|undefined> =
+      viewChild('input', {read: ElementRef<HTMLElement|HTMLTextAreaElement|HTMLInputElement>});
+
     /** The main input element */
-    protected inputElement = viewChild('input', {read: ElementRef<HTMLElement|HTMLTextAreaElement|HTMLInputElement>});
+    protected inputElement: Signal<HTMLElement|HTMLTextAreaElement|HTMLInputElement|undefined> =
+      computed(() => this.inputElementRef()?.nativeElement);
     /** A list of all NgModels in the input */
     private ngModels = viewChildren(NgModel);
 
@@ -43,15 +47,15 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     //</editor-fold>
 
     /** A controls that contains the input value / state */
-    readonly control: InputSignal<FormNode<TIn> | undefined> = input<FormNode<TIn>|undefined>(
+    readonly control: InputSignal<FormNode<TIn> | FormNode<TIn|undefined> | undefined> = input<FormNode<TIn>|FormNode<TIn|undefined>|undefined>(
       undefined,
       {alias: 'control'}
     );
 
     //<editor-fold desc="External Value">
-    externalValue: ModelSignal<TIn | undefined> = model<TIn | undefined>(undefined, {alias: 'value'});
+    readonly valueIn: ModelSignal<TIn | undefined> = model<TIn | undefined>(undefined, {alias: 'value'});
 
-    externalValue$: InputSignalWithTransform<
+    readonly valueIn$: InputSignalWithTransform<
       Subject<TIn|undefined> | Observable<TIn|undefined> | undefined,
       Subject<TIn|undefined> | Subscribable<TIn|undefined> | undefined | null
     > = input(undefined, {
@@ -62,11 +66,14 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
             return new Observable<TIn|undefined>(subscriber => value$.subscribe(subscriber));
         }
     });
-    externalSubject = computed(() => {
-        const ext$ = this.externalValue$();
+
+    private externalSubject = computed(() => {
+        const ext$ = this.valueIn$();
         if (ext$ instanceof Subject) return ext$;
         return undefined;
     });
+
+    protected externalValue: Signal<TIn|undefined>;
     //</editor-fold>
 
     //<editor-fold desc="Value">
@@ -90,7 +97,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
         this.control()?.setValue(value);
         this.externalSubject()?.next(value);
-        this.externalValue.set(value);
+        this.valueIn.set(value);
     }
     //</editor-fold>
 
@@ -134,7 +141,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     /** A placeholder text, if not set the label will be used */
     readonly placeholderIn = input<string|undefined>(undefined, {alias: 'placeholder'});
-    protected placeholder = computed(() => this.placeholderIn() ?? this.label());
+    protected placeholder = computed(() => this.placeholderIn() ?? this.label() ?? '');
 
     /** Input to tell the browser what type of autocomplete the input should use */
     readonly autocompleteIn = input<string|undefined>(undefined, {alias: 'autocomplete'});
@@ -167,21 +174,21 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
         this._value = signal(this.preprocessValue(undefined));
 
-        const valueSignals$ = toObservable(this.externalValue$).pipe(mapObservableToSignal());
+        const valueSignals$ = toObservable(this.valueIn$).pipe(mapObservableToSignal());
         const valueSignals = toSignal(valueSignals$, {initialValue: undefined});
 
-        const externalValue = computed(() => {
+        this.externalValue = computed(() => {
             const control = this.control();
             if (control) return control.valueSignal();
 
             const asyncValue = valueSignals();
             if (asyncValue) return asyncValue();
 
-            return this.externalValue();
+            return this.valueIn();
         });
 
         effect(() => {
-            const value = externalValue();
+            const value = this.externalValue();
 
             if (this.lastValue) {
                 const lastValue = this.lastValue.val;
@@ -219,12 +226,12 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     //<editor-fold desc="Actions">
     /** Focus the input */
     focus() {
-        this.inputElement()?.nativeElement?.focus();
+        this.inputElement()?.focus();
     }
 
     /** Select the contents of the input */
     select() {
-        const input = this.inputElement()?.nativeElement;
+        const input = this.inputElement();
         if (!input) return;
         if (!('select' in input)) return;
         input.select();
