@@ -1,5 +1,16 @@
 # @juulsgaard/ngx-material
 
+## 17.0.0
+
+### Major Changes
+
+- Update angular and migrate to Signals
+
+### Patch Changes
+
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.0
+
 ## 16.1.17
 
 ### Patch Changes

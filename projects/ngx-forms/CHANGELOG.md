@@ -1,5 +1,16 @@
 # @juulsgaard/ngx-forms
 
+## 17.0.0
+
+### Major Changes
+
+- Update angular and migrate to Signals
+
+### Patch Changes
+
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.0
+
 ## 16.0.15
 
 ### Patch Changes

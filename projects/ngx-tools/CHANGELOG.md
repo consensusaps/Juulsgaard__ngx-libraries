@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.0.0
+
+### Major Changes
+
+- Update angular and migrate to Signals
+
 ## 16.1.40
 
 ### Patch Changes
