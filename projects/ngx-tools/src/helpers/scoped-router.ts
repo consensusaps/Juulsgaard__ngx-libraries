@@ -1,5 +1,5 @@
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from "@angular/router";
-import {assertInInjectionContext, inject, Injector} from "@angular/core";
+import {assertInInjectionContext, DestroyRef, inject, Injector} from "@angular/core";
 import {Observable, startWith} from "rxjs";
 import {filter, map} from "rxjs/operators";
 import {cache} from "@juulsgaard/rxjs-tools";
@@ -13,35 +13,49 @@ export class ScopedRouter extends RouteState {
 
   private _cachedRoute?: ActivatedRoute;
 
-  get route() {
-
+  private get parentRoute() {
     if (this._cachedRoute) return this._cachedRoute;
-
-    if (this._depth >= 0) return this.getChildRoute(this._depth);
-
+    if (this._depth > 0) return undefined;
     const route = this.getParentRoute(Math.abs(this._depth));
     this._cachedRoute = route;
     return route;
   }
 
-  route$: Observable<ActivatedRoute>;
+  get route() {
+    return this.parentRoute ?? this.getChildRouteOrDefault(this._depth);
+  }
+
+  get routeOrClosest() {
+    return this.parentRoute ?? this.getParentRoute(this._depth);
+  }
+
+  route$: Observable<ActivatedRoute|undefined>;
+  routeOrClosest$: Observable<ActivatedRoute>;
 
   /** @internal */
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
+    destroy: DestroyRef,
     private _depth: number,
   ) {
     super();
 
     if (_depth === 0) this._cachedRoute = this._route;
 
-    this.init(this._router);
+    this.init(this._router, destroy);
 
     this.route$ = this._router.events.pipe(
       filter(x => x instanceof NavigationEnd),
       map(() => this.route),
       startWith(this.route),
+      cache()
+    );
+
+    this.routeOrClosest$ = this._router.events.pipe(
+      filter(x => x instanceof NavigationEnd),
+      map(() => this.routeOrClosest),
+      startWith(this.routeOrClosest),
       cache()
     );
   }
@@ -63,6 +77,18 @@ export class ScopedRouter extends RouteState {
 
     for (let i = 0; i < depth; i++) {
       if (!route.firstChild) return route;
+      route = route.firstChild;
+    }
+
+    return route;
+  }
+
+  private getChildRouteOrDefault(depth: number) {
+
+    let route = this._route;
+
+    for (let i = 0; i < depth; i++) {
+      if (!route.firstChild) return undefined;
       route = route.firstChild;
     }
 
@@ -117,34 +143,35 @@ export function scopedRouter(
 
   const options: ScopedRouterOptionsExtended|undefined = typeof param === 'number' ? _options : param;
   const injector = options?.injector;
-  const requiresInjection = !options?.route || !options.router;
 
-  if (requiresInjection && !injector) assertInInjectionContext(scopedRouter);
+  if (!injector) assertInInjectionContext(scopedRouter);
 
   const router = options?.router ?? injector?.get(Router) ?? inject(Router);
   const route = options?.route ?? injector?.get(ActivatedRoute) ?? inject(ActivatedRoute);
+  const destroy = injector?.get(DestroyRef) ?? inject(DestroyRef);
 
   const depth = typeof param === 'number' ? param : options?.depth ?? 0;
 
-  return new ScopedRouter(router, route, depth);
+  return new ScopedRouter(router, route, destroy, depth);
 }
 
 export function scopedRouterAttribute(
-  router: Router,
-  fallbackRoute?: ActivatedRoute
+  injector: Injector,
+  route?: ActivatedRoute|null
 ): (nav: boolean|''|number|ActivatedRoute|ScopedRouter|undefined|null) => ScopedRouter|undefined {
   return (nav: boolean|''|number|ActivatedRoute|ScopedRouter|undefined|null) => {
     if (nav === '' || nav === true) {
-      if (!fallbackRoute) return undefined;
-      return scopedRouter({router: router, route: fallbackRoute});
+      if (route === null) return undefined;
+      return scopedRouter({route, injector});
     }
 
     if (typeof nav === 'number') {
-      return scopedRouter(nav, {router: router, route: fallbackRoute})
+      if (route === null) return undefined;
+      return scopedRouter(nav, {route: route, injector})
     }
 
     if (nav == null || nav === false) return undefined;
     if (nav instanceof ScopedRouter) return nav;
-    return scopedRouter({router: router, route: nav});
+    return scopedRouter({route: nav, injector});
   }
 }

@@ -1,8 +1,8 @@
 import {
-  ChangeDetectionStrategy, Component, computed, contentChildren, effect, forwardRef, inject, input, InputSignal,
-  InputSignalWithTransform, model, ModelSignal, signal, Signal
+  ChangeDetectionStrategy, Component, computed, contentChildren, effect, forwardRef, inject, Injector, input,
+  InputSignal, InputSignalWithTransform, model, ModelSignal, signal, Signal
 } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {NgxTabBarContext, NgxTabContext} from "../../services";
 import {ScopedRouter, scopedRouterAttribute} from "@juulsgaard/ngx-tools";
 import {INavTab} from "../../models/nav-tab.interface";
@@ -23,8 +23,8 @@ import {TabBarUIScopeContext} from "../../services/tab-bar-ui-scope.context";
 })
 export class NgxTabBarComponent extends NgxTabBarContext {
 
-  private router = inject(Router);
-  private readonly route = inject(ActivatedRoute, {optional: true}) ?? undefined;
+  private injector = inject(Injector);
+  private readonly route = inject(ActivatedRoute, {optional: true});
 
   readonly children = contentChildren(NgxTabContext, {descendants: false});
   readonly tabs = computed(() => {
@@ -37,14 +37,14 @@ export class NgxTabBarComponent extends NgxTabBarContext {
     ScopedRouter | undefined,
     boolean | '' | number | ActivatedRoute | ScopedRouter | undefined | null
   > = input(undefined, {
-    transform: scopedRouterAttribute(this.router, this.route)
+    transform: scopedRouterAttribute(this.injector, this.route)
   });
 
   readonly routeNav: InputSignalWithTransform<
     ScopedRouter | undefined,
     boolean | '' | number | ActivatedRoute | ScopedRouter | undefined | null
   > = input(undefined, {
-    transform: scopedRouterAttribute(this.router, this.route)
+    transform: scopedRouterAttribute(this.injector, this.route)
   });
 
   protected relativeTo = computed(() => this.routeNav()?.route ?? this.fragmentNav()?.route);
@@ -77,7 +77,7 @@ export class NgxTabBarComponent extends NgxTabBarContext {
 
     const routeSlug = computed(() => {
       const urlRouter = this.routeNav();
-      if (urlRouter) return urlRouter.urlSignal().at(0);
+      if (urlRouter) return urlRouter.subUrlSignal().at(0);
 
       if (this.fragmentNav()) return fragment() ?? undefined;
 
