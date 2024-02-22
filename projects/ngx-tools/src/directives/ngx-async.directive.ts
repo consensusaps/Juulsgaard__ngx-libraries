@@ -9,10 +9,8 @@ import {isObject, shallowEquals} from "@juulsgaard/ts-tools";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {distinctUntilChanged} from "rxjs/operators";
 
-type InputVal = AsyncVal<unknown>|AsyncObject<Record<string, unknown>>|undefined|null;
-
 @Directive({selector: '[ngxAsync]', standalone: true})
-export class NgxAsyncDirective<T extends InputVal> {
+export class NgxAsyncDirective<T extends AsyncVal<unknown>|AsyncObject<Record<string, unknown>>|undefined|null> {
 
   readonly values: InputSignal<T> = input.required<T>({alias: 'ngxAsync'});
 
@@ -76,7 +74,7 @@ export class NgxAsyncDirective<T extends InputVal> {
     this.objectMapper.update(values);
   }
 
-  static ngTemplateContextGuard<T extends InputVal>(
+  static ngTemplateContextGuard<T extends AsyncVal<unknown>|AsyncObject<Record<string, unknown>>|undefined|null>(
     directive: NgxAsyncDirective<T>,
     context: unknown
   ): context is TemplateContext<T> {

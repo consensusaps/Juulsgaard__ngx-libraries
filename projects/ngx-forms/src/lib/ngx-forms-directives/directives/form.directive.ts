@@ -14,7 +14,6 @@ import {AnyControlFormRoot, isFormRoot, SmartFormUnion} from "@juulsgaard/ngx-fo
 })
 export class FormDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
 
-  // Explicit types for IDE type checking
   form: InputSignalWithTransform<
     AnyControlFormRoot<TControls>,
     AnyControlFormRoot<TControls> | { form: AnyControlFormRoot<TControls> }
