@@ -40,23 +40,27 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
 
     effect(() => {
       if (this.waiting()) {
-        this.destroyMain();
-        this.destroyElse();
-        this.renderWaiting();
+        queueMicrotask(() => {
+          this.destroyMain();
+          this.destroyElse();
+          this.renderWaiting();
+        });
         return;
       }
 
-      this.destroyWaiting();
-      console.log(value());
       const context = this.buildContext(value() as UnwrappedAsyncOrSyncVal<T>);
 
-      if (context) {
-        this.destroyElse();
-        this.renderMain(context);
-      } else {
-        this.destroyMain();
-        this.renderElse();
-      }
+      queueMicrotask(() => {
+        this.destroyWaiting();
+
+        if (context) {
+          this.destroyElse();
+          this.renderMain(context);
+        } else {
+          this.destroyMain();
+          this.renderElse();
+        }
+      });
     });
   }
 
@@ -73,10 +77,10 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
 
     if (!this.view) {
       this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-      this.view.markForCheck();
+      this.view.detectChanges();
     } else {
       Object.assign(this.view.context, context);
-      this.view.markForCheck();
+      this.view.detectChanges();
     }
   }
 

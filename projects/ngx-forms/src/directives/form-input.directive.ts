@@ -98,7 +98,6 @@ export class FormInputDirective {
       queueMicrotask(() => {
         if (!this.component) {
           this.component = this.viewContainer.createComponent(_componentType);
-
         } else if (this.component.componentType !== _componentType) {
           this.component.destroy();
           this.component = this.viewContainer.createComponent(_componentType);

@@ -38,30 +38,32 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
       const controlList = controls.map(x => x.controlsSignal());
       const controlSet = arrToSet(controls);
 
-      // Remove outdated views
-      for (let [layer, view] of this.views) {
-        if (controlSet.has(layer)) continue;
-        view.destroy();
-        this.views.delete(layer);
-      }
-
-      // Insert or update views
-      let index = -1;
-      for (let control of controlSet) {
-        index++;
-        let view = this.views.get(control);
-
-        if (view) {
-          this.viewContainer.move(view, index);
-          const changed = view.context.update(control, index, controlList);
-          if (changed) view.detectChanges();
-          continue;
+      queueMicrotask(() => {
+        // Remove outdated views
+        for (let [layer, view] of this.views) {
+          if (controlSet.has(layer)) continue;
+          view.destroy();
+          this.views.delete(layer);
         }
 
-        const context = new FormListDirectiveContext(control, index, controlList);
-        view = this.viewContainer.createEmbeddedView(this.templateRef, context, {index});
-        view.detectChanges();
-      }
+        // Insert or update views
+        let index = -1;
+        for (let control of controlSet) {
+          index++;
+          let view = this.views.get(control);
+
+          if (view) {
+            this.viewContainer.move(view, index);
+            const changed = view.context.update(control, index, controlList);
+            if (changed) view.detectChanges();
+            continue;
+          }
+
+          const context = new FormListDirectiveContext(control, index, controlList);
+          view = this.viewContainer.createEmbeddedView(this.templateRef, context, {index});
+          view.detectChanges();
+        }
+      });
     });
   }
 

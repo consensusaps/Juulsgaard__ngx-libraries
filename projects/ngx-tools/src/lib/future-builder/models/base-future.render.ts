@@ -12,21 +12,23 @@ export abstract class BaseFutureRender<TContext extends {}> {
   protected embeddedView?: EmbeddedViewRef<TContext>;
 
   updateView(context: TContext | undefined) {
-    if (this.embeddedView) {
+    queueMicrotask(() => {
+      if (this.embeddedView) {
 
-      if (!context) {
-        this.embeddedView.destroy();
-        this.embeddedView = undefined;
+        if (!context) {
+          this.embeddedView.destroy();
+          this.embeddedView = undefined;
+          return;
+        }
+
+        Object.assign(this.embeddedView.context, context);
+        this.embeddedView.detectChanges();
         return;
       }
 
-      Object.assign(this.embeddedView.context, context);
+      if (!context) return;
+      this.embeddedView = this.viewContainer.createEmbeddedView(this.templateRef, context);
       this.embeddedView.detectChanges();
-      return;
-    }
-
-    if (!context) return;
-    this.embeddedView = this.viewContainer.createEmbeddedView(this.templateRef, context);
-    this.embeddedView.detectChanges();
+    });
   }
 }

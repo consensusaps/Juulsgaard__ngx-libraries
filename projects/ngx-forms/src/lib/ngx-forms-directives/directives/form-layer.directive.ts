@@ -31,15 +31,19 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
         return;
       }
 
-      if (!this.view) {
-        const context = {ngxFormLayer: this.layer().controlsSignal()};
-        this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-        this.view.detectChanges();
-        return;
-      }
+      const controls = this.layer().controlsSignal();
 
-      this.view.context.ngxFormLayer = this.layer().controlsSignal();
-      this.view.detectChanges();
+      queueMicrotask(() => {
+        if (!this.view) {
+          const context = {ngxFormLayer: controls};
+          this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
+          this.view.detectChanges();
+          return;
+        }
+
+        this.view.context.ngxFormLayer = controls;
+        this.view.detectChanges();
+      });
     });
   }
 

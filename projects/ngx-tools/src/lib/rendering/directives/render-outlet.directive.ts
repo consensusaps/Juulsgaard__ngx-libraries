@@ -44,13 +44,15 @@ export abstract class BaseRenderDirective<T extends {}> implements OnDestroy {
     const context = this.context();
     const filter = this.filter()
 
-    if (inside) {
-      this._template.attachInside(this.element, this.injector, context, filter);
-    } else {
-      this._template.attachAfter(this.element, this.injector, context, filter);
-    }
+    queueMicrotask(() => {
+      if (inside) {
+        template.attachInside(this.element, this.injector, context, filter);
+      } else {
+        template.attachAfter(this.element, this.injector, context, filter);
+      }
 
-    this._template?.updateContext(context);
+      template.updateContext(context);
+    });
   }
 }
 

@@ -19,7 +19,7 @@ export class FormInputRegistry {
   static Provide(builder: (cfg: FormInputConfig) => void): Provider {
     const config = new InternalFormInputConfig();
     builder(config);
-    return {provide: FormInputRegistry, useValue: () => new FormInputRegistry(config.map)}
+    return {provide: FormInputRegistry, useValue: new FormInputRegistry(config.map)}
   }
 
   constructor(private map: Map<InputTypes, Type<BaseInputComponent<any, any>>>) {

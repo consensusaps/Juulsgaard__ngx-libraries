@@ -32,16 +32,17 @@ export class NgxLazyTabDirective extends NgxTabContext {
 
   view?: EmbeddedViewRef<void>;
   private updateView(show: boolean) {
+    queueMicrotask(() => {
+      if (this.view) {
+        if (show) return;
+        this.view.destroy();
+        this.view = undefined;
+        return;
+      }
 
-    if (this.view) {
-      if (show) return;
-      this.view.destroy();
-      this.view = undefined;
-      return;
-    }
-
-    if (!show) return;
-    this.view = this.viewContainer.createEmbeddedView(this.templateRef);
-    this.view.detectChanges();
+      if (!show) return;
+      this.view = this.viewContainer.createEmbeddedView(this.templateRef);
+      this.view.detectChanges();
+    });
   }
 }

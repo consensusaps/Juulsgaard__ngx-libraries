@@ -33,14 +33,18 @@ export class FormDialogDirective<TControls extends Record<string, SmartFormUnion
         return;
       }
 
-      if (!this.view) {
-        this.view = this.viewContainer.createEmbeddedView(this.template, {dialogForm: controls()});
-        this.view.detectChanges();
-        return;
-      }
+      const _controls = controls();
 
-      this.view.context.dialogForm = controls();
-      this.view.detectChanges();
+      queueMicrotask(() => {
+        if (!this.view) {
+          this.view = this.viewContainer.createEmbeddedView(this.template, {dialogForm: _controls});
+          this.view.detectChanges();
+          return;
+        }
+
+        this.view.context.dialogForm = _controls;
+        this.view.detectChanges();
+      });
     });
   }
 

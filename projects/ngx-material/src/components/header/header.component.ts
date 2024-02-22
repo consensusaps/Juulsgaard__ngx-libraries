@@ -38,15 +38,12 @@ export class HeaderComponent {
   readonly showMenu: Signal<boolean>;
 
   private sidebarService = inject(SidebarService, {optional: true});
-  private uiContext = inject(UIScopeContext, {optional: true});
+  private uiContext = inject(UIScopeContext);
 
   constructor() {
-    const header = this.uiContext?.registerHeader();
+    const header = this.uiContext.registerHeader();
 
-    this.headerClass = computed(() => {
-      if (!header) return [];
-      return header().classes;
-    });
+    this.headerClass = computed(() => header().classes);
 
     this.showMenu = computed(() => {
       if (!this.sidebarService || !header) return false;

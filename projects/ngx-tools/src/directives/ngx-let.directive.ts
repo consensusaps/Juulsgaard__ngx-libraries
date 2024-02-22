@@ -12,13 +12,17 @@ export class NgxLetDirective<T> {
     private viewContainer: ViewContainerRef
   ) {
     effect(() => {
-      if (!this.view) {
-        this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxLet: this.value()});
-        this.view.markForCheck();
-      } else {
-        this.view.context = {ngxLet: this.value()};
-        this.view.markForCheck();
-      }
+      const value = this.value();
+
+      queueMicrotask(() => {
+        if (!this.view) {
+          this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxLet: value});
+          this.view.detectChanges();
+        } else {
+          this.view.context = {ngxLet: value};
+          this.view.detectChanges();
+        }
+      });
     });
   }
 

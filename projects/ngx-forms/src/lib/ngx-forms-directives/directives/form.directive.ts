@@ -39,15 +39,19 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
         return;
       }
 
-      if (!this.view) {
-        const context = {ngxForm: this.form().controlsSignal()};
-        this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-        this.view.detectChanges();
-        return;
-      }
+      const controls =  this.form().controlsSignal();
 
-      this.view.context.ngxForm = this.form().controlsSignal();
-      this.view.detectChanges();
+      queueMicrotask(() => {
+        if (!this.view) {
+          const context = {ngxForm: controls};
+          this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
+          this.view.detectChanges();
+          return;
+        }
+
+        this.view.context.ngxForm = controls;
+        this.view.detectChanges();
+      });
     });
   }
 
