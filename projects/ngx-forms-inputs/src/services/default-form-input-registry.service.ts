@@ -11,6 +11,10 @@ export class DefaultFormInputRegistryService {
     return FormInputRegistry.Provide(cfg => {
 
       cfg.register(InputTypes.Text, TextInputComponent);
+      cfg.register(InputTypes.Email, TextInputComponent);
+      cfg.register(InputTypes.Phone, TextInputComponent);
+      cfg.register(InputTypes.Url, TextInputComponent);
+
       cfg.register(InputTypes.LongText, LongTextInputComponent);
       cfg.register(InputTypes.Password, PasswordInputComponent);
       cfg.register(InputTypes.Color, ColorInputComponent);
