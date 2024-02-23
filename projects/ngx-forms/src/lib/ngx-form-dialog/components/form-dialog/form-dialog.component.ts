@@ -1,11 +1,13 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, effect, inject, Injector, input, InputSignal,
-  InputSignalWithTransform, OnDestroy, signal, viewChild
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, contentChild, effect, inject, Injector, input,
+  InputSignal, InputSignalWithTransform, OnDestroy, signal, viewChild
 } from '@angular/core';
 import {FormDialog} from "@juulsgaard/ngx-forms-core";
 import {DialogManagerService, NgxDialogDefaults, TemplateDialogInstance} from "@juulsgaard/ngx-material";
 import {RenderSourceDirective} from "@juulsgaard/ngx-tools";
 import {FormDialogDirective} from "../../directives/dialog-form.directive";
+import {toObservable, toSignal} from "@angular/core/rxjs-interop";
+import {delay, of, switchMap} from "rxjs";
 
 @Component({
   selector: 'ngx-form-dialog',
@@ -16,7 +18,7 @@ import {FormDialogDirective} from "../../directives/dialog-form.directive";
 export class FormDialogComponent<T extends Record<string, any>> implements OnDestroy {
 
   readonly config: InputSignal<FormDialog<T>> = input.required<FormDialog<T>>();
-  readonly formTemplate = viewChild(FormDialogDirective);
+  readonly formTemplate = contentChild(FormDialogDirective);
   readonly content = viewChild.required('content', {read: RenderSourceDirective});
   readonly footer = viewChild.required('footer', {read: RenderSourceDirective});
   readonly canClose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
@@ -26,10 +28,18 @@ export class FormDialogComponent<T extends Record<string, any>> implements OnDes
 
   constructor(private manager: DialogManagerService, private injector: Injector) {
 
+    const show = computed(() => this.config().showSignal());
+
+    // Delay hiding the form to allow the dialog close animation to play first
+    const showTemplate$ = toObservable(show).pipe(
+      switchMap(show => show ? of(true) : of(false).pipe(delay(500)))
+    );
+    const showTemplate = toSignal(showTemplate$, {initialValue: false});
+
     effect(() => {
       const template = this.formTemplate();
       if (!template) return;
-      template.show.set(this.config().showSignal());
+      template.show.set(showTemplate());
     }, {allowSignalWrites: true});
 
     effect(() => {

@@ -29,7 +29,7 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
 
     effect(() => {
       if (!this.show()) {
-        this.clear();
+        queueMicrotask(() => this.clear());
         return;
       }
 

@@ -34,8 +34,10 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
 
     effect(() => {
       if (!this.show()) {
-        this.view?.destroy();
-        this.view = undefined;
+        queueMicrotask(() => {
+          this.view?.destroy();
+          this.view = undefined;
+        });
         return;
       }
 

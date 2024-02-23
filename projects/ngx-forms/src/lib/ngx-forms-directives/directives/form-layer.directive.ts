@@ -26,8 +26,10 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
 
     effect(() => {
       if (!this.show()) {
-        this.view?.destroy();
-        this.view = undefined;
+        queueMicrotask(() => {
+          this.view?.destroy();
+          this.view = undefined;
+        });
         return;
       }
 

@@ -12,7 +12,7 @@ export class FormDialogDirective<TControls extends Record<string, SmartFormUnion
     { form: AnyControlFormRoot<TControls> } & FormDialog<any>
   > = input.required({
     alias: 'dialogForm',
-    transform: (form: {form: AnyControlFormRoot<TControls>} & FormDialog<any>) => form.form
+    transform: (form: { form: AnyControlFormRoot<TControls> } & FormDialog<any>) => form.form
   });
 
   private view?: EmbeddedViewRef<DialogFormContext<TControls>>;
@@ -28,8 +28,10 @@ export class FormDialogDirective<TControls extends Record<string, SmartFormUnion
     effect(() => {
 
       if (!this.show()) {
-        this.view?.destroy();
-        this.view = undefined;
+        queueMicrotask(() => {
+          this.view?.destroy();
+          this.view = undefined;
+        });
         return;
       }
 

@@ -88,8 +88,10 @@ export class FormInputDirective {
     effect(() => {
       const _componentType = componentType();
       if (!_componentType) {
-        this.component?.destroy();
-        this.component = undefined;
+        queueMicrotask(() => {
+          this.component?.destroy();
+          this.component = undefined;
+        });
         return;
       }
 
