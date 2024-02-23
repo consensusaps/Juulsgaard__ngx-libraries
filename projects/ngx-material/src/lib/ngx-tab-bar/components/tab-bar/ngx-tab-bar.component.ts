@@ -74,7 +74,7 @@ export class NgxTabBarComponent extends NgxTabBarContext {
 
     const routeSlug = computed(() => {
       const urlRouter = this.routeNav();
-      if (urlRouter) return urlRouter.subUrlSignal().at(0);
+      if (urlRouter) return urlRouter.subUrl().at(0);
 
       if (this.fragmentNav()) return fragment() ?? undefined;
 

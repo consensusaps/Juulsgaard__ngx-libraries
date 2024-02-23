@@ -1,6 +1,5 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, InputSignal,
-  InputSignalWithTransform
+  booleanAttribute, ChangeDetectionStrategy, Component, effect, input, InputSignal, InputSignalWithTransform
 } from '@angular/core';
 import {BaseAnchor} from "../../models/base-button";
 import {BaseIconAliases, IconDirective, IconProviders} from "@juulsgaard/ngx-tools";
@@ -40,8 +39,6 @@ export class IconAnchorComponent extends BaseAnchor {
       return `${padding}px`;
     }
   });
-
-  private element = inject(ElementRef<HTMLElement>).nativeElement;
 
   constructor() {
     super();
