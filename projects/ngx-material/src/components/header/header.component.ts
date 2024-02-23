@@ -5,7 +5,7 @@ import {
 import {MatRippleModule} from "@angular/material/core";
 import {NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {IconDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
+import {elementClassManager, IconDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {UIScopeContext} from "../../models";
 import {SidebarService} from "../../services";
 
@@ -22,7 +22,7 @@ import {SidebarService} from "../../services";
     IconDirective
   ],
   standalone: true,
-  host: {'[class.ngx-header]': 'true', '[class]': 'headerClass()'}
+  host: {'[class.ngx-header]': 'true'}
 })
 export class HeaderComponent {
 
@@ -34,7 +34,6 @@ export class HeaderComponent {
   readonly hideClose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
   readonly hideBack: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  readonly headerClass: Signal<string[]>;
   readonly showMenu: Signal<boolean>;
 
   private sidebarService = inject(SidebarService, {optional: true});
@@ -42,8 +41,7 @@ export class HeaderComponent {
 
   constructor() {
     const header = this.uiContext.registerHeader();
-
-    this.headerClass = computed(() => header().classes);
+    elementClassManager(computed(() => header().classes));
 
     this.showMenu = computed(() => {
       if (!this.sidebarService || !header) return false;

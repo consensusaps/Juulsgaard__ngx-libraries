@@ -1,7 +1,7 @@
 import {computed, Directive, effect, ElementRef, inject, NgZone, OnDestroy, Signal} from '@angular/core';
 import {UIScopeContext} from "../models/ui-scope";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/overlay";
-import {IScrollContext, ScrollContext} from "@juulsgaard/ngx-tools";
+import {elementClassManager, IScrollContext, ScrollContext} from "@juulsgaard/ngx-tools";
 
 @Directive({
   selector: '[uiWrapper],ui-wrapper',
@@ -10,11 +10,9 @@ import {IScrollContext, ScrollContext} from "@juulsgaard/ngx-tools";
     UIScopeContext.ProvideChild(),
     ScrollContext.Provide(() => UiWrapperDirective)
   ],
-  host: {'[class.ui-wrapper]': 'true', '[class]': 'wrapperClass()'}
+  host: {'[class.ui-wrapper]': 'true'}
 })
 export class UiWrapperDirective implements OnDestroy, IScrollContext {
-
-  readonly wrapperClass: Signal<string[]>;
 
   readonly scrollable: Signal<boolean>;
   cdkScrollable: CdkScrollable;
@@ -32,7 +30,7 @@ export class UiWrapperDirective implements OnDestroy, IScrollContext {
     const context = inject(UIScopeContext, {skipSelf: true});
 
     const wrapper = context.registerWrapper();
-    this.wrapperClass = computed(() => wrapper().classes);
+    elementClassManager(computed(() => wrapper().classes));
 
     this.scrollable = computed(() => wrapper().scrollable);
     effect(() => {

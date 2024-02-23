@@ -1,6 +1,6 @@
 import {ComponentRef, Directive, inject, Injector, ViewContainerRef} from '@angular/core';
 import {SnackbarManagerService} from "../services";
-import {asapScheduler, delay} from "rxjs";
+import {asapScheduler, auditTime} from "rxjs";
 import {SnackbarSilo} from "../models";
 import {SnackbarSiloComponent} from "../components/snackbar-silo/snackbar-silo.component";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -15,7 +15,7 @@ export class SnackbarOutletDirective {
 
   constructor() {
     this.manager.instructions$.pipe(
-      delay(0, asapScheduler),
+      auditTime(0, asapScheduler),
       takeUntilDestroyed()
     ).subscribe(({item, change}) => {
 

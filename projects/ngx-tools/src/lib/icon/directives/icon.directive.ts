@@ -1,20 +1,21 @@
 import {
-  computed, Directive, effect, ElementRef, inject, input, InputSignal, InputSignalWithTransform, signal
+  computed, Directive, effect, ElementRef, inject, input, InputSignal, InputSignalWithTransform
 } from '@angular/core';
 import {IconData} from "../models/icon-models";
 import {IconService} from "../services/icon.service";
 import {IconProviders} from "../models/icon-providers";
 import {BaseIconAliases} from "../models/icon-aliases";
 import {isString} from "@juulsgaard/ts-tools";
+import {elementClassManager} from "../../../helpers";
 
 @Directive({
   selector: 'ngx-icon',
   standalone: true,
-  host: {'[class.ngx-icon]': 'true', '[class]': 'classes()'}
+  host: {'[class.ngx-icon]': 'true'}
 })
 export class IconDirective {
 
-  readonly classes = signal(['empty']);
+  readonly classes = elementClassManager();
 
   readonly provider: InputSignal<IconProviders | undefined> = input<IconProviders>();
   readonly icon: InputSignal<string | undefined> = input<string>();
@@ -54,7 +55,6 @@ export class IconDirective {
   }
 
   getIcon(): IconData | undefined {
-
     const icon = this.icon();
     if (icon) return this.service.parseIcon(icon, this.provider());
 
@@ -67,16 +67,15 @@ export class IconDirective {
   applyIcon(data?: IconData) {
 
     if (!data) {
-      this.classes.set(['empty']);
+      this.classes.set('empty');
       this.element.innerText = '';
       this.element.style.setProperty('--scale', null);
       return;
     }
 
-    const classes = [data.providerClass, ...data.classes ?? []];
+    this.classes.set([data.providerClass, ...data.classes ?? []]);
     this.element.innerText = data.text ?? '';
-    if (data.scale) classes.push('scaled');
-    this.classes.set(classes);
+    if (data.scale) this.classes.add('scaled');
     this.element.style.setProperty('--scale', data.scale?.toString() ?? null);
   }
 }

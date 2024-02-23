@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {NgxTabBarContext, NgxTabContext} from "../../services";
-import {ScopedRouter, scopedRouterAttribute} from "@juulsgaard/ngx-tools";
+import {elementClassManager, ScopedRouter, scopedRouterAttribute} from "@juulsgaard/ngx-tools";
 import {INavTab} from "../../models/nav-tab.interface";
 import {UIScopeContext} from "../../../../models";
 import {toSignal} from "@angular/core/rxjs-interop";
@@ -18,8 +18,7 @@ import {TabBarUIScopeContext} from "../../services/tab-bar-ui-scope.context";
     {provide: NgxTabBarContext, useExisting: forwardRef(() => NgxTabBarComponent)},
     {provide: UIScopeContext, useClass: TabBarUIScopeContext}
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {'[class]': 'wrapperClass()'}
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgxTabBarComponent extends NgxTabBarContext {
 
@@ -53,14 +52,12 @@ export class NgxTabBarComponent extends NgxTabBarContext {
 
   readonly slug: ModelSignal<string | undefined> = model<string>();
 
-  readonly wrapperClass: Signal<string[]>;
-
   constructor() {
     super();
 
     const context = inject(UIScopeContext, {skipSelf: true});
     const wrapper = context.registerWrapper();
-    this.wrapperClass = computed(() => wrapper().classes);
+    elementClassManager(computed(() => wrapper().classes));
 
     this.tab = computed(() => {
       const tabs = this.tabs();

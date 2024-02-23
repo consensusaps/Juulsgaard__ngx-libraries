@@ -2389,6 +2389,11 @@
   resolved "https://registry.yarnpkg.com/@juulsgaard/ts-tools/-/ts-tools-1.5.2.tgz#d987b1bbfd6dec54161f309ac68591b62fdba88c"
   integrity sha512-2aiBIjV2UIXvF8NKs5VxpaeoF3h+CPH8WsSlt1E1bmMr0V8tnObNtfJuhhOrp0BEUSjRR5/kZnUWVKlErk5g1g==
 
+"@juulsgaard/ts-tools@1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@juulsgaard/ts-tools/-/ts-tools-1.5.3.tgz#a07e4d57d143ee768d5293d9b02ab0f61d966dc8"
+  integrity sha512-WH1NZfqxnPEi2G8bupUsjZCjO23VZIXme+R8kzmRN289IoNT/ElK8wArU3OhBDNcDlOMoetXmyDosby57+k34w==
+
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"

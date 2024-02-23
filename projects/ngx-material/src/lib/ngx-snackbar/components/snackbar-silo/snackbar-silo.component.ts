@@ -2,7 +2,7 @@ import {Component, ComponentRef, ElementRef, inject, ViewChild, ViewContainerRef
 import {SnackbarInstance, SnackbarSilo} from "../../models";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SnackbarBaseComponent} from "../snackbar-base.component";
-import {asapScheduler, delay} from "rxjs";
+import {asapScheduler, auditTime} from "rxjs";
 
 @Component({selector: 'ngx-snackbar-silo', template: '<ng-container #render/>'})
 export class SnackbarSiloComponent {
@@ -17,7 +17,7 @@ export class SnackbarSiloComponent {
     this.element.classList.add(this.silo.type);
 
     this.silo.snackbars$.pipe(
-      delay(0, asapScheduler),
+      auditTime(0, asapScheduler),
       takeUntilDestroyed()
     ).subscribe(x => this.updateView(x))
   }

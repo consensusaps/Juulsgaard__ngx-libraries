@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, ComponentRef, Directive, inject, Injector, ViewContainerRef} from '@angular/core';
-import {asapScheduler, delay} from "rxjs";
+import {asapScheduler, auditTime} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
 import {RenderOverlayComponent} from "../components/render-overlay/render-overlay.component";
 import {OverlayInstance} from "../models/overlay-instance";
@@ -20,7 +20,7 @@ export class OverlayOutletDirective {
     private changes: ChangeDetectorRef
   ) {
     this.manager.overlay$.pipe(
-      delay(0, asapScheduler),
+      auditTime(0, asapScheduler),
       takeUntilDestroyed()
     ).subscribe(x => this.renderOverlay(x.item, x.added));
   }

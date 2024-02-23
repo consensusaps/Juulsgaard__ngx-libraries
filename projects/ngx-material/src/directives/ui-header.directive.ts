@@ -1,19 +1,14 @@
-import {computed, Directive, inject, Signal} from '@angular/core';
+import {computed, Directive, inject} from '@angular/core';
 import {UIScopeContext} from "../models";
+import {elementClassManager} from "@juulsgaard/ngx-tools";
 
-@Directive({selector: '[uiHeader]', standalone: true, host: {'[class]': 'headerClass()'}})
+@Directive({selector: '[uiHeader]', standalone: true})
 export class UiHeaderDirective {
 
-  readonly headerClass: Signal<string[]>;
-
-  private uiContext = inject(UIScopeContext, {optional: true});
+  private uiContext = inject(UIScopeContext);
 
   constructor() {
-    const header = this.uiContext?.registerHeader();
-
-    this.headerClass = computed(() => {
-      if (!header) return [];
-      return header().classes;
-    });
+    const header = this.uiContext.registerHeader();
+    elementClassManager(computed(() => header().classes));
   }
 }

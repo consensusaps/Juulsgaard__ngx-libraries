@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, ComponentRef, Directive, Injector, ViewContainerRef} from '@angular/core';
 import {RenderDialogComponent} from "../components/render-dialog/render-dialog.component";
-import {asapScheduler, delay} from "rxjs";
+import {asapScheduler, auditTime} from "rxjs";
 import {DialogManagerService} from "../services/dialog-manager.service";
 import {DialogInstance} from "../models/dialog-context";
 import {DIALOG_ANIMATE_IN, DIALOG_CONTEXT} from "../models/dialog-tokens";
@@ -19,7 +19,7 @@ export class DialogOutletDirective {
     private changes: ChangeDetectorRef,
   ) {
     this.manager.dialog$.pipe(
-      delay(0, asapScheduler),
+      auditTime(0, asapScheduler),
       takeUntilDestroyed()
     ).subscribe(({item, added}) => this.renderDialog(item, added));
   }

@@ -1,6 +1,6 @@
 import {
-  booleanAttribute, computed, Directive, effect, ElementRef, HostBinding, inject, input, InputSignal,
-  InputSignalWithTransform, model, ModelSignal, OnInit, Signal, signal, viewChild, viewChildren, WritableSignal
+    booleanAttribute, computed, Directive, effect, ElementRef, HostBinding, inject, input, InputSignal,
+    InputSignalWithTransform, model, ModelSignal, OnInit, Signal, signal, viewChild, viewChildren, WritableSignal
 } from "@angular/core";
 import {EMPTY, Observable, OperatorFunction, Subject, Subscribable, Subscription, switchMap} from "rxjs";
 import {NgModel} from "@angular/forms";
@@ -112,9 +112,6 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     /** Marks whether the input should be displayed or not */
     protected show = computed(() => this.showDisabled() || !this.disabled());
-
-    @HostBinding('class.hidden')
-    protected get dontShow() {return !this.show()}
     //</editor-fold>
 
     //<editor-fold desc="Readonly">
@@ -128,9 +125,6 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
         if (control && control.readonly) return true;
         return false;
     });
-
-    @HostBinding('class.read-only')
-    protected get readonlyClass(): boolean {return this.readonly()}
     //</editor-fold>
 
     //<editor-fold desc="Configuration">
@@ -171,6 +165,9 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     private lastValue?: {val: TIn|undefined};
 
     protected constructor() {
+        const element = inject(ElementRef<HTMLElement>).nativeElement;
+        effect(() => element.classList.toggle('hidden', !this.show()));
+        effect(() => element.classList.toggle('read-only', this.readonly()));
 
         this._value = signal(this.getInitialValue());
 

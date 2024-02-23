@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, ComponentRef, Directive, Injector, ViewContainerRef} from '@angular/core';
-import {asapScheduler, delay} from "rxjs";
+import {asapScheduler, auditTime} from "rxjs";
 import {RenderSideMenuComponent} from "../components/render-side-menu/render-side-menu.component";
 import {SideMenuManagerService} from "../services/side-menu-manager.service";
 import {SideMenuInstance} from "../models/side-menu-instance";
@@ -20,7 +20,7 @@ export class NgxSideMenuOutletDirective {
     private changes: ChangeDetectorRef
   ) {
     this.manager.menu$.pipe(
-      delay(0, asapScheduler),
+      auditTime(0, asapScheduler),
       takeUntilDestroyed()
     ).subscribe(x => this.renderMenu(x.item, x.added));
   }

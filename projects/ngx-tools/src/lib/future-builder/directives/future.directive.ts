@@ -1,5 +1,5 @@
-import {Directive, inject, input, InputSignalWithTransform, TemplateRef, ViewContainerRef} from '@angular/core';
-import {EMPTY, Observable, of, Subscribable, switchMap} from "rxjs";
+import {Directive, input, InputSignalWithTransform, TemplateRef, ViewContainerRef} from '@angular/core';
+import {asapScheduler, auditTime, EMPTY, Observable, of, Subscribable, switchMap} from "rxjs";
 import {cache, Future} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
 import {toObservable} from "@angular/core/rxjs-interop";
@@ -10,7 +10,6 @@ import {distinctUntilChanged} from "rxjs/operators";
 })
 export class FutureDirective<T> {
 
-  // Explicit type to hold Webstorm evaluate ngTemplateContextGuard
   future: InputSignalWithTransform<
     Observable<Future<T> | undefined>,
     Subscribable<Future<T> | undefined> | Future<T> | undefined | null
@@ -22,20 +21,19 @@ export class FutureDirective<T> {
     }
   });
 
-  constructor() {
+  constructor(
+    public readonly viewContainer: ViewContainerRef,
+    public readonly template: TemplateRef<TemplateContext<T>>,
+  ) {
     const futures$ = toObservable(this.future).pipe(
       switchMap(x => x),
       distinctUntilChanged(),
+      auditTime(0, asapScheduler),
       cache()
     );
 
-    const viewContainer = inject(ViewContainerRef);
-    const template = inject(TemplateRef<TemplateContext<T>>);
-
-    queueMicrotask(() => {
-      const view = viewContainer.createEmbeddedView(template, {future: new FutureSwitch<T>(futures$)});
-      view.detectChanges();
-    });
+    const view = this.viewContainer.createEmbeddedView(this.template, {future: new FutureSwitch<T>(futures$)});
+    view.detectChanges();
   }
 
   static ngTemplateContextGuard<T>(
