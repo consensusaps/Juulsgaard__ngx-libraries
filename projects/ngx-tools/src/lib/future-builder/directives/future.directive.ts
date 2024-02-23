@@ -15,7 +15,7 @@ export class FutureDirective<T> {
     Observable<Future<T> | undefined>,
     Subscribable<Future<T> | undefined> | Future<T> | undefined | null
   > = input.required({
-    transform: (future: Subscribable<Future<T>|undefined>|Future<T>|undefined|null): Observable<Future<T>|undefined> => {
+    transform: (future: Subscribable<Future<T> | undefined> | Future<T> | undefined | null): Observable<Future<T> | undefined> => {
       if (future == null) return EMPTY;
       if (future instanceof Future) return of(future);
       return new Observable(subscriber => future.subscribe(subscriber));
@@ -29,10 +29,13 @@ export class FutureDirective<T> {
       cache()
     );
 
-    inject(ViewContainerRef).createEmbeddedView(
-      inject(TemplateRef<TemplateContext<T>>),
-      {future: new FutureSwitch<T>(futures$)}
-    );
+    const viewContainer = inject(ViewContainerRef);
+    const template = inject(TemplateRef<TemplateContext<T>>);
+
+    queueMicrotask(() => {
+      const view = viewContainer.createEmbeddedView(template, {future: new FutureSwitch<T>(futures$)});
+      view.detectChanges();
+    });
   }
 
   static ngTemplateContextGuard<T>(
