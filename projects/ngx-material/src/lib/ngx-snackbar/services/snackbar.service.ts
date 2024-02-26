@@ -49,7 +49,7 @@ export class SnackbarService extends SnackbarSiloService {
 
     error(message: string, title?: string, data?: {[prop: string]: string|undefined}) {
         this.createSnackbar(InfoSnackbarComponent, {
-            duration: 20000,
+            duration: 12000,
             data: {message, title: title, data},
             styles: ['ngx-error'],
             dismissable: true,
