@@ -17,7 +17,7 @@ import {arrToSet} from "@juulsgaard/ts-tools";
 export class FormListDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
 
   readonly list: InputSignal<AnyControlFormList<TControls>> = input.required({alias: 'ngxFormListIn'});
-  readonly show: InputSignal<boolean> = input(false, {alias: 'ngxFormListWhen'});
+  readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormListWhen'});
 
   views = new Map<ControlFormLayer<TControls>, EmbeddedViewRef<FormListDirectiveContext<TControls>>>();
 
@@ -62,6 +62,7 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
           const context = new FormListDirectiveContext(control, index, controlList);
           view = this.viewContainer.createEmbeddedView(this.templateRef, context, {index});
           view.detectChanges();
+          this.views.set(control, view);
         }
       });
     });
