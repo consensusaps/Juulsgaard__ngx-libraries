@@ -1,6 +1,5 @@
 import {
-  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, InputSignalWithTransform, TemplateRef,
-  ViewContainerRef
+  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignalWithTransform, signal, TemplateRef, ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormRoot, isFormRoot, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
@@ -22,7 +21,9 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
     transform: (form: AnyControlFormRoot<TControls>|{form: AnyControlFormRoot<TControls>}) => isFormRoot(form) ? form : form.form
   });
 
-  readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormWhen'});
+  // Disable functionality because of change detection timing
+  // readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormWhen'});
+  readonly show = signal(true);
 
   view?: EmbeddedViewRef<FormDirectiveContext<TControls>>
 

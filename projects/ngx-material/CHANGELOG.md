@@ -1,5 +1,12 @@
 # @juulsgaard/ngx-material
 
+## 17.0.1
+
+### Patch Changes
+
+- Fix context menu directive
+- Change default error message duration
+
 ## 17.0.0
 
 ### Major Changes

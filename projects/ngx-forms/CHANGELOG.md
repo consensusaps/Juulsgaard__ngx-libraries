@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 17.0.1
+
+### Patch Changes
+
+- Remove conditional rendering for form directives
+
 ## 17.0.0
 
 ### Major Changes

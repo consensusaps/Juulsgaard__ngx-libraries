@@ -1,5 +1,5 @@
 import {
-  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, TemplateRef, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, signal, TemplateRef, ViewContainerRef
 } from "@angular/core";
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormList, ControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
@@ -17,7 +17,10 @@ import {arrToSet} from "@juulsgaard/ts-tools";
 export class FormListDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
 
   readonly list: InputSignal<AnyControlFormList<TControls>> = input.required({alias: 'ngxFormListIn'});
-  readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormListWhen'});
+
+  // Disable functionality because of change detection timing
+  // readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormListWhen'});
+  readonly show = signal(true);
 
   views = new Map<ControlFormLayer<TControls>, EmbeddedViewRef<FormListDirectiveContext<TControls>>>();
 

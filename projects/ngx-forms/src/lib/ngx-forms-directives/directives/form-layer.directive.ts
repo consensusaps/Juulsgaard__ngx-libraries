@@ -1,5 +1,5 @@
 import {
-  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, TemplateRef, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, signal, TemplateRef, ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
@@ -14,7 +14,10 @@ import {AnyControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
 export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
 
   readonly layer: InputSignal<AnyControlFormLayer<TControls>> = input.required({alias: 'ngxFormLayer'});
-  readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormLayerWhen'});
+
+  // Disable functionality because of change detection timing
+  // readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormLayerWhen'});
+  readonly show = signal(true);
 
   view?: EmbeddedViewRef<FormLayerDirectiveContext<TControls>>;
 

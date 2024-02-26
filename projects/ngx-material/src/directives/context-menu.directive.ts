@@ -38,7 +38,8 @@ export class ContextMenuDirective implements OnDestroy {
   openMenu(x: number, y: number) {
     this.element()!.style.left = `${x}px`;
     this.element()!.style.top = `${y}px`;
-    if (this.data !== undefined) this.trigger()!.menuData = this.data;
+    const data = this.data();
+    if (data !== undefined) this.trigger()!.menuData = data;
     this.trigger()!.openMenu();
 
     // Listen to events and close the context menu if the page is scrolled, or the user right clicks
