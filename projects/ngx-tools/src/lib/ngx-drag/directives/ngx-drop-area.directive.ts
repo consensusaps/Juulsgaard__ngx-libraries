@@ -18,11 +18,11 @@ export class NgxDropAreaDirective<T> {
   @Output('ngxDrop') drop = new EventEmitter<NgxDragEvent<T>>;
   @Output('ngxDropHover') dropHover = new EventEmitter<NgxDropContext<T>>;
 
-  readonly effect: InputSignal<"move" | "link" | "copy" | undefined> = input<'move'|'link'|'copy'>();
-  readonly dropPredicate: InputSignal<((data: NgxDragEvent<T>) => boolean) | undefined> = input<(data: NgxDragEvent<T>) => boolean>();
+  readonly dropEffect: InputSignal<"move" | "link" | "copy" | undefined> = input<'move'|'link'|'copy'>();
+  readonly dropPredicate: InputSignal<((data: NgxDragEvent<T>) => boolean) | undefined> = input<((data: NgxDragEvent<T>) => boolean)>();
   readonly disableDrop: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  get dropEffect() {return this.effect() ?? this.service.effect ?? 'move'}
+  get dropEffectStr() {return this.dropEffect() ?? this.service.effect ?? 'move'}
 
   removeHoverState?: Subscription;
 
@@ -85,7 +85,7 @@ export class NgxDropAreaDirective<T> {
   }
 
   private getDropEffect(dataTransfer: DataTransfer) {
-    const effect = this.dropEffect;
+    const effect = this.dropEffectStr;
     if (effect === 'link' && dataTransfer.effectAllowed === 'copyMove') return 'move';
     return effect;
   }
