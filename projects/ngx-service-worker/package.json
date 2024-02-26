@@ -19,8 +19,8 @@
     "@angular/core": "^17.2.1",
     "@angular/material": "^17.2.0",
     "@angular/service-worker": "^17.2.1",
-    "@juulsgaard/ngx-material": "^17.0.1",
-    "@juulsgaard/ngx-tools": "^17.0.0",
+    "@juulsgaard/ngx-material": "^17.0.2",
+    "@juulsgaard/ngx-tools": "^17.0.1",
     "typescript": "~5.3.3"
   },
   "devDependencies": {
@@ -28,8 +28,8 @@
     "@angular/core": "17.2.1",
     "@angular/material": "17.2.0",
     "@angular/service-worker": "17.2.1",
-    "@juulsgaard/ngx-material": "17.0.1",
-    "@juulsgaard/ngx-tools": "17.0.0"
+    "@juulsgaard/ngx-material": "17.0.2",
+    "@juulsgaard/ngx-tools": "17.0.1"
   },
   "dependencies": {
     "tslib": "2.6.2"

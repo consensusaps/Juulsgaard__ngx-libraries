@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.0.1
+
+### Patch Changes
+
+- Add header colors to theme
+
 ## 17.0.0
 
 ### Major Changes

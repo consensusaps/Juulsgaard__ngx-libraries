@@ -63,6 +63,13 @@ $text-color-300: var(--ngx-text-color-300, #{$text-color});
 $text-color-200: var(--ngx-text-color-200, #{$text-color});
 $text-color-100: var(--ngx-text-color-100, #{$text-color});
 
+$header: var(--ngx-header, #FFFFFF);
+$header-500: $header;
+$header-400: var(--ngx-header-400, #{$header});
+$header-300: var(--ngx-header-300, #{$header});
+$header-200: var(--ngx-header-200, #{$header});
+$header-100: var(--ngx-header-100, #{$header});
+
 
 // Device sizes
 $small-max: 600px;
