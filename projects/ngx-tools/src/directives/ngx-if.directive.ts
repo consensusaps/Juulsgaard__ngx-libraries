@@ -1,21 +1,21 @@
-import {Directive, input, TemplateRef} from '@angular/core';
-import {AsyncOrSyncVal, UnwrappedAsyncOrSyncVal} from "@juulsgaard/rxjs-tools";
+import {Directive, input, InputSignal, TemplateRef} from '@angular/core';
+import {UnwrappedAsyncOrSyncVal} from "@juulsgaard/rxjs-tools";
 import {NgxConditionDirective} from "./ngx-condition.directive";
 import {TruthyTypesOf} from "rxjs";
 
 @Directive({selector: '[ngxIf]', standalone: true})
-export class NgxIfDirective<T extends AsyncOrSyncVal<unknown>> extends NgxConditionDirective<T, NgxIfTemplateContext<T>> {
+export class NgxIfDirective<T> extends NgxConditionDirective<T, NgxIfTemplateContext<T>> {
 
-  value = input.required<T>({alias: 'ngxIf'});
-  elseTemplate = input<TemplateRef<void>|undefined>(undefined, {alias: 'ngxIfElse'});
-  waitingTemplate = input<TemplateRef<void>|undefined>(undefined, {alias: 'ngxIfWaiting'});
+  value: InputSignal<T> = input.required<T>({alias: 'ngxIf'});
+  elseTemplate: InputSignal<TemplateRef<void> | undefined> = input<TemplateRef<void>|undefined>(undefined, {alias: 'ngxIfElse'});
+  waitingTemplate: InputSignal<TemplateRef<void> | undefined> = input<TemplateRef<void>|undefined>(undefined, {alias: 'ngxIfWaiting'});
 
   buildContext(value: UnwrappedAsyncOrSyncVal<T>): NgxIfTemplateContext<T> | undefined {
     if (!value) return undefined;
     return {ngxIf: value as TruthyTypesOf<typeof value>};
   }
 
-  static ngTemplateContextGuard<T extends AsyncOrSyncVal<unknown>>(
+  static ngTemplateContextGuard<T>(
     directive: NgxIfDirective<T>,
     context: unknown
   ): context is NgxIfTemplateContext<T> {
