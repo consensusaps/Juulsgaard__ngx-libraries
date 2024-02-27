@@ -29,8 +29,9 @@ export class OverlayInstance extends OverlayContext {
     this.token.dispose();
     this._close$.complete();
 
+    this.content.detachChangeRef();
     // Delay until after animation ends
-    setTimeout(() => this.content?.dispose(), 200);
+    setTimeout(() => this.content?.dispose(), 400);
   }
 
   close(): void {

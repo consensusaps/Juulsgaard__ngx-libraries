@@ -1,20 +1,23 @@
-import {ComponentRef, Directive, inject, Injector, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, inject, Injector, ViewContainerRef} from '@angular/core';
 import {SnackbarManagerService} from "../services";
-import {Subscription} from "rxjs";
+import {asapScheduler, auditTime} from "rxjs";
 import {SnackbarSilo} from "../models";
 import {SnackbarSiloComponent} from "../components/snackbar-silo/snackbar-silo.component";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Directive({selector: 'ngx-snackbar-outlet'})
-export class SnackbarOutletDirective implements OnDestroy, OnInit {
+export class SnackbarOutletDirective {
 
   private manager = inject(SnackbarManagerService);
   private viewContainer = inject(ViewContainerRef);
 
-  private sub?: Subscription;
   private silos = new Map<SnackbarSilo, ComponentRef<SnackbarSiloComponent>>
 
-  ngOnInit() {
-    this.sub = this.manager.instructions$.subscribe(({item, change}) => {
+  constructor() {
+    this.manager.instructions$.pipe(
+      auditTime(0, asapScheduler),
+      takeUntilDestroyed()
+    ).subscribe(({item, change}) => {
 
       if (change === 'added') {
         const parentInjector = this.viewContainer.injector;
@@ -32,10 +35,6 @@ export class SnackbarOutletDirective implements OnDestroy, OnInit {
       const component = this.silos.get(item);
       component?.destroy();
     });
-  }
-
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
   }
 
 }

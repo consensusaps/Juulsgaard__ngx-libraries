@@ -1,5 +1,17 @@
 # @juulsgaard/ngx-service-worker
 
+## 17.0.0
+
+### Major Changes
+
+- Update angular and migrate to Signals
+
+### Patch Changes
+
+- Updated dependencies
+  - @juulsgaard/ngx-material@17.0.0
+  - @juulsgaard/ngx-tools@17.0.0
+
 ## 16.1.0
 
 ### Patch Changes

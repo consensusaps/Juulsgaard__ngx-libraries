@@ -2,25 +2,28 @@
 
 <div class="popup ngx-move-up">
 
-    <div class="header" *ngxIf="header$ as header">{{header}}</div>
+    <div class="header" *ngIf="header() as header">{{ header }}</div>
 
     <div class="popup-content" *ngIf="plainDescription">
-        <p>{{plainDescription}}</p>
+        <p>{{ plainDescription }}</p>
     </div>
 
     <div class="popup-content" *ngIf="htmlDescription" [innerHTML]="htmlDescription"></div>
 
-    <div class="popup-content" *ngxIf="contentTemplate$ as template">
-        <ngx-render [template]="template"></ngx-render>
-    </div>
+    <div class="popup-content" *ngIf="contentTemplate() as template" [ngxRender]="template"
+         [filter]="getNonFooters"></div>
 
     <div class="footer" *ngIf="buttons">
-        <button mat-button *ngFor="let btn of buttons" (click)="btn.callback()" [color]="btn.color">
-            {{btn.text}}
-        </button>
+        @for (btn of buttons; track btn) {
+            <button mat-button (click)="btn.callback()" [color]="btn.color">
+                {{ btn.text }}
+            </button>
+        }
     </div>
 
-    <div class="footer" *ngxIf="footerTemplate$ as template">
-        <ngx-render [template]="template"></ngx-render>
-    </div>
+    @if(footerTemplate(); as template) {
+        <div class="footer" [ngxRender]="template"></div>
+    } @else if(contentTemplate()) {
+        <div class="footer" [ngxRender]="contentTemplate()" [filter]="getFooters"></div>
+    }
 </div>

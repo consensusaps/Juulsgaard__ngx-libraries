@@ -3,7 +3,7 @@
   "description": "A library containing default input components for different input types",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-forms-inputs",
-  "version": "16.0.31",
+  "version": "17.0.0",
   "publishConfig": {
     "directory": "../../dist/ngx-forms-inputs"
   },
@@ -23,34 +23,34 @@
     "storybook": "ng run ngx-forms-inputs:storybook"
   },
   "peerDependencies": {
-    "@angular/animations": "^16.2.7",
-    "@angular/cdk": "^16.2.6",
-    "@angular/common": "^16.2.7",
-    "@angular/core": "^16.2.7",
-    "@angular/forms": "^16.2.7",
-    "@angular/material": "^16.2.6",
-    "@juulsgaard/ngx-forms": "^16.0.15",
-    "@juulsgaard/ngx-tools": "^16.1.40",
+    "@angular/animations": "^17.2.1",
+    "@angular/cdk": "^17.2.0",
+    "@angular/common": "^17.2.1",
+    "@angular/core": "^17.2.1",
+    "@angular/forms": "^17.2.1",
+    "@angular/material": "^17.2.0",
+    "@juulsgaard/ngx-forms": "^17.0.1",
+    "@juulsgaard/ngx-tools": "^17.0.1",
     "dayjs": "^1.11.10",
-    "ngx-colors": "^3.5.2",
-    "ngx-mat-timepicker": "^16.1.1",
-    "typescript": "~5.0.4"
+    "ngx-colors": "^3.5.3",
+    "ngx-mat-timepicker": "^17.0.3",
+    "typescript": "~5.3.3"
   },
   "devDependencies": {
-    "@angular/animations": "16.2.7",
-    "@angular/cdk": "16.2.6",
-    "@angular/common": "16.2.7",
-    "@angular/core": "16.2.7",
-    "@angular/forms": "16.2.7",
-    "@angular/material": "16.2.6",
-    "@angular/platform-browser": "16.2.7",
-    "@juulsgaard/ngx-forms": "16.0.15",
-    "@juulsgaard/ngx-tools": "16.1.40",
+    "@angular/animations": "17.2.1",
+    "@angular/cdk": "17.2.0",
+    "@angular/common": "17.2.1",
+    "@angular/core": "17.2.1",
+    "@angular/forms": "17.2.1",
+    "@angular/material": "17.2.0",
+    "@angular/platform-browser": "17.2.1",
+    "@juulsgaard/ngx-forms": "17.0.1",
+    "@juulsgaard/ngx-tools": "17.0.1",
     "dayjs": "1.11.10",
-    "ngx-colors": "3.5.2",
-    "ngx-mat-timepicker": "16.1.1"
+    "ngx-colors": "3.5.3",
+    "ngx-mat-timepicker": "17.0.3"
   },
   "dependencies": {
-    "tslib": "2.5.0"
+    "tslib": "2.6.2"
   }
 }

@@ -1,6 +1,4 @@
 
 <div class="background ngx-fade" (click)="onClose()"></div>
 
-<div class="overlay-content ngx-move-up">
-    <ngx-render [template]="content"></ngx-render>
-</div>
+<div class="overlay-content ngx-move-up" [ngxRender]="content"></div>

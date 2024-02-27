@@ -36,7 +36,12 @@ export class NumberInputComponent extends BaseInputComponent<number | undefined,
   }
 
   preprocessValue(value: number | undefined): number|undefined {
-    if (this.externalControl && !this.externalControl.nullable) return value ?? 0;
+    if (value == null) {
+      const control = this.control();
+      if (control && !control.nullable) return 0;
+      return undefined;
+    }
+
     return value;
   }
 

@@ -1,22 +1,25 @@
-<div class="wrapper" [@harmonica]="show">
+<div class="wrapper" [@harmonica]="show()">
 
-	<mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color" subscriptSizing="dynamic">
+	<mat-form-field [appearance]="appearance()" [color]="color()"
+                    [hideRequiredMarker]="hideRequired()" subscriptSizing="dynamic">
 
-		<mat-label *ngIf="label">
-			{{label}}
-			<ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!"
+		<mat-label *ngIf="label()">
+			{{label()}}
+			<ngx-icon class="tooltip" alias="help" *ngIf="tooltip() as t" [matTooltip]="t"
 					  matTooltipPosition="above" matTooltipTouchGestures="off"/>
 		</mat-label>
 
-		<input type="text" matInput [placeholder]="placeholder ?? label!" [required]="required" [readonly]="readonly" [(ngModel)]="inputValue" [ngModelOptions]="{standalone: true}"
-		       [autocomplete]="autocomplete" [autofocus]="autofocus" [errorStateMatcher]="(errorMatcher$ | async)!" #input [disabled]="isDisabled" [attr.dir]="direction">
+		<input type="text" matInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
+               [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
+		       [autocomplete]="autocomplete()" [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()"
+               #input [disabled]="disabled()" [attr.dir]="direction()">
 
-		<div matIconSuffix class="fix" *ngIf="suffixChild">
+		<div matIconSuffix class="fix">
 			<ng-content></ng-content>
 		</div>
 
 
-		<mat-error>{{errorText$ | async}}</mat-error>
+		<mat-error>{{error()}}</mat-error>
 
 	</mat-form-field>
 </div>

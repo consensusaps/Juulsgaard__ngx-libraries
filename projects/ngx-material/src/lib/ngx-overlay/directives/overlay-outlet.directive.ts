@@ -1,27 +1,28 @@
-import {ChangeDetectorRef, ComponentRef, Directive, inject, Injector, OnInit, ViewContainerRef} from '@angular/core';
-import {Subscription} from "rxjs";
+import {ChangeDetectorRef, ComponentRef, Directive, inject, Injector, ViewContainerRef} from '@angular/core';
+import {asapScheduler, auditTime} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
 import {RenderOverlayComponent} from "../components/render-overlay/render-overlay.component";
 import {OverlayInstance} from "../models/overlay-instance";
 import {BASE_OVERLAY_PROVIDERS, CUSTOM_OVERLAY_PROVIDERS, OVERLAY_ANIMATE_IN} from "../models/overlay-tokens";
 import {OverlayContext} from "../models/overlay-context";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Directive({selector: 'ngx-overlay-outlet'})
-export class OverlayOutletDirective implements OnInit {
+export class OverlayOutletDirective {
 
-  private sub?: Subscription;
   private component?: ComponentRef<RenderOverlayComponent>;
 
-  baseProviders = inject(BASE_OVERLAY_PROVIDERS, {optional: true}) ?? [];
+  private baseProviders = inject(BASE_OVERLAY_PROVIDERS, {optional: true}) ?? [];
 
   constructor(
     private viewContainer: ViewContainerRef,
     private manager: OverlayManagerService,
     private changes: ChangeDetectorRef
-  ) { }
-
-  ngOnInit() {
-    this.sub = this.manager.overlay$.subscribe(x => this.renderOverlay(x.item, x.added));
+  ) {
+    this.manager.overlay$.pipe(
+      auditTime(0, asapScheduler),
+      takeUntilDestroyed()
+    ).subscribe(x => this.renderOverlay(x.item, x.added));
   }
 
   renderOverlay(instance: OverlayInstance | undefined, added: boolean) {
@@ -54,10 +55,5 @@ export class OverlayOutletDirective implements OnInit {
     );
 
     this.changes.detectChanges();
-  }
-
-  ngOnDestroy() {
-    this.sub?.unsubscribe();
-    this.viewContainer.clear();
   }
 }

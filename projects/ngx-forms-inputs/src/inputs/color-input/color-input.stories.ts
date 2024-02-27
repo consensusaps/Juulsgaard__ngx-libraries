@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {ColorInputComponent} from "./color-input.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 export default {
   title: 'Inputs: Color',
-  component: ColorInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-input-color ${argsToTemplate(args)}/>`
+  }),
   args: {
     label: 'Color Input',
     tooltip: 'Tooltip',
@@ -15,10 +17,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, ColorInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<ColorInputComponent>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

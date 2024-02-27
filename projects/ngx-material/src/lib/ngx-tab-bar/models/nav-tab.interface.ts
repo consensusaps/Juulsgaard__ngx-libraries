@@ -1,11 +1,10 @@
-import {Observable} from "rxjs";
+import {Signal} from "@angular/core";
 
 export interface INavTab {
-  readonly id: string;
-  readonly name: string;
-  readonly isOpen$: Observable<boolean>;
-  readonly isHidden: boolean;
-  readonly isHidden$: Observable<boolean>;
-  readonly isDisabled: boolean;
-  readonly isDisabled$: Observable<boolean>;
+  readonly slug: Signal<string>;
+  readonly name: Signal<string>;
+  readonly isOpen: Signal<boolean>;
+  readonly isActive: Signal<boolean>;
+  readonly hide: Signal<boolean>;
+  readonly disabled: Signal<boolean>;
 }

@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SearchInputComponent} from "./search-input.component";
 
 export default {
   title: 'Inputs: Search',
-  component: SearchInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-search-input ${argsToTemplate(args)}/>`
+  }),
   args: {
     label: 'Search Input',
     tooltip: 'Tooltip'
@@ -14,10 +16,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, SearchInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<SearchInputComponent>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

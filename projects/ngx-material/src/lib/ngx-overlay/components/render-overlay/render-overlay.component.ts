@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, ElementRef, inject} from '@angular/core';
 import {overlayAnimation, TemplateRendering} from '@juulsgaard/ngx-tools'
 import {OverlayContext} from "../../models/overlay-context";
 import {OVERLAY_ANIMATE_IN} from "../../models/overlay-tokens";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {toObservable} from "@angular/core/rxjs-interop";
 import {pairwise, startWith} from "rxjs";
 import {arrToSet} from "@juulsgaard/ts-tools";
 
@@ -18,7 +18,7 @@ import {arrToSet} from "@juulsgaard/ts-tools";
 })
 export class RenderOverlayComponent {
 
-  content: TemplateRendering;
+  readonly content: TemplateRendering;
   animate = inject(OVERLAY_ANIMATE_IN);
 
   private canClose = false;
@@ -31,19 +31,16 @@ export class RenderOverlayComponent {
 
     this.content = this.context.content;
 
-    this.context.canClose$.pipe(
-      takeUntilDestroyed()
-    ).subscribe(canClose => {
-      this.canClose = canClose;
-      this.element.classList.toggle('closable', canClose)
+    effect(() => {
+      this.canClose = this.context.canClose();
+      this.element.classList.toggle('closable', this.canClose)
     });
 
-    this.context.scrollable$.pipe(
-      takeUntilDestroyed()
-    ).subscribe(canScroll => this.element.classList.toggle('scrollable', canScroll));
+    effect(() => {
+      this.element.classList.toggle('scrollable', this.context.scrollable());
+    });
 
-    this.context.type$.pipe(
-      takeUntilDestroyed(),
+    toObservable(this.context.type).pipe(
       startWith(undefined),
       pairwise()
     ).subscribe(([prev, next]) => {
@@ -52,8 +49,7 @@ export class RenderOverlayComponent {
       if (next) this.element.classList.add(next);
     });
 
-    this.context.styles$.pipe(
-      takeUntilDestroyed(),
+    toObservable(this.context.styles).pipe(
       startWith([] as string[]),
       pairwise()
     ).subscribe(([prev, next]) => {

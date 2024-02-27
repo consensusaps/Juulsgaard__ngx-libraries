@@ -1,8 +1,11 @@
-import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {
+  booleanAttribute, ChangeDetectionStrategy, Component, effect, ElementRef, EventEmitter, input, InputSignal,
+  InputSignalWithTransform, Output, ViewChild
+} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import tinycolor from "tinycolor2";
 import {IconButtonComponent} from "../icon-button/icon-button.component";
 import {NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
+import {mostReadable, TinyColor} from "@ctrl/tinycolor";
 
 @Component({
   selector: 'ngx-chip',
@@ -15,22 +18,25 @@ import {NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
 })
 export class ChipComponent {
 
-  @Input() canRemove?: boolean;
   @Output() removed = new EventEmitter<void>();
-  @Input() set color(color: string|undefined) {
-    if (!color) {
-      this.element.nativeElement.style.color = '';
-      this.element.nativeElement.style.backgroundColor = '';
-      return;
-    }
-
-    this.element.nativeElement.style.backgroundColor = color;
-    const col = tinycolor(color);
-    const text = tinycolor.mostReadable(col.darken(10), ['#FFFFFFDD', '#000000DD']);
-    this.element.nativeElement.style.color = text.toHex8String();
-  }
+  readonly canRemove: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly color: InputSignal<string | undefined> = input<string>();
 
   constructor(private element: ElementRef<HTMLElement>) {
+    effect(() => {
+      const color = this.color();
+
+      if (!color) {
+        this.element.nativeElement.style.color = '';
+        this.element.nativeElement.style.backgroundColor = '';
+        return;
+      }
+
+      this.element.nativeElement.style.backgroundColor = color;
+      const col = new TinyColor(color);
+      const text = mostReadable(col.darken(10), ['#FFFFFFDD', '#000000DD']) ?? new TinyColor('#FFFFFFDD');
+      this.element.nativeElement.style.color = text.toHex8String();
+    });
   }
 
   @ViewChild('remove', {static: false}) removeElement?: IconButtonComponent;

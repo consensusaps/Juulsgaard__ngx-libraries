@@ -1,27 +1,24 @@
-import {
-  Component, ComponentRef, DestroyRef, ElementRef, inject, OnInit, ViewChild, ViewContainerRef
-} from '@angular/core';
+import {Component, ComponentRef, ElementRef, inject, ViewChild, ViewContainerRef} from '@angular/core';
 import {SnackbarInstance, SnackbarSilo} from "../../models";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SnackbarBaseComponent} from "../snackbar-base.component";
+import {asapScheduler, auditTime} from "rxjs";
 
 @Component({selector: 'ngx-snackbar-silo', template: '<ng-container #render/>'})
-export class SnackbarSiloComponent implements OnInit {
+export class SnackbarSiloComponent {
 
   private element = inject(ElementRef<HTMLElement>).nativeElement;
   private silo = inject(SnackbarSilo);
-  private destroyed = inject(DestroyRef);
 
   @ViewChild('render', {read: ViewContainerRef}) viewContainer!: ViewContainerRef;
 
   constructor() {
     this.element.classList.add('ngx-snackbar-silo');
     this.element.classList.add(this.silo.type);
-  }
 
-  ngOnInit() {
     this.silo.snackbars$.pipe(
-      takeUntilDestroyed(this.destroyed)
+      auditTime(0, asapScheduler),
+      takeUntilDestroyed()
     ).subscribe(x => this.updateView(x))
   }
 

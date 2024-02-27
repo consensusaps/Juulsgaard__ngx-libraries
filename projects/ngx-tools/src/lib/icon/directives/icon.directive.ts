@@ -1,84 +1,82 @@
-import {Directive, ElementRef, HostBinding, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {
+  computed, Directive, effect, ElementRef, inject, input, InputSignal, InputSignalWithTransform
+} from '@angular/core';
 import {IconData} from "../models/icon-models";
 import {IconService} from "../services/icon.service";
 import {IconProviders} from "../models/icon-providers";
 import {BaseIconAliases} from "../models/icon-aliases";
+import {isString} from "@juulsgaard/ts-tools";
+import {elementClassManager} from "../../../helpers";
 
 @Directive({
   selector: 'ngx-icon',
   standalone: true,
   host: {'[class.ngx-icon]': 'true'}
 })
-export class IconDirective implements OnChanges {
+export class IconDirective {
 
-  @HostBinding('class') classes: string[] = ['empty'];
+  readonly classes = elementClassManager();
 
-  @Input() provider?: IconProviders;
-  @Input() icon?: string;
-  @Input() alias?: string|BaseIconAliases;
+  readonly provider: InputSignal<IconProviders | undefined> = input<IconProviders>();
+  readonly icon: InputSignal<string | undefined> = input<string>();
+  readonly alias: InputSignal<string | BaseIconAliases | undefined> = input<string | BaseIconAliases>();
 
-  @Input() set size(size: number|string|undefined) {
-    this.element.nativeElement.style.fontSize = size != undefined ? (typeof size === 'string' ? size : `${size}px`) : '';
+  readonly size: InputSignalWithTransform<string, number | string | undefined | null> = input('', {
+    transform: (size: number | string | undefined | null) => {
+      if (size == null) return '';
+      if (isString(size)) return size;
+      return `${size}px`;
+    }
+  });
+
+  readonly padding: InputSignalWithTransform<string | null, number | string | undefined | null> = input(null, {
+    transform: (padding: number | string | undefined | null) => {
+      if (padding == null) return null;
+      if (isString(padding)) return padding;
+      return `${padding}px`;
+    }
+  });
+
+  private element = inject(ElementRef<HTMLElement>).nativeElement;
+  private service = inject(IconService);
+
+  constructor() {
+    effect(() => {
+      this.element.style.fontSize = this.size();
+    });
+
+    effect(() => {
+      this.element.style.setProperty('--padding', this.padding());
+    });
+
+    const icon = computed(() => this.getIcon());
+
+    effect(() => this.applyIcon(icon()), {allowSignalWrites: true});
   }
 
-  @Input() set padding(padding: number|string|undefined) {
-    this.element.nativeElement.style.setProperty(
-      '--padding',
-      padding ? (typeof padding === 'string' ? padding : `${padding}px`) : null
-    );
-  }
+  getIcon(): IconData | undefined {
+    const icon = this.icon();
+    if (icon) return this.service.parseIcon(icon, this.provider());
 
-  private lastIcon?: string;
+    const alias = this.alias();
+    if (alias) return this.service.parseAlias(alias, this.provider());
 
-  constructor(private element: ElementRef<HTMLElement>, private service: IconService) {
-
-  }
-
-  getIcon(): IconData|undefined {
-    if (this.icon) return this.service.parseIcon(this.icon, this.provider);
-    if (this.alias) return this.service.parseAlias(this.alias, this.provider);
     return undefined;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-
-    if (changes['icon'] || changes['alias']) {
-
-      // Get new icon
-      const icon = this.getIcon();
-
-      // Return if no changes
-      if (icon === this.lastIcon && !changes['provider']) return;
-
-      // Apply change
-      this.applyIcon(icon);
-      return;
-    }
-
-    if (changes['provider']) {
-
-      // Return if not using alias while currently empty
-      if ((this.icon || !this.alias) && !this.lastIcon) return;
-
-      // Calculate new icon
-      const icon = this.getIcon();
-
-      // Apply change
-      this.applyIcon(icon);
-    }
   }
 
   applyIcon(data?: IconData) {
 
     if (!data) {
-      this.classes = ['empty'];
+      this.classes.set('empty');
+      this.element.innerText = '';
+      this.element.style.setProperty('--scale', null);
       return;
     }
 
-    this.classes = [data.providerClass, ...data.classes ?? []];
-    this.element.nativeElement.innerText = data.text ?? '';
-    if (data.scale) this.classes.push('scaled');
-    this.element.nativeElement.style.setProperty('--scale', data.scale?.toString() ?? null);
+    this.classes.set([data.providerClass, ...data.classes ?? []]);
+    this.element.innerText = data.text ?? '';
+    if (data.scale) this.classes.add('scaled');
+    this.element.style.setProperty('--scale', data.scale?.toString() ?? null);
   }
 }
 

@@ -1,4 +1,7 @@
-import {Directive, ElementRef, EventEmitter, HostListener, Input, NgZone, OnDestroy, Output} from '@angular/core';
+import {
+  booleanAttribute, Directive, ElementRef, EventEmitter, HostListener, input, InputSignal, InputSignalWithTransform,
+  NgZone, OnDestroy, Output
+} from '@angular/core';
 import {combineLatest, fromEvent, Observable, startWith, Subscription, timer} from "rxjs";
 import {filter, first, map, tap} from "rxjs/operators";
 
@@ -15,8 +18,8 @@ export class LongTapDirective implements OnDestroy {
   // Default 5 based on the CDK dragStartThreshold
   private static readonly moveThreshold = 5;
 
-  @Input() tapDuration = 500;
-  @Input() longTapDisabled = false;
+  readonly tapDuration: InputSignal<number> = input(500);
+  readonly longTapDisabled: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
   @Output() longTap = new EventEmitter<void>();
 
   eventStartPos?: { x: number, y: number };
@@ -24,7 +27,7 @@ export class LongTapDirective implements OnDestroy {
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     this.zone.runOutsideAngular(() => {
-      if (this.longTapDisabled) return;
+      if (this.longTapDisabled()) return;
       this.eventStartPos = this.getPosition(event);
       this.onStart(
         fromEvent<MouseEvent>(window, 'mousemove', {passive: true}),
@@ -36,7 +39,7 @@ export class LongTapDirective implements OnDestroy {
   @HostListener('touchdown', ['$event'])
   onTouchDown(event: TouchEvent) {
    this.zone.runOutsideAngular(() => {
-     if (this.longTapDisabled) return;
+     if (this.longTapDisabled()) return;
      this.eventStartPos = this.getPosition(event);
      this.onStart(
        fromEvent<MouseEvent>(window, 'touchmove', {passive: true}),
@@ -79,7 +82,7 @@ export class LongTapDirective implements OnDestroy {
       startWith(false)
     );
 
-    const timerFinish = timer(this.tapDuration).pipe(
+    const timerFinish = timer(this.tapDuration()).pipe(
       first(),
       tap(() => this.completed = true),
       map(() => true),

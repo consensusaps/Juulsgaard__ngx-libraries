@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
@@ -31,24 +31,24 @@ import {IconButtonComponent} from "@juulsgaard/ngx-material";
   ],
   standalone: true
 })
-export class PasswordInputComponent extends BaseInputComponent<string | undefined, string> {
+export class PasswordInputComponent extends BaseInputComponent<string, string> {
 
-  showPassword = false;
+  readonly showPassword = signal(false);
 
   constructor() {
     super();
   }
 
   toggleShow(event: MouseEvent) {
-    this.showPassword = !this.showPassword;
-    this.inputElement?.nativeElement?.focus();
+    this.showPassword.update(x => !x);
+    this.inputElement()?.focus();
   }
 
   preprocessValue(value: string | undefined): string {
     return value ?? '';
   }
 
-  postprocessValue(value: string | undefined) {
+  postprocessValue(value: string) {
     return value ? value : undefined;
   }
 }

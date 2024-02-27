@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
+import {
+  booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, forwardRef, input, InputSignalWithTransform,
+  Output
+} from '@angular/core';
 import {FormContext} from "../../services/form-context.service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
@@ -20,11 +23,9 @@ import {TruthyPipe} from "@juulsgaard/ngx-tools";
 export class FormWrapperComponent extends FormContext {
 
   @Output() submit = new EventEmitter<void>();
-  @Input() fieldset = false;
 
-  @Input('readonly') set readonlyState(readonly: boolean) {
-    this._readonly$.next(readonly);
-  }
+  readonly fieldset: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly readonly: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
   constructor() {
     super();

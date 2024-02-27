@@ -10,6 +10,7 @@ export default {
   },
   argTypes: {
     showChanged: {action: 'showChanged'},
+    slugChanged: {action: 'slugChanged'},
     maxWidth: {type: 'number'}
   },
   decorators: [

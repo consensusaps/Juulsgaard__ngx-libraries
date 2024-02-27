@@ -1,5 +1,31 @@
 # @juulsgaard/ngx-material
 
+## 17.0.2
+
+### Patch Changes
+
+- Use proper theming for side-menu
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.1
+
+## 17.0.1
+
+### Patch Changes
+
+- Fix context menu directive
+- Change default error message duration
+
+## 17.0.0
+
+### Major Changes
+
+- Update angular and migrate to Signals
+
+### Patch Changes
+
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.0
+
 ## 16.1.17
 
 ### Patch Changes

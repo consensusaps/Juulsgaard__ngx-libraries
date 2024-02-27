@@ -1,53 +1,81 @@
 import {
-  booleanAttribute, Directive, ElementRef, Injector, Input, OnChanges, OnDestroy, SimpleChanges
+  booleanAttribute, Directive, effect, ElementRef, inject, Injector, input, InputSignal, InputSignalWithTransform,
+  OnDestroy, signal, Signal
 } from "@angular/core";
 import {TemplateRendering} from "../models/template-rendering";
 
-@Directive({selector: 'ngx-render', host: {'[style.display]': 'renderInside ? "" : "hidden"'}})
-export class RenderOutletDirective<T> implements OnChanges, OnDestroy {
+@Directive()
+export abstract class BaseRenderDirective<T extends {}> implements OnDestroy {
+  abstract template: Signal<TemplateRendering<T> | undefined>;
+  abstract renderInside: Signal<boolean>;
+  abstract context: Signal<T | undefined>;
+  abstract autoDispose: Signal<boolean>;
+  abstract filter: Signal<((node: Node) => boolean)|undefined>;
 
-  private template?: TemplateRendering<T>;
-  @Input('template') _nextTemplate?: TemplateRendering<T>;
-  @Input({transform: booleanAttribute}) renderInside = false;
+  private element = inject(ElementRef<HTMLElement>).nativeElement;
+  private injector = inject(Injector);
 
-  @Input() context?: T;
-  @Input({transform: booleanAttribute}) autoDispose = false;
-
-  constructor(
-    private element: ElementRef<HTMLElement>,
-    private injector: Injector
-  ) {
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-
-    if (changes['_nextTemplate']) {
-      this.render(this._nextTemplate);
-      return;
-    }
-
-    if (changes['context']) {
-      this.template?.updateContext(this.context);
-    }
+  constructor() {
+    effect(() => this.update());
   }
 
   ngOnDestroy() {
-    if (this.autoDispose) {
-      this.template?.dispose();
+    if (this.autoDispose()) {
+      this._template?.dispose();
       return;
     }
 
-    this.template?.anchorRemoved(this.element.nativeElement);
+    this._template?.anchorRemoved(this.element);
   }
 
-  render(nextTemplate?: TemplateRendering) {
-    this.template?.detach(this.element.nativeElement);
-    this.template = nextTemplate;
+  _template?: TemplateRendering<T>;
 
-    if (this.renderInside) {
-      this.template?.attachInside(this.element.nativeElement, this.injector, this.context);
-    } else {
-      this.template?.attachAfter(this.element.nativeElement, this.injector, this.context);
+  update() {
+    const template = this.template();
+
+    if (template == null) {
+      this._template?.detach(this.element);
+      this._template = undefined;
+      return;
     }
+
+    this._template = template;
+    const inside = this.renderInside();
+    const context = this.context();
+    const filter = this.filter()
+
+    queueMicrotask(() => {
+      if (inside) {
+        template.attachInside(this.element, this.injector, context, filter);
+      } else {
+        template.attachAfter(this.element, this.injector, context, filter);
+      }
+
+      template.updateContext(context);
+    });
   }
+}
+
+@Directive({selector: 'ngx-render', host: {'[style.display]': 'renderInside() ? "" : "hidden"'}})
+export class RenderOutletDirective<T extends {}> extends BaseRenderDirective<T> {
+
+  readonly template: InputSignal<TemplateRendering<T> | undefined> = input<TemplateRendering<T>>();
+  readonly renderInside: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+
+  readonly context: InputSignal<T | undefined> = input<T>();
+  readonly autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+
+  readonly filter: InputSignal<((node: Node) => boolean) | undefined> = input<(node: Node) => boolean>();
+}
+
+@Directive({selector: '[ngxRender]'})
+export class TemplateRenderDirective<T extends {}> extends BaseRenderDirective<T> {
+
+  readonly template: InputSignal<TemplateRendering<T> | undefined> = input<TemplateRendering<T>|undefined>(undefined, {alias: 'ngxRender'});
+  readonly context: InputSignal<T | undefined> = input<T>();
+
+  readonly autoDispose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly renderInside = signal(true);
+
+  readonly filter: InputSignal<((node: Node) => boolean) | undefined> = input<(node: Node) => boolean>();
 }

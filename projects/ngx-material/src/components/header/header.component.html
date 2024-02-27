@@ -1,12 +1,18 @@
+@if (back.observed && !this.hideBack()) {
+    <ngx-icon alias="back" class="back" matRipple (click)="back.emit()"/>
+}
 
-<ngx-icon alias="back" class="back" *ngIf="back.observed" matRipple (click)="back.emit()"/>
-<ngx-icon alias="close" class="close" *ngIf="close.observed && !this.hideClose" matRipple (click)="close.emit()"/>
+@if (close.observed && !this.hideClose()) {
+    <ngx-icon alias="close" class="close" matRipple (click)="close.emit()"/>
+}
 
-<ngx-icon alias="burger" class="menu" *ngIf="(showMenu$ | truthy) && !back.observed && !close.observed" matRipple (click)="openMenu()"/>
+@if (showMenu() && !back.observed && !close.observed) {
+    <ngx-icon alias="burger" class="menu" matRipple (click)="openMenu()"/>
+}
 
 <div class="column">
-    <p class="title" *ngIf="heading">{{heading}}</p>
-    <p class="sub-title" *ngIf="subHeading">{{subHeading}}</p>
+    <p class="title" *ngIf="heading() as h">{{ h }}</p>
+    <p class="sub-title" *ngIf="subHeading() as sh">{{ sh }}</p>
 </div>
 
-<ng-content></ng-content>
+<ng-content/>

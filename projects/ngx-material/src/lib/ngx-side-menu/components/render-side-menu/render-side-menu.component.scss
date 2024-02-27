@@ -27,38 +27,44 @@
   max-width: 100%;
   display: flex;
   flex-flow: column;
-  background-color: $foreground-400;
+  background-color: $foreground;
+}
 
-  .head {
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 10px 20px;
-    height: 80px;
-    background-color: $foreground;
-    box-shadow: rgba(black, 0.3) 0 0 8px -2px;
+.head {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  height: 80px;
+  background-color: $header;
+  box-shadow: rgba(black, 0.3) 0 0 8px -2px;
+  flex-shrink: 0;
+
+  .close {
+    font-size: 24px;
+    --padding: 10px;
+    border-radius: 8px;
     flex-shrink: 0;
-
-    .close {
-      font-size: 24px;
-      --padding: 10px;
-      border-radius: 8px;
-      margin-right: 20px;
-      flex-shrink: 0;
-    }
-
-    p {
-      flex-grow: 1;
-      flex-shrink: 1;
-      width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-weight: 500;
-      font-size: 20px;
-      margin: 0 -10px 0 0;
-    }
   }
+
+  p {
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0 -10px 0 0;
+  }
+}
+
+.body {
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
+  padding: 20px;
 }
 
 .btn {
@@ -74,11 +80,5 @@
 
   .menu {
     width: 100%;
-  }
-}
-
-@media (min-width: 601px) {
-  .menu .close {
-    display: none;
   }
 }

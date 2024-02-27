@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {DateInputComponent} from "./date-input.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 export default {
   title: 'Inputs: Date',
-  component: DateInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-date-input ${argsToTemplate(args)}></form-date-input>`
+  }),
   args: {
     label: 'Date Input',
     tooltip: 'Tooltip'
@@ -14,10 +16,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, DateInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<DateInputComponent>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {LongTextInputComponent} from "./long-text-input.component";
 
 export default {
   title: 'Inputs: Textarea',
-  component: LongTextInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-long-text-input ${argsToTemplate(args)}/>`
+  }),
   args: {
     label: 'Long text Input',
     tooltip: 'Tooltip'
@@ -14,10 +16,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, LongTextInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<LongTextInputComponent>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

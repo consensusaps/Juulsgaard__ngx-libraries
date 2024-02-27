@@ -1,5 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {first} from "rxjs/operators";
+import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {ServiceWorkerService} from "../../services/service-worker.service";
 
 @Component({
@@ -10,21 +9,17 @@ import {ServiceWorkerService} from "../../services/service-worker.service";
 })
 export class ServiceWorkerAlertComponent {
 
-  showUpdateDialog = false;
+  private swService = inject(ServiceWorkerService);
 
-  constructor(public swService: ServiceWorkerService, private changes: ChangeDetectorRef) {
-    swService.updateReady$.pipe(first(x => x)).subscribe(() => {
-      this.showUpdateDialog = true;
-      this.changes.markForCheck();
-    });
-  }
+  readonly hideDialog = signal(false);
+  readonly showDialog = computed(() => !this.hideDialog() && this.swService.updateReady());
+  readonly brokenState = this.swService.brokenState;
 
   async updateApp() {
     await this.swService.updateApp();
   }
 
   closeDialog() {
-    this.showUpdateDialog = false;
-    this.changes.markForCheck();
+    this.hideDialog.set(true);
   }
 }

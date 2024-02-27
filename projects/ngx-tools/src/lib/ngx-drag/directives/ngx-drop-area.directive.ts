@@ -1,5 +1,7 @@
-import {Directive, ElementRef, EventEmitter, HostListener, Input, Output} from '@angular/core';
-import {coerceBooleanProperty} from "@angular/cdk/coercion";
+import {
+  booleanAttribute, Directive, ElementRef, EventEmitter, HostListener, input, InputSignal, InputSignalWithTransform,
+  Output
+} from '@angular/core';
 import {Subscription, timer} from "rxjs";
 import {NgxDropContext} from "../models/ngx-drop-context";
 import {NgxDragService} from "../services/ngx-drag.service";
@@ -7,7 +9,7 @@ import {NgxDragEvent} from "../models/ngx-drag-event";
 
 @Directive({
   selector: '[ngxDropArea]',
-  host: {'[class.ngx-drop-area]': 'true', '[class.ngx-drop-disabled]': 'disableDrop'}
+  host: {'[class.ngx-drop-area]': 'true', '[class.ngx-drop-disabled]': 'disableDrop()'}
 })
 export class NgxDropAreaDirective<T> {
 
@@ -15,12 +17,12 @@ export class NgxDropAreaDirective<T> {
 
   @Output('ngxDrop') drop = new EventEmitter<NgxDragEvent<T>>;
   @Output('ngxDropHover') dropHover = new EventEmitter<NgxDropContext<T>>;
-  @Input('ngxDropEffect') effect?: 'move'|'link'|'copy';
-  @Input() dropPredicate?: (data: NgxDragEvent<T>) => boolean;
 
-  get dropEffect() {return this.effect ?? this.service.effect ?? 'move'}
+  readonly dropEffect: InputSignal<"move" | "link" | "copy" | undefined> = input<'move'|'link'|'copy'>();
+  readonly dropPredicate: InputSignal<((data: NgxDragEvent<T>) => boolean) | undefined> = input<((data: NgxDragEvent<T>) => boolean)>();
+  readonly disableDrop: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  @Input({transform: coerceBooleanProperty}) disableDrop = false;
+  get dropEffectStr() {return this.dropEffect() ?? this.service.effect ?? 'move'}
 
   removeHoverState?: Subscription;
 
@@ -69,20 +71,21 @@ export class NgxDropAreaDirective<T> {
   }
 
   private canDrop(event: DragEvent, data: T) {
-    if (this.disableDrop) return false;
-    if (!this.dropPredicate && !this.drop.observed) return true;
+    if (this.disableDrop()) return false;
+    const predicate = this.dropPredicate();
+    if (!predicate && !this.drop.observed) return true;
 
     const dragEvent = event as NgxDragEvent<T>;
     dragEvent.data = data;
 
-    const context = new NgxDropContext<T>(data, this.dropPredicate?.(dragEvent) ?? true);
+    const context = new NgxDropContext<T>(data, predicate?.(dragEvent) ?? true);
     this.dropHover.emit(context);
 
     return context.allowed;
   }
 
   private getDropEffect(dataTransfer: DataTransfer) {
-    const effect = this.dropEffect;
+    const effect = this.dropEffectStr;
     if (effect === 'link' && dataTransfer.effectAllowed === 'copyMove') return 'move';
     return effect;
   }

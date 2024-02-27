@@ -1,19 +1,19 @@
+import {Directive, effect, EmbeddedViewRef, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
+import {EMPTY, mergeWith, Observable} from "rxjs";
 import {
-  Directive, EmbeddedViewRef, Input, OnChanges, SimpleChanges, TemplateRef, ViewContainerRef
-} from '@angular/core';
-import {mergeWith, Observable} from "rxjs";
-import {
-  AsyncObjectMapper, AsyncOrSyncObject, AsyncVal, AsyncValueMapper, isSubscribable, UnwrappedAsyncOrSyncObject,
-  UnwrappedAsyncVal
+  AsyncObject, AsyncObjectMapper, AsyncOrSyncObject, AsyncVal, AsyncValueMapper, isSubscribable,
+  UnwrappedAsyncOrSyncObject
 } from "@juulsgaard/rxjs-tools";
 import {Dispose} from "../decorators";
 import {isObject, shallowEquals} from "@juulsgaard/ts-tools";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {distinctUntilChanged} from "rxjs/operators";
 
 @Directive({selector: '[ngxAsyncAwait]', standalone: true})
-export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObject<Record<string, unknown>>> implements OnChanges {
+export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown> | AsyncObject | undefined | null> {
 
-  @Input({required: true, alias: 'ngxAsyncAwait'}) values!: T;
-  @Input({alias: 'ngxAsyncAwaitElse'}) elseTemplate?: TemplateRef<void>;
+  readonly values: InputSignal<T> = input.required<T>({alias: 'ngxAsyncAwait'});
+  readonly elseTemplate: InputSignal<TemplateRef<void> | undefined> = input<TemplateRef<void> | undefined>(undefined, {alias: 'ngxAsyncAwaitElse'});
 
   private view?: EmbeddedViewRef<TemplateContext<T>>;
   private elseView?: EmbeddedViewRef<void>;
@@ -22,26 +22,35 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
     private templateRef: TemplateRef<TemplateContext<T>>,
     private viewContainer: ViewContainerRef
   ) {
-    this.valueMapper.value$.pipe(mergeWith(this.objectMapper.values$)).subscribe(x => {
+
+    effect(() => {
+      const values = this.values();
+      queueMicrotask(() => {
+        if (values == null) this.updateSingle(EMPTY)
+        else if (values instanceof Promise) this.updateSingle(values);
+        else if (values instanceof Observable || isSubscribable(values)) this.updateSingle(values);
+        else if (isObject(values)) this.updateObject(values);
+      });
+    }, {allowSignalWrites: true});
+
+    effect(() => {
+      const templ = this.elseTemplate();
+      queueMicrotask(() => {
+        this.destroyElse();
+        if (templ && !this.view) {
+          this.renderElse();
+        }
+      });
+    });
+
+    this.valueMapper.value$.pipe(
+      mergeWith(this.objectMapper.values$),
+      distinctUntilChanged(),
+      takeUntilDestroyed()
+    ).subscribe(value => {
       this.destroyElse();
-      this.renderMain(x as MappedValues<T>);
-    })
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if ('values' in changes) {
-      if (this.values instanceof Promise) this.updateSingle(this.values);
-      else if (this.values instanceof Observable || isSubscribable(this.values)) this.updateSingle(this.values);
-      else if (isObject(this.values)) this.updateObject(this.values);
-    }
-
-    if ('elseTemplate' in changes) {
-      this.destroyElse();
-
-      if (this.elseTemplate && !this.view) {
-        this.renderElse();
-      }
-    }
+      this.renderMain(value as MappedValues<T>);
+    });
   }
 
   //<editor-fold desc="Render Controls">
@@ -51,14 +60,13 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
     this.view = undefined;
   }
 
-  renderMain(context: MappedValues<T>) {
-
+  renderMain(values: MappedValues<T>) {
     if (!this.view) {
-      this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxAsyncAwait: context});
-      this.view.markForCheck();
+      this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxAsyncAwait: values});
+      this.view.detectChanges();
     } else {
-      this.view.context = {ngxAsyncAwait: context};
-      this.view.markForCheck();
+      this.view.context.ngxAsyncAwait = values;
+      this.view.detectChanges();
     }
   }
 
@@ -70,10 +78,12 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
 
   renderElse() {
     if (this.elseView) return;
-    if (!this.elseTemplate) return;
-    this.elseView = this.viewContainer.createEmbeddedView(this.elseTemplate);
+    const elseTmpl = this.elseTemplate();
+    if (!elseTmpl) return;
+    this.elseView = this.viewContainer.createEmbeddedView(elseTmpl);
     this.elseView.detectChanges();
   }
+
   //</editor-fold>
 
   private oldVal?: AsyncVal<unknown>;
@@ -91,7 +101,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
       return;
     }
 
-    let emitted =  this.valueMapper.update(value);
+    let emitted = this.valueMapper.update(value);
 
     if (!emitted) {
       this.destroyMain();
@@ -99,9 +109,10 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
     }
   }
 
-  private oldObject?: AsyncOrSyncObject<Record<string, unknown>>;
+  private oldObject?: AsyncOrSyncObject;
   @Dispose private objectMapper = new AsyncObjectMapper<Record<string, unknown>>();
-  updateObject(values: AsyncOrSyncObject<Record<string, unknown>>) {
+
+  updateObject(values: AsyncOrSyncObject) {
     this.valueMapper.reset();
     this.oldVal = undefined;
 
@@ -121,7 +132,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown>|AsyncOrSyncObjec
     }
   }
 
-  static ngTemplateContextGuard<T extends AsyncVal<unknown>|AsyncOrSyncObject<Record<string, unknown>>>(
+  static ngTemplateContextGuard<T extends AsyncVal<unknown> | AsyncObject | undefined | null>(
     directive: NgxAsyncAwaitDirective<T>,
     context: unknown
   ): context is TemplateContext<T> {
@@ -134,6 +145,6 @@ interface TemplateContext<T> {
   ngxAsyncAwait: MappedValues<T>;
 }
 
-type MappedValues<T> = T extends AsyncVal<unknown> ? UnwrappedAsyncVal<T> :
-  T extends Record<string, unknown> ? UnwrappedAsyncOrSyncObject<T> :
-    never;
+type MappedValues<T> = T extends AsyncVal<infer U> ? U :
+  T extends AsyncOrSyncObject ? UnwrappedAsyncOrSyncObject<T> :
+    T;

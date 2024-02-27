@@ -1,0 +1,22 @@
+
+<ng-template #content ngxSource>
+
+    <p class="description" *ngIf="config().description as d">{{d}}</p>
+
+    <div class="form" (keydown.enter)="onEnter($event)">
+        @if (formTemplate()) {
+            <ng-content/>
+        } @else {
+            @for (input of config().form.inputList(); track input) {
+                <form-input *ngIf="!input.readonly" [control]="input"/>
+            }
+        }
+    </div>
+
+    <p class="error" *ngIf="config().errorSignal() as error">{{error}}</p>
+</ng-template>
+
+<ng-template #footer ngxSource>
+    <button mat-button (click)="config().close()">Cancel</button>
+    <button mat-button color="primary" (click)="config().submit()" [disabled]="!config().validSignal()" [isLoading]="config().workingSignal()">{{config().buttonText}}</button>
+</ng-template>

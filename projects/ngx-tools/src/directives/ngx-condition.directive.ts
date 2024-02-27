@@ -1,87 +1,70 @@
 import {AsyncOrSyncVal, AsyncValueMapper, UnwrappedAsyncOrSyncVal} from "@juulsgaard/rxjs-tools";
-import {Directive, EmbeddedViewRef, OnChanges, SimpleChanges, TemplateRef, ViewContainerRef} from "@angular/core";
+import {
+  computed, Directive, effect, EmbeddedViewRef, signal, Signal, TemplateRef, ViewContainerRef
+} from "@angular/core";
 import {Dispose} from "../decorators";
-import {distinctUntilChanged} from "rxjs/operators";
-import {TruthyTypesOf} from "rxjs";
+import {toSignal} from "@angular/core/rxjs-interop";
+import {tap} from "rxjs/operators";
 
 @Directive()
-export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>> implements OnChanges {
-  abstract value: T;
-  abstract elseTemplate?: TemplateRef<void>;
-  abstract waitingTemplate?: TemplateRef<void>;
+export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, TContext extends {}> {
 
-  private view?: EmbeddedViewRef<NgxConditionTemplateContext<T>>;
+  abstract value: Signal<T>;
+  abstract elseTemplate: Signal<TemplateRef<void> | undefined>;
+  abstract waitingTemplate: Signal<TemplateRef<void> | undefined>;
+
+  private waitingTmpl = computed(() => this.waitingTemplate() ?? this.elseTemplate());
+
+  private view?: EmbeddedViewRef<TContext>;
   private elseView?: EmbeddedViewRef<void>;
   private waitingView?: EmbeddedViewRef<void>;
 
-  private state: 'waiting' | 'else' | 'value' = 'waiting';
+  private readonly waiting = signal(false);
 
-  @Dispose private valueMapper = new AsyncValueMapper<unknown>();
+  @Dispose private valueMapper = new AsyncValueMapper<any>();
 
   constructor(
-    private templateRef: TemplateRef<NgxConditionTemplateContext<T>>,
+    private templateRef: TemplateRef<TContext>,
     private viewContainer: ViewContainerRef
   ) {
-    this.valueMapper.value$.pipe(
-      distinctUntilChanged()
-    ).subscribe(x => {
-      this.destroyWaiting();
 
-      if (this.shouldRender(x)) {
-        this.destroyElse();
-        this.renderMain(x as TruthyTypesOf<UnwrappedAsyncOrSyncVal<T>>);
-        this.state = 'value';
-      } else {
-        this.destroyMain();
-        this.renderElse();
-        this.state = 'else';
+    effect(() => {
+      let emitted = this.valueMapper.update(this.value());
+      this.waiting.set(!emitted);
+    }, {allowSignalWrites: true});
+
+    const value$ = this.valueMapper.value$.pipe(
+      tap(() => this.waiting.set(false))
+    );
+    const value = toSignal<UnwrappedAsyncOrSyncVal<T>>(value$);
+
+    effect(() => {
+      if (this.waiting()) {
+        queueMicrotask(() => {
+          this.destroyMain();
+          this.destroyElse();
+          this.renderWaiting();
+        });
+        return;
       }
+
+      const context = this.buildContext(value() as UnwrappedAsyncOrSyncVal<T>);
+
+      queueMicrotask(() => {
+        this.destroyWaiting();
+
+        if (context) {
+          this.destroyElse();
+          this.renderMain(context);
+        } else {
+          this.destroyMain();
+          this.renderElse();
+        }
+      });
     });
   }
 
-  abstract shouldRender(value: unknown): boolean;
-
-  //<editor-fold desc="Value Updates">
-  ngOnChanges(changes: SimpleChanges) {
-
-    if ('value' in changes) {
-      this.updateValue(this.value);
-    }
-
-    if ('waitingTemplate' in changes && this.state === 'waiting') {
-      this.destroyWaiting();
-      this.renderWaiting();
-    }
-
-    if ('elseTemplate' in changes) {
-      if (this.state === 'else') {
-        this.destroyElse();
-        this.renderElse();
-      } else if (this.state === 'waiting' && !this.waitingTemplate) {
-        this.destroyWaiting();
-        this.renderWaiting();
-      }
-    }
-  }
-
-  private updateValue(value: T) {
-
-    if (this.state === 'waiting') {
-      this.valueMapper.update(value);
-      return;
-    }
-
-    let emitted = this.valueMapper.update(value);
-
-    if (!emitted) {
-      this.destroyMain();
-      this.destroyElse();
-      this.renderWaiting();
-      this.state = 'waiting';
-    }
-  }
-
-  //</editor-fold>
+  abstract buildContext(value: UnwrappedAsyncOrSyncVal<T>): TContext | undefined;
 
   //<editor-fold desc="Render Controls">
   destroyMain() {
@@ -90,13 +73,14 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>> i
     this.view = undefined;
   }
 
-  renderMain(context: TruthyTypesOf<UnwrappedAsyncOrSyncVal<T>>) {
+  renderMain(context: TContext) {
+
     if (!this.view) {
-      this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxIf: context});
-      this.view.markForCheck();
+      this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
+      this.view.detectChanges();
     } else {
-      this.view.context = {ngxIf: context};
-      this.view.markForCheck();
+      Object.assign(this.view.context, context);
+      this.view.detectChanges();
     }
   }
 
@@ -107,9 +91,11 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>> i
   }
 
   renderWaiting() {
-    if (this.waitingView) return;
-    if (!this.waitingTemplate && !this.elseTemplate) return;
-    this.waitingView = this.viewContainer.createEmbeddedView(this.waitingTemplate ?? this.elseTemplate!);
+    const tmpl = this.waitingTmpl();
+    if (!tmpl) return;
+
+    this.waitingView?.destroy();
+    this.waitingView = this.viewContainer.createEmbeddedView(tmpl);
     this.waitingView.detectChanges();
   }
 
@@ -120,15 +106,12 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>> i
   }
 
   renderElse() {
-    if (this.elseView) return;
-    if (!this.elseTemplate) return;
-    this.elseView = this.viewContainer.createEmbeddedView(this.elseTemplate);
+    const tmpl = this.elseTemplate();
+    if (!tmpl) return;
+    this.elseView = this.viewContainer.createEmbeddedView(tmpl);
     this.elseView.detectChanges();
   }
 
   //</editor-fold>
 }
 
-export interface NgxConditionTemplateContext<T> {
-  ngxIf: TruthyTypesOf<UnwrappedAsyncOrSyncVal<T>>;
-}

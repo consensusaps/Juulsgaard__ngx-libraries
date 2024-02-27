@@ -1,27 +1,28 @@
 import {ChangeDetectorRef, ComponentRef, Directive, Injector, ViewContainerRef} from '@angular/core';
-import {Subscription} from "rxjs";
+import {asapScheduler, auditTime} from "rxjs";
 import {RenderSideMenuComponent} from "../components/render-side-menu/render-side-menu.component";
 import {SideMenuManagerService} from "../services/side-menu-manager.service";
 import {SideMenuInstance} from "../models/side-menu-instance";
 import {SideMenuRenderContext} from "../models/side-menu-render-context";
 import {SIDE_MENU_ANIMATE_IN} from "../models/menu-tokens";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Directive({
   selector: 'ngx-side-menu-outlet'
 })
 export class NgxSideMenuOutletDirective {
 
-  private sub?: Subscription;
   private component?: ComponentRef<RenderSideMenuComponent>;
 
   constructor(
     private viewContainer: ViewContainerRef,
     private manager: SideMenuManagerService,
     private changes: ChangeDetectorRef
-  ) { }
-
-  ngOnInit() {
-    this.sub = this.manager.menu$.subscribe(x => this.renderMenu(x.item, x.added));
+  ) {
+    this.manager.menu$.pipe(
+      auditTime(0, asapScheduler),
+      takeUntilDestroyed()
+    ).subscribe(x => this.renderMenu(x.item, x.added));
   }
 
   renderMenu(instance: SideMenuInstance | undefined, added: boolean) {
@@ -52,7 +53,6 @@ export class NgxSideMenuOutletDirective {
   }
 
   ngOnDestroy() {
-    this.sub?.unsubscribe();
     this.viewContainer.clear();
   }
 

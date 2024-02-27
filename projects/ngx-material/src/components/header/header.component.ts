@@ -1,15 +1,13 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostBinding, inject, Input, OnDestroy, OnInit,
-  Output
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, EventEmitter, inject, input, InputSignal,
+  InputSignalWithTransform, Output, Signal
 } from '@angular/core';
 import {MatRippleModule} from "@angular/material/core";
 import {NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {Observable, of, Subscription} from "rxjs";
-import {IconDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
+import {elementClassManager, IconDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {UIScopeContext} from "../../models";
 import {SidebarService} from "../../services";
-import {map} from "rxjs/operators";
 
 @Component({
   selector: 'ngx-header',
@@ -26,42 +24,29 @@ import {map} from "rxjs/operators";
   standalone: true,
   host: {'[class.ngx-header]': 'true'}
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent {
 
-  @Input() heading?: string;
-  @Input() subHeading?: string;
   @Output() back = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
-  @Input() hideClose = false;
 
-  @HostBinding('class')
-  headerClass: string[] = [];
+  readonly heading: InputSignal<string | undefined> = input<string>();
+  readonly subHeading: InputSignal<string | undefined> = input<string>();
+  readonly hideClose: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly hideBack: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  showMenu$: Observable<boolean>;
+  readonly showMenu: Signal<boolean>;
 
-  private sub?: Subscription;
   private sidebarService = inject(SidebarService, {optional: true});
-  private uiContext = inject(UIScopeContext, {optional: true});
+  private uiContext = inject(UIScopeContext);
 
-  constructor(
-    private changes: ChangeDetectorRef
-  ) {
-    if (this.sidebarService) {
-      this.showMenu$ = this.uiContext?.header$.pipe(map(x => x.showMenu)) ?? of(true);
-    } else {
-      this.showMenu$ = of(false);
-    }
-  }
+  constructor() {
+    const header = this.uiContext.registerHeader();
+    elementClassManager(computed(() => header().classes));
 
-  ngOnInit() {
-    this.sub = this.uiContext?.registerHeader(x => {
-      this.headerClass = x.classes;
-      this.changes.detectChanges();
+    this.showMenu = computed(() => {
+      if (!this.sidebarService || !header) return false;
+      return header().showMenu;
     });
-  }
-
-  ngOnDestroy() {
-    this.sub?.unsubscribe();
   }
 
   openMenu() {

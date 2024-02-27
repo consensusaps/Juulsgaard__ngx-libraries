@@ -1,10 +1,6 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {Injectable, Signal} from '@angular/core';
 
 @Injectable()
 export abstract class FormContext {
-
-  protected _readonly$ = new BehaviorSubject(false);
-  readonly$ = this._readonly$.asObservable();
-  get readonly() {return this._readonly$.value}
+  abstract readonly readonly: Signal<boolean>;
 }

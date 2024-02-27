@@ -1,4 +1,6 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {
+  booleanAttribute, ChangeDetectionStrategy, Component, input, InputSignal, InputSignalWithTransform
+} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@juulsgaard/ngx-tools';
@@ -6,7 +8,6 @@ import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {coerceBooleanProperty} from "@angular/cdk/coercion";
 import {NgxColorsColor, NgxColorsModule} from "ngx-colors";
 
 @Component({
@@ -30,8 +31,8 @@ import {NgxColorsColor, NgxColorsModule} from "ngx-colors";
 })
 export class ColorInputComponent extends BaseInputComponent<string | undefined, string> {
 
-  @Input({transform: coerceBooleanProperty}) withAlpha = false;
-  @Input() palette: string[] | NgxColorsColor[] = colors;
+  readonly withAlpha: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly palette: InputSignal<string[] | NgxColorsColor[]> = input<string[] | NgxColorsColor[]>(colors);
 
   constructor() {
     super();
@@ -48,7 +49,7 @@ export class ColorInputComponent extends BaseInputComponent<string | undefined, 
     const alphaMatch = value.match(/^(#[\da-f]{6})[\da-f]{2}$/i);
 
     if (alphaMatch) {
-      return this.withAlpha ? alphaMatch[0]?.toUpperCase() : alphaMatch[1]?.toUpperCase();
+      return this.withAlpha() ? alphaMatch[0]?.toUpperCase() : alphaMatch[1]?.toUpperCase();
     }
 
     return value;

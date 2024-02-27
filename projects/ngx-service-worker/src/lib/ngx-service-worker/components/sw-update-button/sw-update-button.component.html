@@ -1,16 +1,16 @@
 
-<button mat-button *ngIf="swService.working$ | falsy" (click)="checkForUpdate()" [disabled]="swService.canCheckForUpdate$ | falsy">
-    <ngx-icon alias="reload"></ngx-icon>
+<button mat-button *ngIf="!swService.working()" (click)="checkForUpdate()" [disabled]="!this.swService.canCheckForUpdate()">
+    <ngx-icon alias="reload"/>
     <span>Check for Updates</span>
 </button>
 
-<button mat-button *ngIf="(swService.checking$ | truthy) || (swService.downloading$ | truthy)" [disabled]="true">
+<button mat-button *ngIf="swService.checking() || swService.downloading()" [disabled]="true">
     <ngx-icon alias="loading" class="spin"></ngx-icon>
-    <span *ngIf="swService.checking$ | truthy">Checking for Update</span>
-    <span *ngIf="swService.downloading$ | truthy">Downloading...</span>
+    <span *ngIf="swService.checking()">Checking for Update</span>
+    <span *ngIf="swService.downloading()">Downloading...</span>
 </button>
 
-<button mat-button *ngIf="swService.updateReady$ | truthy" (click)="updateApp()">
+<button mat-button *ngIf="swService.updateReady()" (click)="updateApp()">
     <ngx-icon alias="upgrade"></ngx-icon>
     <span>Update App</span>
 </button>

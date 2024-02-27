@@ -1,15 +1,14 @@
-import {ChangeDetectionStrategy, Component, HostBinding, Input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, input, InputSignalWithTransform} from '@angular/core';
 
 @Component({
   selector: 'ngx-list-item, a[ngx-list-item]',
   templateUrl: './ngx-list-item.component.html',
   styleUrls: ['./ngx-list-item.component.scss'],
-  host: {'[class.ngx-list-item]': 'true'},
+  host: {'[class.ngx-list-item]': 'true', '[class.active]': 'active()'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgxListItemComponent {
 
-  @HostBinding('class.active')
-  @Input() active?: boolean;
+  readonly active: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
 }

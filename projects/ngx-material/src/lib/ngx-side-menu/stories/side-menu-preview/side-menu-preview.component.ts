@@ -15,6 +15,9 @@ import {NgxSideMenuOutletModule} from "../../ngx-side-menu-outlet.module";
 })
 export class SideMenuPreviewComponent {
 
+  @Input() slug?: string;
+  @Output() slugChanged = new EventEmitter<string|undefined>;
+
   @Input() show = false;
   @Output() showChanged = new EventEmitter<boolean|string|undefined>;
 

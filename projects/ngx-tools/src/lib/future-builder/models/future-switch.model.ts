@@ -1,4 +1,4 @@
-import {auditTime, BehaviorSubject, combineLatest, Observable, of, switchMap} from "rxjs";
+import {asapScheduler, auditTime, BehaviorSubject, combineLatest, Observable, of, switchMap} from "rxjs";
 import {distinctUntilChanged, map} from "rxjs/operators";
 import {
   cache, Future, FutureEmpty, FutureError, FutureLoading, FutureUnion, FutureValue, subscribed
@@ -45,7 +45,7 @@ export class FutureSwitch<T> {
      * Second on unhandled errors with no value
      */
     const loading$ = combineLatest([this.state$, hasError$, hasEmptyError$, hasEmpty$]).pipe(
-      auditTime(0),
+      auditTime(0, asapScheduler),
       map(([state, hasError, hasEmptyError, hasEmpty]) => {
         if (state instanceof FutureLoading) return state;
 
@@ -77,7 +77,7 @@ export class FutureSwitch<T> {
 
     // Output when loading screens should be shown
     this.loading$ = combineLatest([loading$, hasEmptyLoading$]).pipe(
-      auditTime(0),
+      auditTime(0, asapScheduler),
       subscribed(hasLoading$),
       map(([state, hasEmptyLoading]) => {
         if (!state) return undefined;
@@ -117,7 +117,7 @@ export class FutureSwitch<T> {
 
     // Output when error screens should be shown
     this.error$ = combineLatest([error$, hasEmptyError$]).pipe(
-      auditTime(0),
+      auditTime(0, asapScheduler),
       subscribed(hasError$),
       map(([state, hasEmptyError]) => {
         if (!state) return undefined;
@@ -150,7 +150,7 @@ export class FutureSwitch<T> {
 
     // Output when no-value screens should be shown
     this.empty$ = combineLatest([this.state$, hasLoading$, hasEmptyLoading$, hasError$, hasEmptyError$]).pipe(
-      auditTime(0),
+      auditTime(0, asapScheduler),
       subscribed(hasEmpty$),
       map(([state, hasLoading, hasEmptyLoading, hasError, hasEmptyError]) => {
 
@@ -189,7 +189,7 @@ export class FutureSwitch<T> {
 
     // Output when data screens should be shown
     this.data$ = combineLatest([this.state$, hasLoading$, hasError$]).pipe(
-      auditTime(0),
+      auditTime(0, asapScheduler),
       map(([state, hasLoading, hasError]) => {
 
         if (state instanceof FutureValue) return state;

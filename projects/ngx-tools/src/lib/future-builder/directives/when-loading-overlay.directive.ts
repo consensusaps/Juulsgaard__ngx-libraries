@@ -1,19 +1,14 @@
-import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
-import {Subject, Subscription, switchMap} from "rxjs";
-import {map} from "rxjs/operators";
+import {ChangeDetectorRef, Directive, effect, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
+import {switchMap} from "rxjs";
 import {FutureLoading} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
+import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 
 @Directive({selector: '[whenLoadingOverlay]'})
-export class WhenLoadingOverlayDirective<T> extends BaseFutureRender<TemplateContext<T>> implements OnDestroy {
+export class WhenLoadingOverlayDirective<T> extends BaseFutureRender<TemplateContext<T>> {
 
-  sub: Subscription;
-  states$ = new Subject<FutureSwitch<T>>();
-
-  @Input('whenLoadingOverlay') set state(state: FutureSwitch<T>) {
-    this.states$.next(state);
-  }
+  state: InputSignal<FutureSwitch<T>> = input.required<FutureSwitch<T>>({alias: 'whenLoadingOverlay'});
 
   constructor(
     templateRef: TemplateRef<TemplateContext<T>>,
@@ -22,17 +17,18 @@ export class WhenLoadingOverlayDirective<T> extends BaseFutureRender<TemplateCon
   ) {
     super(templateRef, viewContainer, changes);
 
-    this.sub = this.states$.pipe(
-      switchMap(x => x.loadingOverlay$),
-      map(x => x ? {
+    const state$ = toObservable(this.state).pipe(switchMap(x => x.loadingOverlay$));
+    const state = toSignal(state$);
+
+    effect(() => {
+      const x = state();
+      if (!x) return this.updateView(undefined);
+
+      this.updateView({
         data: x instanceof FutureLoading ? x.value : undefined,
         loading: x instanceof FutureLoading
-      } as TemplateContext<T> : undefined)
-    ).subscribe(c => this.updateView(c));
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+      });
+    });
   }
 
   static ngTemplateContextGuard<T>(

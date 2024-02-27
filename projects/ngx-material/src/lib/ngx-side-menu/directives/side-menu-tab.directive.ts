@@ -1,41 +1,28 @@
-import {Directive, forwardRef, Input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {
+  booleanAttribute, Directive, forwardRef, inject, input, InputSignal, InputSignalWithTransform, signal, TemplateRef,
+  ViewContainerRef
+} from '@angular/core';
 import {NgxSideMenuTabContext} from "../models/menu-tab-context";
 import {ThemePalette} from "@angular/material/core";
+import {RenderSource} from "@juulsgaard/ngx-tools";
 
 @Directive({
   selector: '[ngxMenuTab]',
   providers: [{provide: NgxSideMenuTabContext, useExisting: forwardRef(() => SideMenuTabDirective)}]
 })
-export class SideMenuTabDirective extends NgxSideMenuTabContext {
+export class SideMenuTabDirective extends NgxSideMenuTabContext implements RenderSource {
 
-  @Input('ngxMenuTab') id!: string;
+  readonly slug: InputSignal<string> = input.required<string>({alias: 'ngxMenuTab'});
+  readonly name: InputSignal<string | undefined> = input<string>();
+  readonly icon: InputSignal<string | undefined> = input<string>();
+  readonly badge: InputSignal<string | undefined> = input<string>();
+  readonly badgeColor: InputSignal<ThemePalette | undefined> = input<ThemePalette>();
 
-  @Input('name') set nameData(name: string|undefined|null) {
-    this._name$.next(name ?? undefined);
-  };
+  readonly disabled: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly hide: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  @Input('icon') set iconData(icon: string|undefined|null) {
-    this._icon$.next(icon ?? undefined);
-  };
+  readonly source = signal(this);
 
-  @Input('badge') set badgeData(badge: string|number|undefined|null) {
-    if (typeof badge === 'number') {
-      this._badge$.next(badge === 0 ? undefined : badge.toFixed(0));
-      return;
-    }
-
-    this._badge$.next(badge ?? undefined);
-  };
-
-  @Input('badgeColor') set badgeColorData(color: ThemePalette|undefined|null) {
-    this._badgeColor$.next(color ?? undefined);
-  };
-
-  constructor(
-    readonly templateRef: TemplateRef<void>,
-    readonly viewContainer: ViewContainerRef
-  ) {
-    super();
-  }
-
+  readonly template = inject(TemplateRef<{}>);
+  readonly viewContainer = inject(ViewContainerRef);
 }

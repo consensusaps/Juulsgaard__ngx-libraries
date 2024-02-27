@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal, ViewEncapsulation} from '@angular/core';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
@@ -19,17 +19,12 @@ import {Dayjs} from "dayjs";
 })
 export class DatePickerDialogComponent {
 
-  date: Dayjs|null = null;
-
   readonly dialogRef = inject(MatDialogRef<DatePickerDialogComponent>)
   readonly data: Dayjs|undefined = inject(MAT_DIALOG_DATA);
-
-  constructor() {
-    this.date = this.data ?? null;
-  }
+  readonly date = signal<Dayjs|null>(this.data ?? null);
 
   select() {
-    if (!this.date) return;
-    this.dialogRef.close(this.date);
+    if (!this.date()) return;
+    this.dialogRef.close(this.date());
   }
 }

@@ -1,4 +1,6 @@
-import {Directive, HostListener, Input, NgZone, OnDestroy} from '@angular/core';
+import {
+  booleanAttribute, Directive, HostListener, input, InputSignal, InputSignalWithTransform, NgZone, OnDestroy
+} from '@angular/core';
 import {fromEvent, merge, Subscription} from "rxjs";
 import {filter, first, map, tap} from "rxjs/operators";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -6,10 +8,10 @@ import {MatMenuTrigger} from "@angular/material/menu";
 @Directive({selector: '[contextMenu]', standalone: true})
 export class ContextMenuDirective implements OnDestroy {
 
-  @Input('contextMenu') trigger?: MatMenuTrigger;
-  @Input('triggerElement') element?: HTMLElement;
-  @Input('menuData') data?: unknown;
-  @Input() disableMenu?: boolean;
+  readonly trigger: InputSignal<MatMenuTrigger | undefined> = input<MatMenuTrigger|undefined>(undefined, {alias: 'contextMenu'});
+  readonly element: InputSignal<HTMLElement | undefined> = input<HTMLElement|undefined>(undefined, {alias: 'triggerElement'});
+  readonly data: InputSignal<unknown | undefined> = input<unknown|undefined>(undefined, {alias: 'menuData'});
+  readonly disableMenu: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
   sub?: Subscription;
 
@@ -20,13 +22,12 @@ export class ContextMenuDirective implements OnDestroy {
     this.sub?.unsubscribe();
   }
 
-
   @HostListener('contextmenu', ['$event'])
   onMenu(event: MouseEvent) {
     if (event.shiftKey || event.metaKey || event.ctrlKey) return;
-    if (this.disableMenu === true) return;
-    if (!this.trigger) return;
-    if (!this.element) return;
+    if (this.disableMenu()) return;
+    if (!this.trigger()) return;
+    if (!this.element()) return;
 
     event.stopPropagation();
     event.preventDefault();
@@ -35,10 +36,11 @@ export class ContextMenuDirective implements OnDestroy {
   }
 
   openMenu(x: number, y: number) {
-    this.element!.style.left = `${x}px`;
-    this.element!.style.top = `${y}px`;
-    if (this.data !== undefined) this.trigger!.menuData = this.data;
-    this.trigger!.openMenu();
+    this.element()!.style.left = `${x}px`;
+    this.element()!.style.top = `${y}px`;
+    const data = this.data();
+    if (data !== undefined) this.trigger()!.menuData = data;
+    this.trigger()!.openMenu();
 
     // Listen to events and close the context menu if the page is scrolled, or the user right clicks
     // Stop listening for events if the menu is otherwise closed
@@ -46,7 +48,7 @@ export class ContextMenuDirective implements OnDestroy {
       this.sub?.unsubscribe();
 
       this.sub = merge(
-        this.trigger!.menuClosed.pipe(
+        this.trigger()!.menuClosed.pipe(
           map(() => false)
         ),
         fromEvent(window, 'scroll').pipe(
@@ -60,7 +62,7 @@ export class ContextMenuDirective implements OnDestroy {
       ).pipe(
         first(),
         filter(b => b)
-      ).subscribe(() => this.zone.run(() => this.trigger?.closeMenu()))
+      ).subscribe(() => this.zone.run(() => this.trigger()?.closeMenu()))
     })
   }
 }

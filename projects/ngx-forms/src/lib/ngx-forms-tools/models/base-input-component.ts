@@ -1,354 +1,263 @@
 import {
-    ChangeDetectorRef, ContentChild, Directive, ElementRef, EventEmitter, HostBinding, inject, Input, OnDestroy, OnInit,
-    Output, QueryList, ViewChild, ViewChildren
+    booleanAttribute, computed, Directive, effect, ElementRef, HostBinding, inject, input, InputSignal,
+    InputSignalWithTransform, model, ModelSignal, OnInit, Signal, signal, viewChild, viewChildren, WritableSignal
 } from "@angular/core";
-import {BehaviorSubject, combineLatest, Observable, Subject, Subscribable, Subscription, Unsubscribable} from "rxjs";
-import {ControlContainer, NgModel} from "@angular/forms";
-import {ErrorStateMatcher, ThemePalette} from '@angular/material/core';
-import {distinctUntilChanged, map} from "rxjs/operators";
-import {FormNode, FormNodeEvent, hasRequiredField, InputTypes} from "@juulsgaard/ngx-forms-core";
+import {EMPTY, Observable, OperatorFunction, Subject, Subscribable, Subscription, switchMap} from "rxjs";
+import {NgModel} from "@angular/forms";
+import {ThemePalette} from '@angular/material/core';
+import {FormNode, FormNodeEvent, hasRequiredField} from "@juulsgaard/ngx-forms-core";
 import {alwaysErrorStateMatcher, neverErrorStateMatcher} from "./error-state-matchers";
 import {FormContext} from "../services/form-context.service";
-import {MatFormFieldAppearance, MatPrefix, MatSuffix} from "@angular/material/form-field";
+import {MatFormFieldAppearance} from "@angular/material/form-field";
+import {takeUntilDestroyed, toObservable, toSignal} from "@angular/core/rxjs-interop";
 
 @Directive()
-export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnDestroy {
+export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     @HostBinding('class.ngx-form-input') private baseClass = true;
 
-    subscriptions = new Subscription();
-    initialised = false;
+    protected inputElementRef: Signal<ElementRef<HTMLElement|HTMLTextAreaElement|HTMLInputElement>|undefined> =
+      viewChild('input', {read: ElementRef});
 
     /** The main input element */
-    @ViewChild('input') inputElement?: ElementRef<HTMLElement|HTMLTextAreaElement|HTMLInputElement>;
+    protected inputElement: Signal<HTMLElement|HTMLTextAreaElement|HTMLInputElement|undefined> =
+      computed(() => this.inputElementRef()?.nativeElement);
     /** A list of all NgModels in the input */
-    @ViewChildren(NgModel) ngModels!: QueryList<NgModel>;
-    /** A material form suffix if one exists */
-    @ContentChild(MatSuffix) suffixChild?: MatSuffix;
-    /** A material form prefix if one exists */
-    @ContentChild(MatPrefix) prefixChild?: MatPrefix;
+    private ngModels = viewChildren(NgModel);
 
-    @Input() showAsRequired = false;
-    private _fieldRequired = false;
+    //<editor-fold desc="Required">
+    readonly requiredIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+    readonly hideRequired: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+    protected required = computed(() => {
+        if (this.hideRequired()) return false;
+        if (this.requiredIn()) return true;
+        const control = this.control();
+        if (control) return hasRequiredField(control);
+        return false;
+    });
+    //</editor-fold>
 
-    get required() {
-        return this._fieldRequired || this.showAsRequired
-    };
-
-    private inputError$ = new BehaviorSubject<string|undefined>(undefined);
+    //<editor-fold desc="Errors">
     /** The internal error state used for input level errors */
-    protected set inputError(error: string|undefined) {
-        this.inputError$.next(error);
-    }
-    protected get inputError() {return this.inputError$.value}
+    protected inputError = signal<string|undefined>(undefined);
 
-    hasError$!: Observable<boolean>;
-    errorText$!: Observable<string|undefined>;
-    errorMatcher$!: Observable<ErrorStateMatcher>;
+    readonly error = computed(() => this.inputError() ?? this.control()?.errorSignal());
+    readonly hasError = computed(() => !!this.error());
+    protected errorMatcher = computed(() => this.hasError() ? alwaysErrorStateMatcher : neverErrorStateMatcher)
+    //</editor-fold>
 
     /** A controls that contains the input value / state */
-    control: FormNode<TInputVal>;
+    readonly control: InputSignal<FormNode<TIn> | FormNode<TIn|undefined> | undefined> = input<FormNode<TIn>|FormNode<TIn|undefined>|undefined>(
+      undefined,
+      {alias: 'control'}
+    );
 
-    //<editor-fold desc="Control Binds">
-    controlSub?: Subscription;
+    //<editor-fold desc="External Value">
+    readonly valueIn: ModelSignal<TIn | undefined> = model<TIn | undefined>(undefined, {alias: 'value'});
 
-    /** Indicates that a value has been sent to FormNode, and that the following update should be ignored */
-    pendingValue = false;
-
-    /** The name of a control for automatic resolution. Cannot be changed after init */
-    @Input() public controlName?: string;
-
-    _externalControl?: FormNode<TVal>;
-    @Input('control') set externalControl(control: FormNode<TVal> | undefined) {
-        if (control === this._externalControl) return;
-        this.controlSub?.unsubscribe();
-
-        this._externalControl = control;
-
-        if (!this.initialised) return;
-
-        if (!control) {
-            this.externalControlTeardown();
-            return;
+    readonly valueIn$: InputSignalWithTransform<
+      Subject<TIn|undefined> | Observable<TIn|undefined> | undefined,
+      Subject<TIn|undefined> | Subscribable<TIn|undefined> | undefined | null
+    > = input(undefined, {
+        alias: 'value$',
+        transform: (value$: Subject<TIn|undefined>|Subscribable<TIn|undefined>|undefined|null) => {
+            if (value$ == undefined) return undefined;
+            if (value$ instanceof Subject) return value$;
+            return new Observable<TIn|undefined>(subscriber => value$.subscribe(subscriber));
         }
+    });
 
-        this.externalControlSetup(control);
-    };
+    private externalSubject = computed(() => {
+        const ext$ = this.valueIn$();
+        if (ext$ instanceof Subject) return ext$;
+        return undefined;
+    });
 
-    get externalControl() {
-        return this._externalControl
-    }
-
-    /** Setup external controls and setup bindings */
-    private externalControlSetup(control: FormNode<TVal>) {
-
-        this._fieldRequired = hasRequiredField(control);
-
-        this.controlSub = new Subscription();
-
-        // Listen to control events
-        this.controlSub.add(control.actions$.subscribe(e => this.handleEvents(e)));
-
-
-        const inputError$ = this.inputError$.pipe(distinctUntilChanged());
-
-        // Map error state from control errors and internal errors
-        this.hasError$ = combineLatest([control.hasError$, inputError$]).pipe(
-          map(([hasError, error]) => hasError || !!error)
-        );
-        this.errorText$ = combineLatest([control.error$, inputError$]).pipe(
-          map(([controlError, inputError]) => inputError ?? controlError)
-        );
-        this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
-
-        // Force input to show errors when one is present
-        this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
-
-        this.loadFormNode(control);
-        this.changes.detectChanges();
-
-        // Map control values to internal state
-        this.controlSub.add(control.value$.subscribe(x => {
-            if (this.pendingValue) {
-                this.pendingValue = false;
-                return;
-            }
-
-            this.externalValue = x;
-            this.changes.detectChanges();
-        }));
-
-        // Listen for reset events from control and reset the internal control state
-        this.controlSub.add(control.reset$.subscribe(() => {
-            this.ngModels.forEach(x => {
-                x.control.markAsPristine();
-                x.control.markAsUntouched();
-            });
-            this.control.markAsPristine();
-            this.control.markAsUntouched();
-            this.changes.detectChanges();
-        }));
-
-        // Sync with the disabled state
-        this.controlSub.add(control.disabled$.subscribe(x => {
-            this._controlDisabled = x;
-            this.changes.detectChanges();
-        }));
-    }
-
-    /** Reset control related values to default */
-    private externalControlTeardown() {
-        this._fieldRequired = false;
-        this._controlDisabled = false;
-
-        const inputError$ = this.inputError$.pipe(distinctUntilChanged());
-        this.hasError$ = inputError$.pipe(map(error => !!error));
-        this.errorText$ = inputError$;
-        this.errorMatcher$ = this.hasError$.pipe(map( b => b ? alwaysErrorStateMatcher : neverErrorStateMatcher));
-    }
-
+    protected externalValue: Signal<TIn|undefined>;
     //</editor-fold>
 
-    //<editor-fold desc="Value Binds">
-    @Input() set value(val: TVal) {
-        this.externalValue = val;
-    }
+    //<editor-fold desc="Value">
 
-    @Output() valueChange = new EventEmitter<TVal>();
-
-    valueSub?: Unsubscribable;
-    _value$?: Subject<TVal>|Subscribable<TVal>;
-    @Input() set value$(value$: Subject<TVal>|Subscribable<TVal>) {
-        this.valueSub?.unsubscribe();
-        this.valueSub = value$.subscribe({next: x => {
-            this.externalValue = x;
-            this.changes.detectChanges();
-        }});
-        this._value$ = value$;
-    }
-    //</editor-fold>
-
-    _externalValue?: TVal;
-
-    //<editor-fold desc="Value Processing">
-
-    /** Value representing the value of the control / value input */
-    set externalValue(val: TVal | undefined) {
-        if (val == this._externalValue) return;
-        this._externalValue = val;
-        this._inputValue$.next(this.preprocessValue(val));
-        this.control.setValue(this.inputValue);
-    }
-
-    /** Value representing the value of the control / value input */
-    get externalValue() {
-        return this._externalValue
-    }
-
-    _inputValue$ = new BehaviorSubject<TInputVal>(this.preprocessValue(undefined));
-    inputValue$ = this._inputValue$.pipe(distinctUntilChanged());
+    protected _value: WritableSignal<TVal>;
 
     /** The value representing the internal input state */
-    set inputValue(val: TInputVal) {
-        if (val == this.inputValue) return;
-
-        this._inputValue$.next(val);
-        this._externalValue = this.postprocessValue(val);
-
-        if (this.externalControl) {
-            this.pendingValue = true;
-            this.externalControl.setValue(this._externalValue);
-            if (this.externalControl.pristine) this.externalControl.markAsDirty();
-        }
-
-        if (this.valueChange.observed) {
-            this.valueChange.emit(this._externalValue);
-        }
-
-        if (this._value$ && 'next' in this._value$) {
-            this._value$?.next(this._externalValue);
-        }
-    }
-
+    protected get value() {return this._value()}
     /** The value representing the internal input state */
-    get inputValue() {
-        return this._inputValue$.value
+    protected set value(val: TVal) {
+        this._value.set(val);
+
+        const value = this.postprocessValue(val);
+        this.lastValue = {val: value};
+
+        const control = this.control();
+        if (control) {
+            control.setValue(value);
+            if (control.pristine) control.markAsDirty();
+        }
+
+        this.control()?.setValue(value);
+        this.externalSubject()?.next(value);
+        this.valueIn.set(value);
     }
     //</editor-fold>
 
-    private _controlDisabled = false;
+    //<editor-fold desc="Disabled">
+    readonly disabledIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'disabled'});
     /** Marks that the input should be shown as disabled */
-    get isDisabled() {
-        return this.disable === undefined ? this._controlDisabled : this.disable;
-    }
+    protected disabled = computed(() => this.control()?.disabledSignal() || this.disabledIn());
+
+    /** Disable hiding the input when it's disabled */
+    readonly showDisabledIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'showDisabled'});
+    protected showDisabled = computed(() => this.control()?.showDisabledField || this.showDisabledIn());
 
     /** Marks whether the input should be displayed or not */
-    get show() {
-        return !this.isDisabled || !!this.showDisabled;
-    }
+    protected show = computed(() => this.showDisabled() || !this.disabled());
+    //</editor-fold>
 
-    @HostBinding('class.hidden')
-    get dontShow() {
-        return !this.show;
-    }
+    //<editor-fold desc="Readonly">
+    private formScope = inject(FormContext, {optional: true});
+
+    readonly readonlyIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'readonly'});
+    protected readonly = computed(() => {
+        if (this.readonlyIn()) return true;
+        if (this.formScope && this.formScope.readonly()) return true;
+        const control = this.control();
+        if (control && control.readonly) return true;
+        return false;
+    });
+    //</editor-fold>
 
     //<editor-fold desc="Configuration">
 
     /** The input label */
-    @Input() public label?: string;
+    readonly labelIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'label'});
+    protected label = computed(() => this.labelIn() ?? this.control()?.label);
+
     /** A placeholder text, if not set the label will be used */
-    @Input() public placeholder?: string;
+    readonly placeholderIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'placeholder'});
+    protected placeholder = computed(() => this.placeholderIn() ?? this.label() ?? '');
+
     /** Input to tell the browser what type of autocomplete the input should use */
-    @Input() public autocomplete?: string;
+    readonly autocompleteIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'autocomplete'});
+    protected autocomplete = computed(() => this.autocompleteIn() ?? this.control()?.autocomplete);
+
     /** Focus the input when it's first created */
-    @Input() public autofocus?: boolean;
-    /** Disable the input */
-    @Input() public disable?: boolean;
+    readonly autofocusIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'autofocus'});
+    protected autofocus = computed(() => this.autocompleteIn() || this.control()?.autoFocus);
+
     /** Add a tooltip with additional information about the input */
-    @Input() public tooltip?: string;
-    /** Disable hiding the input when it's disabled */
-    @Input() public showDisabled?: boolean;
+    readonly tooltipIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'tooltip'});
+    protected tooltip = computed(() => this.tooltipIn() ?? this.control()?.tooltip);
+
     /** Set the theme color for the input */
-    @Input() public color: ThemePalette = 'primary';
+    readonly colorIn: InputSignal<ThemePalette> = input<ThemePalette>('primary', {alias: 'color'});
+    protected color = computed(() => this.colorIn());
+
     /** Change the material input style */
-    @Input() public appearance: MatFormFieldAppearance = 'outline';
+    readonly appearanceIn: InputSignal<MatFormFieldAppearance> = input<MatFormFieldAppearance>('outline', {alias: 'appearance'});
+    protected appearance = computed(() => this.appearanceIn());
+
     /** Hide the required asterisk */
-    @Input() public hideRequired = false;
-    @Input() public direction?: 'ltr'|'rtl'|'auto';
-
-    /** Set the input as read-only */
-    @Input('readonly') set readonlyState(readonly: boolean|undefined) {this._readonly = readonly};
-    _scopeReadonly = false;
-    _readonly?: boolean;
-
-    /** Indicates that the user shouldn't be able to edit the input */
-    @HostBinding('class.read-only')
-    get readonly(): boolean {return this._readonly === undefined ? this._scopeReadonly : this._readonly}
+    readonly directionIn: InputSignal<"ltr" | "rtl" | "auto" | undefined> = input<'ltr'|'rtl'|'auto'|undefined>(undefined, {alias: 'direction'});
+    protected direction = computed(() => this.directionIn());
     //</editor-fold>
 
-    protected changes = inject(ChangeDetectorRef);
-    private controlContainer = inject(ControlContainer, {optional: true, host: true, skipSelf: true});
-    private formScope = inject(FormContext, {optional: true});
+    private lastValue?: {val: TIn|undefined};
 
     protected constructor() {
-        this.control = new FormNode(InputTypes.Generic, this.preprocessValue(undefined));
-        this.subscriptions.add(this.control.value$.subscribe(x => this.inputValue = x));
+        const element = inject(ElementRef<HTMLElement>).nativeElement;
+        effect(() => element.classList.toggle('hidden', !this.show()));
+        effect(() => element.classList.toggle('read-only', this.readonly()));
 
-        // Use control teardown to set up default error bindings
-        this.externalControlTeardown();
+        this._value = signal(this.getInitialValue());
+
+        const valueSignals$ = toObservable(this.valueIn$).pipe(mapObservableToSignal());
+        const valueSignals = toSignal(valueSignals$, {initialValue: undefined});
+
+        this.externalValue = computed(() => {
+            const control = this.control();
+            if (control) return control.valueSignal();
+
+            const asyncValue = valueSignals();
+            if (asyncValue) return asyncValue();
+
+            return this.valueIn();
+        });
+
+        effect(() => {
+            const value = this.externalValue();
+
+            if (this.lastValue) {
+                const lastValue = this.lastValue.val;
+                this.lastValue = undefined;
+                if (lastValue === value) return;
+            }
+
+            this._value.set(this.preprocessValue(value));
+        }, {allowSignalWrites: true});
+
+        // Handle control resets
+        toObservable(this.control).pipe(
+          switchMap(x => x?.reset$ ?? EMPTY),
+          takeUntilDestroyed()
+        ).subscribe(() => {
+            this.ngModels().forEach(x => {
+                x.control.markAsPristine();
+                x.control.markAsUntouched();
+            });
+        });
+
+        // Handle control actions
+        toObservable(this.control).pipe(
+          switchMap(x => x?.actions$ ?? EMPTY),
+          takeUntilDestroyed()
+        ).subscribe(action => this.handleAction(action));
     }
 
-    ngOnInit(): void {
-        if (this._externalControl) {
-            this.externalControlSetup(this._externalControl);
-        }
-
-        if (this.formScope) {
-            this.subscriptions.add(this.formScope.readonly$.subscribe(x => {
-                this._scopeReadonly = x;
-                this.changes.detectChanges();
-            }));
-        }
-
-        this.initialised = true;
-
-        // Use the control name to bind the control from a parent control container
-        if (this.controlName) {
-            const control = this.controlContainer?.control?.get(this.controlName);
-            if (control instanceof FormNode) this.externalControl = control;
+    ngOnInit() {
+        if (this.autofocus()) {
+            setTimeout(() => this.focus());
         }
     }
 
-    ngOnDestroy() {
-        this.subscriptions.unsubscribe();
-        this.controlSub?.unsubscribe();
-        this.valueSub?.unsubscribe();
-    }
-
+    //<editor-fold desc="Actions">
     /** Focus the input */
     focus() {
-        this.inputElement?.nativeElement?.focus();
+        this.inputElement()?.focus();
     }
 
+    /** Select the contents of the input */
     select() {
-        const input = this.inputElement?.nativeElement;
+        const input = this.inputElement();
         if (!input) return;
         if (!('select' in input)) return;
         input.select();
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Value processing">
     /**
      * Processes the value from the FormNode before it is assigned to the inputValue prop
      * @param value The value to processed
      */
-    abstract preprocessValue(value: TVal|undefined): TInputVal;
+    abstract preprocessValue(value: TIn|undefined): TVal;
 
     /**
      * Processes the value generated by the input component and returns the value that is stored in the FormNode
      * @param value The value to be processed
      */
-    abstract postprocessValue(value: TInputVal): TVal;
+    abstract postprocessValue(value: TVal): TIn|undefined;
 
-    /** Apply config from FormNode */
-    protected loadFormNode(node: FormNode<TVal>) {
-        this.label = this.label ?? node.label;
-        this.autocomplete = this.autocomplete ?? node.autocomplete;
-        this.tooltip = this.tooltip ?? node.tooltip;
-        this.showDisabled = this.showDisabled ?? node.showDisabledField;
-        this.autofocus = this.autofocus ?? node.autoFocus;
-        this._readonly = this._readonly ?? node.readonly;
-
-        this.afterInit()
+    /**
+     * Generate an initial value for the internal state
+     */
+    getInitialValue(): TVal {
+        return this.preprocessValue(undefined);
     }
-
-    protected afterInit() {
-        if (this.autofocus) {
-            setTimeout(() => this.focus());
-        }
-    }
+    //</editor-fold>
 
     /** Handle events dispatched from the FormNode */
-    protected handleEvents(event: FormNodeEvent) {
+    protected handleAction(event: FormNodeEvent) {
         switch (event) {
             case FormNodeEvent.Focus:
                 this.focus();
@@ -358,4 +267,29 @@ export abstract class BaseInputComponent<TVal, TInputVal> implements OnInit, OnD
                 break;
         }
     }
+}
+
+function mapObservableToSignal<T>(): OperatorFunction<Observable<T>|undefined, Signal<T|undefined>|undefined> {
+    return (source) => new Observable<Signal<T|undefined>>(subscriber => {
+        let itemSub: Subscription|undefined;
+
+        const sub = source.subscribe({
+            next: val$ => {
+                itemSub?.unsubscribe();
+                if (!val$) {
+                    itemSub = undefined;
+                    subscriber.next(undefined);
+                    return;
+                }
+                const sig = signal<T|undefined>(undefined);
+                itemSub = val$.subscribe(x => sig.set(x));
+                subscriber.next(sig);
+            }
+        });
+
+        return () => {
+          sub.unsubscribe();
+          itemSub?.unsubscribe();
+        };
+    });
 }

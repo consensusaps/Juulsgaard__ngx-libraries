@@ -1,63 +1,11 @@
-import {Injectable} from "@angular/core";
-import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, Observable, startWith} from "rxjs";
-import {map} from "rxjs/operators";
-import {slugify} from "@juulsgaard/ts-tools";
-import {cache, filterList} from "@juulsgaard/rxjs-tools";
-import {INavTab} from "../models/nav-tab.interface";
+import {Injectable, Signal} from "@angular/core";
+import {NgxTabContext} from "./ngx-tab.context";
 
 @Injectable()
 export abstract class NgxTabBarContext {
-
-  private readonly _tabs$ = new BehaviorSubject<INavTab[]>([]);
-  readonly tabs$ = this._tabs$.asObservable();
-
-  get tabs() {
-    return this._tabs$.value
-  }
-
-  private readonly _active$ = new BehaviorSubject(true);
-  readonly active$ = this._active$.asObservable();
-  get active() {return this._active$.value}
-
-  private readonly _slug$ = new BehaviorSubject<string | undefined>(undefined);
-  readonly slug$: Observable<string>;
-
-  tab$: Observable<INavTab | undefined>;
-
-  protected constructor() {
-    this.slug$ = this._slug$.pipe(
-      filter((x): x is string => x !== undefined),
-      map(slugify),
-      startWith(''),
-      distinctUntilChanged(),
-      cache()
-    );
-
-    const tabs$ = this.tabs$.pipe(
-      filterList(x => !x.isDisabled && !x.isHidden)
-    );
-
-    this.tab$ = combineLatest([tabs$, this.slug$]).pipe(
-      map(([tabs, slug]) => {
-        if (!tabs.length) return undefined;
-        return tabs.find(x => x.id == slug) ?? tabs[0];
-      }),
-      distinctUntilChanged(),
-      cache()
-    );
-  }
-
-  protected setActive(active: boolean) {
-    this._active$.next(active);
-  }
-
-  protected setTabs(tabs: INavTab[]) {
-    this._tabs$.next(tabs);
-  }
-
-  protected setSlug(slug: string|undefined) {
-    this._slug$.next(slug);
-  }
-
-  abstract openTab(slug: string): void;
+  abstract slug: Signal<string|undefined>;
+  abstract active: Signal<boolean>;
+  abstract tab: Signal<NgxTabContext|undefined>;
+  abstract tabs: Signal<NgxTabContext[]>;
+  abstract openTab(slug: string): Promise<void>;
 }

@@ -14,6 +14,15 @@ const defaultConfig: UIScopeConfig = {
         child: {
           class: 'sub-tab'
         }
+      },
+      child: {
+        class: 'sub-sub',
+        child: {
+          class: 'sub-sub-sub',
+          child: {
+            class: 'sub-sub-sub-sub'
+          }
+        }
       }
     }
   }

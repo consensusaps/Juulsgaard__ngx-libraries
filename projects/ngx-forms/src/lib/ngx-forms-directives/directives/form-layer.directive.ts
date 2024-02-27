@@ -1,5 +1,5 @@
 import {
-  Directive, EmbeddedViewRef, forwardRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, signal, TemplateRef, ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
@@ -11,10 +11,13 @@ import {AnyControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
     useExisting: forwardRef(() => FormLayerDirective)
   }]
 })
-export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer implements OnChanges, OnDestroy {
+export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
 
-  @Input('ngxFormLayer') layer?: AnyControlFormLayer<TControls>;
-  @Input('ngxFormLayerWhen') show?: boolean;
+  readonly layer: InputSignal<AnyControlFormLayer<TControls>> = input.required({alias: 'ngxFormLayer'});
+
+  // Disable functionality because of change detection timing
+  // readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormLayerWhen'});
+  readonly show = signal(true);
 
   view?: EmbeddedViewRef<FormLayerDirectiveContext<TControls>>;
 
@@ -23,33 +26,34 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
     private viewContainer: ViewContainerRef
   ) {
     super();
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!changes['layer'] && !changes['show']) return;
+    effect(() => {
+      if (!this.show()) {
+        queueMicrotask(() => {
+          this.view?.destroy();
+          this.view = undefined;
+        });
+        return;
+      }
 
-    this.view?.destroy();
+      const controls = this.layer().controlsSignal();
 
-    if (this.show === false) return;
-    if (!this.layer) return;
+      queueMicrotask(() => {
+        if (!this.view) {
+          const context = {ngxFormLayer: controls};
+          this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
+          this.view.detectChanges();
+          return;
+        }
 
-    const context = new FormLayerDirectiveContext(this.layer);
-    const view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-    const sub = this.layer.controls$.subscribe(controls => {
-      context.ngxFormLayer = controls;
-      view?.detectChanges();
+        this.view.context.ngxFormLayer = controls;
+        this.view.detectChanges();
+      });
     });
-    view.onDestroy(() => sub.unsubscribe());
-
-    this.view = view;
-  }
-
-  ngOnDestroy() {
-    this.view?.destroy();
   }
 
   get control() {
-    return this.layer ?? null;
+    return this.layer();
   }
 
   static ngTemplateContextGuard<TControls extends Record<string, SmartFormUnion>>(
@@ -60,11 +64,6 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
   }
 }
 
-class FormLayerDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
-
+interface FormLayerDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
   ngxFormLayer: TControls;
-
-  constructor(form: AnyControlFormLayer<TControls>) {
-    this.ngxFormLayer = form.controls;
-  }
 }

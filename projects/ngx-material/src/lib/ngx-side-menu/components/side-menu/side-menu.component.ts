@@ -1,14 +1,9 @@
 import {
-  AfterContentInit, ChangeDetectionStrategy, Component, ContentChildren, EventEmitter, forwardRef, Injector, Input,
-  OnDestroy, Output, QueryList
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, contentChildren, forwardRef, input,
+  InputSignalWithTransform, model, ModelSignal, Signal
 } from '@angular/core';
 import {NgxSideMenuTabContext} from "../../models/menu-tab-context";
-import {map} from "rxjs/operators";
-import {auditTime, distinctUntilChanged, firstValueFrom, merge, startWith, Subscription, switchMap} from "rxjs";
-import {cache} from "@juulsgaard/rxjs-tools";
 import {NgxSideMenuContext} from "../../models/menu-context";
-import {SideMenuManagerService} from "../../services/side-menu-manager.service";
-import {SideMenuInstance} from "../../models/side-menu-instance";
 
 @Component({
   selector: 'ngx-side-menu',
@@ -17,90 +12,48 @@ import {SideMenuInstance} from "../../models/side-menu-instance";
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: NgxSideMenuContext, useExisting: forwardRef(() => SideMenuComponent)}]
 })
-export class SideMenuComponent extends NgxSideMenuContext implements AfterContentInit, OnDestroy {
+export class SideMenuComponent extends NgxSideMenuContext {
 
-  @ContentChildren(NgxSideMenuTabContext, {descendants: false})
-  private children?: QueryList<NgxSideMenuTabContext>;
+  readonly children = contentChildren(NgxSideMenuTabContext, {descendants: false});
+  readonly tabs = computed(() => {
+    let tabs = this.children();
+    return tabs.filter(t => !t.disabled());
+  });
 
-  @Input({alias: 'show'}) set showData(show: boolean) {
-    this.setShow(show);
-  }
-  @Output() showChange = new EventEmitter<boolean>();
+  readonly active: ModelSignal<string | undefined> = model<string|undefined>(undefined);
+  readonly showButtons: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly tab: Signal<NgxSideMenuTabContext|undefined>;
 
-  @Input({alias: 'active'}) set activeData(show: string|undefined) {
-    this.setShow(show);
-  }
-  @Output() activeChange = new EventEmitter<string|undefined>();
-
-  @Input() set buttons(show: boolean) {
-    this.setShowButtons(show);
-  }
-
-  sub = new Subscription();
-  instance?: SideMenuInstance;
-
-  constructor(private menuManager: SideMenuManagerService, private injector: Injector) {
+  constructor() {
     super();
-  }
 
-  ngAfterContentInit() {
-    if (!this.children) return;
+    this.tab = computed(() => {
+      const tabs = this.tabs();
+      if (tabs.length <= 0) return undefined;
 
-    const children$ = this.children.changes.pipe(
-      map(() => this.children?.toArray() ?? []),
-      startWith(this.children.toArray()),
-      cache()
-    );
-
-    // Re-run the logic every time the tabs change
-    this.sub.add(children$.subscribe(x => this.setTabs(x)));
-
-    // Re-run logic if any of the tabs change state
-    const childChanges$ = children$.pipe(
-      switchMap(children => merge(...children.map(x => x.changes$))),
-      auditTime(0)
-    );
-
-    this.sub.add(childChanges$.subscribe(
-      () => this.setTabs(this.children?.toArray() ?? [])
-    ));
-
-    const hasTab$ = this.tab$.pipe(
-      map(x => !!x),
-      distinctUntilChanged()
-    );
-
-    this.sub.add(hasTab$.subscribe(show => {
-      if (!show) {
-        if (this.instance) this.menuManager.closeMenu(this.instance);
-      } else {
-        this.instance = this.menuManager.createMenu(this, {}, this.injector);
-      }
-    }));
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-    if (this.instance) this.menuManager.closeMenu(this.instance);
-  }
-
-  private changeState(state: string|boolean|undefined) {
-    this.setShow(state);
-    this.showChange.emit(!!state);
-    if (state === true) return;
-    this.activeChange.emit(state === false ? undefined : state);
+      const active = this.active();
+      if (active == null) return undefined;
+      return tabs.find(x => x.slug() === active);
+    });
   }
 
   async toggleTab(tab: NgxSideMenuTabContext) {
-    const activeTab = await firstValueFrom(this.tab$);
-    this.changeState(tab === activeTab ? undefined : tab.id);
+    const slug = tab.slug();
+    const activeTab = this.tab();
+
+    if (activeTab && activeTab.slug() == slug) {
+      this.active.set(undefined);
+      return;
+    }
+
+    this.active.set(slug);
   }
 
   override openTab(slug: string) {
-    this.changeState(slug);
+    this.active.set(slug);
   }
 
   override close() {
-    this.changeState(false);
+    this.active.set(undefined);
   }
 }

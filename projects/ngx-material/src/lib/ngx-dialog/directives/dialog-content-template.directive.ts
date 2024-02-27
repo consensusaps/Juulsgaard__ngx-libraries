@@ -5,7 +5,7 @@ import {RenderSource} from "@juulsgaard/ngx-tools";
 export class DialogContentTemplateDirective implements RenderSource {
 
   constructor(
-    public readonly template: TemplateRef<void>,
+    public readonly template: TemplateRef<{}>,
     public readonly viewContainer: ViewContainerRef
   ) {
   }

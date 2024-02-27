@@ -1,16 +1,16 @@
-import {ChangeDetectorRef, ComponentRef, Directive, Injector, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, ComponentRef, Directive, Injector, ViewContainerRef} from '@angular/core';
 import {RenderDialogComponent} from "../components/render-dialog/render-dialog.component";
-import {Subscription} from "rxjs";
+import {asapScheduler, auditTime} from "rxjs";
 import {DialogManagerService} from "../services/dialog-manager.service";
 import {DialogInstance} from "../models/dialog-context";
 import {DIALOG_ANIMATE_IN, DIALOG_CONTEXT} from "../models/dialog-tokens";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Directive({
   selector: 'ngx-dialog-outlet'
 })
-export class DialogOutletDirective implements OnDestroy, OnInit {
+export class DialogOutletDirective {
 
-  private sub?: Subscription;
   private component?: ComponentRef<RenderDialogComponent>;
 
   constructor(
@@ -18,11 +18,10 @@ export class DialogOutletDirective implements OnDestroy, OnInit {
     private manager: DialogManagerService,
     private changes: ChangeDetectorRef,
   ) {
-
-  }
-
-  ngOnInit() {
-    this.sub = this.manager.dialog$.subscribe(({item, added}) => this.renderDialog(item, added));
+    this.manager.dialog$.pipe(
+      auditTime(0, asapScheduler),
+      takeUntilDestroyed()
+    ).subscribe(({item, added}) => this.renderDialog(item, added));
   }
 
   renderDialog(instance: DialogInstance | undefined, added: boolean) {
@@ -51,11 +50,5 @@ export class DialogOutletDirective implements OnDestroy, OnInit {
 
     this.changes.detectChanges();
   }
-
-  ngOnDestroy() {
-    this.sub?.unsubscribe();
-    this.viewContainer.clear();
-  }
-
 }
 

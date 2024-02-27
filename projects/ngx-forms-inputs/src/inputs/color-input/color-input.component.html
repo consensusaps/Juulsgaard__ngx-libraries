@@ -1,29 +1,31 @@
-<div class="wrapper" [@harmonica]="show">
+<div class="wrapper" [@harmonica]="show()">
 
-    <mat-form-field [appearance]="appearance" [hideRequiredMarker]="hideRequired" [color]="color"
-                     subscriptSizing="dynamic">
+    <mat-form-field [appearance]="appearance()" [color]="color()"
+                    [hideRequiredMarker]="hideRequired()" subscriptSizing="dynamic">
 
-        <mat-label *ngIf="label">
-            {{label}}
-            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip" [matTooltip]="tooltip!" matTooltipPosition="above" matTooltipTouchGestures="off"/>
+        <mat-label *ngIf="label()">
+            {{label()}}
+            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip() as t" [matTooltip]="t"
+                      matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
         <div class="color" matIconPrefix ngx-colors-trigger
-             [colorPickerControls]="withAlpha ? 'default' : 'no-alpha'" colorsAnimation="popup" [hideTextInput]="true"
-             [(ngModel)]="inputValue" format="hex" [disabled]="readonly" [palette]="palette"
+             [colorPickerControls]="withAlpha() ? 'default' : 'no-alpha'" colorsAnimation="popup" [hideTextInput]="true"
+             [(ngModel)]="value" format="hex" [disabled]="readonly()" [palette]="palette()"
              noClickBubble>
-            <div class="fill" [style.background-color]="externalValue"></div>
+            <div class="fill" [style.background-color]="externalValue()"></div>
         </div>
 
-        <input matInput type="text" [placeholder]="placeholder ?? label!" [(ngModel)]="inputValue" [required]="required"
-               [autocomplete]="autocomplete" [readonly]="readonly" [autofocus]="autofocus" #input [ngModelOptions]="{standalone: true}"
-               [errorStateMatcher]="(errorMatcher$ | async)!" [attr.dir]="direction">
+        <input matInput type="text" [placeholder]="placeholder()" [required]="required()"
+               [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
+               [autocomplete]="autocomplete()" [readonly]="readonly()" [autofocus]="autofocus()" #input
+               [errorStateMatcher]="errorMatcher()" [attr.dir]="direction()">
 
-        <div matIconSuffix class="fix" *ngIf="suffixChild">
-            <ng-content></ng-content>
+        <div matIconSuffix class="fix">
+            <ng-content/>
         </div>
 
-        <mat-error>{{errorText$ | async}}</mat-error>
+        <mat-error>{{error()}}</mat-error>
 
     </mat-form-field>
 </div>

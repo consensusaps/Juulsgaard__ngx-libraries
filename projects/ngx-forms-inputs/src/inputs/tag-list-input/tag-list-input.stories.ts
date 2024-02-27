@@ -1,11 +1,13 @@
-import {Meta, moduleMetadata, StoryObj} from "@storybook/angular";
+import {argsToTemplate, Meta, moduleMetadata, StoryObj} from "@storybook/angular";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {TagListInputComponent} from "./tag-list-input.component";
 
 export default {
   title: 'Inputs: Tag List',
-  component: TagListInputComponent,
-  render: (args) => ({props: args}),
+  render: (args) => ({
+    props: args,
+    template: `<form-tag-list-input ${argsToTemplate(args)}/>`
+  }),
   args: {
     label: 'Tag List Input',
     placeholder: 'Add Tag',
@@ -17,10 +19,8 @@ export default {
     valueChange: {action: 'Value Changed'}
   },
   decorators: [moduleMetadata({
-    imports: [BrowserAnimationsModule]
+    imports: [BrowserAnimationsModule, TagListInputComponent]
   })]
 } satisfies Meta;
 
-type Story = StoryObj<TagListInputComponent>;
-
-export const Default: Story = {};
+export const Default: StoryObj = {};

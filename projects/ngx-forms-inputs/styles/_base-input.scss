@@ -55,4 +55,12 @@
     }
   }
 
+  .mat-mdc-form-field-icon-suffix:has(.fix:empty) {
+    display: none;
+  }
+
+  .fix:empty {
+    display: none;
+  }
+
 }

@@ -1,20 +1,14 @@
-import {ChangeDetectorRef, Directive, Input, OnDestroy, TemplateRef, ViewContainerRef} from '@angular/core';
-import {map, switchMap} from "rxjs/operators";
-import {Subject, Subscription} from "rxjs";
+import {ChangeDetectorRef, Directive, effect, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
+import {switchMap} from "rxjs/operators";
 import {FutureError, FutureLoading} from "@juulsgaard/rxjs-tools";
 import {FutureSwitch} from "../models/future-switch.model";
 import {BaseFutureRender} from "../models/base-future.render";
+import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 
 @Directive({selector: '[whenEmpty]'})
-export class WhenEmptyDirective<T> extends BaseFutureRender<TemplateContext> implements OnDestroy {
+export class WhenEmptyDirective<T> extends BaseFutureRender<TemplateContext> {
 
-  sub: Subscription;
-  states$ = new Subject<FutureSwitch<T>>();
-
-  @Input('whenEmpty')
-  set state(state: FutureSwitch<T>) {
-    this.states$.next(state);
-  }
+  state: InputSignal<FutureSwitch<T>> = input.required<FutureSwitch<T>>({alias: 'whenEmpty'})
 
   constructor(
     templateRef: TemplateRef<TemplateContext>,
@@ -23,17 +17,18 @@ export class WhenEmptyDirective<T> extends BaseFutureRender<TemplateContext> imp
   ) {
     super(templateRef, viewContainer, changes);
 
-    this.sub = this.states$.pipe(
-      switchMap(x => x.empty$),
-      map(x => x ? {
-        loading: x instanceof FutureLoading,
-        error: x instanceof FutureError ? x.error : undefined
-      } as TemplateContext : undefined)
-    ).subscribe(c => this.updateView(c));
-  }
+    const state$ = toObservable(this.state).pipe(switchMap(x => x.empty$));
+    const state = toSignal(state$);
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+    effect(() => {
+      const empty = state();
+      if (!empty) return this.updateView(undefined);
+
+      this.updateView({
+        loading: empty instanceof FutureLoading,
+        error: empty instanceof FutureError ? empty.error : undefined
+      });
+    });
   }
 
   static ngTemplateContextGuard<T>(

@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
-import {EMPTY, Observable, of, pairwise, startWith} from "rxjs";
+import {ChangeDetectionStrategy, Component, effect, ElementRef, inject, signal, Signal} from '@angular/core';
+import {pairwise, startWith} from "rxjs";
 import {DIALOG_ANIMATE_IN, DIALOG_CONTEXT} from "../../models/dialog-tokens";
 import {overlayAnimation, TemplateRendering} from '@juulsgaard/ngx-tools'
 import {StaticDialogButton, StaticDialogContext} from "../../models/static-dialog-context";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {toObservable} from "@angular/core/rxjs-interop";
 import {arrToSet} from "@juulsgaard/ts-tools";
 
 @Component({
@@ -18,11 +18,11 @@ import {arrToSet} from "@juulsgaard/ts-tools";
 })
 export class RenderDialogComponent {
 
-  header$: Observable<string>;
+  readonly header: Signal<string|undefined>;
   canClose = false;
 
-  contentTemplate$: Observable<TemplateRendering> = EMPTY;
-  footerTemplate$: Observable<TemplateRendering|undefined> = EMPTY;
+  readonly contentTemplate: Signal<TemplateRendering|undefined>;
+  readonly footerTemplate: Signal<TemplateRendering|undefined>;
 
   htmlDescription?: string;
   plainDescription?: string;
@@ -36,48 +36,48 @@ export class RenderDialogComponent {
 
     this.element.style.zIndex = this.context.zIndex?.toFixed(0) ?? '';
 
-    if (this.context instanceof StaticDialogContext) {
-      this.header$ = of(this.context.header);
+    const context = this.context;
 
-      this.canClose = this.context.canClose;
-      this.element.classList.toggle('closable', this.context.canClose);
-      this.element.classList.toggle('scrollable', this.context.scrollable);
-      this.element.classList.add(this.context.type);
-      this.element.classList.add(...this.context.styles);
+    if (context instanceof StaticDialogContext) {
+      this.header = signal(context.header);
+      this.contentTemplate = signal(undefined);
+      this.footerTemplate = signal(undefined);
 
-      this.plainDescription = this.context.isHtml ? undefined : this.context.description;
-      this.htmlDescription = this.context.isHtml ? this.context.description : undefined;
-      this.buttons = this.context.buttons;
+      this.canClose = context.canClose;
+      this.element.classList.toggle('closable', context.canClose);
+      this.element.classList.toggle('scrollable', context.scrollable);
+      this.element.classList.add(context.type);
+      this.element.classList.add(...context.styles);
+
+      this.plainDescription = context.isHtml ? undefined : context.description;
+      this.htmlDescription = context.isHtml ? context.description : undefined;
+      this.buttons = context.buttons;
       return;
     }
 
-    this.header$ = this.context.header$;
-    this.contentTemplate$ = this.context.content$;
-    this.footerTemplate$ = this.context.footer$;
+    this.header = context.header;
+    this.contentTemplate = context.content;
+    this.footerTemplate = context.footer;
 
-    this.context.canClose$.pipe(
-      takeUntilDestroyed()
-    ).subscribe(canClose => {
-      this.canClose = canClose;
-      this.element.classList.toggle('closable', canClose)
+    effect(() => {
+      this.canClose = context.canClose();
+      this.element.classList.toggle('closable', this.canClose);
     });
 
-    this.context.scrollable$.pipe(
-      takeUntilDestroyed()
-    ).subscribe(canScroll => this.element.classList.toggle('scrollable', canScroll));
+    effect(() => {
+      this.element.classList.toggle('scrollable', context.scrollable());
+    });
 
-    this.context.type$.pipe(
-      takeUntilDestroyed(),
+    toObservable(context.type).pipe(
       startWith(undefined),
-      pairwise()
+      pairwise(),
     ).subscribe(([prev, next]) => {
       if (prev === next) return;
       if (prev) this.element.classList.remove(prev);
       if (next) this.element.classList.add(next);
     });
 
-    this.context.styles$.pipe(
-      takeUntilDestroyed(),
+    toObservable(context.styles).pipe(
       startWith([] as string[]),
       pairwise()
     ).subscribe(([prev, next]) => {
@@ -96,5 +96,8 @@ export class RenderDialogComponent {
     if (!this.canClose) return;
     this.context.close();
   }
+
+  getFooters = (node: Node) => (node instanceof Element) && node.hasAttribute('dialogFooter');
+  getNonFooters = (node: Node) => !this.getFooters(node);
 }
 

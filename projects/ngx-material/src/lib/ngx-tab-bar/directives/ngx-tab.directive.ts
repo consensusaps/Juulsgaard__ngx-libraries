@@ -1,43 +1,35 @@
-import {Directive, ElementRef, forwardRef, Input} from '@angular/core';
-import {Subscription} from "rxjs";
-import {NgxTabBarContext, NgxTabContext} from "../services";
+import {
+  booleanAttribute, computed, Directive, effect, ElementRef, forwardRef, inject, input, InputSignal,
+  InputSignalWithTransform
+} from '@angular/core';
+import {NgxTabContext} from "../services";
 import {UIScopeContext} from "../../../models";
-import {TabUIScopeContext} from "../services/tab-ui-scope.context";
+import {titleCase} from "@juulsgaard/ts-tools";
 
 @Directive({
   selector: '[ngxTab]',
   providers: [
     {provide: NgxTabContext, useExisting: forwardRef(() => NgxTabDirective)},
-    {provide: UIScopeContext, useClass: TabUIScopeContext}
+    UIScopeContext.ProvideChild()
   ],
   host: {'[class.ngx-tab]': 'true'}
 })
 export class NgxTabDirective extends NgxTabContext {
 
-  @Input('ngxTab') id!: string;
-  @Input() tabName?: string;
-  get name() {return this.tabName ?? this.id}
+  readonly slug: InputSignal<string> = input.required<string>({alias: 'ngxTab'});
+  readonly tabName: InputSignal<string | undefined> = input<string>();
+  readonly name = computed(() => this.tabName() ?? titleCase(this.slug()));
 
-  @Input() set disabled(disabled: boolean) {
-    this._disabled$.next(disabled);
-  }
+  readonly disabled: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly hide: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  @Input() set hide(hide: boolean) {
-    this._hidden$.next(hide);
-  }
+  constructor() {
+    super();
+    const element = inject(ElementRef<HTMLElement>).nativeElement;
 
-  sub: Subscription;
-
-  constructor(context: NgxTabBarContext, private element: ElementRef<HTMLElement>) {
-    super(context);
-
-    this.sub = this.isOpen$.subscribe(
-      show => this.element.nativeElement.style.display = show ? '' : 'none'
-    );
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+    effect(() => {
+      element.style.display = this.isOpen() ? '' : 'none'
+    });
   }
 }
 

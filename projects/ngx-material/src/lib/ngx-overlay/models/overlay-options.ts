@@ -1,8 +1,8 @@
-import {Observable} from "rxjs";
+import {Signal} from "@angular/core";
 
 export interface OverlayOptions {
-  canClose$: Observable<boolean>;
-  scrollable$: Observable<boolean>;
-  styles$: Observable<string[]>;
-  type$: Observable<string>;
+  canClose: Signal<boolean>;
+  scrollable: Signal<boolean>;
+  styles: Signal<string[]>;
+  type: Signal<string>;
 }

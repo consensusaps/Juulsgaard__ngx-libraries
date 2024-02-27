@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Signal} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import dayjs, {Dayjs} from "dayjs";
 import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
@@ -37,18 +37,25 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     {provide: MAT_DATE_FORMATS, useValue: MAT_DAYJS_DATE_FORMATS}
   ]
 })
-export class DateInputComponent extends BaseInputComponent<Date | undefined, Dayjs | undefined> {
+export class DateInputComponent extends BaseInputComponent<Date, Dayjs | undefined> {
+
+  declare inputElement: Signal<HTMLInputElement>;
 
   constructor() {
     super();
   }
 
-  postprocessValue(value?: Dayjs): Date | undefined {
-    return value == undefined ? undefined : value.toDate();
+  postprocessValue(value: Dayjs|undefined): Date | undefined {
+    const error = value == null && this.inputElement().value.trim().length > 0
+      ? 'Invalid date format'
+      : undefined;
+
+    this.inputError.set(error);
+
+    return value?.toDate() ?? undefined;
   }
 
-  preprocessValue(value?: Date): Dayjs | undefined {
+  preprocessValue(value: Date|undefined): Dayjs | undefined {
     return value == undefined ? undefined : dayjs(value);
   }
-
 }

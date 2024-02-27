@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, InputSignal} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
@@ -26,7 +26,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 })
 export class BoolInputComponent extends BaseInputComponent<boolean, boolean> {
 
-  @Input() labelPosition: 'before' | 'after' = 'after';
+  readonly labelPosition: InputSignal<"before" | "after"> = input<'before' | 'after'>('after');
 
   constructor() {
     super();

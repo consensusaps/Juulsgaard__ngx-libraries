@@ -1,5 +1,4 @@
-import tinycolor from "tinycolor2";
-import RGBA = tinycolor.ColorFormats.RGBA;
+import {mostReadable, RGBA, TinyColor} from "@ctrl/tinycolor";
 
 export namespace MaterialTheme {
 
@@ -8,7 +7,7 @@ export namespace MaterialTheme {
     if (accentColor) applyThemeColor(element, accentColor, 'accent');
   }
 
-  const contrastColors = [tinycolor('#000000DD'), tinycolor('#FFFFFFDD')];
+  const contrastColors = [new TinyColor('#000000DD'), new TinyColor('#FFFFFFDD')];
 
 
   function applyThemeColor(element: HTMLElement, color: string, type: 'primary'|'accent') {
@@ -20,29 +19,29 @@ export namespace MaterialTheme {
 
 
   function generatePalette(color: string) {
-    const baseLight = tinycolor('#ffffff');
-    const baseDark = multiply(tinycolor(color).toRgb(), tinycolor(color).toRgb());
-    const baseTriad = tinycolor(color).tetrad();
-    const colors = [
-      {color: tinycolor.mix(baseLight, color, 12), name: '50'},
-      {color: tinycolor.mix(baseLight, color, 30), name: '100'},
-      {color: tinycolor.mix(baseLight, color, 50), name: '200'},
-      {color: tinycolor.mix(baseLight, color, 70), name: '300'},
-      {color: tinycolor.mix(baseLight, color, 85), name: '400'},
-      {color: tinycolor.mix(baseLight, color, 100), name: '500'},
-      {color: tinycolor.mix(baseDark, color, 87), name: '600'},
-      {color: tinycolor.mix(baseDark, color, 70), name: '700'},
-      {color: tinycolor.mix(baseDark, color, 54), name: '800'},
-      {color: tinycolor.mix(baseDark, color, 25), name: '900'},
-      {color: tinycolor.mix(baseDark, baseTriad[3], 15).saturate(80).lighten(65), name: 'A100'},
-      {color: tinycolor.mix(baseDark, baseTriad[3], 15).saturate(80).lighten(55), name: 'A200'},
-      {color: tinycolor.mix(baseDark, baseTriad[3], 15).saturate(100).lighten(45), name: 'A400'},
-      {color: tinycolor.mix(baseDark, baseTriad[3], 15).saturate(100).lighten(40), name: 'A700'}
+    const baseLight = new TinyColor('#ffffff');
+    const baseDark = multiply(new TinyColor(color).toRgb(), new TinyColor(color).toRgb());
+    const baseTriad = new TinyColor(color).tetrad();
+    const colors: {color: TinyColor, name: string}[] = [
+      {color: baseLight.mix(color, 12), name: '50'},
+      {color: baseLight.mix(color, 30), name: '100'},
+      {color: baseLight.mix(color, 50), name: '200'},
+      {color: baseLight.mix(color, 70), name: '300'},
+      {color: baseLight.mix(color, 85), name: '400'},
+      {color: baseLight.mix(color, 100), name: '500'},
+      {color: baseDark.mix(color, 87), name: '600'},
+      {color: baseDark.mix(color, 70), name: '700'},
+      {color: baseDark.mix(color, 54), name: '800'},
+      {color: baseDark.mix(color, 25), name: '900'},
+      {color: baseDark.mix(baseTriad[3]!, 15).saturate(80).lighten(65), name: 'A100'},
+      {color: baseDark.mix(baseTriad[3]!, 15).saturate(80).lighten(55), name: 'A200'},
+      {color: baseDark.mix(baseTriad[3]!, 15).saturate(100).lighten(45), name: 'A400'},
+      {color: baseDark.mix(baseTriad[3]!, 15).saturate(100).lighten(40), name: 'A700'}
     ];
 
     for (let color of [...colors]) {
       colors.push({
-        color: tinycolor.mostReadable(color.color, contrastColors),
+        color: mostReadable(color.color, contrastColors) ?? contrastColors[0]!,
         name: `contrast-${color.name}`
       });
     }
@@ -51,10 +50,10 @@ export namespace MaterialTheme {
   }
 
   function multiply(rgb1: RGBA, rgb2: RGBA){
-    rgb1.b = Math.floor(rgb1.b * rgb2.b / 255);
-    rgb1.g = Math.floor(rgb1.g * rgb2.g / 255);
-    rgb1.r = Math.floor(rgb1.r * rgb2.r / 255);
-    return tinycolor('rgb ' + rgb1.r + ' ' + rgb1.g + ' ' + rgb1.b);
+    rgb1.b = Math.floor(Number(rgb1.b) * Number(rgb2.b) / 255);
+    rgb1.g = Math.floor(Number(rgb1.g) * Number(rgb2.g) / 255);
+    rgb1.r = Math.floor(Number(rgb1.r) * Number(rgb2.r) / 255);
+    return new TinyColor('rgb ' + rgb1.r + ' ' + rgb1.g + ' ' + rgb1.b);
   }
 
 }

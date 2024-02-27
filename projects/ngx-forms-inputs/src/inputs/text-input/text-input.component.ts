@@ -24,18 +24,18 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   ],
   standalone: true
 })
-export class TextInputComponent extends BaseInputComponent<string | undefined, string> {
+export class TextInputComponent extends BaseInputComponent<string, string> {
 
   constructor() {
     super();
   }
 
-  postprocessValue(value: string | undefined) {
+  postprocessValue(value: string) {
     return value ? value : undefined;
   }
 
   preprocessValue(value: string | undefined): string {
-    return value ?? "";
+    return value ?? '';
   }
 
 }

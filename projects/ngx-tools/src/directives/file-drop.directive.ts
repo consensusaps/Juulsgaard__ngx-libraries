@@ -1,4 +1,4 @@
-import {Directive, ElementRef, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, HostListener, input, InputSignal, Output} from '@angular/core';
 
 
 @Directive({ selector: '[fileDrop]', standalone: true })
@@ -9,10 +9,10 @@ export class FileDropDirective {
   constructor(private element: ElementRef<HTMLElement>) { }
 
   @Output() fileDrop = new EventEmitter<DragEvent>();
-  @Input() fileDropDisable = false;
+  readonly fileDropDisable: InputSignal<boolean> = input(false);
 
   @HostListener('dragover', ['$event']) onDragOver(event: Event) {
-    if (this.fileDropDisable) return;
+    if (this.fileDropDisable()) return;
     event.stopPropagation();
     event.preventDefault();
     this.element.nativeElement.classList.add('file-hover');
@@ -20,14 +20,14 @@ export class FileDropDirective {
   }
 
   @HostListener('dragleave', ['$event']) onDragLeave(event: Event) {
-    if (this.fileDropDisable) return;
+    if (this.fileDropDisable()) return;
     event.stopPropagation();
     event.preventDefault();
     this.timeout = window.setTimeout(() => this.element.nativeElement.classList.remove('file-hover'), 100);
   }
 
   @HostListener('drop', ['$event']) onDrop(event: Event) {
-    if (this.fileDropDisable) return;
+    if (this.fileDropDisable()) return;
     event.stopPropagation();
     event.preventDefault();
     clearTimeout(this.timeout);

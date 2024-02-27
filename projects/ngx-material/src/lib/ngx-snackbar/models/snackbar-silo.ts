@@ -9,7 +9,6 @@ export abstract class SnackbarSilo {
   readonly snackbars$: Observable<SnackbarInstance<unknown>[]>;
 
   readonly type: string;
-  private readonly showNewest: boolean;
 
   protected addSnackbar(instance: SnackbarInstance<unknown>) {
     this.queue$.enqueue(instance);
@@ -22,7 +21,6 @@ export abstract class SnackbarSilo {
 
     // Store settings
     this.type = options.type;
-    this.showNewest = options.showNewest;
 
     // Dispose outdated instances
     this.queue$.itemRemoved$.subscribe(x => x.item.dispose());

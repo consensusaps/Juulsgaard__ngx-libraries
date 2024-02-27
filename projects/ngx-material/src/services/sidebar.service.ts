@@ -1,5 +1,6 @@
 import {BehaviorSubject} from "rxjs";
 import {Provider, Type} from "@angular/core";
+import {subjectToSignal} from "@juulsgaard/ngx-tools";
 
 export class SidebarService {
 
@@ -10,8 +11,9 @@ export class SidebarService {
 
   private _show$ = new BehaviorSubject(false);
   show$ = this._show$.asObservable();
+  showSignal = subjectToSignal(this._show$);
 
-  get show() {return this._show$.value}
+  get show() {return this.showSignal()}
   set show(show: boolean) {this._show$.next(show)}
 
   toggle(show?: boolean) {

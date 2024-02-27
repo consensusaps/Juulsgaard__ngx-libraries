@@ -1,7 +1,9 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input} from '@angular/core';
+import {
+  booleanAttribute, ChangeDetectionStrategy, Component, effect, input, InputSignal, InputSignalWithTransform
+} from '@angular/core';
 import {BaseAnchor} from "../../models/base-button";
-import {IconDirective} from "@juulsgaard/ngx-tools";
-import {coerceBooleanProperty} from "@angular/cdk/coercion";
+import {BaseIconAliases, IconDirective, IconProviders} from "@juulsgaard/ngx-tools";
+import {isString} from "@juulsgaard/ts-tools";
 
 @Component({
   selector: 'a[ngxIconButton], a[ngxRaisedIconButton]',
@@ -12,26 +14,41 @@ import {coerceBooleanProperty} from "@angular/cdk/coercion";
   templateUrl: './icon-anchor.component.html',
   styleUrls: ['./icon-anchor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {'[role]': '"button"', '[class.active]': 'active'}
+  host: {'[role]': '"button"', '[class.active]': 'active()'}
 })
 export class IconAnchorComponent extends BaseAnchor {
-  @Input() icon?: string;
-  @Input() alias?: string;
 
-  @Input({transform: coerceBooleanProperty}) active = false;
+  readonly active: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
 
-  @Input() set size(size: number|string|undefined) {
-    this.element.nativeElement.style.fontSize = size != undefined ? (typeof size === 'string' ? size : `${size}px`) : '';
-  }
+  readonly provider: InputSignal<IconProviders| undefined> = input<IconProviders>();
+  readonly icon: InputSignal<string | undefined> = input<string>();
+  readonly alias: InputSignal<string | BaseIconAliases | undefined> = input<string | BaseIconAliases>();
 
-  @Input() set padding(padding: number|string|undefined) {
-    this.element.nativeElement.style.setProperty(
-      '--padding',
-      padding ? (typeof padding === 'string' ? padding : `${padding}px`) : null
-    );
-  }
+  readonly size: InputSignalWithTransform<string, number | string | undefined | null> = input('', {
+    transform: (size: number | string | undefined | null) => {
+      if (size == null) return '';
+      if (isString(size)) return size;
+      return `${size}px`;
+    }
+  });
 
-  constructor(private element: ElementRef<HTMLElement>) {
+  readonly padding: InputSignalWithTransform<string | null, number | string | undefined | null> = input(null, {
+    transform: (padding: number | string | undefined | null) => {
+      if (padding == null) return null;
+      if (isString(padding)) return padding;
+      return `${padding}px`;
+    }
+  });
+
+  constructor() {
     super();
+
+    effect(() => {
+      this.element.style.fontSize = this.size();
+    });
+
+    effect(() => {
+      this.element.style.setProperty('--padding', this.padding());
+    });
   }
 }

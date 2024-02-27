@@ -1,31 +1,21 @@
 import {Disposable} from "@juulsgaard/ts-tools";
-import {Observable} from "rxjs";
 import {RenderTab} from "./render-tab";
 import {NgxSideMenuContext} from "./menu-context";
 import {SideMenuOptions} from "./side-menu-options";
 import {OverlayToken} from "@juulsgaard/ngx-tools";
-import {Injector} from "@angular/core";
-import {map} from "rxjs/operators";
-import {cache, disposable} from "@juulsgaard/rxjs-tools";
+import {computed, Injector, Signal} from "@angular/core";
 import {NgxSideMenuTabContext} from "./menu-tab-context";
 
 import {SideMenuRenderContext} from "./side-menu-render-context";
 
 export class SideMenuInstance extends SideMenuRenderContext implements Disposable {
 
-  get zIndex() {
-    return this.token.zIndex
-  }
+  override zIndex: number;
+  override tabs: Signal<NgxSideMenuTabContext[]>;
+  override showButtons: Signal<boolean>;
 
-  get tabs$() {
-    return this.context.tabs$
-  };
-
-  get showButtons$() {
-    return this.context.showButtons$
-  };
-
-  readonly tab$: Observable<RenderTab | undefined>;
+  private _tab?: RenderTab;
+  override tab: Signal<RenderTab | undefined>;
 
   constructor(
     private context: NgxSideMenuContext,
@@ -35,22 +25,28 @@ export class SideMenuInstance extends SideMenuRenderContext implements Disposabl
   ) {
     super(options);
 
-    this.tab$ = this.context.tab$.pipe(
-      map(x => x ? new RenderTab(x) : undefined),
-      disposable(),
-      cache()
-    );
+    this.zIndex = token.zIndex;
+    this.tabs = this.context.tabs;
+    this.showButtons = this.context.showButtons;
+
+    this.tab = computed(() => {
+      this._tab?.dispose();
+      const tab = this.context.tab();
+      this._tab = tab ? new RenderTab(tab) : undefined;
+      return this._tab;
+    });
   }
 
   override close() {
     this.context.close();
   }
 
-  toggleTab(tab: NgxSideMenuTabContext): void {
+  override toggleTab(tab: NgxSideMenuTabContext): void {
     this.context.toggleTab(tab);
   }
 
   dispose(): void {
     this.token.dispose();
+    this._tab?.dispose();
   }
 }
