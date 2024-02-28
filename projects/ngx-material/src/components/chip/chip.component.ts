@@ -3,7 +3,7 @@ import {
   InputSignalWithTransform, Output, ViewChild
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {IconButtonComponent} from "../icon-button/icon-button.component";
+import {IconButtonComponent} from "../../lib/buttons/components/icon-button/icon-button.component";
 import {NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
 import {mostReadable, TinyColor} from "@ctrl/tinycolor";
 

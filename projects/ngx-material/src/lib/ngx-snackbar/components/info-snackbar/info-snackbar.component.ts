@@ -2,11 +2,11 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {SnackbarBaseComponent} from "../snackbar-base.component";
 import {InfoSnackbarData} from "../../models/info-snackbar";
-import {IconButtonComponent} from "../../../../components";
 import {snackbarAnimation} from "@juulsgaard/ngx-tools";
 import {mapObj} from "@juulsgaard/ts-tools";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {MatButtonModule} from "@angular/material/button";
+import {IconButtonComponent} from "../../../buttons/components/icon-button/icon-button.component";
 
 @Component({
   selector: 'ngx-info-snackbar',

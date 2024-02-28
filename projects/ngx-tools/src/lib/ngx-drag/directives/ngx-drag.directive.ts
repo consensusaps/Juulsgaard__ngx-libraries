@@ -1,5 +1,5 @@
 import {
-  booleanAttribute, Directive, ElementRef, EventEmitter, HostBinding, HostListener, input, InputSignal,
+  booleanAttribute, Directive, effect, ElementRef, EventEmitter, HostListener, inject, input, InputSignal,
   InputSignalWithTransform, Output
 } from '@angular/core';
 import {NgxDragContext} from "../models/ngx-drag-context";
@@ -7,9 +7,11 @@ import {NgxDragService} from "../services/ngx-drag.service";
 
 @Directive({
   selector: '[ngxDrag]',
-  host: {'[class.ngx-drag]': 'true', '[class.ngx-drag-disabled]': 'disableDrag'}
+  host: {'[class.ngx-drag]': 'true'}
 })
 export class NgxDragDirective<T> {
+
+  private service = inject(NgxDragService);
 
   readonly dragData: InputSignal<T | undefined> = input<T>();
   readonly dropText: InputSignal<string | undefined> = input<string>();
@@ -53,12 +55,16 @@ export class NgxDragDirective<T> {
     this.service.deregister(this.active);
   }
 
-  @HostBinding('attr.draggable')
-  get draggable() {return this.disableDrag() ? 'false' : 'true'}
 
+  constructor() {
+    const element = inject(ElementRef<HTMLElement>).nativeElement;
+    element.style.isolation = 'isolate';
 
-  constructor(element: ElementRef<HTMLElement>, private service: NgxDragService) {
-    element.nativeElement.style.isolation = 'isolate';
+    effect(() => {
+      const disabled = this.disableDrag();
+      element.classList.toggle('ngx-drag-disabled', disabled);
+      element.draggable = !disabled;
+    });
   }
 
 }

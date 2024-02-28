@@ -1,9 +1,26 @@
 
-<ngx-icon-button icon="search"/>
-<ngx-raised-icon-button alias="close" [active]="active" (click)="active = !active"/>
-<br>
-<ngx-icon-button alias="close" disabled/>
-<ngx-raised-icon-button alias="close" disabled [active]="active" (click)="active = !active"/>
-<br>
-<a ngxIconButton alias="close"></a>
-<a ngxRaisedIconButton alias="close" [active]="active" (click)="active = !active"></a>
+
+<table>
+    <tr>
+        <th>Icon</th>
+        <td>
+            <ngx-icon-button icon="search"/>
+            <ngx-icon-button icon="search" color="primary"/>
+            <ngx-icon-button icon="search" color="accent"/>
+            <ngx-icon-button icon="search" color="warn"/>
+            <ngx-icon-button icon="search" color="primary" disabled/>
+            <a ngxIconButton icon="search"></a>
+        </td>
+    </tr>
+    <tr>
+        <th>Raised Icon</th>
+        <td>
+            <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active"/>
+            <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active" color="primary"/>
+            <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active" color="accent"/>
+            <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active" color="warn"/>
+            <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active" color="primary" disabled/>
+            <a ngxRaisedIconButton icon="search"></a>
+        </td>
+    </tr>
+</table>

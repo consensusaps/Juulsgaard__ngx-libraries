@@ -1,6 +1,6 @@
 import {
-  booleanAttribute, Directive, ElementRef, EventEmitter, HostListener, input, InputSignal, InputSignalWithTransform,
-  Output
+  booleanAttribute, Directive, effect, ElementRef, EventEmitter, HostListener, inject, input, InputSignal,
+  InputSignalWithTransform, Output
 } from '@angular/core';
 import {Subscription, timer} from "rxjs";
 import {NgxDropContext} from "../models/ngx-drop-context";
@@ -9,11 +9,14 @@ import {NgxDragEvent} from "../models/ngx-drag-event";
 
 @Directive({
   selector: '[ngxDropArea]',
-  host: {'[class.ngx-drop-area]': 'true', '[class.ngx-drop-disabled]': 'disableDrop()'}
+  host: {'[class.ngx-drop-area]': 'true'}
 })
 export class NgxDropAreaDirective<T> {
 
   static readonly HOVER_CLASS = 'ngx-drop-hover';
+
+  private element = inject(ElementRef<HTMLElement>).nativeElement;
+  private service = inject(NgxDragService);
 
   @Output('ngxDrop') drop = new EventEmitter<NgxDragEvent<T>>;
   @Output('ngxDropHover') dropHover = new EventEmitter<NgxDropContext<T>>;
@@ -26,7 +29,11 @@ export class NgxDropAreaDirective<T> {
 
   removeHoverState?: Subscription;
 
-  constructor(private element: ElementRef<HTMLElement>, private service: NgxDragService) { }
+  constructor() {
+    effect(() => {
+      this.element.classList.toggle('ngx-drop-disabled', this.disableDrop());
+    });
+  }
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent) {
@@ -38,7 +45,7 @@ export class NgxDropAreaDirective<T> {
     if (!this.canDrop(event, data)) return;
 
     this.removeHoverState?.unsubscribe();
-    this.element.nativeElement.classList.remove(NgxDropAreaDirective.HOVER_CLASS);
+    this.element.classList.remove(NgxDropAreaDirective.HOVER_CLASS);
 
     const dropEvent = event as NgxDragEvent<T>;
     dropEvent.data = data;
@@ -59,7 +66,7 @@ export class NgxDropAreaDirective<T> {
 
     if (canDrop) {
       this.removeHoverState?.unsubscribe();
-      this.element.nativeElement.classList.add(NgxDropAreaDirective.HOVER_CLASS);
+      this.element.classList.add(NgxDropAreaDirective.HOVER_CLASS);
     }
   }
 
@@ -67,7 +74,7 @@ export class NgxDropAreaDirective<T> {
     event.preventDefault();
     if (this.removeHoverState && !this.removeHoverState.closed) return;
     this.removeHoverState = timer(100)
-      .subscribe(() => this.element.nativeElement.classList.remove(NgxDropAreaDirective.HOVER_CLASS));
+      .subscribe(() => this.element.classList.remove(NgxDropAreaDirective.HOVER_CLASS));
   }
 
   private canDrop(event: DragEvent, data: T) {

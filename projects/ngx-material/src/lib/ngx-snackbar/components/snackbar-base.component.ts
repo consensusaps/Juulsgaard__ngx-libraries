@@ -1,4 +1,4 @@
-import {DestroyRef, Directive, ElementRef, HostBinding, inject, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, DestroyRef, Directive, ElementRef, HostBinding, inject, ViewChild} from "@angular/core";
 import {SnackbarContext} from "../models";
 import {PointerEvent} from "react";
 import {fromEvent, merge, Subject} from "rxjs";
@@ -7,6 +7,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 @Directive()
 export abstract class SnackbarBaseComponent<T> {
 
+  protected readonly changes = inject(ChangeDetectorRef);
   protected readonly element = inject(ElementRef<HTMLElement>).nativeElement;
   protected readonly context: SnackbarContext<T> = inject(SnackbarContext<T>);
   protected readonly data = this.context.data;
@@ -100,6 +101,7 @@ export abstract class SnackbarBaseComponent<T> {
     }
 
     this.swipeDismissed = delta.x > 0 ? 'right' : 'left';
+    this.changes.detectChanges();
     setTimeout(() => this.dismiss());
   }
   //</editor-fold>
