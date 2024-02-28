@@ -1,5 +1,11 @@
 @use "@juulsgaard/ngx-tools/styles/variables" as *;
 
+//<editor-fold desc="MDC Overrides">
+
+.mdc-button.mat-mdc-button-base {
+  letter-spacing: 0.03571428571em;
+}
+
 //Icons in buttons
 .mat-mdc-button-base .mdc-button__label, .mat-mdc-menu-item .mdc-list-item__primary-text {
   > *, & {
@@ -18,48 +24,136 @@
     }
   }
 }
+//</editor-fold>
 
-.mdc-button.mat-mdc-button-base {
-  letter-spacing: 0.03571428571em;
-}
-
+//<editor-fold desc="Base Button Styles">
 .ngx-button-base {
   position: relative;
   display: inline-block;
   overflow: hidden;
   cursor: pointer;
   outline: none;
+  border-radius: 4px;
 
-  &.disabled {
-    pointer-events: none;
+  &.block {
+    display: block;
   }
 }
+//</editor-fold>
 
-//<editor-fold desc="Icon Button">
-.ngx-icon-button-base {
-  --padding: 0.5em;
-  font-size: 18px;
+//<editor-fold desc="Anchors">
+a.ngx-button-base {
+  text-decoration: none;
+  color: inherit;
+}
+//</editor-fold>
 
-  &.disabled {
-    opacity: 0.4;
+//<editor-fold desc="Button Colors">
+.ngx-button-base {
+  border-color: $text-color-300;
+
+  &.ngx-color-primary {
+    color: $primary;
+    border-color: $primary-300;
   }
 
-  .ngx-icon {
-    display: block;
-    font-size: inherit;
+  &.ngx-color-accent {
+    color: $accent;
+    border-color: $accent-300;
+  }
 
-    &.font-awesome {
-      display: flex;
+  &.ngx-color-warn {
+    color: $warn;
+    border-color: $warn;
+  }
+
+  &.ngx-raised, &.ngx-flat {
+    &:not(.ngx-background) {
+      background-color: $foreground-700;
+    }
+
+    &.ngx-background-primary {
+      background-color: $primary;
+
+      &:not(.ngx-color) {
+        color: $primary-contrast;
+      }
+    }
+
+    &.ngx-background-accent {
+      background-color: $accent;
+
+      &:not(.ngx-color) {
+        color: $accent-contrast;
+      }
+    }
+
+    &.ngx-background-warn {
+      background-color: $warn;
+
+      &:not(.ngx-color) {
+        color: $warn-contrast;
+      }
     }
   }
 }
+//</editor-fold>
 
-a.ngx-icon-button-base {
-  text-decoration: none;
+//<editor-fold desc="States">
+.ngx-button-base {
+  &.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+
+    &.ngx-raised, &.active {
+      box-shadow: none;
+    }
+  }
+
+  &.active {
+    &.ngx-raised, &.ngx-flat {
+      box-shadow: inset 0 3px 1px -2px rgba(0, 0, 0, .4),
+      inset 0px 2px 2px 0px rgba(0, 0, 0, .28),
+      inset 0px 1px 5px 0px rgba(0, 0, 0, .24);
+    }
+  }
 }
+//</editor-fold>
 
-.ngx-icon-button {
-  border-radius: 50%;
+//<editor-fold desc="Transitions">
+.ngx-button-base {
+  transition-property: background-color, color, box-shadow, opacity;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+//</editor-fold>
+
+//<editor-fold desc="Type Styles">
+.ngx-button-base {
+  &.ngx-raised {
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2),
+    0px 2px 2px 0px rgba(0, 0, 0, .14),
+    0px 1px 5px 0px rgba(0, 0, 0, .12);
+  }
+
+  &.ngx-bordered {
+    border-width: 1px;
+    border-style: solid;
+
+    &.active {
+      border-color: currentColor;
+    }
+  }
+}
+//</editor-fold>
+
+//<editor-fold desc="Ripple / Hover">
+.ngx-button-base {
+  --mat-ripple-color: currentcolor;
+
+  .mat-ripple-element {
+    opacity: 0.2;
+  }
 
   &::after {
     content: '';
@@ -75,20 +169,50 @@ a.ngx-icon-button-base {
 
   &:hover, &:focus-visible {
     &::after {
-      opacity: 0.05;
+      opacity: 0.1;
+    }
+  }
+}
+//</editor-fold>
+
+//<editor-fold desc="Text Buttons">
+.ngx-text-button {
+  display: inline-flex;
+  flex-flow: row;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  min-height: 2.5em;
+  padding: 0 1em;
+  font-weight: 500;
+  letter-spacing: 1px;
+
+  &.block {
+    display: flex;
+  }
+
+  > ngx-icon {
+    font-size: 1.5em;
+  }
+}
+//</editor-fold>
+
+//<editor-fold desc="Icon Buttons">
+.ngx-icon-button-base {
+  --padding: 0.5em;
+  font-size: 18px;
+
+  .ngx-icon {
+    display: block;
+    font-size: inherit;
+
+    &.font-awesome {
+      display: flex;
     }
   }
 }
 
-.ngx-raised-icon-button {
-  border-radius: 4px;
-  background-color: $foreground-600;
-  box-shadow: 1px 1px 2px rgba(black, 0.12);
-  color: $primary;
-
-  &.active {
-    background-color: $accent-400;
-    color: $accent-400-contrast;
-  }
+.ngx-icon-button {
+  border-radius: 50%;
 }
 //</editor-fold>

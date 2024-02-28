@@ -13,12 +13,12 @@ export function applyButtonClasses(element: HTMLElement) {
 
 const buttonClasses = {
   'ngxIconButton': ['ngx-icon-button'],
-  'ngxRaisedIconButton': ['ngx-raised-icon-button'],
-  'ngxBorderedIconButton': ['ngx-bordered-icon-button'],
-  'ngxFlatIconButton': ['ngx-flat-icon-button'],
-  'ngxButton': ['ngx-button'],
-  'ngxRaisedButton': ['ngx-raised-button'],
-  'ngxBorderedButton': ['ngx-bordered-button'],
-  'ngxFlatButton': ['ngx-flat-button'],
+  'ngxRaisedIconButton': ['ngx-raised-icon-button', 'ngx-raised'],
+  'ngxBorderedIconButton': ['ngx-bordered-icon-button', 'ngx-bordered'],
+  'ngxFlatIconButton': ['ngx-flat-icon-button', 'ngx-flat'],
+  'ngxButton': ['ngx-button', 'ngx-text-button'],
+  'ngxRaisedButton': ['ngx-raised-button', 'ngx-raised', 'ngx-text-button'],
+  'ngxBorderedButton': ['ngx-bordered-button', 'ngx-bordered', 'ngx-text-button'],
+  'ngxFlatButton': ['ngx-flat-button', 'ngx-flat', 'ngx-text-button'],
 }
 const buttonClassLookup = objToMap(buttonClasses, (_, x) => x.toLowerCase());

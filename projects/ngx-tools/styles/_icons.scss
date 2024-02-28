@@ -1,7 +1,8 @@
 
-ngx-icon {
+.ngx-icon {
   --scale: 1;
 
+  font-size: inherit;
   display: inline-block;
   height: calc(1em + 2 * var(--padding, 0px));
   width: calc(1em + 2 * var(--padding, 0px));
@@ -11,7 +12,9 @@ ngx-icon {
   overflow: hidden;
   box-sizing: border-box;
   user-select: none;
+}
 
+ngx-icon {
   &.empty {
     display: none;
   }

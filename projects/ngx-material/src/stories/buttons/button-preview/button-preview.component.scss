@@ -1,5 +1,16 @@
 
+.row {
+  display: flex;
+}
+
+.card {
+  background-color: var(--ngx-foreground);
+  padding: 20px;
+  border-radius: 8px;
+}
+
 table {
+
   th {
     padding-right: 20px;
   }
