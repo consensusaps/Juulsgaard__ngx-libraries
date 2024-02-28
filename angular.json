@@ -61,7 +61,12 @@
             "configDir": "projects/ngx-tools/.storybook",
             "browserTarget": "ngx-tools:build",
             "compodoc": false,
-            "outputDir": "dist/storybook/ngx-tools"
+            "outputDir": "dist/storybook/ngx-tools",
+            "styles": [
+              "./projects/ngx-tools/styles/index.scss",
+              "./projects/ngx-tools/styles/reset.scss",
+              "./projects/ngx-tools/theme/story-theme.scss"
+            ]
           }
         }
       }
@@ -103,10 +108,10 @@
             "compodoc": false,
             "port": 6006,
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-material/theme/story-theme.scss",
               "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
-              "./projects/ngx-tools/theme/light-theme.scss",
+              "./projects/ngx-tools/theme/story-theme.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
             ]
@@ -160,10 +165,10 @@
             "compodoc": false,
             "port": 6006,
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-material/theme/story-theme.scss",
               "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
-              "./projects/ngx-tools/theme/light-theme.scss",
+              "./projects/ngx-tools/theme/story-theme.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
             ]
@@ -217,10 +222,10 @@
             "compodoc": false,
             "port": 6006,
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./projects/ngx-material/theme/story-theme.scss",
               "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
-              "./projects/ngx-tools/theme/light-theme.scss",
+              "./projects/ngx-tools/theme/story-theme.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
             ]
@@ -274,11 +279,11 @@
             "compodoc": false,
             "port": 6006,
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./projects/ngx-forms-inputs/styles/index.scss",
               "./projects/ngx-tools/styles/index.scss",
               "./projects/ngx-tools/styles/reset.scss",
-              "./projects/ngx-tools/theme/light-theme.scss",
+              "./projects/ngx-tools/theme/story-theme.scss",
+              "./projects/ngx-material/theme/story-theme.scss",
               "./projects/ngx-material/styles/defaults.scss",
               "./projects/ngx-material/styles/index.scss"
             ]

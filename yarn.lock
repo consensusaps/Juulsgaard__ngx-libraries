@@ -2384,11 +2384,6 @@
   resolved "https://registry.yarnpkg.com/@juulsgaard/rxjs-tools/-/rxjs-tools-1.5.3.tgz#b45e47355be0aa1c0e7f5ce86fa89626c58ca895"
   integrity sha512-MMPP5IWv9JzSXBLifuk185L4EWTZUtV80d5/8ePAlbvpdOLD+/Vmt9uYW/2yjCGSUf7UvuSx7sb8KFvqcjlRrA==
 
-"@juulsgaard/ts-tools@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@juulsgaard/ts-tools/-/ts-tools-1.5.2.tgz#d987b1bbfd6dec54161f309ac68591b62fdba88c"
-  integrity sha512-2aiBIjV2UIXvF8NKs5VxpaeoF3h+CPH8WsSlt1E1bmMr0V8tnObNtfJuhhOrp0BEUSjRR5/kZnUWVKlErk5g1g==
-
 "@juulsgaard/ts-tools@1.5.3":
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/@juulsgaard/ts-tools/-/ts-tools-1.5.3.tgz#a07e4d57d143ee768d5293d9b02ab0f61d966dc8"
@@ -3834,6 +3829,13 @@
   integrity sha512-9o9JXDsYjNaDgz/cY5+jv694+aik/1aiRGGvsCv68e1p/ob0glkGKav4lnJe2VJqD+gCmaARoD8GOJlhoQl8JQ==
   dependencies:
     "@storybook/global" "^5.0.0"
+    ts-dedent "^2.0.0"
+
+"@storybook/addon-themes@^7.6.17":
+  version "7.6.17"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-themes/-/addon-themes-7.6.17.tgz#c011a820014aed3a5118bce24da6c0519cbc7e20"
+  integrity sha512-i/dI3GKlJmQv0Di9HM3fKJvFIab55kvva0vXCGBkqSw3wYoZuq++npkWeDnjjZUvggV12H2RTdGqYwMCXB/GHg==
+  dependencies:
     ts-dedent "^2.0.0"
 
 "@storybook/addon-toolbars@7.6.17":
