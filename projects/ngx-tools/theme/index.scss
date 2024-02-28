@@ -55,7 +55,7 @@
 	$accent: #ff4081,
 	$warn: #f44336,
 	$background: #121212,
-	$foreground: #191919
+	$foreground: #212121
 ) {
 	--ngx-background: #{$background};
 
@@ -146,5 +146,5 @@
 }
 
 @function _get-contrast($color) {
-	@return if(lightness($color) < 55%, #FFFFFFDD, #000000DD)
+	@return if(lightness($color) < 60%, #FFFFFFDD, #000000DD)
 }

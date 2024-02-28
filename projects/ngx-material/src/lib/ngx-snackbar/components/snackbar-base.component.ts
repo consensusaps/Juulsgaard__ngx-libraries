@@ -100,8 +100,9 @@ export abstract class SnackbarBaseComponent<T> {
       return;
     }
 
+
     this.swipeDismissed = delta.x > 0 ? 'right' : 'left';
-    this.changes.detectChanges();
+    this.changes.markForCheck();
     setTimeout(() => this.dismiss());
   }
   //</editor-fold>
