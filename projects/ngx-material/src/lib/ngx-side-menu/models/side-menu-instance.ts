@@ -30,7 +30,8 @@ export class SideMenuInstance extends SideMenuRenderContext implements Disposabl
     this.showButtons = this.context.showButtons;
 
     this.tab = computed(() => {
-      this._tab?.dispose();
+      const oldTab = this._tab;
+      if (oldTab) queueMicrotask(() => oldTab.dispose());
       const tab = this.context.tab();
       this._tab = tab ? new RenderTab(tab) : undefined;
       return this._tab;
