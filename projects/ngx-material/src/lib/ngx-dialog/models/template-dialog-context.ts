@@ -54,14 +54,16 @@ export class TemplateDialogInstance extends TemplateDialogContext implements Dis
     this.token.escape$.subscribe(() => this.close());
 
     this.content = computed(() => {
-      this._content?.dispose();
+      const oldContent = this._content;
+      if (oldContent) queueMicrotask(() => oldContent.dispose());
       const source = options.content();
       this._content = Rendering.FromSource.Static(source);
       return this._content;
     });
 
     this.footer = computed(() => {
-      this._footer?.dispose();
+      const oldFooter = this._footer;
+      if (oldFooter) queueMicrotask(() => oldFooter.dispose());
       const source = options.footer();
       this._footer = source && Rendering.FromSource.Static(source);
       return this._footer;

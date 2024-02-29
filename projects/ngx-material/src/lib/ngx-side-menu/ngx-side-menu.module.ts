@@ -5,9 +5,9 @@ import {CommonModule} from "@angular/common";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatBadgeModule} from "@angular/material/badge";
 import {SideMenuTabDirective} from "./directives/side-menu-tab.directive";
-import {IconButtonComponent} from "../../components";
 import {FalsyPipe, NgxRenderingModule, TruthyPipe} from "@juulsgaard/ngx-tools";
 import {MonoSideMenuComponent} from "./components/mono-side-menu/mono-side-menu.component";
+import {IconButtonComponent} from "../buttons/components/icon-button/icon-button.component";
 
 @NgModule({
   imports: [

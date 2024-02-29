@@ -1,5 +1,20 @@
 # @juulsgaard/ngx-material
 
+## 17.0.4
+
+### Patch Changes
+
+- Improve disposal timing
+
+## 17.0.3
+
+### Patch Changes
+
+- Improve side-menu badges
+- Button overhaul
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.2
+
 ## 17.0.2
 
 ### Patch Changes

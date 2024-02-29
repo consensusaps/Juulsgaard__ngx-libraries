@@ -1,15 +1,17 @@
 @use 'sass:map';
+@use 'sass:math';
 
 @mixin ngx-light-theme(
 	$primary: #455a64,
 	$accent: #8d6e63,
+	$warn: #f44336,
 	$background: #f0f0f0,
 	$foreground: #FFFFFF
 ) {
 	--ngx-background: #{$background};
 
 	$delta: lightness($foreground) - lightness($background);
-	$step: $delta / 5;
+	$step: math.div($delta, 5);
 
 	--ngx-foreground: #{$foreground};
 	--ngx-foreground-900: #{darken($foreground, 12)};
@@ -32,6 +34,9 @@
 	@include _apply-palette('accent', $accent-palette);
 	@include _apply-palette-contrast('accent', $accent-palette);
 
+	--ngx-warn: #{$warn};
+	--ngx-warn-contrast: #{_get-contrast($warn)};
+
 	--ngx-text-color: #000000DD;
 	--ngx-text-color-400: #00000099;
 	--ngx-text-color-300: #00000060;
@@ -48,13 +53,14 @@
 @mixin ngx-dark-theme(
 	$primary: #7986cb,
 	$accent: #ff4081,
+	$warn: #f44336,
 	$background: #121212,
-	$foreground: #191919
+	$foreground: #212121
 ) {
 	--ngx-background: #{$background};
 
 	$delta: lightness($foreground) - lightness($background);
-	$step: $delta / 5;
+	$step: math.div($delta, 5);
 
 	--ngx-foreground: #{$foreground};
 	--ngx-foreground-900: #{lighten($foreground, 12)};
@@ -77,6 +83,9 @@
 	@include _apply-palette('accent', $accent-palette);
 	@include _apply-palette-contrast('accent', $accent-palette);
 
+	--ngx-warn: #{$warn};
+	--ngx-warn-contrast: #{_get-contrast($warn)};
+
 	--ngx-text-color: #FFFFFFDD;
 	--ngx-text-color-400: #FFFFFF99;
 	--ngx-text-color-300: #FFFFFF60;
@@ -92,9 +101,9 @@
 
 @function _create-palette($color, $light: true) {
 	$low-delta: if($light, 100% - lightness($color), lightness($color));
-	$low-step: $low-delta / 5;
+	$low-step: math.div($low-delta, 5);
 	$high-delta: 100% - $low-delta;
-	$high-step: $high-delta / 5;
+	$high-step: math.div($high-delta, 5);
 
 	@return (
 		"100": _lighten-theme($color, $low-step * 4, $light),
@@ -116,9 +125,9 @@
 }
 
 @mixin _apply-palette-contrast($prefix, $palette) {
-	--ngx-#{$prefix}-contrast: #{if(lightness(map.get($palette, '500')) < 55%, #FFFFFFDD, #000000DD)};
+	--ngx-#{$prefix}-contrast: #{_get-contrast(map.get($palette, '500'))};
 	@each $name, $color in $palette {
-		--ngx-#{$prefix}-#{$name}-contrast: #{if(lightness($color) < 55%, #FFFFFFDD, #000000DD)};
+		--ngx-#{$prefix}-#{$name}-contrast: #{_get-contrast($color)};
 	}
 }
 
@@ -134,4 +143,8 @@
 		@return darken($color, $amount);
 	}
 	@return lighten($color, $amount);
+}
+
+@function _get-contrast($color) {
+	@return if(lightness($color) < 60%, #FFFFFFDD, #000000DD)
 }

@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.0.2
+
+### Patch Changes
+
+- Warn color in theme
+
 ## 17.0.1
 
 ### Patch Changes

@@ -1,24 +1,10 @@
-import {
-  booleanAttribute, ChangeDetectionStrategy, Component, effect, input, InputSignal, InputSignalWithTransform
-} from '@angular/core';
-import {BaseAnchor} from "../../models/base-button";
-import {BaseIconAliases, IconDirective, IconProviders} from "@juulsgaard/ngx-tools";
+import {Directive, effect, input, InputSignal, InputSignalWithTransform} from '@angular/core';
+import {BaseIconAliases, IconProviders} from "@juulsgaard/ngx-tools";
 import {isString} from "@juulsgaard/ts-tools";
+import {BaseButton} from "./base-button.directive";
 
-@Component({
-  selector: 'a[ngxIconButton], a[ngxRaisedIconButton]',
-  standalone: true,
-  imports: [
-    IconDirective
-  ],
-  templateUrl: './icon-anchor.component.html',
-  styleUrls: ['./icon-anchor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {'[role]': '"button"', '[class.active]': 'active()'}
-})
-export class IconAnchorComponent extends BaseAnchor {
-
-  readonly active: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+@Directive()
+export class BaseIconButton extends BaseButton {
 
   readonly provider: InputSignal<IconProviders| undefined> = input<IconProviders>();
   readonly icon: InputSignal<string | undefined> = input<string>();
@@ -42,6 +28,8 @@ export class IconAnchorComponent extends BaseAnchor {
 
   constructor() {
     super();
+
+    this.element.classList.add('ngx-icon-button-base');
 
     effect(() => {
       this.element.style.fontSize = this.size();

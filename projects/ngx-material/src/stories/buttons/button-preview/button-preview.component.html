@@ -1,9 +1,134 @@
-
-<ngx-icon-button icon="search"/>
-<ngx-raised-icon-button alias="close" [active]="active" (click)="active = !active"/>
-<br>
-<ngx-icon-button alias="close" disabled/>
-<ngx-raised-icon-button alias="close" disabled [active]="active" (click)="active = !active"/>
-<br>
-<a ngxIconButton alias="close"></a>
-<a ngxRaisedIconButton alias="close" [active]="active" (click)="active = !active"></a>
+<div class="card">
+    <table>
+        <tr>
+            <th>Icon</th>
+            <td>
+                <ngx-icon-button icon="search"/>
+                <ngx-icon-button icon="search" color="primary"/>
+                <ngx-icon-button icon="search" color="accent"/>
+                <ngx-icon-button icon="search" color="warn"/>
+                <ngx-icon-button icon="search" color="primary" disabled/>
+                <a ngxIconButton icon="search"></a>
+            </td>
+        </tr>
+        <tr>
+            <th>Raised Icon</th>
+            <td>
+                <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active"/>
+                <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active" background="primary"/>
+                <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active" background="accent"/>
+                <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active" background="warn"/>
+                <ngx-raised-icon-button icon="search" [active]="active" (click)="active = !active" background="primary" disabled/>
+                <a ngxRaisedIconButton icon="search"></a>
+            </td>
+        </tr>
+        <tr>
+            <th>Bordered Icon</th>
+            <td>
+                <ngx-bordered-icon-button icon="search" [active]="active" (click)="active = !active"/>
+                <ngx-bordered-icon-button icon="search" [active]="active" (click)="active = !active" color="primary"/>
+                <ngx-bordered-icon-button icon="search" [active]="active" (click)="active = !active" color="accent"/>
+                <ngx-bordered-icon-button icon="search" [active]="active" (click)="active = !active" color="warn"/>
+                <ngx-bordered-icon-button icon="search" [active]="active" (click)="active = !active" color="primary" disabled/>
+                <a ngxBorderedIconButton icon="search"></a>
+            </td>
+        </tr>
+        <tr>
+            <th>Flat Icon</th>
+            <td>
+                <ngx-flat-icon-button icon="search" [active]="active" (click)="active = !active"/>
+                <ngx-flat-icon-button icon="search" [active]="active" (click)="active = !active" background="primary"/>
+                <ngx-flat-icon-button icon="search" [active]="active" (click)="active = !active" background="accent"/>
+                <ngx-flat-icon-button icon="search" [active]="active" (click)="active = !active" background="warn"/>
+                <ngx-flat-icon-button icon="search" [active]="active" (click)="active = !active" background="primary" disabled/>
+                <a ngxFlatIconButton icon="search"></a>
+            </td>
+        </tr>
+        <tr>
+            <th>Button</th>
+            <td>
+                <ngx-button [active]="active" (click)="active = !active">Button</ngx-button>
+                <ngx-button [active]="active" (click)="active = !active" color="primary">Button</ngx-button>
+                <ngx-button [active]="active" (click)="active = !active" color="accent">Button</ngx-button>
+                <ngx-button [active]="active" (click)="active = !active" color="warn">Button</ngx-button>
+                <ngx-button [active]="active" (click)="active = !active" color="primary" disabled>Button</ngx-button>
+                <a ngxButton>Button</a>
+            </td>
+        </tr>
+        <tr>
+            <th>Raised Button</th>
+            <td>
+                <div class="row">
+                    <ngx-raised-button [active]="active" (click)="active = !active">
+                        Button
+                        <ngx-icon alias="search"/>
+                    </ngx-raised-button>
+                    <ngx-raised-button [active]="active" (click)="active = !active" background="primary">
+                        <ngx-icon alias="search"/>
+                        <span>Button</span>
+                    </ngx-raised-button>
+                    <ngx-raised-button [active]="active" (click)="active = !active" background="accent">
+                        Button
+                    </ngx-raised-button>
+                    <ngx-raised-button [active]="active" (click)="active = !active" background="warn">
+                        Button
+                    </ngx-raised-button>
+                    <ngx-raised-button [active]="active" (click)="active = !active" background="primary" disabled>
+                        Button
+                    </ngx-raised-button>
+                    <a ngxRaisedButton>Button</a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Bordered Button</th>
+            <td>
+                <div class="row">
+                    <ngx-bordered-button [active]="active" (click)="active = !active">
+                        Button
+                        <ngx-icon alias="search"/>
+                    </ngx-bordered-button>
+                    <ngx-bordered-button [active]="active" (click)="active = !active" color="primary">
+                        <ngx-icon alias="search"/>
+                        <span>Button</span>
+                    </ngx-bordered-button>
+                    <ngx-bordered-button [active]="active" (click)="active = !active" color="accent">
+                        Button
+                    </ngx-bordered-button>
+                    <ngx-bordered-button [active]="active" (click)="active = !active" color="warn">
+                        Button
+                    </ngx-bordered-button>
+                    <ngx-bordered-button [active]="active" (click)="active = !active" color="primary" disabled>
+                        Button
+                    </ngx-bordered-button>
+                    <a ngxBorderedButton>Button</a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Flat Button</th>
+            <td>
+                <div class="row">
+                    <ngx-flat-button [active]="active" (click)="active = !active">
+                        Button
+                        <ngx-icon alias="search"/>
+                    </ngx-flat-button>
+                    <ngx-flat-button [active]="active" (click)="active = !active" background="primary">
+                        <ngx-icon alias="search"/>
+                        <span>Button</span>
+                    </ngx-flat-button>
+                    <ngx-flat-button [active]="active" (click)="active = !active" background="accent">
+                        Button
+                    </ngx-flat-button>
+                    <ngx-flat-button [active]="active" (click)="active = !active" background="warn">
+                        Button
+                    </ngx-flat-button>
+                    <ngx-flat-button [active]="active" (click)="active = !active" background="primary" disabled>
+                        Button
+                    </ngx-flat-button>
+                    <a ngxFlatButton>Button</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

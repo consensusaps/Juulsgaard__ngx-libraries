@@ -25,7 +25,7 @@ export abstract class IdManagerService {
           return;
         }
 
-        if (event.ctrlKey && event.shiftKey && event.key === 'f') {
+        if (event.altKey && event.shiftKey && event.key === 'f') {
           if (this._idCopyMode()) return;
           zone.run(() => this._idCopyMode.set(true));
           return;

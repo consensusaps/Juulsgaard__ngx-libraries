@@ -29,8 +29,9 @@ export abstract class NgxSideMenuContext {
       }
 
       if (!this.instance) return;
-      this.menuManager.closeMenu(this.instance);
+      const instance = this.instance;
       this.instance = undefined;
+      queueMicrotask(() => this.menuManager.closeMenu(instance));
     });
 
     inject(DestroyRef).onDestroy(() => {

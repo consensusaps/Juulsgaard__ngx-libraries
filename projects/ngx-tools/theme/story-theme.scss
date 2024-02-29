@@ -1,0 +1,15 @@
+@use "index";
+
+html {
+  height: 100%;
+  background-color: var(--ngx-background);
+  color: var(--ngx-text-color);
+
+  &.light-theme {
+    @include index.ngx-light-theme();
+  }
+
+  &.dark-theme {
+    @include index.ngx-dark-theme();
+  }
+}
