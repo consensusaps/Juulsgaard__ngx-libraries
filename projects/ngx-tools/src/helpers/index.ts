@@ -5,3 +5,4 @@ export * from './signals';
 export * from './signal-set';
 export * from './ref-counter';
 export * from './element-class-manager';
+export * from './loading-signal';

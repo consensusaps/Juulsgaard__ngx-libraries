@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.0.3
+
+### Patch Changes
+
+- Add LoadingSignal
+
 ## 17.0.2
 
 ### Patch Changes
