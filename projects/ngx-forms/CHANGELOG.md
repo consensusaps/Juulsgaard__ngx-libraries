@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 17.0.2
+
+### Patch Changes
+
+- Tweak dialog sizes
+
 ## 17.0.1
 
 ### Patch Changes

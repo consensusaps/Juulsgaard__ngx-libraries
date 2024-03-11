@@ -40,42 +40,44 @@
     flex-flow: column;
     background-color: $foreground;
     border-radius: 4px;
-    min-width: 280px;
-    max-width: min(500px, 95vw);
-    max-height: 80vh;
+    min-width: min(320px, 95%);
+    max-width: min(500px, 95%);
+    max-height: 80%;
+    overflow: hidden;
+  }
 
-    .header {
-      padding: 24px 24px 0 24px;
-      font-size: 1.3rem;
-      font-weight: bold;
-      overflow: hidden;
-      flex-shrink: 0;
+  .header {
+    padding: 24px 24px 0 24px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .popup-content {
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    font-size: 1rem;
+    padding: 24px;
+    color: $text-color-400;
+    background-color: transparent;
+    overflow: hidden;
+  }
+
+  .footer {
+    padding: 8px;
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    flex-shrink: 0;
+
+    &:empty {
+      display: none;
     }
 
-    .popup-content {
-      display: flex;
-      flex-flow: column;
-      align-items: stretch;
-      font-size: 1rem;
-      padding: 24px;
-      color: $text-color-400;
-      background-color: transparent;
-    }
-
-    .footer {
-      padding: 8px;
-      display: flex;
-      flex-flow: row;
-      justify-content: flex-end;
-      flex-shrink: 0;
-
-      &:empty {
-        display: none;
-      }
-
-      button:not(:first-child) {
-        margin-left: 8px;
-      }
+    button:not(:first-child) {
+      margin-left: 8px;
     }
   }
 

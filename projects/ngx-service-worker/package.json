@@ -19,7 +19,7 @@
     "@angular/core": "^17.2.1",
     "@angular/material": "^17.2.0",
     "@angular/service-worker": "^17.2.1",
-    "@juulsgaard/ngx-material": "^17.0.4",
+    "@juulsgaard/ngx-material": "^17.0.5",
     "@juulsgaard/ngx-tools": "^17.0.5",
     "typescript": "~5.3.3"
   },
@@ -28,7 +28,7 @@
     "@angular/core": "17.2.1",
     "@angular/material": "17.2.0",
     "@angular/service-worker": "17.2.1",
-    "@juulsgaard/ngx-material": "17.0.4",
+    "@juulsgaard/ngx-material": "17.0.5",
     "@juulsgaard/ngx-tools": "17.0.5"
   },
   "dependencies": {

@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 17.0.5
+
+### Patch Changes
+
+- Tweak dialog sizes
+
 ## 17.0.4
 
 ### Patch Changes
