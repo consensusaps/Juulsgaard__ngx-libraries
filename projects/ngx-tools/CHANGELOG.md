@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.0.6
+
+### Patch Changes
+
+- Fix routeOrClosest
+
 ## 17.0.5
 
 ### Patch Changes
