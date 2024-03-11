@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.0.4
+
+### Patch Changes
+
+- Improve scoped router backwards compatibility
+
 ## 17.0.3
 
 ### Patch Changes

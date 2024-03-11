@@ -21,7 +21,7 @@ export class ScopedRouter extends RouteState {
     return route;
   }
 
-  get route() {
+  get routeOrDefault() {
     return this.parentRoute ?? this.getChildRouteOrDefault(this._depth);
   }
 
