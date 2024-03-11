@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.0.5
+
+### Patch Changes
+
+- Fix Route State using wrong snapshot
+
 ## 17.0.4
 
 ### Patch Changes

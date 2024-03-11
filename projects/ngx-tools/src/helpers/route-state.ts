@@ -120,7 +120,7 @@ export abstract class RouteState {
       startWith(undefined),
       takeUntilDestroyed(destroy)
     ).subscribe(() => {
-      this._snapshotOrDefault$.next(this.route?.snapshot);
+      this._snapshotOrDefault$.next(this.routeOrDefault?.snapshot);
       this._closestSnapshot$.next(this.routeOrClosest?.snapshot);
     });
   }
