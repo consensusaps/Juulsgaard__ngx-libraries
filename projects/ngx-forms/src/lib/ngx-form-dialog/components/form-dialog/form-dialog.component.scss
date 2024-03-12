@@ -1,12 +1,16 @@
 
-form:empty {
-	display: none;
+.form {
+  min-width: min(calc(100vw - 100px), 350px);
+}
+
+.form:empty {
+  display: none;
 }
 
 .hidden {
-	display: none;
+  display: none;
 }
 
 .description {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }

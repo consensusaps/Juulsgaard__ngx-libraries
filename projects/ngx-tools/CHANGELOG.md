@@ -1,5 +1,23 @@
 # @juulsgaard/ngx-tools
 
+## 17.0.6
+
+### Patch Changes
+
+- Fix routeOrClosest
+
+## 17.0.5
+
+### Patch Changes
+
+- Fix Route State using wrong snapshot
+
+## 17.0.4
+
+### Patch Changes
+
+- Improve scoped router backwards compatibility
+
 ## 17.0.3
 
 ### Patch Changes

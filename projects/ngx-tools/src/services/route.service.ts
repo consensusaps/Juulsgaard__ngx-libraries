@@ -1,13 +1,13 @@
 import {DestroyRef, inject, Injectable} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RouteState} from "../helpers/route-state";
 
 @Injectable({providedIn: 'root'})
 export class RouteService extends RouteState {
 
-  private router = inject(Router, {optional: true});
-  get route() {return this.router?.routerState.root}
-  get routeOrClosest() {return this.route}
+  private router = inject(Router);
+  get routeOrDefault(): ActivatedRoute {return this.routeOrClosest}
+  get routeOrClosest() {return this.router.routerState.root}
 
   constructor() {
     super();
