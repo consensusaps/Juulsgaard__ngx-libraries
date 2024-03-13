@@ -42,12 +42,12 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
         if (!this.view) {
           const context = {ngxFormLayer: controls};
           this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-          this.view.detectChanges();
+          this.view.markForCheck();
           return;
         }
 
         this.view.context.ngxFormLayer = controls;
-        this.view.detectChanges();
+        this.view.markForCheck();
       });
     });
   }

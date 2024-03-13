@@ -28,7 +28,7 @@ export class DialogOutletDirective {
 
     if (this.component) {
       this.component.instance.animate = !instance || !added;
-      this.component.changeDetectorRef.detectChanges();
+      this.component.changeDetectorRef.markForCheck();
       this.component.destroy();
     }
 
@@ -48,7 +48,7 @@ export class DialogOutletDirective {
       {injector: injector}
     );
 
-    this.changes.detectChanges();
+    this.changes.markForCheck();
   }
 }
 

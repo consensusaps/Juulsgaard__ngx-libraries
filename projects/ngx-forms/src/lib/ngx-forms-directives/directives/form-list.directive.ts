@@ -58,13 +58,13 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
           if (view) {
             this.viewContainer.move(view, index);
             const changed = view.context.update(control, index, controlList);
-            if (changed) view.detectChanges();
+            if (changed) view.markForCheck();
             continue;
           }
 
           const context = new FormListDirectiveContext(control, index, controlList);
           view = this.viewContainer.createEmbeddedView(this.templateRef, context, {index});
-          view.detectChanges();
+          view.markForCheck();
           this.views.set(control, view);
         }
       });

@@ -22,13 +22,13 @@ export abstract class BaseFutureRender<TContext extends {}> {
         }
 
         Object.assign(this.embeddedView.context, context);
-        this.embeddedView.detectChanges();
+        this.embeddedView.markForCheck();
         return;
       }
 
       if (!context) return;
       this.embeddedView = this.viewContainer.createEmbeddedView(this.templateRef, context);
-      this.embeddedView.detectChanges();
+      this.embeddedView.markForCheck();
     });
   }
 }

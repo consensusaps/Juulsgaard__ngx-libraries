@@ -65,10 +65,10 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown> | AsyncObject | 
   renderMain(values: MappedValues<T>) {
     if (!this.view) {
       this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxAsyncAwait: values});
-      this.view.detectChanges();
+      this.view.markForCheck();
     } else {
       this.view.context.ngxAsyncAwait = values;
-      this.view.detectChanges();
+      this.view.markForCheck();
     }
   }
 
@@ -83,7 +83,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown> | AsyncObject | 
     const elseTmpl = this.elseTemplate();
     if (!elseTmpl) return;
     this.elseView = this.viewContainer.createEmbeddedView(elseTmpl);
-    this.elseView.detectChanges();
+    this.elseView.markForCheck();
   }
 
   //</editor-fold>

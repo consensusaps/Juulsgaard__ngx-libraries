@@ -49,12 +49,12 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
         if (!this.view) {
           const context = {ngxForm: controls};
           this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-          this.view.detectChanges();
+          this.view.markForCheck();
           return;
         }
 
         this.view.context.ngxForm = controls;
-        this.view.detectChanges();
+        this.view.markForCheck();
       });
     });
   }
