@@ -1,5 +1,14 @@
 # @juulsgaard/ngx-service-worker
 
+## 17.0.1
+
+### Patch Changes
+
+- Updated change detection
+- Updated dependencies
+  - @juulsgaard/ngx-material@17.0.6
+  - @juulsgaard/ngx-tools@17.0.7
+
 ## 17.0.0
 
 ### Major Changes

@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-material
 
+## 17.0.6
+
+### Patch Changes
+
+- Updated change detection
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.7
+
 ## 17.0.5
 
 ### Patch Changes

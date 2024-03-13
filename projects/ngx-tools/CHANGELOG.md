@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.0.7
+
+### Patch Changes
+
+- Updated change detection
+
 ## 17.0.6
 
 ### Patch Changes
