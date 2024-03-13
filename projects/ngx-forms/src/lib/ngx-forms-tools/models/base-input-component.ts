@@ -26,7 +26,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     private ngModels = viewChildren(NgModel);
 
     //<editor-fold desc="Required">
-    readonly requiredIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+    readonly requiredIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'required'});
     readonly hideRequired: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
     protected required = computed(() => {
         if (this.hideRequired()) return false;
