@@ -1,6 +1,6 @@
 import {
   booleanAttribute, ComponentRef, computed, Directive, effect, inject, input, InputSignal, InputSignalWithTransform,
-  ViewContainerRef
+  untracked, ViewContainerRef
 } from '@angular/core';
 import {ThemePalette} from "@angular/material/core";
 import {MatFormFieldAppearance} from "@angular/material/form-field";
@@ -88,7 +88,7 @@ export class FormInputDirective {
     effect(() => {
       const _componentType = componentType();
       if (!_componentType) {
-        queueMicrotask(() => {
+        untracked(() => {
           this.component?.destroy();
           this.component = undefined;
         });
@@ -97,7 +97,7 @@ export class FormInputDirective {
 
       const context = this.getContext();
 
-      queueMicrotask(() => {
+      untracked(() => {
         if (!this.component) {
           this.component = this.viewContainer.createComponent(_componentType);
         } else if (this.component.componentType !== _componentType) {

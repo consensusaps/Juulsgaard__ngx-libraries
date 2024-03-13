@@ -1,5 +1,5 @@
 import {
-  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, signal, TemplateRef, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, signal, TemplateRef, untracked, ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
@@ -29,7 +29,7 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
 
     effect(() => {
       if (!this.show()) {
-        queueMicrotask(() => {
+        untracked(() => {
           this.view?.destroy();
           this.view = undefined;
         });
@@ -38,7 +38,7 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
 
       const controls = this.layer().controlsSignal();
 
-      queueMicrotask(() => {
+      untracked(() => {
         if (!this.view) {
           const context = {ngxFormLayer: controls};
           this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);

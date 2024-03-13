@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, EmbeddedViewRef, TemplateRef, ViewContainerRef} from "@angular/core";
+import {ChangeDetectorRef, EmbeddedViewRef, TemplateRef, untracked, ViewContainerRef} from "@angular/core";
 
 export abstract class BaseFutureRender<TContext extends {}> {
 
@@ -12,7 +12,7 @@ export abstract class BaseFutureRender<TContext extends {}> {
   protected embeddedView?: EmbeddedViewRef<TContext>;
 
   updateView(context: TContext | undefined) {
-    queueMicrotask(() => {
+    untracked(() => {
       if (this.embeddedView) {
 
         if (!context) {

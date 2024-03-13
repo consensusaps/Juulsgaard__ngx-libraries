@@ -1,5 +1,5 @@
 import {NgxSideMenuTabContext} from "./menu-tab-context";
-import {computed, DestroyRef, effect, inject, Injector, Signal} from "@angular/core";
+import {computed, DestroyRef, effect, inject, Injector, Signal, untracked} from "@angular/core";
 import {SideMenuManagerService} from "../services/side-menu-manager.service";
 import {SideMenuInstance} from "./side-menu-instance";
 
@@ -31,7 +31,7 @@ export abstract class NgxSideMenuContext {
       if (!this.instance) return;
       const instance = this.instance;
       this.instance = undefined;
-      queueMicrotask(() => this.menuManager.closeMenu(instance));
+      untracked(() => this.menuManager.closeMenu(instance));
     });
 
     inject(DestroyRef).onDestroy(() => {

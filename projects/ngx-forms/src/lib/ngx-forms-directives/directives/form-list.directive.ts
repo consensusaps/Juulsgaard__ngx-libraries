@@ -1,5 +1,5 @@
 import {
-  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, signal, TemplateRef, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, signal, TemplateRef, untracked, ViewContainerRef
 } from "@angular/core";
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormList, ControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
@@ -32,7 +32,7 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
 
     effect(() => {
       if (!this.show()) {
-        queueMicrotask(() => this.clear());
+        untracked(() => this.clear());
         return;
       }
 
@@ -41,7 +41,7 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
       const controlList = controls.map(x => x.controlsSignal());
       const controlSet = arrToSet(controls);
 
-      queueMicrotask(() => {
+      untracked(() => {
         // Remove outdated views
         for (let [layer, view] of this.views) {
           if (controlSet.has(layer)) continue;

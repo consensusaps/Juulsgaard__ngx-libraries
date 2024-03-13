@@ -1,5 +1,6 @@
 import {
-  computed, Directive, effect, EmbeddedViewRef, input, InputSignalWithTransform, signal, TemplateRef, ViewContainerRef
+  computed, Directive, effect, EmbeddedViewRef, input, InputSignalWithTransform, signal, TemplateRef, untracked,
+  ViewContainerRef
 } from "@angular/core";
 import {AnyControlFormRoot, FormDialog, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
 
@@ -28,7 +29,7 @@ export class FormDialogDirective<TControls extends Record<string, SmartFormUnion
     effect(() => {
 
       if (!this.show()) {
-        queueMicrotask(() => {
+        untracked(() => {
           this.view?.destroy();
           this.view = undefined;
         });
@@ -37,7 +38,7 @@ export class FormDialogDirective<TControls extends Record<string, SmartFormUnion
 
       const _controls = controls();
 
-      queueMicrotask(() => {
+      untracked(() => {
         if (!this.view) {
           this.view = this.viewContainer.createEmbeddedView(this.template, {dialogForm: _controls});
           this.view.detectChanges();

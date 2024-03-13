@@ -1,6 +1,6 @@
 import {AsyncOrSyncVal, AsyncValueMapper, UnwrappedAsyncOrSyncVal} from "@juulsgaard/rxjs-tools";
 import {
-  computed, Directive, effect, EmbeddedViewRef, signal, Signal, TemplateRef, ViewContainerRef
+  computed, Directive, effect, EmbeddedViewRef, signal, Signal, TemplateRef, untracked, ViewContainerRef
 } from "@angular/core";
 import {Dispose} from "../decorators";
 import {toSignal} from "@angular/core/rxjs-interop";
@@ -40,7 +40,7 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
 
     effect(() => {
       if (this.waiting()) {
-        queueMicrotask(() => {
+        untracked(() => {
           this.destroyMain();
           this.destroyElse();
           this.renderWaiting();
@@ -50,7 +50,7 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
 
       const context = this.buildContext(value() as UnwrappedAsyncOrSyncVal<T>);
 
-      queueMicrotask(() => {
+      untracked(() => {
         this.destroyWaiting();
 
         if (context) {
