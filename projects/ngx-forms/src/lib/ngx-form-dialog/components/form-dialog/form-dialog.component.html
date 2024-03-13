@@ -13,12 +13,10 @@
         }
     </div>
 
-    <p class="error" *ngxIf="config().error$ as error">{{error}}</p>
+    <p class="error" *ngIf="config().errorSignal() as error">{{error}}</p>
 </ng-template>
 
-<!-- TODO: Switch back to signals, once signal changes propagate -->
-<!-- Currently async changes to signal values doesn't trigger the change detection in the templates -->
 <ng-template #footer ngxSource>
     <button mat-button (click)="config().close()">Cancel</button>
-    <button mat-button color="primary" (click)="config().submit()" [disabled]="config().valid$ | falsy" [isLoading]="config().working$">{{config().buttonText}}</button>
+    <button mat-button color="primary" (click)="config().submit()" [disabled]="!config().validSignal()" [isLoading]="config().workingSignal()">{{config().buttonText}}</button>
 </ng-template>
