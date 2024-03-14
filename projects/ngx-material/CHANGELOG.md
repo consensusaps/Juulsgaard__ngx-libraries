@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 17.0.7
+
+### Patch Changes
+
+- Add Z-Index to loading overlay
+
 ## 17.0.6
 
 ### Patch Changes

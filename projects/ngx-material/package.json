@@ -3,7 +3,7 @@
   "description": "A library adding Material inspired utilities and components",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-material",
-  "version": "17.0.6",
+  "version": "17.0.7",
   "publishConfig": {
     "directory": "../../dist/ngx-material"
   },
