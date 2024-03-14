@@ -35,6 +35,7 @@ export abstract class TemplateRendering<T extends {} = {}> {
   private getView(injector: Injector | undefined): EmbeddedViewRef<T> {
     if (this.view) return this.view;
     this.view = this.render(injector, this.context);
+    this.view.detectChanges();
     this.view.markForCheck();
     this.view.onDestroy(() => this.reset());
     return this.view;

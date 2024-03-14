@@ -28,6 +28,7 @@ export abstract class BaseFutureRender<TContext extends {}> {
 
       if (!context) return;
       this.embeddedView = this.viewContainer.createEmbeddedView(this.templateRef, context);
+      this.embeddedView.detectChanges();
       this.embeddedView.markForCheck();
     });
   }

@@ -40,6 +40,7 @@ export class NgxAsyncDirective<T extends AsyncVal<unknown>|AsyncObject|undefined
   private render(value: MappedValues<T>) {
     if (!this.view) {
       this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxAsync: value as MappedValues<T>});
+      this.view.detectChanges();
       this.view.markForCheck();
     } else {
       this.view.context.ngxAsync = value;
