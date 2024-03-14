@@ -1,4 +1,6 @@
-import {Directive, effect, EmbeddedViewRef, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
+import {
+  Directive, effect, EmbeddedViewRef, input, InputSignal, TemplateRef, untracked, ViewContainerRef
+} from '@angular/core';
 import {EMPTY, mergeWith, Observable} from "rxjs";
 import {
   AsyncObject, AsyncObjectMapper, AsyncOrSyncObject, AsyncVal, AsyncValueMapper, isSubscribable,
@@ -25,7 +27,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown> | AsyncObject | 
 
     effect(() => {
       const values = this.values();
-      queueMicrotask(() => {
+      untracked(() => {
         if (values == null) this.updateSingle(EMPTY)
         else if (values instanceof Promise) this.updateSingle(values);
         else if (values instanceof Observable || isSubscribable(values)) this.updateSingle(values);
@@ -35,7 +37,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown> | AsyncObject | 
 
     effect(() => {
       const templ = this.elseTemplate();
-      queueMicrotask(() => {
+      untracked(() => {
         this.destroyElse();
         if (templ && !this.view) {
           this.renderElse();
@@ -63,10 +65,10 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown> | AsyncObject | 
   renderMain(values: MappedValues<T>) {
     if (!this.view) {
       this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxAsyncAwait: values});
-      this.view.detectChanges();
+      this.view.markForCheck();
     } else {
       this.view.context.ngxAsyncAwait = values;
-      this.view.detectChanges();
+      this.view.markForCheck();
     }
   }
 
@@ -81,7 +83,7 @@ export class NgxAsyncAwaitDirective<T extends AsyncVal<unknown> | AsyncObject | 
     const elseTmpl = this.elseTemplate();
     if (!elseTmpl) return;
     this.elseView = this.viewContainer.createEmbeddedView(elseTmpl);
-    this.elseView.detectChanges();
+    this.elseView.markForCheck();
   }
 
   //</editor-fold>

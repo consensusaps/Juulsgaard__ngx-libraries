@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 17.0.3
+
+### Patch Changes
+
+- Fix signal reactivity inside ng-template and fix input name
+
 ## 17.0.2
 
 ### Patch Changes

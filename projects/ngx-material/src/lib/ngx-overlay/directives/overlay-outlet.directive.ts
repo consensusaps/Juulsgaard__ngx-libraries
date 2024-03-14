@@ -29,8 +29,9 @@ export class OverlayOutletDirective {
 
     if (this.component) {
       this.component.instance.animate = !instance || !added;
-      this.component.changeDetectorRef.detectChanges();
+      this.component.changeDetectorRef.markForCheck();
       this.component.destroy();
+      this.component = undefined;
     }
 
     if (!instance) return;
@@ -54,6 +55,6 @@ export class OverlayOutletDirective {
       {injector: injector}
     );
 
-    this.changes.detectChanges();
+    this.changes.markForCheck();
   }
 }

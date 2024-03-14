@@ -33,7 +33,7 @@ export class FutureDirective<T> {
     );
 
     const view = this.viewContainer.createEmbeddedView(this.template, {future: new FutureSwitch<T>(futures$)});
-    view.detectChanges();
+    view.markForCheck();
   }
 
   static ngTemplateContextGuard<T>(

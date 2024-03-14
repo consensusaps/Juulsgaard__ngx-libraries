@@ -1,4 +1,6 @@
-import {Directive, effect, EmbeddedViewRef, input, InputSignal, TemplateRef, ViewContainerRef} from '@angular/core';
+import {
+  Directive, effect, EmbeddedViewRef, input, InputSignal, TemplateRef, untracked, ViewContainerRef
+} from '@angular/core';
 
 @Directive({selector: '[ngxLet]', standalone: true})
 export class NgxLetDirective<T> {
@@ -14,13 +16,13 @@ export class NgxLetDirective<T> {
     effect(() => {
       const value = this.value();
 
-      queueMicrotask(() => {
+      untracked(() => {
         if (!this.view) {
           this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxLet: value});
-          this.view.detectChanges();
+          this.view.markForCheck();
         } else {
           this.view.context = {ngxLet: value};
-          this.view.detectChanges();
+          this.view.markForCheck();
         }
       });
     });

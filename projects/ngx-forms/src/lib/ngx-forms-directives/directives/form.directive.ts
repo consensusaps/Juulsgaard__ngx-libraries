@@ -1,5 +1,6 @@
 import {
-  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignalWithTransform, signal, TemplateRef, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignalWithTransform, signal, TemplateRef, untracked,
+  ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
 import {AnyControlFormRoot, isFormRoot, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
@@ -35,7 +36,7 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
 
     effect(() => {
       if (!this.show()) {
-        queueMicrotask(() => {
+        untracked(() => {
           this.view?.destroy();
           this.view = undefined;
         });
@@ -44,16 +45,16 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
 
       const controls =  this.form().controlsSignal();
 
-      queueMicrotask(() => {
+      untracked(() => {
         if (!this.view) {
           const context = {ngxForm: controls};
           this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-          this.view.detectChanges();
+          this.view.markForCheck();
           return;
         }
 
         this.view.context.ngxForm = controls;
-        this.view.detectChanges();
+        this.view.markForCheck();
       });
     });
   }

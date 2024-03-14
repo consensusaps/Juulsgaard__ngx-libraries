@@ -1,6 +1,6 @@
 import {AsyncOrSyncVal, AsyncValueMapper, UnwrappedAsyncOrSyncVal} from "@juulsgaard/rxjs-tools";
 import {
-  computed, Directive, effect, EmbeddedViewRef, signal, Signal, TemplateRef, ViewContainerRef
+  computed, Directive, effect, EmbeddedViewRef, signal, Signal, TemplateRef, untracked, ViewContainerRef
 } from "@angular/core";
 import {Dispose} from "../decorators";
 import {toSignal} from "@angular/core/rxjs-interop";
@@ -40,7 +40,7 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
 
     effect(() => {
       if (this.waiting()) {
-        queueMicrotask(() => {
+        untracked(() => {
           this.destroyMain();
           this.destroyElse();
           this.renderWaiting();
@@ -50,7 +50,7 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
 
       const context = this.buildContext(value() as UnwrappedAsyncOrSyncVal<T>);
 
-      queueMicrotask(() => {
+      untracked(() => {
         this.destroyWaiting();
 
         if (context) {
@@ -77,10 +77,10 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
 
     if (!this.view) {
       this.view = this.viewContainer.createEmbeddedView(this.templateRef, context);
-      this.view.detectChanges();
+      this.view.markForCheck();
     } else {
       Object.assign(this.view.context, context);
-      this.view.detectChanges();
+      this.view.markForCheck();
     }
   }
 
@@ -96,7 +96,7 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
 
     this.waitingView?.destroy();
     this.waitingView = this.viewContainer.createEmbeddedView(tmpl);
-    this.waitingView.detectChanges();
+    this.waitingView.markForCheck();
   }
 
   destroyElse() {
@@ -109,7 +109,7 @@ export abstract class NgxConditionDirective<T extends AsyncOrSyncVal<unknown>, T
     const tmpl = this.elseTemplate();
     if (!tmpl) return;
     this.elseView = this.viewContainer.createEmbeddedView(tmpl);
-    this.elseView.detectChanges();
+    this.elseView.markForCheck();
   }
 
   //</editor-fold>

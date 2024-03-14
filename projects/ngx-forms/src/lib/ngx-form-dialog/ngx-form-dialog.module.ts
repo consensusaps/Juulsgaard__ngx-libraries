@@ -23,7 +23,7 @@ import {MatButton} from "@angular/material/button";
     AsyncPipe,
     FormInputDirective,
     MatButton,
-    LoadingDirective
+    LoadingDirective,
   ]
 })
 export class NgxFormDialogModule { }

@@ -3,7 +3,7 @@ import {RenderTab} from "./render-tab";
 import {NgxSideMenuContext} from "./menu-context";
 import {SideMenuOptions} from "./side-menu-options";
 import {OverlayToken} from "@juulsgaard/ngx-tools";
-import {computed, Injector, Signal} from "@angular/core";
+import {computed, Injector, Signal, untracked} from "@angular/core";
 import {NgxSideMenuTabContext} from "./menu-tab-context";
 
 import {SideMenuRenderContext} from "./side-menu-render-context";
@@ -31,7 +31,7 @@ export class SideMenuInstance extends SideMenuRenderContext implements Disposabl
 
     this.tab = computed(() => {
       const oldTab = this._tab;
-      if (oldTab) queueMicrotask(() => oldTab.dispose());
+      if (oldTab) untracked(() => oldTab.dispose());
       const tab = this.context.tab();
       this._tab = tab ? new RenderTab(tab) : undefined;
       return this._tab;

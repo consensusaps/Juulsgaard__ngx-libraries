@@ -1,6 +1,6 @@
 import {
   booleanAttribute, computed, Directive, effect, EmbeddedViewRef, forwardRef, inject, input, InputSignal,
-  InputSignalWithTransform, TemplateRef, ViewContainerRef
+  InputSignalWithTransform, TemplateRef, untracked, ViewContainerRef
 } from "@angular/core";
 import {NgxTabContext} from "../services";
 import {UIScopeContext} from "../../../models";
@@ -32,7 +32,7 @@ export class NgxLazyTabDirective extends NgxTabContext {
 
   view?: EmbeddedViewRef<void>;
   private updateView(show: boolean) {
-    queueMicrotask(() => {
+    untracked(() => {
       if (this.view) {
         if (show) return;
         this.view.destroy();
@@ -42,7 +42,7 @@ export class NgxLazyTabDirective extends NgxTabContext {
 
       if (!show) return;
       this.view = this.viewContainer.createEmbeddedView(this.templateRef);
-      this.view.detectChanges();
+      this.view.markForCheck();
     });
   }
 }
