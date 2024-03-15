@@ -42,6 +42,7 @@ export class NgxLazyTabDirective extends NgxTabContext {
 
       if (!show) return;
       this.view = this.viewContainer.createEmbeddedView(this.templateRef);
+      this.view.detectChanges();
       this.view.markForCheck();
     });
   }

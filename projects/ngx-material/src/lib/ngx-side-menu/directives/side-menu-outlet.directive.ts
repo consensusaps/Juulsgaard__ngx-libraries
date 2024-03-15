@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, ComponentRef, Directive, Injector, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, Injector, ViewContainerRef} from '@angular/core';
 import {asapScheduler, auditTime} from "rxjs";
 import {RenderSideMenuComponent} from "../components/render-side-menu/render-side-menu.component";
 import {SideMenuManagerService} from "../services/side-menu-manager.service";
@@ -16,8 +16,7 @@ export class NgxSideMenuOutletDirective {
 
   constructor(
     private viewContainer: ViewContainerRef,
-    private manager: SideMenuManagerService,
-    private changes: ChangeDetectorRef
+    private manager: SideMenuManagerService
   ) {
     this.manager.menu$.pipe(
       auditTime(0, asapScheduler),
@@ -50,7 +49,8 @@ export class NgxSideMenuOutletDirective {
       {injector: injector}
     );
 
-    this.changes.markForCheck();
+    this.component.changeDetectorRef.detectChanges();
+    this.component.changeDetectorRef.markForCheck();
   }
 
   ngOnDestroy() {

@@ -1,5 +1,21 @@
 # @juulsgaard/ngx-forms
 
+## 17.0.5
+
+### Patch Changes
+
+- Update rendering change detection again
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.8
+
+## 17.0.4
+
+### Patch Changes
+
+- Updated change detection
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.7
+
 ## 17.0.3
 
 ### Patch Changes

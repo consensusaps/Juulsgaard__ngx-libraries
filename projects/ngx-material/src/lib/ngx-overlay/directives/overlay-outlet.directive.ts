@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, ComponentRef, Directive, inject, Injector, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, inject, Injector, ViewContainerRef} from '@angular/core';
 import {asapScheduler, auditTime} from "rxjs";
 import {OverlayManagerService} from "../services/overlay-manager.service";
 import {RenderOverlayComponent} from "../components/render-overlay/render-overlay.component";
@@ -16,8 +16,7 @@ export class OverlayOutletDirective {
 
   constructor(
     private viewContainer: ViewContainerRef,
-    private manager: OverlayManagerService,
-    private changes: ChangeDetectorRef
+    private manager: OverlayManagerService
   ) {
     this.manager.overlay$.pipe(
       auditTime(0, asapScheduler),
@@ -55,6 +54,7 @@ export class OverlayOutletDirective {
       {injector: injector}
     );
 
-    this.changes.markForCheck();
+    this.component.changeDetectorRef.detectChanges();
+    this.component.changeDetectorRef.markForCheck();
   }
 }

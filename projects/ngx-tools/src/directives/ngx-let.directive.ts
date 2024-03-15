@@ -19,9 +19,10 @@ export class NgxLetDirective<T> {
       untracked(() => {
         if (!this.view) {
           this.view = this.viewContainer.createEmbeddedView(this.templateRef, {ngxLet: value});
+          this.view.detectChanges();
           this.view.markForCheck();
         } else {
-          this.view.context = {ngxLet: value};
+          this.view.context.ngxLet = value;
           this.view.markForCheck();
         }
       });

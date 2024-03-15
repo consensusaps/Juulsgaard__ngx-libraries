@@ -1,5 +1,20 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 17.0.2
+
+### Patch Changes
+
+- Remove mat-select clear for multi select
+
+## 17.0.1
+
+### Patch Changes
+
+- Updated change detection
+- Updated dependencies
+  - @juulsgaard/ngx-forms@17.0.4
+  - @juulsgaard/ngx-tools@17.0.7
+
 ## 17.0.0
 
 ### Major Changes

@@ -1,5 +1,27 @@
 # @juulsgaard/ngx-material
 
+## 17.0.8
+
+### Patch Changes
+
+- Update rendering change detection again
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.8
+
+## 17.0.7
+
+### Patch Changes
+
+- Add Z-Index to loading overlay
+
+## 17.0.6
+
+### Patch Changes
+
+- Updated change detection
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.0.7
+
 ## 17.0.5
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, ComponentRef, Directive, Injector, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, Injector, ViewContainerRef} from '@angular/core';
 import {RenderDialogComponent} from "../components/render-dialog/render-dialog.component";
 import {asapScheduler, auditTime} from "rxjs";
 import {DialogManagerService} from "../services/dialog-manager.service";
@@ -15,8 +15,7 @@ export class DialogOutletDirective {
 
   constructor(
     private viewContainer: ViewContainerRef,
-    private manager: DialogManagerService,
-    private changes: ChangeDetectorRef,
+    private manager: DialogManagerService
   ) {
     this.manager.dialog$.pipe(
       auditTime(0, asapScheduler),
@@ -49,7 +48,8 @@ export class DialogOutletDirective {
       {injector: injector}
     );
 
-    this.changes.markForCheck();
+    this.component.changeDetectorRef.detectChanges();
+    this.component.changeDetectorRef.markForCheck();
   }
 }
 
