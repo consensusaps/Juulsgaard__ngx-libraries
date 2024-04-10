@@ -38,14 +38,14 @@
         </div>
 
 
-        <mat-error>{{error()}}</mat-error>
+        <mat-error><ngx-form-input-errors [warnings]="warnings()" [errors]="errors()"/></mat-error>
 
     </mat-form-field>
 </div>
 
 <mat-autocomplete #optionsTmp [autoActiveFirstOption]="true" (optionSelected)="onSelected($event)">
 
-    <mat-option *ngIf="options().match as match" [value]="match">{{match}}</mat-option>
+    <mat-option *ngIf="options().match as match" [value]="match.id">{{match.name}}</mat-option>
 
     <mat-option *ngIf="options().query as query" [value]="query">
         <ngx-icon alias="add"/>
@@ -53,6 +53,6 @@
     </mat-option>
 
     @for (opt of options().options; track opt) {
-        <mat-option [value]="opt">{{opt}}</mat-option>
+        <mat-option [value]="opt.id">{{opt.name}}</mat-option>
     }
 </mat-autocomplete>

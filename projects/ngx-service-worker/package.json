@@ -15,19 +15,19 @@
     "storybook": "ng run ngx-service-worker:storybook"
   },
   "peerDependencies": {
-    "@angular/common": "^17.2.1",
-    "@angular/core": "^17.2.1",
-    "@angular/material": "^17.2.0",
-    "@angular/service-worker": "^17.2.1",
+    "@angular/common": "^17.3.3",
+    "@angular/core": "^17.3.3",
+    "@angular/material": "^17.3.3",
+    "@angular/service-worker": "^17.3.3",
     "@juulsgaard/ngx-material": "^17.0.8",
     "@juulsgaard/ngx-tools": "^17.0.8",
-    "typescript": "~5.3.3"
+    "typescript": "~5.4.4"
   },
   "devDependencies": {
-    "@angular/common": "17.2.1",
-    "@angular/core": "17.2.1",
-    "@angular/material": "17.2.0",
-    "@angular/service-worker": "17.2.1",
+    "@angular/common": "17.3.3",
+    "@angular/core": "17.3.3",
+    "@angular/material": "17.3.3",
+    "@angular/service-worker": "17.3.3",
     "@juulsgaard/ngx-material": "17.0.8",
     "@juulsgaard/ngx-tools": "17.0.8"
   },

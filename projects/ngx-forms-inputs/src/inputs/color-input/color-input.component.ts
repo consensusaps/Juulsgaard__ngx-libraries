@@ -9,6 +9,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxColorsColor, NgxColorsModule} from "ngx-colors";
+import {FormInputErrorsComponent} from "../../components";
 
 @Component({
   selector: 'form-color-input',
@@ -25,7 +26,8 @@ import {NgxColorsColor, NgxColorsModule} from "ngx-colors";
     IconDirective,
     MatInputModule,
     MatTooltipModule,
-    NgxColorsModule
+    NgxColorsModule,
+    FormInputErrorsComponent
   ],
   standalone: true
 })

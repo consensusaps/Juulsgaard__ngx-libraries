@@ -5,6 +5,8 @@ import {LoadingDirective, NgxRenderingModule} from "@juulsgaard/ngx-tools";
 import {FormInputDirective} from "../../directives";
 import {FormDialogDirective} from "./directives/dialog-form.directive";
 import {MatButton} from "@angular/material/button";
+import {FormErrorsComponent} from "../../components/form-errors/form-errors.component";
+import {FormErrorStateComponent} from "../../components/form-error-state/form-error-state.component";
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import {MatButton} from "@angular/material/button";
     FormInputDirective,
     MatButton,
     LoadingDirective,
+    FormErrorsComponent,
+    FormErrorStateComponent,
   ]
 })
 export class NgxFormDialogModule { }

@@ -1,0 +1,6 @@
+
+@if (errors().length || warnings().length) {
+    <ngx-icon-button alias="warning" [disabled]="!button()" [active]="show()" (click)="toggleErrors()" [class]="errors().length ? 'error' : 'warning'"/>
+} @else {
+    <ngx-icon-button alias="valid" [disabled]="!button()" (click)="toggleErrors()" class="valid"/>
+}

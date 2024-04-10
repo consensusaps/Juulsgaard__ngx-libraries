@@ -4,7 +4,7 @@ export * from './color-input/color-input.component';
 export * from './bool-input/bool-input.component';
 export * from './file-input/file-input.component';
 export * from './number-input/number-input.component';
-export * from './mat-select-input/mat-select-input.component';
+export * from './mat-select-multiple-input/mat-select-multiple-input.component';
 export * from './long-text-input/long-text-input.component';
 export * from './password-input/password-input.component';
 export * from './time-input/time-input.component';

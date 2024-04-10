@@ -3,7 +3,7 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import {ControlContainer} from "@angular/forms";
-import {AnyControlFormRoot, isFormRoot, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
+import {FormRoot, FormUnit, isFormRoot} from "@juulsgaard/ngx-forms-core";
 
 @Directive({
   selector: '[ngxForm]',
@@ -12,14 +12,14 @@ import {AnyControlFormRoot, isFormRoot, SmartFormUnion} from "@juulsgaard/ngx-fo
     useExisting: forwardRef(() => FormDirective)
   }]
 })
-export class FormDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
+export class FormDirective<TControls extends Record<string, FormUnit>> {
 
   form: InputSignalWithTransform<
-    AnyControlFormRoot<TControls>,
-    AnyControlFormRoot<TControls> | { form: AnyControlFormRoot<TControls> }
+    FormRoot<TControls, any>,
+    FormRoot<TControls, any> | { readonly form: FormRoot<TControls, any> }
   > = input.required({
     alias: 'ngxForm',
-    transform: (form: AnyControlFormRoot<TControls>|{form: AnyControlFormRoot<TControls>}) => isFormRoot(form) ? form : form.form
+    transform: (form: FormRoot<TControls, any>|{readonly form: FormRoot<TControls, any>}) => isFormRoot(form) ? form : form.form
   });
 
   // Disable functionality because of change detection timing
@@ -32,7 +32,6 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
     private templateRef: TemplateRef<FormDirectiveContext<TControls>>,
     private viewContainer: ViewContainerRef
   ) {
-    super();
 
     effect(() => {
       if (!this.show()) {
@@ -43,7 +42,7 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
         return;
       }
 
-      const controls =  this.form().controlsSignal();
+      const controls =  this.form().controls();
 
       untracked(() => {
         if (!this.view) {
@@ -64,7 +63,7 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
     return this.form();
   }
 
-  static ngTemplateContextGuard<TControls extends Record<string, SmartFormUnion>>(
+  static ngTemplateContextGuard<TControls extends Record<string, FormUnit>>(
     directive: FormDirective<TControls>,
     context: unknown
   ): context is FormDirectiveContext<TControls> {
@@ -72,6 +71,6 @@ export class FormDirective<TControls extends Record<string, SmartFormUnion>> ext
   }
 }
 
-interface FormDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
+interface FormDirectiveContext<TControls extends Record<string, FormUnit>> {
   ngxForm: TControls;
 }

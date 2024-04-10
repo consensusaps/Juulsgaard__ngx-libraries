@@ -17,6 +17,8 @@ import {delay, of, switchMap} from "rxjs";
 })
 export class FormDialogComponent<T extends Record<string, any>> implements OnDestroy {
 
+  readonly showErrors = signal(false);
+
   readonly config: InputSignal<FormDialog<T>> = input.required<FormDialog<T>>();
   readonly formTemplate = contentChild(FormDialogDirective);
   readonly content = viewChild.required('content', {read: RenderSourceDirective});
@@ -28,7 +30,7 @@ export class FormDialogComponent<T extends Record<string, any>> implements OnDes
 
   constructor(private manager: DialogManagerService, private injector: Injector) {
 
-    const show = computed(() => this.config().showSignal());
+    const show = computed(() => this.config().show());
 
     // Delay hiding the form to allow the dialog close animation to play first
     const showTemplate$ = toObservable(show).pipe(
@@ -46,7 +48,7 @@ export class FormDialogComponent<T extends Record<string, any>> implements OnDes
       const config = this.config();
 
       this.destroy();
-      if (!config.showSignal()) return;
+      if (!config.show()) return;
 
       this.instance = this.manager.createDialog(
         {

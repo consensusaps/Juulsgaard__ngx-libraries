@@ -9,9 +9,9 @@
         </mat-label>
 
         <mat-select [errorStateMatcher]="errorMatcher()" [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
-                    [multiple]="false" [placeholder]="placeholder()" [required]="required()" [disabled]="readonly()">
+                    [multiple]="true" [placeholder]="placeholder()" [required]="required()" [disabled]="readonly()">
 
-            <mat-option *ngIf="clearable() && !required()">None</mat-option>
+            <mat-option *ngIf="clearable() && value.length > 0">None</mat-option>
 
             @for (item of mappedItems(); track item.id) {
                 <mat-option [value]="item.id">

@@ -7,16 +7,17 @@
         @if (formTemplate()) {
             <ng-content/>
         } @else {
-            @for (input of config().form.inputList(); track input) {
+            @for (input of config().form.nodes(); track input) {
                 <form-input *ngIf="!input.readonly" [control]="input"/>
             }
         }
     </div>
 
-    <p class="error" *ngIf="config().errorSignal() as error">{{error}}</p>
+    <ngx-form-errors *ngIf="showErrors()" [errors]="config().errorState()" [warnings]="config().warningState()"/>
 </ng-template>
 
 <ng-template #footer ngxSource>
     <button mat-button (click)="config().close()">Cancel</button>
-    <button mat-button color="primary" (click)="config().submit()" [disabled]="!config().validSignal()" [isLoading]="config().workingSignal()">{{config().buttonText}}</button>
+    <button mat-button color="primary" (click)="config().submit()" [disabled]="!config().canSubmit()" [isLoading]="config().working()">{{config().buttonText}}</button>
+    <ngx-form-error-state [errors]="config().errorState()" [warnings]="config().warningState()" button [(show)]="showErrors"/>
 </ng-template>

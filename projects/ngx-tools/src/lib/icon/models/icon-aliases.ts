@@ -16,6 +16,8 @@ export const baseIconAliases = {
   back: {mat: 'arrow_back_ios_new', fa: 'fas fa-chevron-left'},
   burger: {mat: 'menu', fa: 'fas fa-bars'},
   add: {mat: 'add', fa: 'far fa-plus'},
+  warning: {mat: 'warning', fa: 'fas fa-exclamation-triangle'},
+  valid: {mat: 'check_circle', fa: 'far fa-circle-check'},
 } as const;
 
 export type BaseIconAliases = keyof typeof baseIconAliases;

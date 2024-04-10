@@ -12,25 +12,27 @@
     "build": "ng build ngx-forms",
     "prepublish": "ng build ngx-forms",
     "publish": "cd ../../dist/ngx-forms && npm publish",
-    "storybook": "ng run ngx-forms:storybook"
+    "storybook": "ng run ngx-forms:storybook",
+    "link:ngx-forms-core": "yalc add @juulsgaard/ngx-forms-core && yalc link @juulsgaard/ngx-forms-core",
+    "unlink:ngx-forms-core": "yalc remove @juulsgaard/ngx-forms-core"
   },
   "peerDependencies": {
-    "@angular/common": "^17.2.1",
-    "@angular/core": "^17.2.1",
-    "@angular/forms": "^17.2.1",
-    "@juulsgaard/ngx-forms-core": "^17.0.2",
+    "@angular/common": "^17.3.3",
+    "@angular/core": "^17.3.3",
+    "@angular/forms": "^17.3.3",
+    "@juulsgaard/ngx-forms-core": "^17.0.5",
     "@juulsgaard/ngx-tools": "^17.0.8",
-    "@juulsgaard/ts-tools": "^1.5.4",
-    "typescript": "~5.3.3"
+    "@juulsgaard/ts-tools": "^1.6.1",
+    "typescript": "~5.4.4"
   },
   "devDependencies": {
-    "@angular/common": "17.2.1",
-    "@angular/core": "17.2.1",
-    "@angular/forms": "17.2.1",
-    "@juulsgaard/ngx-forms-core": "17.0.2",
+    "@angular/common": "17.3.3",
+    "@angular/core": "17.3.3",
+    "@angular/forms": "17.3.3",
+    "@juulsgaard/ngx-forms-core": "file:.yalc/@juulsgaard/ngx-forms-core",
     "@juulsgaard/ngx-tools": "17.0.8",
-    "@juulsgaard/ts-tools": "1.5.4",
-    "typescript": "~5.3.3"
+    "@juulsgaard/ts-tools": "1.6.1",
+    "typescript": "~5.4.4"
   },
   "dependencies": {
     "tslib": "2.6.2"

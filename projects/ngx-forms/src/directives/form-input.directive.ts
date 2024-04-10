@@ -4,8 +4,7 @@ import {
 } from '@angular/core';
 import {ThemePalette} from "@angular/material/core";
 import {MatFormFieldAppearance} from "@angular/material/form-field";
-import {ControlContainer} from "@angular/forms";
-import {AnonFormNode, isFormNode} from "@juulsgaard/ngx-forms-core";
+import {AnonFormNode} from "@juulsgaard/ngx-forms-core";
 import {FormInputRegistry} from "../services";
 import {BaseInputComponent} from "../lib/ngx-forms-tools";
 
@@ -59,20 +58,7 @@ export class FormInputDirective {
     }
   }
 
-  private controlContainer = inject(ControlContainer, {optional: true, host: true, skipSelf: true});
-
-  readonly controlIn: InputSignal<AnonFormNode | undefined> = input<AnonFormNode | undefined>(undefined, {alias: 'control'});
-  readonly controlName: InputSignal<string | undefined> = input<string>();
-  private namedControl = computed(() => {
-    if (!this.controlContainer) return undefined;
-    const name = this.controlName();
-    if (!name) return undefined;
-    const control = this.controlContainer.control?.get(name);
-    if (isFormNode(control)) return control as AnonFormNode;
-    return undefined;
-  })
-
-  private control = computed(() => this.controlIn() ?? this.namedControl());
+  readonly control: InputSignal<AnonFormNode | undefined> = input<AnonFormNode>();
 
   private registry = inject(FormInputRegistry);
   private viewContainer = inject(ViewContainerRef);

@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@juulsgaard/ngx-forms-core": {
+      "signature": "a654a7bf0e9589496ca299a15999e890",
+      "pure": true,
+      "replaced": "17.0.5"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+
+<div class="buttons" *ngIf="!readonly()">
+
+    <button type="button" mat-button [disabled]="!form().form.changed()" (click)="form().form.rollback()">
+        Reset
+    </button>
+
+    <button type="button" *ngIf="form().showDelete()" mat-stroked-button color="warn"
+            [isLoading]="form().deleting()" (click)="onDelete()">
+        {{form().deleteBtnText}}
+    </button>
+
+    <button type="button" *ngIf="form().showSubmit()" mat-raised-button color="primary"
+            [disabled]="!form().canSubmit()" [isLoading]="form().submitting()"
+            (click)="onSubmit()">
+        {{form().submitBtnText}}
+    </button>
+
+    <ngx-form-error-state [errors]="form().form.errorState()" [warnings]="form().form.warningState()" button [(show)]="showErrors"/>
+
+</div>
+
+<ngx-form-errors *ngIf="showErrors()" [errors]="form().form.errorState()" [warnings]="form().form.warningState()"/>
+
+<div class="extra">
+    <ng-content></ng-content>
+</div>

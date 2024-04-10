@@ -1,0 +1,8 @@
+
+<div class="errors" *ngIf="error() as e" [@harmonicaIn]>
+    <p>
+        <ngx-icon alias="warning"/>
+        <span class="error">{{e}}</span>
+        <span *ngIf="errors().length > 1">+{{errors().length - 1}}</span>
+    </p>
+</div>

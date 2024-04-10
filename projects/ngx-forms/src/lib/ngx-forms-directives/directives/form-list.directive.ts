@@ -1,22 +1,15 @@
 import {
-  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, signal, TemplateRef, untracked, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, input, InputSignal, signal, TemplateRef, untracked, ViewContainerRef
 } from "@angular/core";
-import {ControlContainer} from "@angular/forms";
-import {AnyControlFormList, ControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
+import {ControlFormLayer, FormList, FormUnit} from "@juulsgaard/ngx-forms-core";
 import {arrToSet} from "@juulsgaard/ts-tools";
 
 @Directive({
-  selector: '[ngxFormList][ngxFormListIn]',
-  providers: [
-    {
-      provide: ControlContainer,
-      useExisting: forwardRef(() => FormListDirective)
-    }
-  ]
+  selector: '[ngxFormList][ngxFormListIn]'
 })
-export class FormListDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
+export class FormListDirective<TControls extends Record<string, FormUnit>> {
 
-  readonly list: InputSignal<AnyControlFormList<TControls>> = input.required({alias: 'ngxFormListIn'});
+  readonly list: InputSignal<FormList<TControls, any, boolean>> = input.required({alias: 'ngxFormListIn'});
 
   // Disable functionality because of change detection timing
   // readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormListWhen'});
@@ -28,7 +21,6 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
     private templateRef: TemplateRef<FormListDirectiveContext<TControls>>,
     private viewContainer: ViewContainerRef
   ) {
-    super();
 
     effect(() => {
       if (!this.show()) {
@@ -37,8 +29,8 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
       }
 
       const list = this.list();
-      const controls = list.controlsSignal();
-      const controlList = controls.map(x => x.controlsSignal());
+      const controls = list.controls();
+      const controlList = controls.map(x => x.controls());
       const controlSet = arrToSet(controls);
 
       untracked(() => {
@@ -72,18 +64,14 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
     });
   }
 
-  clear() {
+  private clear() {
     for (let [_, view] of this.views) {
       view.destroy();
     }
     this.views.clear();
   }
 
-  get control() {
-    return this.list();
-  }
-
-  static ngTemplateContextGuard<TControls extends Record<string, SmartFormUnion>>(
+  static ngTemplateContextGuard<TControls extends Record<string, FormUnit>>(
     directive: FormListDirective<TControls>,
     context: unknown
   ): context is FormListDirectiveContext<TControls> {
@@ -91,7 +79,7 @@ export class FormListDirective<TControls extends Record<string, SmartFormUnion>>
   }
 }
 
-class FormListDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
+class FormListDirectiveContext<TControls extends Record<string, FormUnit>> {
 
   $implicit: TControls;
   ngxFormListIn: TControls[];
@@ -100,7 +88,7 @@ class FormListDirectiveContext<TControls extends Record<string, SmartFormUnion>>
 
   constructor(layer: ControlFormLayer<TControls>, index: number, list: TControls[]) {
     this.layer = layer;
-    this.$implicit = layer.controlsSignal();
+    this.$implicit = layer.controls();
     this.index = index;
     this.ngxFormListIn = list;
   }
@@ -113,7 +101,7 @@ class FormListDirectiveContext<TControls extends Record<string, SmartFormUnion>>
       changed = true;
     }
 
-    const controls = layer.controlsSignal();
+    const controls = layer.controls();
     if (this.$implicit !== controls) {
       this.$implicit = controls;
       changed = true;

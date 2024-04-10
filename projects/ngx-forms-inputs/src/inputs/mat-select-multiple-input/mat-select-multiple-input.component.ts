@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
-import {BaseSingleSelectInputComponent} from "@juulsgaard/ngx-forms";
+import {BaseMultiSelectInputComponent} from "@juulsgaard/ngx-forms";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
@@ -11,8 +11,8 @@ import {FormInputErrorsComponent} from "../../components";
 
 @Component({
   selector: 'form-mat-select-multiple',
-  templateUrl: './mat-select-input.component.html',
-  styleUrls: ['./mat-select-input.component.scss'],
+  templateUrl: './mat-select-multiple-input.component.html',
+  styleUrls: ['./mat-select-multiple-input.component.scss'],
   animations: [harmonicaAnimation()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -29,18 +29,19 @@ import {FormInputErrorsComponent} from "../../components";
   ],
   standalone: true
 })
-export class MatSelectInputComponent<TValue, TItem>
-  extends BaseSingleSelectInputComponent<TValue, TItem, TValue|undefined> {
+export class MatSelectMultipleInputComponent<TValue, TItem>
+  extends BaseMultiSelectInputComponent<TValue, TItem, TValue[]> {
 
   constructor() {
     super();
   }
 
-  postprocessValue(value: TValue | undefined): TValue | undefined {
-    return value;
+  postprocessValue(value: TValue[]): TValue[]|undefined {
+    return value.length ?  value : undefined;
   }
 
-  preprocessValue(value: TValue | undefined): TValue | undefined {
-    return value;
+  preprocessValue(value: TValue[]|undefined): TValue[] {
+    return value ?? [];
   }
+
 }
