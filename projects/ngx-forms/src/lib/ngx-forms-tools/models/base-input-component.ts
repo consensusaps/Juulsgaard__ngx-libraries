@@ -1,12 +1,12 @@
 import {
-    booleanAttribute, computed, Directive, effect, ElementRef, HostBinding, inject, input, InputSignal,
-    InputSignalWithTransform, model, ModelSignal, OnInit, Signal, signal, viewChild, viewChildren, WritableSignal
+  booleanAttribute, computed, Directive, effect, ElementRef, HostBinding, inject, input, InputSignal,
+  InputSignalWithTransform, model, ModelSignal, OnInit, Signal, signal, viewChild, viewChildren, WritableSignal
 } from "@angular/core";
 import {EMPTY, Observable, OperatorFunction, Subject, Subscribable, Subscription, switchMap} from "rxjs";
 import {NgModel} from "@angular/forms";
 import {ThemePalette} from '@angular/material/core';
 import {FormNode, FormNodeEvent, InputEvents} from "@juulsgaard/ngx-forms-core";
-import {alwaysErrorStateMatcher, neverErrorStateMatcher} from "./error-state-matchers";
+import {alwaysErrorStateMatcher, neverErrorStateMatcher, touchedErrorStateMatcher} from "./error-state-matchers";
 import {FormContext} from "../services/form-context.service";
 import {MatFormFieldAppearance} from "@angular/material/form-field";
 import {takeUntilDestroyed, toObservable, toSignal} from "@angular/core/rxjs-interop";
@@ -37,6 +37,27 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     });
     //</editor-fold>
 
+    private _touched = signal(false);
+    readonly touched = computed(() => {
+        const node = this.control();
+        if (node) return node.touched();
+        return this._touched();
+    });
+
+    readonly changed = computed(() => this.control()?.changed() ?? false);
+
+    markAsTouched() {
+        this.control()?.markAsTouched();
+        this.ngModels().forEach(x => x.control.markAsTouched());
+        this._touched.set(true);
+    }
+
+    markAsUntouched() {
+        this.control()?.markAsUntouched();
+        this.ngModels().forEach(x => x.control.markAsUntouched());
+        this._touched.set(false);
+    }
+
     //<editor-fold desc="Errors">
     /** The internal error state used for input level errors */
     protected inputError = signal<string|undefined>(undefined);
@@ -48,7 +69,12 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     readonly errors = computed(() => [...this.inputErrors(), ...this.control()?.errors() ?? []]);
     readonly hasError = computed(() => !!this.errors().length);
-    protected errorMatcher = computed(() => this.hasError() ? alwaysErrorStateMatcher : neverErrorStateMatcher)
+    protected readonly errorMatcher = computed(() => {
+        if (!this.hasError()) return neverErrorStateMatcher;
+        if (this.touched() || this.changed()) return alwaysErrorStateMatcher;
+        return touchedErrorStateMatcher;
+    });
+    readonly showError = computed(() => this.hasError() && (this.touched() || this.changed()));
     //</editor-fold>
 
     //<editor-fold desc="Warnings">
@@ -65,7 +91,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     //</editor-fold>
 
     /** A controls that contains the input value / state */
-    readonly control: InputSignal<FormNode<TIn> | FormNode<TIn|undefined> | undefined> = input<FormNode<TIn>|FormNode<TIn|undefined>>();
+    readonly control: InputSignal<FormNode<TIn> | undefined> = input<FormNode<TIn>>();
 
     //<editor-fold desc="External Value">
     readonly valueIn: ModelSignal<TIn | undefined> = model<TIn | undefined>(undefined, {alias: 'value'});

@@ -9,6 +9,7 @@
         </mat-label>
 
         <mat-select [errorStateMatcher]="errorMatcher()" [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
+                    (openedChange)="onOpenStatus($event)"
                     [multiple]="false" [placeholder]="placeholder()" [required]="required()" [disabled]="readonly()">
 
             <mat-option *ngIf="clearable() && !required()">None</mat-option>
@@ -21,6 +22,7 @@
 
         </mat-select>
 
-        <mat-error><ngx-form-input-errors [errors]="errors()" [warnings]="warnings()"/></mat-error>
     </mat-form-field>
+
+    <ngx-form-input-errors *ngIf="showError()" [errors]="errors()" [warnings]="warnings()"/>
 </div>

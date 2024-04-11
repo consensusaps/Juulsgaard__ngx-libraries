@@ -2,14 +2,13 @@ import {
   booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, HostListener, input, InputSignalWithTransform,
   NgZone, Output
 } from '@angular/core';
-import {FormsModule} from '@angular/forms';
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {fromEvent} from "rxjs";
 import {filter} from "rxjs/operators";
 import {IconDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
 import {MatRippleModule} from "@angular/material/core";
 import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {IconButtonComponent} from "@juulsgaard/ngx-material";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -22,11 +21,12 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NoClickBubbleDirective,
-    FormsModule,
     MatRippleModule,
     MatIconModule,
     IconDirective,
-    MatInputModule,
+    MatFormField,
+    MatLabel,
+    MatPrefix,
     MatButtonModule,
     IconButtonComponent
   ],

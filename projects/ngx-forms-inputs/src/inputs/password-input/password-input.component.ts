@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
-import {FormsModule} from "@angular/forms";
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
 import {AsyncPipe, NgClass, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
 import {IconButtonComponent} from "@juulsgaard/ngx-material";
+import {FormInputErrorsComponent} from "../../components";
 
 
 @Component({
@@ -17,17 +17,19 @@ import {IconButtonComponent} from "@juulsgaard/ngx-material";
   animations: [harmonicaAnimation()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatPrefix,
     AsyncPipe,
     NgClass,
     NgIf,
     MatIconModule,
     IconDirective,
-    MatInputModule,
     MatTooltipModule,
     MatButtonModule,
     NoClickBubbleDirective,
-    IconButtonComponent
+    IconButtonComponent,
+    FormInputErrorsComponent
   ],
   standalone: true
 })

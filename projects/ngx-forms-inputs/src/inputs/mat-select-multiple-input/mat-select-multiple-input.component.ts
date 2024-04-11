@@ -8,6 +8,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSelectModule} from "@angular/material/select";
 import {FormInputErrorsComponent} from "../../components";
+import {MatButton} from "@angular/material/button";
+import {ButtonComponent} from "@juulsgaard/ngx-material";
 
 @Component({
   selector: 'form-mat-select-multiple',
@@ -25,7 +27,9 @@ import {FormInputErrorsComponent} from "../../components";
     MatInputModule,
     MatTooltipModule,
     MatSelectModule,
-    FormInputErrorsComponent
+    FormInputErrorsComponent,
+    MatButton,
+    ButtonComponent
   ],
   standalone: true
 })
@@ -44,4 +48,12 @@ export class MatSelectMultipleInputComponent<TValue, TItem>
     return value ?? [];
   }
 
+  onOpenStatus(opened: boolean) {
+    if (opened) return;
+    this.markAsTouched();
+  }
+
+  clear() {
+    this.value = [];
+  }
 }

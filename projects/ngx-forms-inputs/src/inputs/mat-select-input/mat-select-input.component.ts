@@ -10,7 +10,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {FormInputErrorsComponent} from "../../components";
 
 @Component({
-  selector: 'form-mat-select-multiple',
+  selector: 'form-mat-select',
   templateUrl: './mat-select-input.component.html',
   styleUrls: ['./mat-select-input.component.scss'],
   animations: [harmonicaAnimation()],
@@ -30,7 +30,7 @@ import {FormInputErrorsComponent} from "../../components";
   standalone: true
 })
 export class MatSelectInputComponent<TValue, TItem>
-  extends BaseSingleSelectInputComponent<TValue, TItem, TValue|undefined> {
+  extends BaseSingleSelectInputComponent<TValue, TItem, TValue | undefined> {
 
   constructor() {
     super();
@@ -41,6 +41,12 @@ export class MatSelectInputComponent<TValue, TItem>
   }
 
   preprocessValue(value: TValue | undefined): TValue | undefined {
+    this.inputError.set('Custom error');
     return value;
+  }
+
+  onOpenStatus(opened: boolean) {
+    if (opened) return;
+    this.markAsTouched();
   }
 }

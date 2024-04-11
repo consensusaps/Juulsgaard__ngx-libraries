@@ -16,7 +16,7 @@
 
         <ngx-icon-button alias="time" matIconSuffix (click)="openPicker(picker)" noClickBubble/>
 
-        <mat-error>{{error()}}</mat-error>
+        <mat-error><ngx-form-input-errors [errors]="errors()" [warnings]="warnings()"/></mat-error>
 
     </mat-form-field>
 </div>

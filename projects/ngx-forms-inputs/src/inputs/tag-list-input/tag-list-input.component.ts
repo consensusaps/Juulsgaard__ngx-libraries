@@ -11,9 +11,8 @@ import {ChipComponent} from "@juulsgaard/ngx-material";
 import {
   MatAutocompleteModule, MatAutocompleteSelectedEvent, MatAutocompleteTrigger
 } from "@angular/material/autocomplete";
-import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import Fuse from "fuse.js";
 import {arrToSet, isString} from "@juulsgaard/ts-tools";
@@ -23,8 +22,10 @@ import {FormInputErrorsComponent} from "../../components";
   selector: 'form-tag-list-input',
   standalone: true,
   imports: [
-    CommonModule, ChipComponent, IconDirective, MatAutocompleteModule, FormsModule, MatFormFieldModule,
-    MatInputModule, MatTooltipModule, NoClickBubbleDirective, ChipComponent, NgxDragModule, FormInputErrorsComponent
+    CommonModule, ChipComponent, IconDirective, MatAutocompleteModule, MatFormField,
+    MatLabel,
+    MatPrefix, MatFormFieldModule,
+    MatTooltipModule, NoClickBubbleDirective, ChipComponent, NgxDragModule, FormInputErrorsComponent
   ],
   providers: [NgxDragService],
   animations: [harmonicaAnimation()],
@@ -34,7 +35,7 @@ import {FormInputErrorsComponent} from "../../components";
 })
 export class TagListInputComponent<TItem> extends BaseMultiSelectInputComponent<string, TItem, string[]> {
 
-  declare inputElement: Signal<HTMLInputElement|undefined>;
+  declare inputElement: Signal<HTMLInputElement | undefined>;
 
   readonly chips = viewChildren(ChipComponent);
   readonly canReorder: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
@@ -51,7 +52,10 @@ export class TagListInputComponent<TItem> extends BaseMultiSelectInputComponent<
     const query = throttleSignal(this.query, 500);
     const blacklist = computed(() => arrToSet(this.value));
 
-    const searcher = new Fuse<FormSelectValue<TItem, string>>([], {includeScore: true, isCaseSensitive: true, keys: ['name']});
+    const searcher = new Fuse<FormSelectValue<TItem, string>>(
+      [],
+      {includeScore: true, isCaseSensitive: true, keys: ['name']}
+    );
     const filtered = computed(() => {
       const _blacklist = blacklist();
       const items = _blacklist.size ? this.mappedItems().filter(x => !_blacklist.has(x.id)) : this.mappedItems();
@@ -101,6 +105,7 @@ export class TagListInputComponent<TItem> extends BaseMultiSelectInputComponent<
   }
 
   readonly trigger = viewChild(MatAutocompleteTrigger);
+
   onSelected(event: MatAutocompleteSelectedEvent) {
     const value = event.option.value;
 

@@ -11,12 +11,10 @@
 
         <ngx-icon-button matIconPrefix alias="date" noClickBubble (click)="openDatePicker()"/>
 
-        <input type="text" matInput [placeholder]="placeholder()" [required]="required()"
-               [readonly]="readonly()" [(ngModel)]="textValue" [ngModelOptions]="{standalone: true}"
-               [autocomplete]="autocomplete()" [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()"
+        <input type="text" ngxInput [placeholder]="placeholder()" [required]="required()"
+               [readonly]="readonly()" [(inputValue)]="textValue" (touched)="markAsTouched()"
+               [autocomplete]="autocomplete()" [autofocus]="autofocus()" [showError]="showError()"
                #input [disabled]="disabled()" [attr.dir]="direction()">
-
-        <mat-error>{{error()}}</mat-error>
 
     </mat-form-field>
 </div>

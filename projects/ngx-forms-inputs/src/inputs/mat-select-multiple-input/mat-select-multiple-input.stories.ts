@@ -3,10 +3,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatSelectMultipleInputComponent} from "./mat-select-multiple-input.component";
 
 export default {
-  title: 'Inputs: Select',
+  title: 'Inputs: Multi Select',
   render: (args) => ({
     props: args,
-    template: `<form-mat-select clearable ${argsToTemplate(args)}/>`
+    template: `<form-mat-select-multiple clearable ${argsToTemplate(args)}/>`
   }),
   args: {
     label: 'Mat Select',

@@ -1,12 +1,11 @@
 import {
   booleanAttribute, ChangeDetectionStrategy, Component, input, InputSignal, InputSignalWithTransform
 } from '@angular/core';
-import {FormsModule} from "@angular/forms";
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@juulsgaard/ngx-tools';
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxColorsColor, NgxColorsModule} from "ngx-colors";
 import {FormInputErrorsComponent} from "../../components";
@@ -19,12 +18,13 @@ import {FormInputErrorsComponent} from "../../components";
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NoClickBubbleDirective,
-    FormsModule,
     NgIf,
     AsyncPipe,
     MatIconModule,
     IconDirective,
-    MatInputModule,
+    MatFormField,
+    MatLabel,
+    MatPrefix,
     MatTooltipModule,
     NgxColorsModule,
     FormInputErrorsComponent

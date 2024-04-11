@@ -13,16 +13,11 @@ export abstract class BaseSelectInputComponent<TValue, TItem, TMultiple extends 
 
   abstract readonly multiple: TMultiple;
 
-  override readonly control: InputSignal<
+  declare readonly control: InputSignal<
     FormNode<TMultiple extends true ? TValue[] : TValue> |
-    FormNode<(TMultiple extends true ? TValue[] : TValue) | undefined> |
     FormSelectNode<TValue, TItem, TMultiple> |
     undefined
-  > = input<
-    FormNode<TMultiple extends true ? TValue[] : TValue> |
-    FormNode<(TMultiple extends true ? TValue[] : TValue) | undefined> |
-    FormSelectNode<TValue, TItem, TMultiple>
-  >();
+  >;
 
   protected selectControl: Signal<FormSelectNode<TValue, TItem, TMultiple> | undefined> = computed(
     () => {
@@ -195,6 +190,15 @@ export abstract class BaseMultiSelectInputComponent<TValue, TItem, TState>
 
   override readonly multiple = true;
 
+  override readonly control: InputSignal<
+    FormNode<TValue[]> |
+    FormSelectNode<TValue, TItem, true> |
+    undefined
+  > = input<
+    FormNode<TValue[]> |
+    FormSelectNode<TValue, TItem, true>
+  >();
+
 }
 
 @Directive()
@@ -203,4 +207,12 @@ export abstract class BaseSingleSelectInputComponent<TValue, TItem, TState>
 
   override readonly multiple = false;
 
+  override readonly control: InputSignal<
+    FormNode<TValue> |
+    FormSelectNode<TValue, TItem, false> |
+    undefined
+  > = input<
+    FormNode<TValue> |
+    FormSelectNode<TValue, TItem, false>
+  >();
 }

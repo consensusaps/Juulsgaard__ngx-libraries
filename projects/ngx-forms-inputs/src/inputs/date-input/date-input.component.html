@@ -9,19 +9,17 @@
                       matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <mat-datepicker-toggle matIconPrefix [for]="picker"/>
-        <mat-datepicker #picker/>
+        <ngx-icon-button matIconPrefix alias="date" noClickBubble (click)="openDatePicker()"/>
 
-        <input type="text" matInput [matDatepicker]="picker" [placeholder]="placeholder()" [required]="required()"
-               [readonly]="readonly()" [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
-               [autocomplete]="autocomplete()" [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()"
-               #input [disabled]="disabled()" [attr.dir]="direction()">
+        <input type="text" ngxInput [placeholder]="placeholder()" [required]="required()"
+               [readonly]="readonly()" [(inputValue)]="textValue" [autocomplete]="autocomplete()" [autofocus]="autofocus()"
+               [showError]="showError()" #input [disabled]="disabled()" [attr.dir]="direction()" (touched)="markAsTouched()">
 
         <div matIconSuffix class="fix">
             <ng-content></ng-content>
         </div>
 
-        <mat-error>{{error()}}</mat-error>
-
     </mat-form-field>
+
+    <ngx-form-input-errors *ngIf="showError()" [errors]="errors()" [warnings]="warnings()"/>
 </div>

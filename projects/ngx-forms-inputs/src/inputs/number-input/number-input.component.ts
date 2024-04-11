@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormsModule} from "@angular/forms";
 import {BaseInputComponent} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {FormInputErrorsComponent} from "../../components";
 
 @Component({
   selector: 'form-number-input',
@@ -15,13 +15,15 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatPrefix,
     NgIf,
     AsyncPipe,
     MatIconModule,
     IconDirective,
-    MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FormInputErrorsComponent
   ],
   providers: []
 })
