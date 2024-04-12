@@ -1,5 +1,15 @@
 # @juulsgaard/ngx-tools
 
+## 17.1.0
+
+### Minor Changes
+
+- Update Typescript
+
+### Patch Changes
+
+- Add icons
+
 ## 17.0.8
 
 ### Patch Changes

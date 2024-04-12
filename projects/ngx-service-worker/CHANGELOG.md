@@ -1,5 +1,18 @@
 # @juulsgaard/ngx-service-worker
 
+## 17.1.0
+
+### Minor Changes
+
+- Update Typescript
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @juulsgaard/ngx-material@17.1.0
+  - @juulsgaard/ngx-tools@17.1.0
+
 ## 17.0.1
 
 ### Patch Changes
