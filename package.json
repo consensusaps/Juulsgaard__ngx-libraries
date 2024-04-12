@@ -36,7 +36,7 @@
     "@angular/service-worker": "17.3.3",
     "@ctrl/tinycolor": "4.0.4",
     "@juulsgaard/data-sources": "1.13.0",
-    "@juulsgaard/ngx-forms-core": "file:.yalc/@juulsgaard/ngx-forms-core",
+    "@juulsgaard/ngx-forms-core": "17.1.0",
     "@juulsgaard/rxjs-tools": "1.7.0",
     "@juulsgaard/ts-tools": "1.6.1",
     "dayjs": "1.11.10",

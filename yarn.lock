@@ -2681,14 +2681,10 @@
   resolved "https://registry.yarnpkg.com/@juulsgaard/data-sources/-/data-sources-1.13.0.tgz#b672608c0f4ddc4223fc2c083107b1b7e131e3a8"
   integrity sha512-l5J143pWWI5DZ7Fx7udwVEd2tDlExlMJ5ax5KH4e2j+XKgG5FfB/S0O5SH3zu6yG+xUVKpjvPRhGOtnKlWrV3A==
 
-"@juulsgaard/ngx-forms-core@file:.yalc/@juulsgaard/ngx-forms-core":
+"@juulsgaard/ngx-forms-core@17.1.0":
   version "17.1.0"
-
-"@juulsgaard/ngx-forms-core@file:projects/ngx-forms-inputs/.yalc/@juulsgaard/ngx-forms-core":
-  version "17.1.0"
-
-"@juulsgaard/ngx-forms-core@file:projects/ngx-forms/.yalc/@juulsgaard/ngx-forms-core":
-  version "17.1.0"
+  resolved "https://registry.yarnpkg.com/@juulsgaard/ngx-forms-core/-/ngx-forms-core-17.1.0.tgz#6ad271fdb8a0914e04406c5c25d14b360bdb323a"
+  integrity sha512-fo77EuOKNo5koQWbgEohe0DPha1sdbe1G20kG1mmMxXKCdRiNZGVSulxIkhQEBlledUVBakbOwVPNn16FzOv1w==
 
 "@juulsgaard/rxjs-tools@1.7.0":
   version "1.7.0"
