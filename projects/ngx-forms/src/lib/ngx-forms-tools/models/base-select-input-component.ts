@@ -15,6 +15,7 @@ export abstract class BaseSelectInputComponent<TValue, TItem, TMultiple extends 
 
   declare readonly control: InputSignal<
     FormNode<TMultiple extends true ? TValue[] : TValue> |
+    FormNode<(TMultiple extends true ? TValue[] : TValue) | undefined> |
     FormSelectNode<TValue, TItem, TMultiple> |
     undefined
   >;
@@ -192,10 +193,12 @@ export abstract class BaseMultiSelectInputComponent<TValue, TItem, TState>
 
   override readonly control: InputSignal<
     FormNode<TValue[]> |
+    FormNode<TValue[]|undefined> |
     FormSelectNode<TValue, TItem, true> |
     undefined
   > = input<
     FormNode<TValue[]> |
+    FormNode<TValue[]|undefined> |
     FormSelectNode<TValue, TItem, true>
   >();
 
@@ -209,10 +212,14 @@ export abstract class BaseSingleSelectInputComponent<TValue, TItem, TState>
 
   override readonly control: InputSignal<
     FormNode<TValue> |
+    FormNode<TValue|undefined> |
     FormSelectNode<TValue, TItem, false> |
+    FormSelectNode<TValue|undefined, TItem, false> |
     undefined
   > = input<
     FormNode<TValue> |
-    FormSelectNode<TValue, TItem, false>
+    FormNode<TValue|undefined> |
+    FormSelectNode<TValue, TItem, false> |
+    FormSelectNode<TValue|undefined, TItem, false>
   >();
 }

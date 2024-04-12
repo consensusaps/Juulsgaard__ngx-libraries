@@ -51,7 +51,7 @@ dayjs.extend(utc);
     {provide: MAT_DATE_FORMATS, useValue: MAT_DAYJS_DATETIME_FORMATS}
   ]
 })
-export class DateTimeInputComponent extends BaseInputComponent<Date | undefined, Dayjs | undefined> implements OnDestroy {
+export class DateTimeInputComponent extends BaseInputComponent<Date, Dayjs | undefined> implements OnDestroy {
 
   private injector = inject(Injector);
   private dialog = inject(MatDialog);

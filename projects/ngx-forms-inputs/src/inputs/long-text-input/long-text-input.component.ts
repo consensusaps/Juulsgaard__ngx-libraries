@@ -31,18 +31,18 @@ import {CdkTextareaAutosize} from "@angular/cdk/text-field";
   ],
   providers: []
 })
-export class LongTextInputComponent extends BaseInputComponent<string, string> {
+export class LongTextInputComponent extends BaseInputComponent<string, string|undefined> {
 
   constructor() {
     super();
   }
 
-  postprocessValue(value: string) {
-    return value ? value : undefined;
+  postprocessValue(value: string | undefined): string | undefined {
+    return value || undefined;
   }
 
-  preprocessValue(value: string | undefined): string {
-    return value ?? '';
+  preprocessValue(value: string | undefined): string | undefined{
+    return value;
   }
 
 }

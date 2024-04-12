@@ -34,7 +34,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   ],
   standalone: true
 })
-export class SearchInputComponent extends BaseInputComponent<string, string> {
+export class SearchInputComponent extends BaseInputComponent<string, string|undefined> {
 
   @Output() submit = new EventEmitter<string|undefined>();
 
@@ -74,11 +74,15 @@ export class SearchInputComponent extends BaseInputComponent<string, string> {
     })
   }
 
-  postprocessValue(value: string|undefined) {
-    return value ? value : undefined;
+  postprocessValue(value: string|undefined): string | undefined {
+    return value || undefined;
   }
 
-  preprocessValue(value: string|undefined): string {
-    return value ?? '';
+  preprocessValue(value: string|undefined): string | undefined {
+    return value;
+  }
+
+  clear() {
+    this.value = undefined;
   }
 }

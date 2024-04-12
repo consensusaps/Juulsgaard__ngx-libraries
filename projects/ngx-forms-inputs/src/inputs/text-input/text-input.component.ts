@@ -28,18 +28,18 @@ import {FormInputErrorsComponent} from "../../components";
   ],
   standalone: true
 })
-export class TextInputComponent extends BaseInputComponent<string, string> {
+export class TextInputComponent extends BaseInputComponent<string, string | undefined> {
 
   constructor() {
     super();
   }
 
-  postprocessValue(value: string) {
-    return value ? value : undefined;
+  postprocessValue(value: string | undefined): string | undefined {
+    return value || undefined;
   }
 
-  preprocessValue(value: string | undefined): string {
-    return value ?? '';
+  preprocessValue(value: string | undefined): string | undefined {
+    return value;
   }
 
 }

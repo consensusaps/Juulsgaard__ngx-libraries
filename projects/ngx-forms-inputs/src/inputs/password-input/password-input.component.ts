@@ -35,7 +35,7 @@ import {FormInputErrorsComponent} from "../../components";
   ],
   standalone: true
 })
-export class PasswordInputComponent extends BaseInputComponent<string, string> {
+export class PasswordInputComponent extends BaseInputComponent<string, string|undefined> {
 
   readonly showPassword = signal(false);
 
@@ -48,11 +48,11 @@ export class PasswordInputComponent extends BaseInputComponent<string, string> {
     this.inputElement()?.focus();
   }
 
-  preprocessValue(value: string | undefined): string {
-    return value ?? '';
+  preprocessValue(value: string | undefined): string | undefined {
+    return value;
   }
 
-  postprocessValue(value: string) {
-    return value ? value : undefined;
+  postprocessValue(value: string | undefined): string | undefined {
+    return value || undefined;
   }
 }

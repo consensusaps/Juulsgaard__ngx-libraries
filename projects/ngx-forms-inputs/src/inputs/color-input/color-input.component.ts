@@ -35,7 +35,7 @@ import {FormsModule} from "@angular/forms";
   ],
   standalone: true
 })
-export class ColorInputComponent extends BaseInputComponent<string | undefined, string> {
+export class ColorInputComponent extends BaseInputComponent<string, string|undefined> {
 
   readonly withAlpha: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
   readonly palette: InputSignal<string[] | NgxColorsColor[]> = input<string[] | NgxColorsColor[]>(colors);
@@ -44,7 +44,7 @@ export class ColorInputComponent extends BaseInputComponent<string | undefined, 
     super();
   }
 
-  postprocessValue(value?: string) {
+  postprocessValue(value: string|undefined): string|undefined {
     if (!value) return undefined;
     value = value.trim();
 
@@ -61,8 +61,8 @@ export class ColorInputComponent extends BaseInputComponent<string | undefined, 
     return value;
   }
 
-  preprocessValue(value?: string): string {
-    return value?.trim() ?? '';
+  preprocessValue(value: string|undefined): string|undefined {
+    return value?.trim();
   }
 
 }

@@ -93,7 +93,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     //</editor-fold>
 
     /** A controls that contains the input value / state */
-    readonly control: InputSignal<FormNode<TIn> | undefined> = input<FormNode<TIn>>();
+    readonly control: InputSignal<FormNode<TIn> | FormNode<TIn|undefined> | undefined> = input<FormNode<TIn>|FormNode<TIn|undefined>>();
 
     //<editor-fold desc="External Value">
     readonly valueIn: ModelSignal<TIn | undefined> = model<TIn | undefined>(undefined, {alias: 'value'});

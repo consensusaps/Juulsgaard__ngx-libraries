@@ -29,7 +29,7 @@ import {FormInputErrorsComponent} from "../../components";
   ],
   providers: []
 })
-export class NumberInputComponent extends BaseInputComponent<number | undefined, string|undefined> {
+export class NumberInputComponent extends BaseInputComponent<number, string|undefined> {
 
   constructor() {
     super();
