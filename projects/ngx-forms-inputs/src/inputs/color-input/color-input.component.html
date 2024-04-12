@@ -16,16 +16,16 @@
             <div class="fill" [style.background-color]="externalValue()"></div>
         </div>
 
-        <input matInput type="text" [placeholder]="placeholder()" [required]="required()"
-               [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
+        <input ngxInput type="text" [placeholder]="placeholder()" [required]="required()"
+               [(inputValue)]="value" (touched)="markAsTouched()"
                [autocomplete]="autocomplete()" [readonly]="readonly()" [autofocus]="autofocus()" #input
-               [errorStateMatcher]="errorMatcher()" [attr.dir]="direction()">
+               [showError]="showError()" [attr.dir]="direction()">
 
         <div matIconSuffix class="fix">
             <ng-content/>
         </div>
 
-        <mat-error><ngx-form-input-errors [errors]="errors()" [warnings]="warnings()"/></mat-error>
-
     </mat-form-field>
+
+    <ngx-form-input-errors [canShow]="canShowError()" [errors]="errors()" [warnings]="warnings()"/>
 </div>

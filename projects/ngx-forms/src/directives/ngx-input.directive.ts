@@ -1,6 +1,6 @@
 import {
-  booleanAttribute, computed, Directive, effect, ElementRef, forwardRef, inject, input, InputSignal, model, ModelSignal,
-  NgZone, OnDestroy, output, signal
+  booleanAttribute, computed, Directive, effect, ElementRef, forwardRef, inject, input, InputSignal,
+  InputSignalWithTransform, model, ModelSignal, NgZone, OnDestroy, output, signal
 } from '@angular/core';
 import {FormNode} from "@juulsgaard/ngx-forms-core";
 import {MAT_FORM_FIELD, MatFormFieldControl} from "@angular/material/form-field";
@@ -132,7 +132,7 @@ export class NgxInputDirective<T> implements MatFormFieldControl<T | undefined>,
     this._stateChanges.next()
   };
 
-  readonly placeholderIn = input<string | undefined>(undefined, {alias: 'placeholder'})
+  readonly placeholderIn: InputSignal<string | undefined> = input<string | undefined>(undefined, {alias: 'placeholder'})
   protected readonly _placeholder = computed(() => this.placeholderIn() ?? '');
   get placeholder() {
     return this._placeholder()
@@ -143,23 +143,28 @@ export class NgxInputDirective<T> implements MatFormFieldControl<T | undefined>,
     return this._focused()
   };
 
-  protected readonly _empty = computed(() => !this._autofilled() && !this._value());
+  protected readonly _empty = computed(() => !this._autofilled() && this.isEmpty(this._value()));
   get empty() {
     return this._empty()
   };
+
+  protected isEmpty(value: T | undefined) {
+    if (value == null) return true;
+    return value === '';
+  }
 
   protected readonly _shouldLabelFloat = computed(() => this._focused() || !this._empty())
   get shouldLabelFloat() {
     return this._shouldLabelFloat()
   };
 
-  readonly requiredIn = input(false, {transform: booleanAttribute, alias: 'required'});
+  readonly requiredIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'required'});
   protected readonly _required = computed(() => this.requiredIn() || this.node()?.required || false);
   get required() {
     return this._required()
   };
 
-  readonly disabledIn = input(false, {transform: booleanAttribute, alias: 'disabled'});
+  readonly disabledIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'disabled'});
   protected readonly _disabled = computed(() => this.disabledIn() || this.node()?.disabled() || false);
   get disabled() {
     return this._disabled()
@@ -171,7 +176,7 @@ export class NgxInputDirective<T> implements MatFormFieldControl<T | undefined>,
     if (!node.hasError()) return false;
     return node.touched() || node.changed();
   });
-  readonly errorStateIn = input(false, {transform: booleanAttribute, alias: 'showError'});
+  readonly errorStateIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'showError'});
   protected readonly _errorState = computed(() => this.errorStateIn() || this.nodeErrorState());
   get errorState() {
     return this._errorState()
@@ -185,7 +190,7 @@ export class NgxInputDirective<T> implements MatFormFieldControl<T | undefined>,
   };
 
 
-  readonly userAriaDescribedByIn = input<string|undefined>(undefined, {alias: 'aria-describedby'});
+  readonly userAriaDescribedByIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'aria-describedby'});
   protected readonly _userAriaDescribedBy = computed(() => this.userAriaDescribedByIn() ?? '');
   get userAriaDescribedBy() {return this._userAriaDescribedBy()};
 

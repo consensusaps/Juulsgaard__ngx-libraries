@@ -1,0 +1,24 @@
+@use "@juulsgaard/ngx-tools/styles/variables" as *;
+
+:host {
+  display: block;
+  min-height: 12px;
+  padding: 4px 16px 0 16px;
+}
+
+p {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  line-height: 16px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.error {
+  color: $warn;
+}
+
+.warning {
+  color: $warning;
+}

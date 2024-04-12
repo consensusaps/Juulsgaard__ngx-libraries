@@ -3,7 +3,7 @@ import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
 import {BaseInputComponent, NgxInputDirective} from "@juulsgaard/ngx-forms";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormInputErrorsComponent} from "../../components";
 
@@ -18,6 +18,7 @@ import {FormInputErrorsComponent} from "../../components";
     AsyncPipe,
     MatFormField,
     MatLabel,
+    MatSuffix,
     MatPrefix,
     MatIconModule,
     IconDirective,

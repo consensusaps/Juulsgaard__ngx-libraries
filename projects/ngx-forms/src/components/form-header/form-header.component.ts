@@ -7,7 +7,6 @@ import {elementClassManager, IconDirective, LoadingDirective} from "@juulsgaard/
 import {MatRipple} from "@angular/material/core";
 import {NgIf} from "@angular/common";
 import {FormPage} from "@juulsgaard/ngx-forms-core";
-import {SimpleObject} from "@juulsgaard/ts-tools";
 import {MatButton} from "@angular/material/button";
 import {FormErrorStateComponent} from "../form-error-state/form-error-state.component";
 
@@ -27,9 +26,9 @@ import {FormErrorStateComponent} from "../form-error-state/form-error-state.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {'[class.ngx-form-header]': 'true', '[class.ngx-header]': 'true'}
 })
-export class FormHeaderComponent<T extends SimpleObject> {
+export class FormHeaderComponent {
 
-  form = input.required<FormPage<T>>();
+  form: InputSignal<FormPage<any>> = input.required<FormPage<any>>();
 
   @Output() back = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();

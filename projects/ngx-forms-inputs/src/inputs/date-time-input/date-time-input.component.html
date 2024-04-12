@@ -17,6 +17,8 @@
                #input [disabled]="disabled()" [attr.dir]="direction()">
 
     </mat-form-field>
+
+    <ngx-form-input-errors [canShow]="canShowError()" [errors]="errors()" [warnings]="warnings()"/>
 </div>
 
 <ngx-mat-timepicker [format]="timeFormat" (timeSet)="pickTime($event)"/>

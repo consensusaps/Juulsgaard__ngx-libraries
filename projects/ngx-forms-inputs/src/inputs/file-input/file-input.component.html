@@ -20,4 +20,6 @@
     <button mat-stroked-button color="warn" (click)="value = undefined" *ngIf="!readonly()" [disabled]="!value">Clear</button>
 </div>
 
+<ngx-form-input-errors [canShow]="canShowError()" [errors]="errors()" [warnings]="warnings()"/>
+
 <input type="file" (change)="selectFile($event)" #fileInput [accept]="accept()">

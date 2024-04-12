@@ -6,41 +6,39 @@
   align-items: center;
 
   @media (min-width: 601px) {
-    .menu {
+    > .menu {
       display: none !important;
     }
   }
 
-  .column {
+  > .column {
     flex-shrink: 1;
+
+    .title {
+      font-weight: 500;
+      font-size: 1em;
+      color: $text-color;
+    }
+
+    .sub-title {
+      margin-top: 0.1em;
+      font-size: 0.8em;
+      color: $text-color-400;
+    }
+
+    .title, .sub-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
   }
 
-  .title {
-    font-weight: 500;
-    font-size: 1em;
-    color: $text-color;
-  }
-
-  .sub-title {
-    margin-top: 0.1em;
-    font-size: 0.8em;
-    color: $text-color-400;
-  }
-
-  .title, .sub-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2;
-  }
-
-  .ngx-icon {
+  .left-btn {
     font-size: 20px;
     --padding: 10px;
-    border-radius: 4px;
     margin-right: 10px;
     margin-left: -10px;
-    cursor: pointer;
   }
 }
 

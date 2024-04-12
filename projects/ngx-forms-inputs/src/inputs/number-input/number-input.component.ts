@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {BaseInputComponent} from '@juulsgaard/ngx-forms';
+import {BaseInputComponent, NgxInputDirective} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormInputErrorsComponent} from "../../components";
 
@@ -18,33 +18,31 @@ import {FormInputErrorsComponent} from "../../components";
     MatFormField,
     MatLabel,
     MatPrefix,
+    MatSuffix,
     NgIf,
     AsyncPipe,
     MatIconModule,
     IconDirective,
     MatTooltipModule,
-    FormInputErrorsComponent
+    FormInputErrorsComponent,
+    NgxInputDirective
   ],
   providers: []
 })
-export class NumberInputComponent extends BaseInputComponent<number | undefined, number|undefined> {
+export class NumberInputComponent extends BaseInputComponent<number | undefined, string|undefined> {
 
   constructor() {
     super();
   }
 
-  postprocessValue(value: number | undefined) {
-    return value;
+  postprocessValue(value: string | undefined) {
+    if (!value) return undefined;
+    const num = Number(value);
+    return Number.isNaN(num) ? undefined : num;
   }
 
-  preprocessValue(value: number | undefined): number|undefined {
-    if (value == null) {
-      const control = this.control();
-      if (control && !control.nullable) return 0;
-      return undefined;
-    }
-
-    return value;
+  preprocessValue(value: number | undefined): string|undefined {
+    return value?.toString();
   }
 
 }

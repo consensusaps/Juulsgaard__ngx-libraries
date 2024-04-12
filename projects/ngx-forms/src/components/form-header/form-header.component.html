@@ -16,7 +16,9 @@
     <ng-content/>
 </div>
 
-<button type="button" mat-raised-button color="primary" *ngIf="form().showSubmit()" (click)="form().submit()"
-        [disabled]="!form().canSubmit()" [isLoading]="form().submitting()">{{form().submitBtnText}}</button>
+<button type="button" mat-raised-button color="primary" (click)="form().submit()"
+        *ngIf="form().showSubmit()" [disabled]="!form().canSubmit()" [isLoading]="form().submitting()">
+    {{form().submitBtnText}}
+</button>
 
 <ngx-form-error-state [button]="showErrors.observed" [errors]="form().form.errorState()" [warnings]="form().form.warningState()" (showChange)="showErrors.emit()"/>

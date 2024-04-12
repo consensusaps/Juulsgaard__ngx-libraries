@@ -3,7 +3,7 @@ import {
   viewChild, viewChildren
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BaseMultiSelectInputComponent, FormSelectValue} from "@juulsgaard/ngx-forms";
+import {BaseMultiSelectInputComponent, FormSelectValue, NgxInputDirective} from "@juulsgaard/ngx-forms";
 import {
   harmonicaAnimation, IconDirective, NgxDragEvent, NgxDragModule, NgxDragService, NoClickBubbleDirective, throttleSignal
 } from "@juulsgaard/ngx-tools";
@@ -12,7 +12,7 @@ import {
   MatAutocompleteModule, MatAutocompleteSelectedEvent, MatAutocompleteTrigger
 } from "@angular/material/autocomplete";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import Fuse from "fuse.js";
 import {arrToSet, isString} from "@juulsgaard/ts-tools";
@@ -22,10 +22,21 @@ import {FormInputErrorsComponent} from "../../components";
   selector: 'form-tag-list-input',
   standalone: true,
   imports: [
-    CommonModule, ChipComponent, IconDirective, MatAutocompleteModule, MatFormField,
+    CommonModule,
+    ChipComponent,
+    IconDirective,
+    MatAutocompleteModule,
+    MatFormField,
     MatLabel,
-    MatPrefix, MatFormFieldModule,
-    MatTooltipModule, NoClickBubbleDirective, ChipComponent, NgxDragModule, FormInputErrorsComponent
+    MatPrefix,
+    MatSuffix,
+    MatFormFieldModule,
+    MatTooltipModule,
+    NoClickBubbleDirective,
+    ChipComponent,
+    NgxDragModule,
+    FormInputErrorsComponent,
+    NgxInputDirective
   ],
   providers: [NgxDragService],
   animations: [harmonicaAnimation()],
@@ -92,9 +103,11 @@ export class TagListInputComponent<TItem> extends BaseMultiSelectInputComponent<
   removeTag(tag: string) {
     const index = this.value.findIndex(x => x === tag);
     if (index < 0) return;
+
     const list = [...this.value];
     list.splice(index, 1);
     this.value = list;
+    this.markAsTouched();
 
     const input = this.inputElement();
     if (input) {
@@ -140,6 +153,8 @@ export class TagListInputComponent<TItem> extends BaseMultiSelectInputComponent<
 
   onDrop(event: NgxDragEvent<number>, index: number) {
     if (index === event.data) return;
+    this.markAsTouched();
+
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     const rightSide = event.clientX > rect.x + rect.width / 2;

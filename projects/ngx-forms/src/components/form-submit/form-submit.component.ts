@@ -72,4 +72,8 @@ export class FormSubmitComponent<T extends SimpleObject> {
     this.form().delete();
   }
 
+  onShowChange(show: boolean) {
+    if (!show) return;
+    this.form().form.markAsTouched();
+  }
 }

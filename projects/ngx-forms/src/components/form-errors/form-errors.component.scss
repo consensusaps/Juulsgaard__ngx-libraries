@@ -1,0 +1,38 @@
+@use "@juulsgaard/ngx-tools/styles/variables" as *;
+
+:host {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
+}
+
+.spacer {
+  height: 10px;
+}
+
+.ngx-button {
+  font-size: 12px;
+}
+
+p {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  line-height: 16px;
+  white-space: normal;
+  word-break: break-word;
+
+  .ngx-icon-button {
+    font-size: 10px;
+    margin-right: 2px;
+    vertical-align: bottom;
+  }
+}
+
+.error {
+  color: $warn;
+}
+
+.warning {
+  color: $warning;
+}

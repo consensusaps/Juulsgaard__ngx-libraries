@@ -1,4 +1,6 @@
 
+<ngx-form-errors [show]="showErrors()" [errors]="form().form.errorState()" [warnings]="form().form.warningState()"/>
+
 <div class="buttons" *ngIf="!readonly()">
 
     <button type="button" mat-button [disabled]="!form().form.changed()" (click)="form().form.rollback()">
@@ -16,11 +18,9 @@
         {{form().submitBtnText}}
     </button>
 
-    <ngx-form-error-state [errors]="form().form.errorState()" [warnings]="form().form.warningState()" button [(show)]="showErrors"/>
+    <ngx-form-error-state [errors]="form().form.errorState()" [warnings]="form().form.warningState()" button [(show)]="showErrors" (showChange)="onShowChange($event)"/>
 
 </div>
-
-<ngx-form-errors *ngIf="showErrors()" [errors]="form().form.errorState()" [warnings]="form().form.warningState()"/>
 
 <div class="extra">
     <ng-content></ng-content>

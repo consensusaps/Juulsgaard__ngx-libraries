@@ -23,9 +23,9 @@
             }
 
             @if (!readonly()) {
-                <input type="text" matInput [placeholder]="placeholder()" [required]="required()"
-                       [(ngModel)]="query" [ngModelOptions]="{standalone: true}"
-                       [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()" #input
+                <input type="text" ngxInput [placeholder]="placeholder()" [required]="required()"
+                       [(inputValue)]="query" (touched)="markAsTouched()"
+                       [autofocus]="autofocus()" [showError]="showError()" #input
                        [disabled]="disabled()" [attr.dir]="direction()"
                        [matAutocomplete]="optionsTmp" [matAutocompleteConnectedTo]="container"
                        (keydown.backspace)="onBackspace($event)">
@@ -37,10 +37,9 @@
             <ng-content></ng-content>
         </div>
 
-
-        <mat-error><ngx-form-input-errors [warnings]="warnings()" [errors]="errors()"/></mat-error>
-
     </mat-form-field>
+
+    <ngx-form-input-errors [canShow]="canShowError()" [errors]="errors()" [warnings]="warnings()"/>
 </div>
 
 <mat-autocomplete #optionsTmp [autoActiveFirstOption]="true" (optionSelected)="onSelected($event)">

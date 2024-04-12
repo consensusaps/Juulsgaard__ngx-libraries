@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
-import {BaseInputComponent} from '@juulsgaard/ngx-forms';
+import {BaseInputComponent, NgxInputDirective} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
 import {AsyncPipe, NgClass, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
 import {IconButtonComponent} from "@juulsgaard/ngx-material";
@@ -20,6 +20,7 @@ import {FormInputErrorsComponent} from "../../components";
     MatFormField,
     MatLabel,
     MatPrefix,
+    MatSuffix,
     AsyncPipe,
     NgClass,
     NgIf,
@@ -29,7 +30,8 @@ import {FormInputErrorsComponent} from "../../components";
     MatButtonModule,
     NoClickBubbleDirective,
     IconButtonComponent,
-    FormInputErrorsComponent
+    FormInputErrorsComponent,
+    NgxInputDirective
   ],
   standalone: true
 })

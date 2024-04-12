@@ -1,6 +1,6 @@
 import {
-  booleanAttribute, computed, Directive, effect, ElementRef, HostBinding, inject, input, InputSignal,
-  InputSignalWithTransform, model, ModelSignal, OnInit, Signal, signal, viewChild, viewChildren, WritableSignal
+    booleanAttribute, computed, Directive, effect, ElementRef, HostBinding, inject, input, InputSignal,
+    InputSignalWithTransform, model, ModelSignal, OnInit, Signal, signal, viewChild, viewChildren, WritableSignal
 } from "@angular/core";
 import {EMPTY, Observable, OperatorFunction, Subject, Subscribable, Subscription, switchMap} from "rxjs";
 import {NgModel} from "@angular/forms";
@@ -74,7 +74,9 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
         if (this.touched() || this.changed()) return alwaysErrorStateMatcher;
         return touchedErrorStateMatcher;
     });
-    readonly showError = computed(() => this.hasError() && (this.touched() || this.changed()));
+
+    readonly canShowError = computed(() => this.touched() || this.changed());
+    readonly showError = computed(() => this.hasError() && this.canShowError());
     //</editor-fold>
 
     //<editor-fold desc="Warnings">
@@ -258,8 +260,8 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     //<editor-fold desc="Actions">
     /** Focus the input */
-    focus() {
-        this.inputElement()?.focus();
+    focus(options?: FocusOptions) {
+        this.inputElement()?.focus(options);
     }
 
     /** Select the contents of the input */
@@ -271,7 +273,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     }
 
     scrollTo() {
-        scrollToElement(this.element, {container: this.scrollContainer?.scrollContainer()});
+        scrollToElement(this.element, {container: this.scrollContainer?.scrollContainer(), offset: 40});
     }
     //</editor-fold>
 
@@ -300,7 +302,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     protected handleAction(event: FormNodeEvent) {
         switch (event) {
             case InputEvents.Focus:
-                this.focus();
+                this.focus({preventScroll: true});
                 break;
             case InputEvents.Select:
                 this.select();

@@ -1,13 +1,13 @@
 @if (back.observed && !this.hideBack()) {
-    <ngx-icon alias="back" class="back" matRipple (click)="back.emit()"/>
+    <ngx-icon-button alias="back" class="back left-btn" (click)="back.emit()"/>
 }
 
 @if (close.observed && !this.hideClose()) {
-    <ngx-icon alias="close" class="close" matRipple (click)="close.emit()"/>
+    <ngx-icon-button alias="close" class="close left-btn" (click)="close.emit()"/>
 }
 
 @if (showMenu() && !back.observed && !close.observed) {
-    <ngx-icon alias="burger" class="menu" matRipple (click)="openMenu()"/>
+    <ngx-icon-button alias="burger" class="menu left-btn" (click)="openMenu()"/>
 }
 
 <div class="column">

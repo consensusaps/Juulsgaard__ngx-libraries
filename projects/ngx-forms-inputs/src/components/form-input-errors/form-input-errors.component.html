@@ -1,7 +1,9 @@
-@for (error of errors(); track error) {
-    <p class="error" [@harmonicaIn]>{{error}}</p>
-}
+@if (canShow()) {
+    @for (error of errors(); track error) {
+        <p class="error" [@harmonicaIn]>{{error}}</p>
+    }
 
-@for (warning of warnings(); track warning) {
-    <p class="warning" [@harmonicaIn]>{{warning}}</p>
+    @for (warning of warnings(); track warning) {
+        <p class="warning" [@harmonicaIn]>{{warning}}</p>
+    }
 }

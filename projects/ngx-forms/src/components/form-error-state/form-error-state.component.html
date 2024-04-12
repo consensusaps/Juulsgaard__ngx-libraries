@@ -1,6 +1,22 @@
 
 @if (errors().length || warnings().length) {
-    <ngx-icon-button alias="warning" [disabled]="!button()" [active]="show()" (click)="toggleErrors()" [class]="errors().length ? 'error' : 'warning'"/>
+
+    @if (button()) {
+
+        <ngx-icon-button alias="warning" [active]="show()" (click)="toggleErrors()"
+                         [class]="errors().length ? 'error' : 'warning'" [matTooltip]="tooltip()"/>
+
+    } @else {
+        <ngx-icon alias="warning" [class]="errors().length ? 'error' : 'warning'" [matTooltip]="tooltip()"/>
+    }
+
 } @else {
-    <ngx-icon-button alias="valid" [disabled]="!button()" (click)="toggleErrors()" class="valid"/>
+
+    @if (button()) {
+        <ngx-icon-button alias="valid" [disabled]="!button()" (click)="toggleErrors()" class="valid"
+                         matTooltip="No errors"/>
+    } @else {
+        <ngx-icon alias="valid" class="valid" matTooltip="No errors"/>
+
+    }
 }

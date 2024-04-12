@@ -16,7 +16,8 @@ import {Subscription} from "rxjs";
 import dayjs, {Dayjs} from "dayjs";
 import utc from "dayjs/plugin/utc";
 import {DayjsHelper} from "../../helpers/dayjs-helper";
-import {MatLabel, MatPrefix} from "@angular/material/input";
+import {MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
+import {FormInputErrorsComponent} from "../../components";
 
 dayjs.extend(utc);
 
@@ -30,6 +31,7 @@ dayjs.extend(utc);
     MatFormField,
     MatLabel,
     MatPrefix,
+    MatSuffix,
     NgIf,
     IconDirective,
     MatTooltip,
@@ -37,6 +39,7 @@ dayjs.extend(utc);
     NoClickBubbleDirective,
     NgxInputDirective,
     NgxMatTimepickerComponent,
+    FormInputErrorsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

@@ -41,7 +41,6 @@ export class MatSelectInputComponent<TValue, TItem>
   }
 
   preprocessValue(value: TValue | undefined): TValue | undefined {
-    this.inputError.set('Custom error');
     return value;
   }
 

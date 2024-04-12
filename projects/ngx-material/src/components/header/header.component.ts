@@ -2,12 +2,11 @@ import {
   booleanAttribute, ChangeDetectionStrategy, Component, computed, EventEmitter, inject, input, InputSignal,
   InputSignalWithTransform, Output, Signal
 } from '@angular/core';
-import {MatRippleModule} from "@angular/material/core";
 import {NgIf} from "@angular/common";
-import {MatIconModule} from "@angular/material/icon";
-import {elementClassManager, IconDirective, TruthyPipe} from "@juulsgaard/ngx-tools";
+import {elementClassManager} from "@juulsgaard/ngx-tools";
 import {UIScopeContext} from "../../models";
 import {SidebarService} from "../../services";
+import {IconButtonComponent} from "../../lib/buttons";
 
 @Component({
   selector: 'ngx-header',
@@ -15,11 +14,8 @@ import {SidebarService} from "../../services";
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatRippleModule,
-    NgIf,
-    MatIconModule,
-    TruthyPipe,
-    IconDirective
+    IconButtonComponent,
+    NgIf
   ],
   standalone: true,
   host: {'[class.ngx-header]': 'true'}

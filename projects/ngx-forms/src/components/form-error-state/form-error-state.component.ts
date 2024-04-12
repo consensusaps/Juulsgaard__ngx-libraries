@@ -1,17 +1,19 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, input, InputSignal, InputSignalWithTransform, output,
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, input, InputSignal, InputSignalWithTransform, output,
   OutputEmitterRef
 } from '@angular/core';
 import {FormValidationContext} from "@juulsgaard/ngx-forms-core";
 import {IconDirective} from "@juulsgaard/ngx-tools";
 import {IconButtonComponent} from "@juulsgaard/ngx-material";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'ngx-form-error-state',
   standalone: true,
   imports: [
     IconDirective,
-    IconButtonComponent
+    IconButtonComponent,
+    MatTooltip
   ],
   templateUrl: './form-error-state.component.html',
   styleUrl: './form-error-state.component.scss',
@@ -37,6 +39,19 @@ export class FormErrorStateComponent {
       if (!warnings?.length) return [];
       return warnings;
     }
+  });
+
+  tooltip = computed(() => {
+    const errors = this.errors();
+    const warnings = this.warnings();
+
+    if (errors.length) {
+      if (!warnings.length) return `${errors.length} Errors`;
+      return `${errors.length} Errors and ${warnings.length} Warnings`;
+    }
+
+    if (warnings.length) return `${warnings.length} Warnings`;
+    return '';
   });
 
   readonly button: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});

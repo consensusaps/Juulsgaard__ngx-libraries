@@ -18,6 +18,9 @@ export const baseIconAliases = {
   add: {mat: 'add', fa: 'far fa-plus'},
   warning: {mat: 'warning', fa: 'fas fa-exclamation-triangle'},
   valid: {mat: 'check_circle', fa: 'far fa-circle-check'},
+  down: {mat: 'expand_more', fa: 'far fa-chevron-down'},
+  up: {mat: 'expand_less', fa: 'far fa-chevron-up'},
+  edit: {mat: 'edit', fa: 'far fa-pen'},
 } as const;
 
 export type BaseIconAliases = keyof typeof baseIconAliases;

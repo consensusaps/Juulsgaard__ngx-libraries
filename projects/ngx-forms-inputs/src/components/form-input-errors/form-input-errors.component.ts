@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {harmonicaInAnimation} from "@juulsgaard/ngx-tools";
 
 @Component({
@@ -11,6 +11,8 @@ import {harmonicaInAnimation} from "@juulsgaard/ngx-tools";
   animations: [harmonicaInAnimation()],
 })
 export class FormInputErrorsComponent {
+
+  canShow = input(true, {transform: booleanAttribute});
 
   errors = input([] as string[]);
   warnings = input([] as string[]);

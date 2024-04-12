@@ -5,6 +5,7 @@ import {NgClass, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {FormInputErrorsComponent} from "../../components";
 
 @Component({
   selector: 'form-file-input',
@@ -22,7 +23,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     FileSizePipe,
     IconDirective,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FormInputErrorsComponent
   ],
   providers: []
 })

@@ -1,14 +1,15 @@
 import {
   booleanAttribute, ChangeDetectionStrategy, Component, input, InputSignal, InputSignalWithTransform
 } from '@angular/core';
-import {BaseInputComponent} from '@juulsgaard/ngx-forms';
+import {BaseInputComponent, NgxInputDirective} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@juulsgaard/ngx-tools';
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatFormField, MatLabel, MatPrefix} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxColorsColor, NgxColorsModule} from "ngx-colors";
 import {FormInputErrorsComponent} from "../../components";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'form-color-input',
@@ -25,9 +26,12 @@ import {FormInputErrorsComponent} from "../../components";
     MatFormField,
     MatLabel,
     MatPrefix,
+    MatSuffix,
     MatTooltipModule,
     NgxColorsModule,
-    FormInputErrorsComponent
+    FormInputErrorsComponent,
+    NgxInputDirective,
+    FormsModule
   ],
   standalone: true
 })

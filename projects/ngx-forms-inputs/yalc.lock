@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "@juulsgaard/ngx-forms-core": {
-      "signature": "a654a7bf0e9589496ca299a15999e890"
+      "signature": "15f5f2a1f9dd7bc8316ccf35265488d7"
     }
   }
 }
