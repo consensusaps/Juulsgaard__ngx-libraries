@@ -1,5 +1,6 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, computed, effect, input, InputSignalWithTransform, model, signal
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, effect, input, InputSignalWithTransform, model,
+  ModelSignal, Signal, signal
 } from '@angular/core';
 import {FormValidationContext, isFormNode} from "@juulsgaard/ngx-forms-core";
 import {harmonicaInAnimation, IconDirective} from "@juulsgaard/ngx-tools";
@@ -24,9 +25,9 @@ import {ButtonComponent, IconButtonComponent} from "@juulsgaard/ngx-material";
 export class FormErrorsComponent {
 
   show: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
-  showAllIn = model<boolean | undefined>(undefined, {alias: 'showAll'});
+  showAllIn: ModelSignal<boolean | undefined> = model<boolean | undefined>(undefined, {alias: 'showAll'});
   private _showAll = signal(false);
-  showAll = computed(() => this.showAllIn() || this._showAll());
+  showAll: Signal<boolean> = computed(() => this.showAllIn() || this._showAll());
 
   errors: InputSignalWithTransform<
     FormValidationContext[] | string[],

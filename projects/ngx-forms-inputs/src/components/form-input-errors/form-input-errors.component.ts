@@ -1,4 +1,6 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {
+  booleanAttribute, ChangeDetectionStrategy, Component, input, InputSignal, InputSignalWithTransform
+} from '@angular/core';
 import {harmonicaInAnimation} from "@juulsgaard/ngx-tools";
 
 @Component({
@@ -12,9 +14,9 @@ import {harmonicaInAnimation} from "@juulsgaard/ngx-tools";
 })
 export class FormInputErrorsComponent {
 
-  canShow = input(true, {transform: booleanAttribute});
+  canShow: InputSignalWithTransform<boolean, unknown> = input(true, {transform: booleanAttribute});
 
-  errors = input([] as string[]);
-  warnings = input([] as string[]);
+  errors: InputSignal<string[]> = input([] as string[]);
+  warnings: InputSignal<string[]> = input([] as string[]);
 
 }

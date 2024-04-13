@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 17.1.2
+
+### Patch Changes
+
+- Update input typing
+- Updated dependencies
+  - @juulsgaard/ngx-forms@17.1.2
+
 ## 17.1.1
 
 ### Patch Changes
