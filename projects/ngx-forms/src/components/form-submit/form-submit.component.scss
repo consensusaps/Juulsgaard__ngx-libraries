@@ -1,0 +1,29 @@
+
+:host {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+button {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.extra {
+  display: flex;
+  flex-flow: column;
+  margin-top: 10px;
+}
+
+ngx-form-error-state {
+  margin-left: 10px;
+}

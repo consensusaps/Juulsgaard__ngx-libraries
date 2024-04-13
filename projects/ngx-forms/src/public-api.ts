@@ -8,3 +8,4 @@ export * from './lib/ngx-forms-tools';
 export * from './lib/ngx-form-dialog';
 export * from './services';
 export * from './directives';
+export * from './components';

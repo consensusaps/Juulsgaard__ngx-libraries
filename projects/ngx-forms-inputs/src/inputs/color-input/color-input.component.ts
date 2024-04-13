@@ -1,14 +1,15 @@
 import {
   booleanAttribute, ChangeDetectionStrategy, Component, input, InputSignal, InputSignalWithTransform
 } from '@angular/core';
-import {FormsModule} from "@angular/forms";
-import {BaseInputComponent} from '@juulsgaard/ngx-forms';
+import {BaseInputComponent, NgxInputDirective} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from '@juulsgaard/ngx-tools';
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxColorsColor, NgxColorsModule} from "ngx-colors";
+import {FormInputErrorsComponent} from "../../components";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'form-color-input',
@@ -18,18 +19,23 @@ import {NgxColorsColor, NgxColorsModule} from "ngx-colors";
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NoClickBubbleDirective,
-    FormsModule,
     NgIf,
     AsyncPipe,
     MatIconModule,
     IconDirective,
-    MatInputModule,
+    MatFormField,
+    MatLabel,
+    MatPrefix,
+    MatSuffix,
     MatTooltipModule,
-    NgxColorsModule
+    NgxColorsModule,
+    FormInputErrorsComponent,
+    NgxInputDirective,
+    FormsModule
   ],
   standalone: true
 })
-export class ColorInputComponent extends BaseInputComponent<string | undefined, string> {
+export class ColorInputComponent extends BaseInputComponent<string, string|undefined> {
 
   readonly withAlpha: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
   readonly palette: InputSignal<string[] | NgxColorsColor[]> = input<string[] | NgxColorsColor[]>(colors);
@@ -38,7 +44,7 @@ export class ColorInputComponent extends BaseInputComponent<string | undefined, 
     super();
   }
 
-  postprocessValue(value?: string) {
+  postprocessValue(value: string|undefined): string|undefined {
     if (!value) return undefined;
     value = value.trim();
 
@@ -55,8 +61,8 @@ export class ColorInputComponent extends BaseInputComponent<string | undefined, 
     return value;
   }
 
-  preprocessValue(value?: string): string {
-    return value?.trim() ?? '';
+  preprocessValue(value: string|undefined): string|undefined {
+    return value?.trim();
   }
 
 }

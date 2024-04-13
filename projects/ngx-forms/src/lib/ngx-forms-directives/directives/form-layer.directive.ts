@@ -1,19 +1,14 @@
 import {
-  Directive, effect, EmbeddedViewRef, forwardRef, input, InputSignal, signal, TemplateRef, untracked, ViewContainerRef
+  Directive, effect, EmbeddedViewRef, input, InputSignal, signal, TemplateRef, untracked, ViewContainerRef
 } from '@angular/core';
-import {ControlContainer} from "@angular/forms";
-import {AnyControlFormLayer, SmartFormUnion} from "@juulsgaard/ngx-forms-core";
+import {FormLayer, FormUnit} from "@juulsgaard/ngx-forms-core";
 
 @Directive({
   selector: '[ngxFormLayer]',
-  providers: [{
-    provide: ControlContainer,
-    useExisting: forwardRef(() => FormLayerDirective)
-  }]
 })
-export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>> extends ControlContainer {
+export class FormLayerDirective<TControls extends Record<string, FormUnit>> {
 
-  readonly layer: InputSignal<AnyControlFormLayer<TControls>> = input.required({alias: 'ngxFormLayer'});
+  readonly layer: InputSignal<FormLayer<TControls, any>> = input.required({alias: 'ngxFormLayer'});
 
   // Disable functionality because of change detection timing
   // readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormLayerWhen'});
@@ -25,7 +20,6 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
     private templateRef: TemplateRef<FormLayerDirectiveContext<TControls>>,
     private viewContainer: ViewContainerRef
   ) {
-    super();
 
     effect(() => {
       if (!this.show()) {
@@ -36,7 +30,7 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
         return;
       }
 
-      const controls = this.layer().controlsSignal();
+      const controls = this.layer().controls();
 
       untracked(() => {
         if (!this.view) {
@@ -53,11 +47,7 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
     });
   }
 
-  get control() {
-    return this.layer();
-  }
-
-  static ngTemplateContextGuard<TControls extends Record<string, SmartFormUnion>>(
+  static ngTemplateContextGuard<TControls extends Record<string, FormUnit>>(
     directive: FormLayerDirective<TControls>,
     context: unknown
   ): context is FormLayerDirectiveContext<TControls> {
@@ -65,6 +55,6 @@ export class FormLayerDirective<TControls extends Record<string, SmartFormUnion>
   }
 }
 
-interface FormLayerDirectiveContext<TControls extends Record<string, SmartFormUnion>> {
+interface FormLayerDirectiveContext<TControls extends Record<string, FormUnit>> {
   ngxFormLayer: TControls;
 }

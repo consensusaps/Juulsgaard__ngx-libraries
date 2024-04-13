@@ -23,9 +23,9 @@
             }
 
             @if (!readonly()) {
-                <input type="text" matInput [placeholder]="placeholder()" [required]="required()"
-                       [(ngModel)]="query" [ngModelOptions]="{standalone: true}"
-                       [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()" #input
+                <input type="text" ngxInput [placeholder]="placeholder()" [required]="required()"
+                       [(inputValue)]="query" (touched)="markAsTouched()"
+                       [autofocus]="autofocus()" [showError]="showError()" #input
                        [disabled]="disabled()" [attr.dir]="direction()"
                        [matAutocomplete]="optionsTmp" [matAutocompleteConnectedTo]="container"
                        (keydown.backspace)="onBackspace($event)">
@@ -37,15 +37,14 @@
             <ng-content></ng-content>
         </div>
 
-
-        <mat-error>{{error()}}</mat-error>
-
     </mat-form-field>
+
+    <ngx-form-input-errors [canShow]="canShowError()" [errors]="errors()" [warnings]="warnings()"/>
 </div>
 
 <mat-autocomplete #optionsTmp [autoActiveFirstOption]="true" (optionSelected)="onSelected($event)">
 
-    <mat-option *ngIf="options().match as match" [value]="match">{{match}}</mat-option>
+    <mat-option *ngIf="options().match as match" [value]="match.id">{{match.name}}</mat-option>
 
     <mat-option *ngIf="options().query as query" [value]="query">
         <ngx-icon alias="add"/>
@@ -53,6 +52,6 @@
     </mat-option>
 
     @for (opt of options().options; track opt) {
-        <mat-option [value]="opt">{{opt}}</mat-option>
+        <mat-option [value]="opt.id">{{opt.name}}</mat-option>
     }
 </mat-autocomplete>

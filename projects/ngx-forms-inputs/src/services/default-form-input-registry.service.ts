@@ -3,8 +3,9 @@ import {FormInputConfig, FormInputRegistry} from "@juulsgaard/ngx-forms";
 import {InputTypes} from "@juulsgaard/ngx-forms-core";
 import {
   BoolInputComponent, ColorInputComponent, DateInputComponent, DateTimeInputComponent, LongTextInputComponent,
-  MatSelectInputComponent, NumberInputComponent, PasswordInputComponent, TextInputComponent, TimeInputComponent
+  MatSelectMultipleInputComponent, NumberInputComponent, PasswordInputComponent, TextInputComponent, TimeInputComponent
 } from "../inputs";
+import {MatSelectInputComponent} from "../inputs/mat-select-input/mat-select-input.component";
 
 export class DefaultFormInputRegistryService {
   static Provide(builder?: (cfg: FormInputConfig) => void): Provider {
@@ -28,7 +29,7 @@ export class DefaultFormInputRegistryService {
       cfg.register(InputTypes.DateTime, DateTimeInputComponent);
 
       cfg.register(InputTypes.Select, MatSelectInputComponent);
-      cfg.register(InputTypes.SelectMany, MatSelectInputComponent);
+      cfg.register(InputTypes.SelectMany, MatSelectMultipleInputComponent);
 
       builder?.(cfg);
     });

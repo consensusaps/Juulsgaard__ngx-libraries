@@ -1,5 +1,28 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 17.1.1
+
+### Patch Changes
+
+- Update Input component typing
+- Updated dependencies
+  - @juulsgaard/ngx-forms@17.1.1
+
+## 17.1.0
+
+### Minor Changes
+
+- Update Typescript
+- Switch to new form system
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @juulsgaard/ngx-forms@17.1.0
+  - @juulsgaard/ngx-tools@17.1.0
+
 ## 17.0.2
 
 ### Patch Changes

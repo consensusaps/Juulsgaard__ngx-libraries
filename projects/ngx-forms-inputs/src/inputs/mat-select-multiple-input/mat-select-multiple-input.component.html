@@ -1,0 +1,28 @@
+<div class="wrapper" [@harmonica]="show() && !hidden()">
+
+    <mat-form-field appearance="fill" [hideRequiredMarker]="hideRequired()" [color]="color()" subscriptSizing="dynamic">
+
+        <mat-label *ngIf="label()">
+            {{label()}}
+            <ngx-icon class="tooltip" alias="help" *ngIf="tooltip() as t" [matTooltip]="t"
+                      matTooltipPosition="above" matTooltipTouchGestures="off"/>
+        </mat-label>
+
+        <mat-select [errorStateMatcher]="errorMatcher()" [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
+                    (openedChange)="onOpenStatus($event)"
+                    [multiple]="true" [placeholder]="placeholder()" [required]="required()" [disabled]="readonly()">
+
+            <ngx-button class="mat-mdc-option clear" *ngIf="clearable()" [disabled]="value.length <= 0" (click)="clear()">Clear</ngx-button>
+
+            @for (item of mappedItems(); track item.id) {
+                <mat-option [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+            }
+
+        </mat-select>
+
+    </mat-form-field>
+
+    <ngx-form-input-errors [canShow]="canShowError()" [errors]="errors()" [warnings]="warnings()"/>
+</div>

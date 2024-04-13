@@ -1,11 +1,11 @@
-import {FormsModule} from "@angular/forms";
 import {ChangeDetectionStrategy, Component} from "@angular/core";
 import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
-import {BaseInputComponent} from "@juulsgaard/ngx-forms";
+import {BaseInputComponent, NgxInputDirective} from "@juulsgaard/ngx-forms";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {FormInputErrorsComponent} from "../../components";
 
 @Component({
   selector: 'form-text-input',
@@ -16,26 +16,30 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   imports: [
     NgIf,
     AsyncPipe,
-    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatSuffix,
+    MatPrefix,
     MatIconModule,
     IconDirective,
-    MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FormInputErrorsComponent,
+    NgxInputDirective
   ],
   standalone: true
 })
-export class TextInputComponent extends BaseInputComponent<string, string> {
+export class TextInputComponent extends BaseInputComponent<string, string | undefined> {
 
   constructor() {
     super();
   }
 
-  postprocessValue(value: string) {
-    return value ? value : undefined;
+  postprocessValue(value: string | undefined): string | undefined {
+    return value || undefined;
   }
 
-  preprocessValue(value: string | undefined): string {
-    return value ?? '';
+  preprocessValue(value: string | undefined): string | undefined {
+    return value;
   }
 
 }

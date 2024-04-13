@@ -1,0 +1,18 @@
+@use "@juulsgaard/ngx-tools/styles/variables" as *;
+
+.error {
+  color: $warn;
+}
+
+.warning {
+  color: $warning;
+}
+
+.valid {
+  color: $success;
+}
+
+.ngx-icon {
+  font-size: 18px;
+  --padding: 0.5em;
+}

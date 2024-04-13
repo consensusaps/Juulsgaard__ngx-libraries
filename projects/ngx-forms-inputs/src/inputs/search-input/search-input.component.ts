@@ -2,14 +2,13 @@ import {
   booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, HostListener, input, InputSignalWithTransform,
   NgZone, Output
 } from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {BaseInputComponent} from '@juulsgaard/ngx-forms';
+import {BaseInputComponent, NgxInputDirective} from '@juulsgaard/ngx-forms';
 import {fromEvent} from "rxjs";
 import {filter} from "rxjs/operators";
 import {IconDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
 import {MatRippleModule} from "@angular/material/core";
 import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {IconButtonComponent} from "@juulsgaard/ngx-material";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -22,17 +21,20 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NoClickBubbleDirective,
-    FormsModule,
     MatRippleModule,
     MatIconModule,
     IconDirective,
-    MatInputModule,
+    MatFormField,
+    MatLabel,
+    MatPrefix,
+    MatSuffix,
     MatButtonModule,
-    IconButtonComponent
+    IconButtonComponent,
+    NgxInputDirective
   ],
   standalone: true
 })
-export class SearchInputComponent extends BaseInputComponent<string, string> {
+export class SearchInputComponent extends BaseInputComponent<string, string|undefined> {
 
   @Output() submit = new EventEmitter<string|undefined>();
 
@@ -72,11 +74,15 @@ export class SearchInputComponent extends BaseInputComponent<string, string> {
     })
   }
 
-  postprocessValue(value: string|undefined) {
-    return value ? value : undefined;
+  postprocessValue(value: string|undefined): string | undefined {
+    return value || undefined;
   }
 
-  preprocessValue(value: string|undefined): string {
-    return value ?? '';
+  preprocessValue(value: string|undefined): string | undefined {
+    return value;
+  }
+
+  clear() {
+    this.value = undefined;
   }
 }

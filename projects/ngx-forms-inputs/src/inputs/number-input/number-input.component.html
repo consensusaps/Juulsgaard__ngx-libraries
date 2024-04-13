@@ -9,17 +9,16 @@
                       matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <input type="number" matInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
-               [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
-               [autocomplete]="autocomplete()" [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()"
+        <input type="number" ngxInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
+               [(inputValue)]="value" (touched)="markAsTouched()"
+               [autocomplete]="autocomplete()" [autofocus]="autofocus()" [showError]="showError()"
                #input [attr.dir]="direction()">
 
         <div matIconSuffix class="fix">
             <ng-content></ng-content>
         </div>
 
-
-        <mat-error>{{error()}}</mat-error>
-
     </mat-form-field>
+
+    <ngx-form-input-errors [canShow]="canShowError()" [errors]="errors()" [warnings]="warnings()"/>
 </div>

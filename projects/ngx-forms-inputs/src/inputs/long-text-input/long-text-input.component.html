@@ -9,16 +9,15 @@
                       matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <textarea type="text" matInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
-                  [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
-                  [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()"
+        <textarea type="text" ngxInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
+                  [(inputValue)]="value" [autofocus]="autofocus()" [showError]="showError()" (touched)="markAsTouched()"
                   #input cdkTextareaAutosize [attr.dir]="direction()"></textarea>
 
         <div matIconSuffix class="fix">
             <ng-content></ng-content>
         </div>
 
-        <mat-error>{{ error() }}</mat-error>
-
     </mat-form-field>
+
+    <ngx-form-input-errors [canShow]="canShowError()" [errors]="errors()" [warnings]="warnings()"/>
 </div>

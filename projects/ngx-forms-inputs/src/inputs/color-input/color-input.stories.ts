@@ -6,7 +6,7 @@ export default {
   title: 'Inputs: Color',
   render: (args) => ({
     props: args,
-    template: `<form-input-color ${argsToTemplate(args)}/>`
+    template: `<form-color-input ${argsToTemplate(args)}/>`
   }),
   args: {
     label: 'Color Input',

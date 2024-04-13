@@ -5,11 +5,13 @@ import {
 import {EMPTY, Observable, OperatorFunction, Subject, Subscribable, Subscription, switchMap} from "rxjs";
 import {NgModel} from "@angular/forms";
 import {ThemePalette} from '@angular/material/core';
-import {FormNode, FormNodeEvent, hasRequiredField} from "@juulsgaard/ngx-forms-core";
-import {alwaysErrorStateMatcher, neverErrorStateMatcher} from "./error-state-matchers";
+import {FormNode, FormNodeEvent, InputEvents} from "@juulsgaard/ngx-forms-core";
+import {alwaysErrorStateMatcher, neverErrorStateMatcher, touchedErrorStateMatcher} from "./error-state-matchers";
 import {FormContext} from "../services/form-context.service";
 import {MatFormFieldAppearance} from "@angular/material/form-field";
 import {takeUntilDestroyed, toObservable, toSignal} from "@angular/core/rxjs-interop";
+import {ScrollContext} from "@juulsgaard/ngx-tools";
+import {scrollToElement} from "@juulsgaard/ts-tools";
 
 @Directive()
 export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
@@ -31,26 +33,67 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     protected required = computed(() => {
         if (this.hideRequired()) return false;
         if (this.requiredIn()) return true;
-        const control = this.control();
-        if (control) return hasRequiredField(control);
-        return false;
+        return this.control()?.required ?? false;
     });
     //</editor-fold>
+
+    private _touched = signal(false);
+    readonly touched = computed(() => {
+        const node = this.control();
+        if (node) return node.touched();
+        return this._touched();
+    });
+
+    readonly changed = computed(() => this.control()?.changed() ?? false);
+
+    markAsTouched() {
+        this.control()?.markAsTouched();
+        this.ngModels().forEach(x => x.control.markAsTouched());
+        this._touched.set(true);
+    }
+
+    markAsUntouched() {
+        this.control()?.markAsUntouched();
+        this.ngModels().forEach(x => x.control.markAsUntouched());
+        this._touched.set(false);
+    }
 
     //<editor-fold desc="Errors">
     /** The internal error state used for input level errors */
     protected inputError = signal<string|undefined>(undefined);
+    private inputErrors = computed(() => {
+        const error = this.inputError();
+        if (!error) return [];
+        return [error];
+    });
 
-    readonly error = computed(() => this.inputError() ?? this.control()?.errorSignal());
-    readonly hasError = computed(() => !!this.error());
-    protected errorMatcher = computed(() => this.hasError() ? alwaysErrorStateMatcher : neverErrorStateMatcher)
+    readonly errors = computed(() => [...this.inputErrors(), ...this.control()?.errors() ?? []]);
+    readonly hasError = computed(() => !!this.errors().length);
+    protected readonly errorMatcher = computed(() => {
+        if (!this.hasError()) return neverErrorStateMatcher;
+        if (this.touched() || this.changed()) return alwaysErrorStateMatcher;
+        return touchedErrorStateMatcher;
+    });
+
+    readonly canShowError = computed(() => this.touched() || this.changed());
+    readonly showError = computed(() => this.hasError() && this.canShowError());
+    //</editor-fold>
+
+    //<editor-fold desc="Warnings">
+    /** The internal error state used for input level warnings */
+    protected inputWarning = signal<string|undefined>(undefined);
+    private inputWarnings = computed(() => {
+        const error = this.inputWarning();
+        if (!error) return [];
+        return [error];
+    });
+
+    readonly warnings = computed(() => [...this.inputWarnings(), ...this.control()?.warnings() ?? []]);
+    readonly hasWarning = computed(() => !!this.warnings().length);
     //</editor-fold>
 
     /** A controls that contains the input value / state */
-    readonly control: InputSignal<FormNode<TIn> | FormNode<TIn|undefined> | undefined> = input<FormNode<TIn>|FormNode<TIn|undefined>|undefined>(
-      undefined,
-      {alias: 'control'}
-    );
+    readonly control: InputSignal<FormNode<TIn> | FormNode<TIn|undefined> | undefined> = input<FormNode<TIn>|FormNode<TIn|undefined>>();
 
     //<editor-fold desc="External Value">
     readonly valueIn: ModelSignal<TIn | undefined> = model<TIn | undefined>(undefined, {alias: 'value'});
@@ -89,12 +132,6 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
         const value = this.postprocessValue(val);
         this.lastValue = {val: value};
 
-        const control = this.control();
-        if (control) {
-            control.setValue(value);
-            if (control.pristine) control.markAsDirty();
-        }
-
         this.control()?.setValue(value);
         this.externalSubject()?.next(value);
         this.valueIn.set(value);
@@ -104,7 +141,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     //<editor-fold desc="Disabled">
     readonly disabledIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'disabled'});
     /** Marks that the input should be shown as disabled */
-    protected disabled = computed(() => this.control()?.disabledSignal() || this.disabledIn());
+    protected disabled = computed(() => this.control()?.disabled() || this.disabledIn());
 
     /** Disable hiding the input when it's disabled */
     readonly showDisabledIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'showDisabled'});
@@ -163,11 +200,12 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     //</editor-fold>
 
     private lastValue?: {val: TIn|undefined};
+    private element = inject(ElementRef<HTMLElement>).nativeElement;
+    private scrollContainer = inject(ScrollContext, {optional: true});
 
     protected constructor() {
-        const element = inject(ElementRef<HTMLElement>).nativeElement;
-        effect(() => element.classList.toggle('hidden', !this.show()));
-        effect(() => element.classList.toggle('read-only', this.readonly()));
+        effect(() => this.element.classList.toggle('hidden', !this.show()));
+        effect(() => this.element.classList.toggle('read-only', this.readonly()));
 
         this._value = signal(this.getInitialValue());
 
@@ -176,7 +214,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
         this.externalValue = computed(() => {
             const control = this.control();
-            if (control) return control.valueSignal();
+            if (control) return control.state();
 
             const asyncValue = valueSignals();
             if (asyncValue) return asyncValue();
@@ -222,8 +260,8 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     //<editor-fold desc="Actions">
     /** Focus the input */
-    focus() {
-        this.inputElement()?.focus();
+    focus(options?: FocusOptions) {
+        this.inputElement()?.focus(options);
     }
 
     /** Select the contents of the input */
@@ -232,6 +270,10 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
         if (!input) return;
         if (!('select' in input)) return;
         input.select();
+    }
+
+    scrollTo() {
+        scrollToElement(this.element, {container: this.scrollContainer?.scrollContainer(), offset: 40});
     }
     //</editor-fold>
 
@@ -259,11 +301,14 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
     /** Handle events dispatched from the FormNode */
     protected handleAction(event: FormNodeEvent) {
         switch (event) {
-            case FormNodeEvent.Focus:
-                this.focus();
+            case InputEvents.Focus:
+                this.focus({preventScroll: true});
                 break;
-            case FormNodeEvent.Select:
+            case InputEvents.Select:
                 this.select();
+                break;
+            case InputEvents.ScrollTo:
+                this.scrollTo();
                 break;
         }
     }

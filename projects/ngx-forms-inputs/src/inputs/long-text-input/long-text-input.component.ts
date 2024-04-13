@@ -1,11 +1,12 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormsModule} from "@angular/forms";
-import {BaseInputComponent} from '@juulsgaard/ngx-forms';
+import {BaseInputComponent, NgxInputDirective} from '@juulsgaard/ngx-forms';
 import {harmonicaAnimation, IconDirective} from "@juulsgaard/ngx-tools";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {FormInputErrorsComponent} from "../../components";
+import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 
 @Component({
   selector: 'form-long-text-input',
@@ -15,28 +16,33 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    FormsModule,
     NgIf,
     AsyncPipe,
     MatIconModule,
     IconDirective,
-    MatInputModule,
-    MatTooltipModule
+    MatFormField,
+    MatLabel,
+    MatPrefix,
+    MatSuffix,
+    MatTooltipModule,
+    FormInputErrorsComponent,
+    NgxInputDirective,
+    CdkTextareaAutosize
   ],
   providers: []
 })
-export class LongTextInputComponent extends BaseInputComponent<string, string> {
+export class LongTextInputComponent extends BaseInputComponent<string, string|undefined> {
 
   constructor() {
     super();
   }
 
-  postprocessValue(value: string) {
-    return value ? value : undefined;
+  postprocessValue(value: string | undefined): string | undefined {
+    return value || undefined;
   }
 
-  preprocessValue(value: string | undefined): string {
-    return value ?? '';
+  preprocessValue(value: string | undefined): string | undefined{
+    return value;
   }
 
 }

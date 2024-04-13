@@ -1,18 +1,14 @@
 import {
   ChangeDetectionStrategy, Component, inject, Injector, LOCALE_ID, OnDestroy, signal, viewChild, WritableSignal
 } from '@angular/core';
-import {BaseInputComponent} from "@juulsgaard/ngx-forms";
-import {AsyncPipe, NgIf} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import {BaseInputComponent, NgxInputDirective} from "@juulsgaard/ngx-forms";
+import {NgIf} from "@angular/common";
 import {harmonicaAnimation, IconDirective, NoClickBubbleDirective} from "@juulsgaard/ngx-tools";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatFormField} from "@angular/material/form-field";
+import {MatTooltip} from "@angular/material/tooltip";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {DayjsDateAdapter, MAT_DAYJS_DATETIME_FORMATS} from "../../adapters/date-adapter";
-import {NgxMatTimepickerComponent, NgxMatTimepickerModule} from "ngx-mat-timepicker";
-import {MatMenuModule} from "@angular/material/menu";
+import {NgxMatTimepickerComponent} from "ngx-mat-timepicker";
 import {IconButtonComponent} from "@juulsgaard/ngx-material";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {DatePickerDialogComponent} from "../../components/date-picker-dialog/date-picker-dialog.component";
@@ -20,6 +16,8 @@ import {Subscription} from "rxjs";
 import dayjs, {Dayjs} from "dayjs";
 import utc from "dayjs/plugin/utc";
 import {DayjsHelper} from "../../helpers/dayjs-helper";
+import {MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
+import {FormInputErrorsComponent} from "../../components";
 
 dayjs.extend(utc);
 
@@ -30,18 +28,18 @@ dayjs.extend(utc);
   styleUrls: ['./date-time-input.component.scss'],
   animations: [harmonicaAnimation()],
   imports: [
-    AsyncPipe,
-    FormsModule,
-    IconDirective,
-    MatDatepickerModule,
-    NgxMatTimepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatFormField,
+    MatLabel,
+    MatPrefix,
+    MatSuffix,
     NgIf,
-    MatTooltipModule,
-    MatMenuModule,
+    IconDirective,
+    MatTooltip,
     IconButtonComponent,
-    NoClickBubbleDirective
+    NoClickBubbleDirective,
+    NgxInputDirective,
+    NgxMatTimepickerComponent,
+    FormInputErrorsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -53,9 +51,10 @@ dayjs.extend(utc);
     {provide: MAT_DATE_FORMATS, useValue: MAT_DAYJS_DATETIME_FORMATS}
   ]
 })
-export class DateTimeInputComponent extends BaseInputComponent<Date | undefined, Dayjs | undefined> implements OnDestroy {
+export class DateTimeInputComponent extends BaseInputComponent<Date, Dayjs | undefined> implements OnDestroy {
 
   private injector = inject(Injector);
+  private dialog = inject(MatDialog);
   private locale = inject(LOCALE_ID);
   private helper = new DayjsHelper();
 
@@ -63,7 +62,7 @@ export class DateTimeInputComponent extends BaseInputComponent<Date | undefined,
 
   timeFormat: 12 | 24;
 
-  constructor(private dialog: MatDialog) {
+  constructor() {
     super();
 
     this.timeFormat = new Date(0)

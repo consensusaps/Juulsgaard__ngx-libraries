@@ -1,11 +1,9 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, computed, input, InputSignal, InputSignalWithTransform, Signal,
-  signal, viewChild, viewChildren
+  booleanAttribute, ChangeDetectionStrategy, Component, computed, input, InputSignalWithTransform, Signal, signal,
+  viewChild, viewChildren
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BaseInputComponent} from "@juulsgaard/ngx-forms";
-import {of, startWith, switchMap} from "rxjs";
-import {isFormSelectNode, MultiSelectNode, SingleSelectNode} from "@juulsgaard/ngx-forms-core";
+import {BaseMultiSelectInputComponent, FormSelectValue, NgxInputDirective} from "@juulsgaard/ngx-forms";
 import {
   harmonicaAnimation, IconDirective, NgxDragEvent, NgxDragModule, NgxDragService, NoClickBubbleDirective, throttleSignal
 } from "@juulsgaard/ngx-tools";
@@ -13,20 +11,32 @@ import {ChipComponent} from "@juulsgaard/ngx-material";
 import {
   MatAutocompleteModule, MatAutocompleteSelectedEvent, MatAutocompleteTrigger
 } from "@angular/material/autocomplete";
-import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import Fuse from "fuse.js";
 import {arrToSet, isString} from "@juulsgaard/ts-tools";
-import {toObservable, toSignal} from "@angular/core/rxjs-interop";
+import {FormInputErrorsComponent} from "../../components";
 
 @Component({
   selector: 'form-tag-list-input',
   standalone: true,
   imports: [
-    CommonModule, ChipComponent, IconDirective, MatAutocompleteModule, FormsModule, MatFormFieldModule,
-    MatInputModule, MatTooltipModule, NoClickBubbleDirective, ChipComponent, NgxDragModule
+    CommonModule,
+    ChipComponent,
+    IconDirective,
+    MatAutocompleteModule,
+    MatFormField,
+    MatLabel,
+    MatPrefix,
+    MatSuffix,
+    MatFormFieldModule,
+    MatTooltipModule,
+    NoClickBubbleDirective,
+    ChipComponent,
+    NgxDragModule,
+    FormInputErrorsComponent,
+    NgxInputDirective
   ],
   providers: [NgxDragService],
   animations: [harmonicaAnimation()],
@@ -34,9 +44,9 @@ import {toObservable, toSignal} from "@angular/core/rxjs-interop";
   styleUrls: ['./tag-list-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TagListInputComponent extends BaseInputComponent<string[], string[]> {
+export class TagListInputComponent<TItem> extends BaseMultiSelectInputComponent<string, TItem, string[]> {
 
-  declare inputElement: Signal<HTMLInputElement|undefined>;
+  declare inputElement: Signal<HTMLInputElement | undefined>;
 
   readonly chips = viewChildren(ChipComponent);
   readonly canReorder: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
@@ -44,30 +54,6 @@ export class TagListInputComponent extends BaseInputComponent<string[], string[]
   readonly query = signal('');
 
   readonly floatLabel = computed(() => this.value.length ? 'always' : 'auto');
-
-  private selectControl: Signal<SingleSelectNode<string, unknown> | MultiSelectNode<string, unknown> | undefined> = computed(
-    () => {
-      const control = this.control();
-      if (!control || !isFormSelectNode(control)) return undefined;
-      return control as SingleSelectNode<string, unknown> | MultiSelectNode<string, unknown>;
-    }
-  );
-
-  private controlItems$ = toObservable(this.selectControl).pipe(
-    switchMap(x => x?.items$.pipe(startWith(undefined)) ?? of(undefined))
-  );
-  private controlItems = toSignal(this.controlItems$);
-
-  private mappedControlItems = computed(() => {
-    const control = this.selectControl();
-    if (!control) return undefined;
-    const items = this.controlItems();
-    if (!items) return undefined;
-    return items.map(control.bindValue);
-  });
-
-  readonly itemsIn: InputSignal<string[] | undefined> = input<string[]|undefined>(undefined, {alias: 'items'});
-  readonly items = computed(() => this.itemsIn() ?? this.mappedControlItems() ?? []);
 
   readonly options: Signal<Options>;
 
@@ -77,10 +63,13 @@ export class TagListInputComponent extends BaseInputComponent<string[], string[]
     const query = throttleSignal(this.query, 500);
     const blacklist = computed(() => arrToSet(this.value));
 
-    const searcher = new Fuse<string>([], {includeScore: true, isCaseSensitive: true});
+    const searcher = new Fuse<FormSelectValue<TItem, string>>(
+      [],
+      {includeScore: true, isCaseSensitive: true, keys: ['name']}
+    );
     const filtered = computed(() => {
       const _blacklist = blacklist();
-      const items = _blacklist.size ? this.items().filter(x => !_blacklist.has(x)) : this.items();
+      const items = _blacklist.size ? this.mappedItems().filter(x => !_blacklist.has(x.id)) : this.mappedItems();
       searcher.setCollection(items);
       return items;
     });
@@ -114,9 +103,11 @@ export class TagListInputComponent extends BaseInputComponent<string[], string[]
   removeTag(tag: string) {
     const index = this.value.findIndex(x => x === tag);
     if (index < 0) return;
+
     const list = [...this.value];
     list.splice(index, 1);
     this.value = list;
+    this.markAsTouched();
 
     const input = this.inputElement();
     if (input) {
@@ -127,6 +118,7 @@ export class TagListInputComponent extends BaseInputComponent<string[], string[]
   }
 
   readonly trigger = viewChild(MatAutocompleteTrigger);
+
   onSelected(event: MatAutocompleteSelectedEvent) {
     const value = event.option.value;
 
@@ -161,6 +153,8 @@ export class TagListInputComponent extends BaseInputComponent<string[], string[]
 
   onDrop(event: NgxDragEvent<number>, index: number) {
     if (index === event.data) return;
+    this.markAsTouched();
+
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     const rightSide = event.clientX > rect.x + rect.width / 2;
@@ -182,7 +176,7 @@ export class TagListInputComponent extends BaseInputComponent<string[], string[]
 }
 
 interface Options {
-  match?: string;
+  match?: FormSelectValue<unknown, string>;
   query?: string;
-  options: string[];
+  options: FormSelectValue<unknown, string>[];
 }

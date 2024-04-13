@@ -1,0 +1,30 @@
+@if (show()) {
+    @if (first(); as x) {
+        <p [class]="x.type" [@harmonicaIn]>
+            <ngx-icon-button *ngIf="x.icon" [alias]="x.icon" (click)="x.scrollTo?.()"/>
+            <span>{{ x.message }}</span>
+        </p>
+    }
+
+    @if (showAll()) {
+
+        @for (x of rest(); track x) {
+            <p [class]="x.type" [@harmonicaIn]>
+                <ngx-icon-button *ngIf="x.icon" [alias]="x.icon" (click)="x.scrollTo?.()"/>
+                <span>{{ x.message }}</span>
+            </p>
+        }
+
+    } @else if(hasMore()) {
+
+        <ngx-button class="block" [@harmonicaIn] (click)="toggle()">
+            <span>Show All</span>
+            <ngx-icon alias="down"/>
+        </ngx-button>
+
+    }
+
+    @if (first()) {
+        <div class="spacer" [@harmonicaIn]></div>
+    }
+}

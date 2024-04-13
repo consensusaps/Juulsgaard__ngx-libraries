@@ -9,16 +9,20 @@
                       matTooltipPosition="above" matTooltipTouchGestures="off"/>
         </mat-label>
 
-        <input type="text" matInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
-               [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
-               [autocomplete]="autocomplete()" [autofocus]="autofocus()" [errorStateMatcher]="errorMatcher()"
+        <ngx-icon-button alias="time" matIconPrefix (click)="openPicker(picker)" noClickBubble/>
+
+        <input type="text" ngxInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
+               [(inputValue)]="value" (touched)="markAsTouched()"
+               [autocomplete]="autocomplete()" [autofocus]="autofocus()" [showError]="showError()"
                #input [disabled]="disabled()" [attr.dir]="direction()">
 
-        <ngx-icon-button alias="time" matIconSuffix (click)="openPicker(picker)" noClickBubble/>
-
-        <mat-error>{{error()}}</mat-error>
+        <div matIconSuffix class="fix">
+            <ng-content></ng-content>
+        </div>
 
     </mat-form-field>
+
+    <ngx-form-input-errors [canShow]="canShowError()" [errors]="errors()" [warnings]="warnings()"/>
 </div>
 
 <ngx-mat-timepicker #picker [format]="timeFormat" (timeSet)="pickTime($event)"/>
