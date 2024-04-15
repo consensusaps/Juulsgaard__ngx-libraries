@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 17.1.3
+
+### Patch Changes
+
+- Expose ngx-form-field
+
 ## 17.1.2
 
 ### Patch Changes

@@ -3,7 +3,7 @@
   "description": "This library contains Angular components and tools for working with Forms",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-forms",
-  "version": "17.1.2",
+  "version": "17.1.3",
   "publishConfig": {
     "directory": "../../dist/ngx-forms"
   },
