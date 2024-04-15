@@ -2,7 +2,7 @@ import {
   computed, Directive, effect, EmbeddedViewRef, input, InputSignalWithTransform, signal, TemplateRef, untracked,
   ViewContainerRef
 } from "@angular/core";
-import {FormDialog, FormRoot, FormUnit} from "@juulsgaard/ngx-forms-core";
+import {BaseFormDialog, FormRoot, FormUnit} from "@juulsgaard/ngx-forms-core";
 
 /** Form rendering for a FormDialog. Can only be used inside Form Dialogs */
 @Directive({selector: '[dialogForm]'})
@@ -10,10 +10,10 @@ export class FormDialogDirective<TControls extends Record<string, FormUnit>> {
 
   form: InputSignalWithTransform<
     FormRoot<TControls, any>,
-    { form: FormRoot<TControls, any> } & FormDialog<any>
+    BaseFormDialog<TControls, any>
   > = input.required({
     alias: 'dialogForm',
-    transform: (form: { form: FormRoot<TControls, any> } & FormDialog<any>) => form.form as FormRoot<TControls, any>
+    transform: (dialog: BaseFormDialog<TControls, any>) => dialog.form
   });
 
   private view?: EmbeddedViewRef<DialogFormContext<TControls>>;

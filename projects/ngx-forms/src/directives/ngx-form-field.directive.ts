@@ -1,6 +1,6 @@
 import {
-  booleanAttribute, computed, Directive, effect, ElementRef, inject, input, InputSignal, InputSignalWithTransform,
-  model, ModelSignal, output, signal
+  booleanAttribute, computed, DestroyRef, Directive, effect, ElementRef, inject, input, InputSignal,
+  InputSignalWithTransform, model, ModelSignal, output, signal
 } from '@angular/core';
 import {FormNode} from "@juulsgaard/ngx-forms-core";
 import {MatFormFieldControl} from "@angular/material/form-field";
@@ -62,6 +62,8 @@ export abstract class NgxFormFieldDirective<T> implements MatFormFieldControl<T 
       this._autofilled();
       this.update();
     });
+
+    inject(DestroyRef).onDestroy(() => this._stateChanges.complete());
   }
 
   protected abstract writeValue(value: T | undefined): void;
