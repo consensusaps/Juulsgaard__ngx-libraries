@@ -9,7 +9,7 @@ import {arrToSet} from "@juulsgaard/ts-tools";
 })
 export class FormListDirective<TControls extends Record<string, FormUnit>> {
 
-  readonly list: InputSignal<FormList<TControls, any, boolean>> = input.required({alias: 'ngxFormListIn'});
+  readonly list: InputSignal<FormList<TControls, any, any>> = input.required<FormList<TControls, any, any>>({alias: 'ngxFormListIn'});
 
   // Disable functionality because of change detection timing
   // readonly show: InputSignal<boolean> = input(true, {alias: 'ngxFormListWhen'});

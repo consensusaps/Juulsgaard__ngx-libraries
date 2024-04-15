@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 17.1.5
+
+### Patch Changes
+
+- Improve typing
+
 ## 17.1.4
 
 ### Patch Changes
