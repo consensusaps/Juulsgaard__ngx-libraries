@@ -9,6 +9,7 @@ import {NgIf} from "@angular/common";
 import {FormPage} from "@juulsgaard/ngx-forms-core";
 import {MatButton} from "@angular/material/button";
 import {FormErrorStateComponent} from "../form-error-state/form-error-state.component";
+import {SimpleObject} from "@juulsgaard/ts-tools";
 
 @Component({
   selector: 'ngx-form-header',
@@ -26,9 +27,9 @@ import {FormErrorStateComponent} from "../form-error-state/form-error-state.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {'[class.ngx-form-header]': 'true', '[class.ngx-header]': 'true'}
 })
-export class FormHeaderComponent {
+export class FormHeaderComponent<T extends SimpleObject> {
 
-  form: InputSignal<FormPage<any>> = input.required<FormPage<any>>();
+  form: InputSignal<FormPage<T>> = input.required<FormPage<T>>();
 
   @Output() back = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();

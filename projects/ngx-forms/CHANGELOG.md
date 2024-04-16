@@ -1,5 +1,29 @@
 # @juulsgaard/ngx-forms
 
+## 17.1.5
+
+### Patch Changes
+
+- Improve typing
+
+## 17.1.4
+
+### Patch Changes
+
+- Fixed FormDialog directive input typing
+
+## 17.1.3
+
+### Patch Changes
+
+- Expose ngx-form-field
+
+## 17.1.2
+
+### Patch Changes
+
+- Update input typing
+
 ## 17.1.1
 
 ### Patch Changes
