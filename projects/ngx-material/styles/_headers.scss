@@ -13,6 +13,7 @@
 
   > .column {
     flex-shrink: 1;
+    min-width: 0;
 
     .title {
       font-weight: 500;
