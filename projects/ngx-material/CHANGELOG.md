@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-material
 
+## 17.1.1
+
+### Patch Changes
+
+- 8e27623: Fix header title overflow
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.1.1
+
 ## 17.1.0
 
 ### Minor Changes
