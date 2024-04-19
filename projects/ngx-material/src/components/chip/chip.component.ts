@@ -19,7 +19,7 @@ import {mostReadable, TinyColor} from "@ctrl/tinycolor";
 export class ChipComponent {
 
   @Output() removed = new EventEmitter<void>();
-  readonly canRemove: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly canRemove: InputSignalWithTransform<boolean, unknown> = input(true, {transform: booleanAttribute});
   readonly color: InputSignal<string | undefined> = input<string>();
 
   constructor(private element: ElementRef<HTMLElement>) {
