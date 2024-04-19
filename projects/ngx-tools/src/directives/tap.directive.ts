@@ -13,10 +13,10 @@ export class TapDirective {
   private zone = inject(NgZone);
 
   constructor() {
-    const start$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointerdown');
-    const end$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointerup');
-    const cancel$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointercancel');
-    const left$ = fromEvent<PointerEvent>(this.element.nativeElement, 'pointerleave');
+    const start$ = fromEvent<PointerEvent>(this.element, 'pointerdown');
+    const end$ = fromEvent<PointerEvent>(this.element, 'pointerup');
+    const cancel$ = fromEvent<PointerEvent>(this.element, 'pointercancel');
+    const left$ = fromEvent<PointerEvent>(this.element, 'pointerleave');
 
     this.zone.runOutsideAngular(() => {
       start$.pipe(takeUntilDestroyed())

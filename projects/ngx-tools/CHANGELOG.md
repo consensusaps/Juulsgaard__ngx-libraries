@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.1.1
+
+### Patch Changes
+
+- Fix tab directive
+
 ## 17.1.0
 
 ### Minor Changes
