@@ -1,6 +1,5 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy, Component, effect, ElementRef, EventEmitter, input, InputSignal,
-  InputSignalWithTransform, Output, ViewChild
+  ChangeDetectionStrategy, Component, effect, ElementRef, EventEmitter, input, InputSignal, Output, ViewChild
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {IconButtonComponent} from "../../lib/buttons/components/icon-button/icon-button.component";
@@ -19,7 +18,7 @@ import {mostReadable, TinyColor} from "@ctrl/tinycolor";
 export class ChipComponent {
 
   @Output() removed = new EventEmitter<void>();
-  readonly canRemove: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute});
+  readonly canRemove: InputSignal<boolean> = input(true);
   readonly color: InputSignal<string | undefined> = input<string>();
 
   constructor(private element: ElementRef<HTMLElement>) {

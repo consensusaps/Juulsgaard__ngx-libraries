@@ -125,6 +125,11 @@ export abstract class RouteState {
     });
   }
 
+  protected emitSnapshots(orDefault: ActivatedRouteSnapshot, closest: ActivatedRouteSnapshot) {
+    this._snapshotOrDefault$.next(orDefault);
+    this._closestSnapshot$.next(closest);
+  }
+
   getParam$(key: string): Observable<string|undefined> {
     return this.params$.pipe(map(x => x.get(key)), distinctUntilChanged(), cache());
   }

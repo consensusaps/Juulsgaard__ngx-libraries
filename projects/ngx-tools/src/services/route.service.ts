@@ -1,5 +1,5 @@
 import {DestroyRef, inject, Injectable} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
 import {RouteState} from "../helpers/route-state";
 
 @Injectable({providedIn: 'root'})
@@ -14,5 +14,9 @@ export class RouteService extends RouteState {
     const router = inject(Router, {optional: true});
     if (!router) return;
     this.init(router, inject(DestroyRef));
+  }
+
+  prepopulate(route: ActivatedRouteSnapshot) {
+    this.emitSnapshots(route.root, route.root);
   }
 }
