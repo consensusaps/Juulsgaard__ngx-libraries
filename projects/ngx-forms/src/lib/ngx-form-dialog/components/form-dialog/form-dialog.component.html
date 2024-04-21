@@ -13,7 +13,7 @@
         }
     </div>
 
-    <ngx-form-errors *ngIf="showErrors()" [errors]="config().errorState()" [warnings]="config().warningState()"/>
+    <ngx-form-errors [show]="showErrors()" [errors]="config().errorState()" [warnings]="config().warningState()"/>
 </ng-template>
 
 <ng-template #footer ngxSource>
