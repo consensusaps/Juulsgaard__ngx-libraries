@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.1.2
+
+### Patch Changes
+
+- 514df74: Allow RouteService pre-population
+
 ## 17.1.1
 
 ### Patch Changes

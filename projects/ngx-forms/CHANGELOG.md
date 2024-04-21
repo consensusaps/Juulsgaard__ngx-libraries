@@ -1,5 +1,15 @@
 # @juulsgaard/ngx-forms
 
+## 17.1.6
+
+### Patch Changes
+
+- 2863ee2: Improve WriteValue for NgxFormFieldDirective
+- d9505df: Show errors in form dialog
+- e7b994d: Fix form header icon buttons
+- Updated dependencies [514df74]
+  - @juulsgaard/ngx-tools@17.1.2
+
 ## 17.1.5
 
 ### Patch Changes

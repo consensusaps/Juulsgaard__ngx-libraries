@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-material
 
+## 17.1.2
+
+### Patch Changes
+
+- 988594e: Fix chip remove button
+- Updated dependencies [514df74]
+  - @juulsgaard/ngx-tools@17.1.2
+
 ## 17.1.1
 
 ### Patch Changes
