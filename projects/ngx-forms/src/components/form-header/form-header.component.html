@@ -1,10 +1,10 @@
 
 @if (back.observed && !this.hideBack()) {
-    <ngx-icon alias="back" class="back" matRipple (click)="back.emit()"/>
+    <ngx-icon-button alias="back" class="back" matRipple (click)="back.emit()"/>
 }
 
 @if (close.observed && !this.hideClose()) {
-    <ngx-icon alias="close" class="close" matRipple (click)="close.emit()"/>
+    <ngx-icon-button alias="close" class="close" matRipple (click)="close.emit()"/>
 }
 
 <div class="column">
