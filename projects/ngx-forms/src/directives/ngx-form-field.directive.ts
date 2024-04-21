@@ -1,6 +1,6 @@
 import {
   booleanAttribute, computed, DestroyRef, Directive, effect, ElementRef, inject, input, InputSignal,
-  InputSignalWithTransform, model, ModelSignal, output, signal
+  InputSignalWithTransform, model, ModelSignal, output, signal, untracked
 } from '@angular/core';
 import {FormNode} from "@juulsgaard/ngx-forms-core";
 import {MatFormFieldControl} from "@angular/material/form-field";
@@ -46,7 +46,7 @@ export abstract class NgxFormFieldDirective<T> implements MatFormFieldControl<T 
         if (lastValue === value) return;
       }
 
-      this.writeValue(value);
+      untracked(() => this.writeValue(value));
     });
 
     effect(() => {
