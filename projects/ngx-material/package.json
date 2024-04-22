@@ -3,7 +3,7 @@
   "description": "A library adding Material inspired utilities and components",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-material",
-  "version": "17.1.1",
+  "version": "17.1.2",
   "publishConfig": {
     "directory": "../../dist/ngx-material"
   },
@@ -31,7 +31,7 @@
     "@angular/core": "^17.3.3",
     "@angular/material": "^17.3.3",
     "@ctrl/tinycolor": "^4.0.4",
-    "@juulsgaard/ngx-tools": "^17.1.1",
+    "@juulsgaard/ngx-tools": "^17.1.2",
     "@juulsgaard/rxjs-tools": "^1.7.0",
     "@juulsgaard/ts-tools": "^1.6.1",
     "typescript": "~5.4.4"
@@ -42,7 +42,7 @@
     "@angular/core": "17.3.3",
     "@angular/material": "17.3.3",
     "@ctrl/tinycolor": "4.0.4",
-    "@juulsgaard/ngx-tools": "17.1.1",
+    "@juulsgaard/ngx-tools": "17.1.2",
     "@juulsgaard/rxjs-tools": "1.7.0",
     "@juulsgaard/ts-tools": "1.6.1"
   },

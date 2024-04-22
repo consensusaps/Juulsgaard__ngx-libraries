@@ -2,8 +2,8 @@ import {
   booleanAttribute, ChangeDetectionStrategy, Component, computed, EventEmitter, inject, input, InputSignal,
   InputSignalWithTransform, Output
 } from '@angular/core';
-import {UIScopeContext} from "@juulsgaard/ngx-material";
-import {elementClassManager, IconDirective, LoadingDirective} from "@juulsgaard/ngx-tools";
+import {IconButtonComponent, UIScopeContext} from "@juulsgaard/ngx-material";
+import {elementClassManager, LoadingDirective} from "@juulsgaard/ngx-tools";
 import {MatRipple} from "@angular/material/core";
 import {NgIf} from "@angular/common";
 import {FormPage} from "@juulsgaard/ngx-forms-core";
@@ -15,12 +15,12 @@ import {SimpleObject} from "@juulsgaard/ts-tools";
   selector: 'ngx-form-header',
   standalone: true,
   imports: [
-    IconDirective,
     MatRipple,
     NgIf,
     MatButton,
     FormErrorStateComponent,
-    LoadingDirective
+    LoadingDirective,
+    IconButtonComponent
   ],
   templateUrl: './form-header.component.html',
   styleUrl: './form-header.component.scss',
@@ -29,7 +29,7 @@ import {SimpleObject} from "@juulsgaard/ts-tools";
 })
 export class FormHeaderComponent<T extends SimpleObject> {
 
-  form: InputSignal<FormPage<T>> = input.required<FormPage<T>>();
+  readonly form: InputSignal<FormPage<T>> = input.required<FormPage<T>>();
 
   @Output() back = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
