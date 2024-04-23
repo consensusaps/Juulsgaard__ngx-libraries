@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 17.1.7
+
+### Patch Changes
+
+- Update NgxFormFieldDirective signature
+
 ## 17.1.6
 
 ### Patch Changes

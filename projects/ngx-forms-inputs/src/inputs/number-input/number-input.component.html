@@ -10,7 +10,7 @@
         </mat-label>
 
         <input type="number" ngxInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
-               [(inputValue)]="value" (touched)="markAsTouched()"
+               [(ngxModel)]="value" (touched)="markAsTouched()"
                [autocomplete]="autocomplete()" [autofocus]="autofocus()" [showError]="showError()"
                #input [attr.dir]="direction()">
 

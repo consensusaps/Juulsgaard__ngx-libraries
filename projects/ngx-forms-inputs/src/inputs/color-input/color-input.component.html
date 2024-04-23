@@ -17,7 +17,7 @@
         </div>
 
         <input ngxInput type="text" [placeholder]="placeholder()" [required]="required()"
-               [(inputValue)]="value" (touched)="markAsTouched()"
+               [(ngxModel)]="value" (touched)="markAsTouched()"
                [autocomplete]="autocomplete()" [readonly]="readonly()" [autofocus]="autofocus()" #input
                [showError]="showError()" [attr.dir]="direction()">
 
