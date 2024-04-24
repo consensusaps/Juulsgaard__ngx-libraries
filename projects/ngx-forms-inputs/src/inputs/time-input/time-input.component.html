@@ -12,7 +12,7 @@
         <ngx-icon-button alias="time" matIconPrefix (click)="openPicker(picker)" noClickBubble/>
 
         <input type="text" ngxInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
-               [(inputValue)]="value" (touched)="markAsTouched()"
+               [(ngxModel)]="value" (touched)="markAsTouched()"
                [autocomplete]="autocomplete()" [autofocus]="autofocus()" [showError]="showError()"
                #input [disabled]="disabled()" [attr.dir]="direction()">
 

@@ -12,7 +12,7 @@
         <ngx-icon-button matIconPrefix alias="date" noClickBubble (click)="openDatePicker()"/>
 
         <input type="text" ngxInput [placeholder]="placeholder()" [required]="required()"
-               [readonly]="readonly()" [(inputValue)]="textValue" [autocomplete]="autocomplete()" [autofocus]="autofocus()"
+               [readonly]="readonly()" [(ngxModel)]="textValue" [autocomplete]="autocomplete()" [autofocus]="autofocus()"
                [showError]="showError()" #input [disabled]="disabled()" [attr.dir]="direction()" (touched)="markAsTouched()">
 
         <div matIconSuffix class="fix">

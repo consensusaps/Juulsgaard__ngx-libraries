@@ -24,7 +24,7 @@
 
             @if (!readonly()) {
                 <input type="text" ngxInput [placeholder]="placeholder()" [required]="required()"
-                       [(inputValue)]="query" (touched)="markAsTouched()"
+                       [(ngxModel)]="query" (touched)="markAsTouched()"
                        [autofocus]="autofocus()" [showError]="showError()" #input
                        [disabled]="disabled()" [attr.dir]="direction()"
                        [matAutocomplete]="optionsTmp" [matAutocompleteConnectedTo]="container"

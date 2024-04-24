@@ -10,7 +10,7 @@
         </mat-label>
 
         <textarea type="text" ngxInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
-                  [(inputValue)]="value" [autofocus]="autofocus()" [showError]="showError()" (touched)="markAsTouched()"
+                  [(ngxModel)]="value" [autofocus]="autofocus()" [showError]="showError()" (touched)="markAsTouched()"
                   #input cdkTextareaAutosize [attr.dir]="direction()"></textarea>
 
         <div matIconSuffix class="fix">

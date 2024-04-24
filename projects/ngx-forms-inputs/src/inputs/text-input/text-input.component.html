@@ -10,7 +10,7 @@
 		</mat-label>
 
 		<input type="text" ngxInput [placeholder]="placeholder()" [required]="required()" [readonly]="readonly()"
-               [(inputValue)]="value" [autocomplete]="autocomplete()" [autofocus]="autofocus()" [showError]="showError()"
+               [(ngxModel)]="value" [autocomplete]="autocomplete()" [autofocus]="autofocus()" [showError]="showError()"
                #input [disabled]="disabled()" [attr.dir]="direction()" (touched)="markAsTouched()">
 
 		<div matIconSuffix class="fix">

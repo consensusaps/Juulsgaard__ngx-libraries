@@ -18,12 +18,12 @@ export abstract class NgxFormFieldDirective<T> implements MatFormFieldControl<T 
     return this._id()
   }
 
-  readonly inputValue: ModelSignal<T | undefined> = model<T | undefined>(undefined);
-  readonly node: InputSignal<FormNode<T> | undefined> = input<FormNode<T>>();
+  readonly ngxModel: ModelSignal<T | undefined> = model<T | undefined>(undefined);
+  readonly control: InputSignal<FormNode<T> | FormNode<T|undefined> | undefined> = input<FormNode<T> | FormNode<T|undefined>>();
 
   private readonly _value = computed(() => {
-    const node = this.node();
-    if (!node) return this.inputValue();
+    const node = this.control();
+    if (!node) return this.ngxModel();
     return node.state();
   });
 
@@ -78,8 +78,8 @@ export abstract class NgxFormFieldDirective<T> implements MatFormFieldControl<T 
   }
 
   set value(value: T | undefined) {
-    this.node()?.setValue(value);
-    this.inputValue.set(value);
+    this.control()?.setValue(value);
+    this.ngxModel.set(value);
   }
 
   private readonly _stateChanges = new Subject<void>();
@@ -113,19 +113,19 @@ export abstract class NgxFormFieldDirective<T> implements MatFormFieldControl<T 
   };
 
   readonly requiredIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'required'});
-  protected readonly _required = computed(() => this.requiredIn() || this.node()?.required || false);
+  protected readonly _required = computed(() => this.requiredIn() || this.control()?.required || false);
   get required() {
     return this._required()
   };
 
   readonly disabledIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'disabled'});
-  protected readonly _disabled = computed(() => this.disabledIn() || this.node()?.disabled() || false);
+  protected readonly _disabled = computed(() => this.disabledIn() || this.control()?.disabled() || false);
   get disabled() {
     return this._disabled()
   };
 
   readonly nodeErrorState = computed(() => {
-    const node = this.node();
+    const node = this.control();
     if (!node) return false;
     if (!node.hasError()) return false;
     return node.touched() || node.changed();
@@ -171,7 +171,7 @@ export abstract class NgxFormFieldDirective<T> implements MatFormFieldControl<T 
   protected onBlur() {
     if (!this.focused) return;
     this._focused.set(false);
-    this.node()?.markAsTouched();
+    this.control()?.markAsTouched();
     this.touched.emit();
   }
 }
