@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 17.1.8
+
+### Patch Changes
+
+- Fix select input option binding
+
 ## 17.1.7
 
 ### Patch Changes
