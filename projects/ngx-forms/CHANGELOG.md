@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 17.1.9
+
+### Patch Changes
+
+- Fix autofocus for inputs
+
 ## 17.1.8
 
 ### Patch Changes
