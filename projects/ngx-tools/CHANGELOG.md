@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 17.1.3
+
+### Patch Changes
+
+- Add navigation options ScopedRouter reset
+
 ## 17.1.2
 
 ### Patch Changes
