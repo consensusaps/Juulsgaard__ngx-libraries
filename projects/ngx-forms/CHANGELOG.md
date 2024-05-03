@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms
 
+## 17.1.10
+
+### Patch Changes
+
+- Update ngxInput value on auto-fill
+
 ## 17.1.9
 
 ### Patch Changes

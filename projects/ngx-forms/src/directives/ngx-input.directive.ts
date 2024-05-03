@@ -25,7 +25,11 @@ export class NgxInputDirective<T> extends NgxFormFieldDirective<T> {
     super();
 
     this.autofillMonitor.monitor(this.element)
-      .subscribe(x => this._autofilled.set(x.isAutofilled));
+      .subscribe(x => {
+        this._autofilled.set(x.isAutofilled);
+        const value = this.element.value ?? undefined;
+        this.setValue(value);
+      });
 
     effect(() => this.element.id = this._id());
 
