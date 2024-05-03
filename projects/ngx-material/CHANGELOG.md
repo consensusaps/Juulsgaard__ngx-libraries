@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-material
 
+## 17.1.4
+
+### Patch Changes
+
+- Remove destroy tracking for side menus
+- Updated dependencies
+  - @juulsgaard/ngx-tools@17.1.4
+
 ## 17.1.3
 
 ### Patch Changes

@@ -19,7 +19,6 @@ export class RenderSideMenuComponent {
   readonly tab: Signal<RenderTab|undefined>;
   readonly tabs: Signal<NgxSideMenuTabContext[]>;
   readonly showButtons: Signal<boolean>;
-  readonly destroyed: Signal<boolean>;
 
   constructor(
     element: ElementRef<HTMLElement>,
@@ -29,7 +28,6 @@ export class RenderSideMenuComponent {
     this.tab = context.tab;
     this.tabs = context.tabs;
     this.showButtons = context.showButtons;
-    this.destroyed = context.destroyed;
   }
 
   onClose() {
