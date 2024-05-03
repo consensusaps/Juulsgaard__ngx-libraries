@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-material
 
+## 17.1.3
+
+### Patch Changes
+
+- Handle source destruction for side-menus
+
 ## 17.1.2
 
 ### Patch Changes

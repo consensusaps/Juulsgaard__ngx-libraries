@@ -9,6 +9,7 @@ export abstract class SideMenuRenderContext {
   abstract readonly tab: Signal<RenderTab | undefined>;
   abstract readonly tabs: Signal<NgxSideMenuTabContext[]>;
   abstract readonly showButtons: Signal<boolean>;
+  abstract readonly destroyed: Signal<boolean>;
 
   protected constructor(options: SideMenuOptions) {
 

@@ -26,5 +26,8 @@
         <ngx-icon-button class="close" alias="close" *ngIf="!showButtons()" (click)="onClose()"/>
     </div>
 
-    <div class="body" *ngIf="tab() as tab" [ngxRender]="tab.content"></div>
+    <!--  Stop rendering contents when source is destroyed  -->
+    @if (!destroyed()) {
+        <div class="body" *ngIf="tab() as tab" [ngxRender]="tab.content"></div>
+    }
 </div>

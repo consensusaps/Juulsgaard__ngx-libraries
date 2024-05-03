@@ -13,6 +13,7 @@ export class SideMenuInstance extends SideMenuRenderContext implements Disposabl
   override zIndex: number;
   override tabs: Signal<NgxSideMenuTabContext[]>;
   override showButtons: Signal<boolean>;
+  override destroyed: Signal<boolean>;
 
   private _tab?: RenderTab;
   override tab: Signal<RenderTab | undefined>;
@@ -28,6 +29,7 @@ export class SideMenuInstance extends SideMenuRenderContext implements Disposabl
     this.zIndex = token.zIndex;
     this.tabs = this.context.tabs;
     this.showButtons = this.context.showButtons;
+    this.destroyed = this.context.destroyed;
 
     this.tab = computed(() => {
       const oldTab = this._tab;
