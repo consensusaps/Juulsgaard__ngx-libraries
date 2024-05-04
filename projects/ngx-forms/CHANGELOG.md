@@ -1,5 +1,23 @@
 # @juulsgaard/ngx-forms
 
+## 17.1.10
+
+### Patch Changes
+
+- Update ngxInput value on auto-fill
+
+## 17.1.9
+
+### Patch Changes
+
+- Fix autofocus for inputs
+
+## 17.1.8
+
+### Patch Changes
+
+- Fix select input option binding
+
 ## 17.1.7
 
 ### Patch Changes

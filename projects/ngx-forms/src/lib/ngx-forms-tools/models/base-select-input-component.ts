@@ -146,7 +146,7 @@ export abstract class BaseSelectInputComponent<TValue, TItem, TMultiple extends 
     return getSelectorFn(control.bindOption);
   });
 
-  protected getOption: Signal<MapFunc<TItem, string>|undefined> = computed(() => this.controlBindOption() ?? this.bindOption() ?? this.bindLabel());
+  protected getOption: Signal<MapFunc<TItem, string>|undefined> = computed(() => this.controlBindOption() ?? this.bindOption() ?? this.getLabel());
 
   protected mapOption(item: TItem) {
     const map = this.getOption();

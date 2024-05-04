@@ -1,5 +1,17 @@
 # @juulsgaard/ngx-tools
 
+## 17.1.4
+
+### Patch Changes
+
+- Manually clean up nodes for TemplateRenderings
+
+## 17.1.3
+
+### Patch Changes
+
+- Add navigation options ScopedRouter reset
+
 ## 17.1.2
 
 ### Patch Changes

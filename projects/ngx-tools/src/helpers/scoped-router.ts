@@ -60,8 +60,8 @@ export class ScopedRouter extends RouteState {
     );
   }
 
-  reset() {
-    return this.navigate(['.']);
+  reset(options?: NavigationExtras) {
+    return this.navigate(['.'], options);
   }
 
   navigate(route: string[], options?: NavigationExtras) {

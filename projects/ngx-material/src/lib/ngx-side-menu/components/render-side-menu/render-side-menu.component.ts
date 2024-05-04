@@ -37,4 +37,6 @@ export class RenderSideMenuComponent {
   toggleTab(tab: NgxSideMenuTabContext) {
     this.context.toggleTab(tab);
   }
+
+
 }

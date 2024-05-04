@@ -180,7 +180,7 @@ export abstract class BaseInputComponent<TIn, TVal> implements OnInit {
 
     /** Focus the input when it's first created */
     readonly autofocusIn: InputSignalWithTransform<boolean, unknown> = input(false, {transform: booleanAttribute, alias: 'autofocus'});
-    protected autofocus = computed(() => this.autocompleteIn() || this.control()?.autoFocus);
+    protected autofocus = computed(() => this.autofocusIn() || this.control()?.autoFocus);
 
     /** Add a tooltip with additional information about the input */
     readonly tooltipIn: InputSignal<string | undefined> = input<string|undefined>(undefined, {alias: 'tooltip'});
