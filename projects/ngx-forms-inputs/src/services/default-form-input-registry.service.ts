@@ -2,8 +2,9 @@ import {Provider} from "@angular/core";
 import {FormInputConfig, FormInputRegistry} from "@juulsgaard/ngx-forms";
 import {InputTypes} from "@juulsgaard/ngx-forms-core";
 import {
-  BoolInputComponent, ColorInputComponent, DateInputComponent, DateTimeInputComponent, LongTextInputComponent,
-  MatSelectMultipleInputComponent, NumberInputComponent, PasswordInputComponent, TextInputComponent, TimeInputComponent
+  BoolInputComponent, ColorInputComponent, DateInputComponent, DateTimeInputComponent, FileInputComponent,
+  LongTextInputComponent, MatSelectMultipleInputComponent, NumberInputComponent, PasswordInputComponent,
+  TextInputComponent, TimeInputComponent
 } from "../inputs";
 import {MatSelectInputComponent} from "../inputs/mat-select-input/mat-select-input.component";
 
@@ -21,6 +22,8 @@ export class DefaultFormInputRegistryService {
       cfg.register(InputTypes.Color, ColorInputComponent);
 
       cfg.register(InputTypes.Bool, BoolInputComponent);
+
+      cfg.register(InputTypes.File, FileInputComponent);
 
       cfg.register(InputTypes.Number, NumberInputComponent);
 
