@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-forms-inputs
 
+## 17.1.4
+
+### Patch Changes
+
+- Provide File Input by default
+
 ## 17.1.3
 
 ### Patch Changes
