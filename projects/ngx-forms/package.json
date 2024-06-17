@@ -3,7 +3,7 @@
   "description": "This library contains Angular components and tools for working with Forms",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-forms",
-  "version": "17.1.10",
+  "version": "18.0.0",
   "publishConfig": {
     "directory": "../../dist/ngx-forms"
   },
@@ -17,24 +17,24 @@
     "unlink:ngx-forms-core": "yalc remove @juulsgaard/ngx-forms-core"
   },
   "peerDependencies": {
-    "@angular/common": "^17.3.3",
-    "@angular/core": "^17.3.3",
-    "@angular/forms": "^17.3.3",
-    "@juulsgaard/ngx-forms-core": "^17.1.5",
-    "@juulsgaard/ngx-tools": "^17.1.4",
-    "@juulsgaard/ts-tools": "^1.6.1",
-    "typescript": "~5.4.4"
+    "@angular/common": "^18.0.3",
+    "@angular/core": "^18.0.3",
+    "@angular/forms": "^18.0.3",
+    "@juulsgaard/ngx-forms-core": "^18.0.0",
+    "@juulsgaard/ngx-tools": "^18.0.0",
+    "@juulsgaard/ts-tools": "^1.6.2",
+    "typescript": "~5.4.5"
   },
   "devDependencies": {
-    "@angular/common": "17.3.3",
-    "@angular/core": "17.3.3",
-    "@angular/forms": "17.3.3",
-    "@juulsgaard/ngx-forms-core": "17.1.5",
-    "@juulsgaard/ngx-tools": "17.1.4",
-    "@juulsgaard/ts-tools": "1.6.1",
-    "typescript": "~5.4.4"
+    "@angular/common": "18.0.3",
+    "@angular/core": "18.0.3",
+    "@angular/forms": "18.0.3",
+    "@juulsgaard/ngx-forms-core": "18.0.0",
+    "@juulsgaard/ngx-tools": "18.0.0",
+    "@juulsgaard/ts-tools": "1.6.2",
+    "typescript": "~5.4.5"
   },
   "dependencies": {
-    "tslib": "2.6.2"
+    "tslib": "2.6.3"
   }
 }
