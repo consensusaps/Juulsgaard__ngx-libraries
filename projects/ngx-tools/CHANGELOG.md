@@ -1,5 +1,11 @@
 # @juulsgaard/ngx-tools
 
+## 18.0.0
+
+### Major Changes
+
+- Upgrade to Angular 18
+
 ## 17.1.4
 
 ### Patch Changes

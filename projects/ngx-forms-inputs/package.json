@@ -3,7 +3,7 @@
   "description": "A library containing default input components for different input types",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-forms-inputs",
-  "version": "17.1.4",
+  "version": "18.0.0",
   "publishConfig": {
     "directory": "../../dist/ngx-forms-inputs"
   },
@@ -25,36 +25,36 @@
     "unlink:ngx-forms-core": "yalc remove @juulsgaard/ngx-forms-core"
   },
   "peerDependencies": {
-    "@angular/animations": "^17.3.3",
-    "@angular/cdk": "^17.3.3",
-    "@angular/common": "^17.3.3",
-    "@angular/core": "^17.3.3",
-    "@angular/forms": "^17.3.3",
-    "@angular/material": "^17.3.3",
-    "@juulsgaard/ngx-forms": "^17.1.10",
-    "@juulsgaard/ngx-forms-core": "^17.1.5",
-    "@juulsgaard/ngx-tools": "^17.1.4",
-    "dayjs": "^1.11.10",
-    "ngx-colors": "^3.5.3",
+    "@angular/animations": "^18.0.3",
+    "@angular/cdk": "^18.0.3",
+    "@angular/common": "^18.0.3",
+    "@angular/core": "^18.0.3",
+    "@angular/forms": "^18.0.3",
+    "@angular/material": "^18.0.3",
+    "@juulsgaard/ngx-forms": "^18.0.0",
+    "@juulsgaard/ngx-forms-core": "^18.0.0",
+    "@juulsgaard/ngx-tools": "^18.0.0",
+    "dayjs": "^1.11.11",
+    "ngx-colors": "^3.6.0",
     "ngx-mat-timepicker": "^17.1.0",
-    "typescript": "~5.4.4"
+    "typescript": "~5.4.5"
   },
   "devDependencies": {
-    "@angular/animations": "17.3.3",
-    "@angular/cdk": "17.3.3",
-    "@angular/common": "17.3.3",
-    "@angular/core": "17.3.3",
-    "@angular/forms": "17.3.3",
-    "@angular/material": "17.3.3",
-    "@angular/platform-browser": "17.3.3",
-    "@juulsgaard/ngx-forms": "17.1.10",
-    "@juulsgaard/ngx-forms-core": "17.1.5",
-    "@juulsgaard/ngx-tools": "17.1.4",
-    "dayjs": "1.11.10",
-    "ngx-colors": "3.5.3",
+    "@angular/animations": "18.0.3",
+    "@angular/cdk": "18.0.3",
+    "@angular/common": "18.0.3",
+    "@angular/core": "18.0.3",
+    "@angular/forms": "18.0.3",
+    "@angular/material": "18.0.3",
+    "@angular/platform-browser": "18.0.3",
+    "@juulsgaard/ngx-forms": "18.0.0",
+    "@juulsgaard/ngx-forms-core": "18.0.0",
+    "@juulsgaard/ngx-tools": "18.0.0",
+    "dayjs": "1.11.11",
+    "ngx-colors": "3.6.0",
     "ngx-mat-timepicker": "17.1.0"
   },
   "dependencies": {
-    "tslib": "2.6.2"
+    "tslib": "2.6.3"
   }
 }

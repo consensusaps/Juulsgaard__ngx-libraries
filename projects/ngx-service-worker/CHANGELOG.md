@@ -1,5 +1,17 @@
 # @juulsgaard/ngx-service-worker
 
+## 18.0.0
+
+### Major Changes
+
+- Upgrade to Angular 18
+
+### Patch Changes
+
+- Updated dependencies
+  - @juulsgaard/ngx-material@18.0.0
+  - @juulsgaard/ngx-tools@18.0.0
+
 ## 17.1.0
 
 ### Minor Changes
