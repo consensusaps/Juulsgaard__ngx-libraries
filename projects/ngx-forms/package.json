@@ -21,7 +21,7 @@
     "@angular/core": "^18.0.3",
     "@angular/forms": "^18.0.3",
     "@juulsgaard/ngx-forms-core": "^18.0.0",
-    "@juulsgaard/ngx-tools": "^18.0.0",
+    "@juulsgaard/ngx-tools": "^18.0.1",
     "@juulsgaard/ts-tools": "^1.6.2",
     "typescript": "~5.4.5"
   },
@@ -30,7 +30,7 @@
     "@angular/core": "18.0.3",
     "@angular/forms": "18.0.3",
     "@juulsgaard/ngx-forms-core": "18.0.0",
-    "@juulsgaard/ngx-tools": "18.0.0",
+    "@juulsgaard/ngx-tools": "18.0.1",
     "@juulsgaard/ts-tools": "1.6.2",
     "typescript": "~5.4.5"
   },
