@@ -111,13 +111,16 @@ function fromObservable<T>(value$: Subscribable<T>): LoadingSignal<T> {
   const sub = value$.subscribe({
     next: val => {
       sub.unsubscribe();
+      loading.set(false);
       value.set(val);
     },
     error: err => {
+      sub.unsubscribe();
       loading.set(false);
       error.set(parseError(err));
     },
     complete: () => {
+      sub.unsubscribe();
       loading.set(false);
     }
   });
