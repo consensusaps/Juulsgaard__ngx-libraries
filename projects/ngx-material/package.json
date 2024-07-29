@@ -3,11 +3,12 @@
   "description": "A library adding Material inspired utilities and components",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-material",
-  "version": "18.0.0",
+  "version": "18.0.1",
   "publishConfig": {
     "directory": "../../dist/ngx-material"
   },
   "main": "src/public-api.ts",
+  "type": "module",
   "scripts": {
     "build": "ng build ngx-material",
     "prepublish": "ng build ngx-material",
@@ -26,25 +27,25 @@
     }
   },
   "peerDependencies": {
-    "@angular/cdk": "^18.0.3",
-    "@angular/common": "^18.0.3",
-    "@angular/core": "^18.0.3",
-    "@angular/material": "^18.0.3",
+    "@angular/cdk": "^18.1.2",
+    "@angular/common": "^18.1.2",
+    "@angular/core": "^18.1.2",
+    "@angular/material": "^18.1.2",
     "@ctrl/tinycolor": "^4.1.0",
-    "@juulsgaard/ngx-tools": "^18.0.1",
-    "@juulsgaard/rxjs-tools": "^1.7.3",
-    "@juulsgaard/ts-tools": "^1.6.2",
-    "typescript": "~5.4.5"
+    "@juulsgaard/ngx-tools": "^18.0.2",
+    "@juulsgaard/rxjs-tools": "^1.7.4",
+    "@juulsgaard/ts-tools": "^1.6.3",
+    "typescript": "~5.5.4"
   },
   "devDependencies": {
-    "@angular/cdk": "18.0.3",
-    "@angular/common": "18.0.3",
-    "@angular/core": "18.0.3",
-    "@angular/material": "18.0.3",
+    "@angular/cdk": "18.1.2",
+    "@angular/common": "18.1.2",
+    "@angular/core": "18.1.2",
+    "@angular/material": "18.1.2",
     "@ctrl/tinycolor": "4.1.0",
-    "@juulsgaard/ngx-tools": "18.0.1",
-    "@juulsgaard/rxjs-tools": "1.7.3",
-    "@juulsgaard/ts-tools": "1.6.2"
+    "@juulsgaard/ngx-tools": "18.0.2",
+    "@juulsgaard/rxjs-tools": "1.7.4",
+    "@juulsgaard/ts-tools": "1.6.3"
   },
   "dependencies": {
     "tslib": "2.6.3"
