@@ -1,5 +1,13 @@
 # @juulsgaard/ngx-forms
 
+## 18.0.1
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @juulsgaard/ngx-tools@18.0.2
+
 ## 18.0.0
 
 ### Major Changes

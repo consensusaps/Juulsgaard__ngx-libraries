@@ -1,13 +1,14 @@
 {
   "name": "@juulsgaard/ngx-tools",
   "description": "Basic utilities for working with Angular",
-  "version": "18.0.1",
+  "version": "18.0.2",
   "repository": "git@github.com:Juulsgaard/ngx-libraries.git",
   "homepage": "https://github.com/Juulsgaard/ngx-libraries/tree/main/projects/ngx-tools",
   "publishConfig": {
     "directory": "../../dist/ngx-tools"
   },
   "main": "src/public-api.ts",
+  "type": "module",
   "exports": {
     ".": {
       "sass": "./styles/index.scss"
@@ -38,19 +39,19 @@
     "storybook": "ng run ngx-tools:storybook"
   },
   "peerDependencies": {
-    "@angular/common": "^18.0.3",
-    "@angular/core": "^18.0.3",
-    "@angular/animations": "^18.0.3",
+    "@angular/common": "^18.1.2",
+    "@angular/core": "^18.1.2",
+    "@angular/animations": "^18.1.2",
     "@ctrl/tinycolor": "^4.1.0",
-    "@juulsgaard/rxjs-tools": "^1.7.3",
-    "typescript": "~5.4.5"
+    "@juulsgaard/rxjs-tools": "^1.7.4",
+    "typescript": "~5.5.4"
   },
   "devDependencies": {
-    "@angular/common": "18.0.3",
-    "@angular/core": "18.0.3",
-    "@angular/animations": "18.0.3",
+    "@angular/common": "18.1.2",
+    "@angular/core": "18.1.2",
+    "@angular/animations": "18.1.2",
     "@ctrl/tinycolor": "4.1.0",
-    "@juulsgaard/rxjs-tools": "1.7.3"
+    "@juulsgaard/rxjs-tools": "1.7.4"
   },
   "dependencies": {
     "tslib": "2.6.3"
